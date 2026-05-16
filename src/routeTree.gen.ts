@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as WritingRouteImport } from './routes/writing'
+import { Route as VideosRouteImport } from './routes/videos'
 import { Route as SpeakingRouteImport } from './routes/speaking'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
@@ -17,6 +18,11 @@ import { Route as IndexRouteImport } from './routes/index'
 const WritingRoute = WritingRouteImport.update({
   id: '/writing',
   path: '/writing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VideosRoute = VideosRouteImport.update({
+  id: '/videos',
+  path: '/videos',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SpeakingRoute = SpeakingRouteImport.update({
@@ -39,12 +45,14 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/speaking': typeof SpeakingRoute
+  '/videos': typeof VideosRoute
   '/writing': typeof WritingRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/speaking': typeof SpeakingRoute
+  '/videos': typeof VideosRoute
   '/writing': typeof WritingRoute
 }
 export interface FileRoutesById {
@@ -52,20 +60,22 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/speaking': typeof SpeakingRoute
+  '/videos': typeof VideosRoute
   '/writing': typeof WritingRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/speaking' | '/writing'
+  fullPaths: '/' | '/about' | '/speaking' | '/videos' | '/writing'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/speaking' | '/writing'
-  id: '__root__' | '/' | '/about' | '/speaking' | '/writing'
+  to: '/' | '/about' | '/speaking' | '/videos' | '/writing'
+  id: '__root__' | '/' | '/about' | '/speaking' | '/videos' | '/writing'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   SpeakingRoute: typeof SpeakingRoute
+  VideosRoute: typeof VideosRoute
   WritingRoute: typeof WritingRoute
 }
 
@@ -76,6 +86,13 @@ declare module '@tanstack/react-router' {
       path: '/writing'
       fullPath: '/writing'
       preLoaderRoute: typeof WritingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/videos': {
+      id: '/videos'
+      path: '/videos'
+      fullPath: '/videos'
+      preLoaderRoute: typeof VideosRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/speaking': {
@@ -106,6 +123,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   SpeakingRoute: SpeakingRoute,
+  VideosRoute: VideosRoute,
   WritingRoute: WritingRoute,
 }
 export const routeTree = rootRouteImport
