@@ -10,10 +10,9 @@ const NAV = [
   { to: "/about", label: "About" },
   { to: "/writing", label: "Writing" },
   { to: "/speaking", label: "Speaking" },
-  { to: "/reading-listening", label: "Reading & Listening" },
+  { to: "/reading", label: "Reading" },
+  { to: "/listening", label: "Listening" },
   { to: "/videos", label: "Video Lessons" },
-  { to: "/practice", label: "Practice" },
-  { to: "/blog", label: "Blog" },
   { to: "/contact", label: "Contact" },
 ];
 
@@ -115,7 +114,8 @@ export function SiteLayout({ children }: { children: ReactNode }) {
               <li><Link to="/writing" className="hover:text-foreground">Writing</Link></li>
               <li><Link to="/speaking" className="hover:text-foreground">Speaking</Link></li>
               <li><Link to="/videos" className="hover:text-foreground">Video Lessons</Link></li>
-              <li><Link to="/practice" className="hover:text-foreground">Practice</Link></li>
+              <li><Link to="/reading" className="hover:text-foreground">Reading</Link></li>
+              <li><Link to="/listening" className="hover:text-foreground">Listening</Link></li>
             </ul>
           </div>
           <div>
