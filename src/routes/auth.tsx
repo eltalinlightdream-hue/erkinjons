@@ -13,8 +13,8 @@ import { GraduationCap } from "lucide-react";
 
 export const Route = createFileRoute("/auth")({
   head: () => ({ meta: [
-    { title: "Sign In — Augustus IELTS" },
-    { name: "description", content: "Sign in or create your free Augustus IELTS account." },
+    { title: "Sign In — Abduraimov Erkinjon" },
+    { name: "description", content: "Sign in or create your free Abduraimov Erkinjon account." },
   ]}),
   component: Auth,
 });

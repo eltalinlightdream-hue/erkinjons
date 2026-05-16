@@ -6,7 +6,7 @@ import { BookOpen, Mic, Headphones, PenLine, Youtube, Crown, Star, ArrowRight, G
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Augustus IELTS — Master IELTS with Guided Practice" },
+      { title: "Abduraimov Erkinjon — Master IELTS with Guided Practice" },
       { name: "description", content: "Free IELTS materials, online practice, video lessons and premium guidance from a Band 8.0 teacher in Uzbekistan." },
     ],
   }),
@@ -21,7 +21,7 @@ const FEATURES = [
 ];
 
 const TESTIMONIALS = [
-  { name: "Dilnoza", score: "Band 7.5", quote: "Augustus's Task 2 framework finally made writing feel simple. I jumped from 6.0 to 7.5 in three months." },
+  { name: "Dilnoza", score: "Band 7.5", quote: "Erkinjon's Task 2 framework finally made writing feel simple. I jumped from 6.0 to 7.5 in three months." },
   { name: "Akmal", score: "Band 7.0", quote: "The speaking topics and model answers helped me sound natural. Best teacher in Fergana." },
   { name: "Sevinch", score: "Band 8.0", quote: "His YouTube lessons are gold. I watched every Writing Task 1 video before my exam." },
   { name: "Jasur", score: "Band 7.0", quote: "Clear, patient, and so encouraging. The Premium PDFs were worth every cent." },
@@ -59,7 +59,7 @@ function Index() {
             <GraduationCap className="w-14 h-14 text-primary-foreground" />
           </div>
           <div className="text-center md:text-left">
-            <h2 className="text-2xl md:text-3xl font-bold mb-3">Meet Augustus</h2>
+            <h2 className="text-2xl md:text-3xl font-bold mb-3">Meet Erkinjon</h2>
             <p className="text-muted-foreground leading-relaxed">
               Hi — I'm an English teacher at a private educational center in Fergana, Uzbekistan, with an IELTS 8.0 overall. I've helped hundreds of Uzbek students reach Band 7+ through structured, no-nonsense practice. This site is everything I wish I had when I was preparing.
             </p>

@@ -13,7 +13,7 @@ export function getDeviceFingerprint(): string {
       ctx.fillStyle = "#f60";
       ctx.fillRect(0, 0, 100, 30);
       ctx.fillStyle = "#069";
-      ctx.fillText("Augustus IELTS 🎓", 2, 15);
+      ctx.fillText("Abduraimov Erkinjon 🎓", 2, 15);
       canvasFp = canvas.toDataURL();
     }
   } catch {}

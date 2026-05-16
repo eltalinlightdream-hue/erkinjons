@@ -6,7 +6,7 @@ import { TrendingUp } from "lucide-react";
 
 export const Route = createFileRoute("/writing")({
   head: () => ({ meta: [
-    { title: "IELTS Writing — Task 1 & Task 2 | Augustus IELTS" },
+    { title: "IELTS Writing — Task 1 & Task 2 | Abduraimov Erkinjon" },
     { name: "description", content: "Strategies, sample questions and model answers for IELTS Writing Task 1 and Task 2." },
   ]}),
   component: Writing,
