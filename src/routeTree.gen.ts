@@ -12,11 +12,10 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as WritingRouteImport } from './routes/writing'
 import { Route as VideosRouteImport } from './routes/videos'
 import { Route as SpeakingRouteImport } from './routes/speaking'
-import { Route as ReadingListeningRouteImport } from './routes/reading-listening'
+import { Route as ReadingRouteImport } from './routes/reading'
 import { Route as PremiumRouteImport } from './routes/premium'
-import { Route as PracticeRouteImport } from './routes/practice'
+import { Route as ListeningRouteImport } from './routes/listening'
 import { Route as ContactRouteImport } from './routes/contact'
-import { Route as BlogRouteImport } from './routes/blog'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AccountRouteImport } from './routes/account'
 import { Route as AboutRouteImport } from './routes/about'
@@ -37,9 +36,9 @@ const SpeakingRoute = SpeakingRouteImport.update({
   path: '/speaking',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ReadingListeningRoute = ReadingListeningRouteImport.update({
-  id: '/reading-listening',
-  path: '/reading-listening',
+const ReadingRoute = ReadingRouteImport.update({
+  id: '/reading',
+  path: '/reading',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PremiumRoute = PremiumRouteImport.update({
@@ -47,19 +46,14 @@ const PremiumRoute = PremiumRouteImport.update({
   path: '/premium',
   getParentRoute: () => rootRouteImport,
 } as any)
-const PracticeRoute = PracticeRouteImport.update({
-  id: '/practice',
-  path: '/practice',
+const ListeningRoute = ListeningRouteImport.update({
+  id: '/listening',
+  path: '/listening',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const BlogRoute = BlogRouteImport.update({
-  id: '/blog',
-  path: '/blog',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthRoute = AuthRouteImport.update({
@@ -88,11 +82,10 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/account': typeof AccountRoute
   '/auth': typeof AuthRoute
-  '/blog': typeof BlogRoute
   '/contact': typeof ContactRoute
-  '/practice': typeof PracticeRoute
+  '/listening': typeof ListeningRoute
   '/premium': typeof PremiumRoute
-  '/reading-listening': typeof ReadingListeningRoute
+  '/reading': typeof ReadingRoute
   '/speaking': typeof SpeakingRoute
   '/videos': typeof VideosRoute
   '/writing': typeof WritingRoute
@@ -102,11 +95,10 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/account': typeof AccountRoute
   '/auth': typeof AuthRoute
-  '/blog': typeof BlogRoute
   '/contact': typeof ContactRoute
-  '/practice': typeof PracticeRoute
+  '/listening': typeof ListeningRoute
   '/premium': typeof PremiumRoute
-  '/reading-listening': typeof ReadingListeningRoute
+  '/reading': typeof ReadingRoute
   '/speaking': typeof SpeakingRoute
   '/videos': typeof VideosRoute
   '/writing': typeof WritingRoute
@@ -117,11 +109,10 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/account': typeof AccountRoute
   '/auth': typeof AuthRoute
-  '/blog': typeof BlogRoute
   '/contact': typeof ContactRoute
-  '/practice': typeof PracticeRoute
+  '/listening': typeof ListeningRoute
   '/premium': typeof PremiumRoute
-  '/reading-listening': typeof ReadingListeningRoute
+  '/reading': typeof ReadingRoute
   '/speaking': typeof SpeakingRoute
   '/videos': typeof VideosRoute
   '/writing': typeof WritingRoute
@@ -133,11 +124,10 @@ export interface FileRouteTypes {
     | '/about'
     | '/account'
     | '/auth'
-    | '/blog'
     | '/contact'
-    | '/practice'
+    | '/listening'
     | '/premium'
-    | '/reading-listening'
+    | '/reading'
     | '/speaking'
     | '/videos'
     | '/writing'
@@ -147,11 +137,10 @@ export interface FileRouteTypes {
     | '/about'
     | '/account'
     | '/auth'
-    | '/blog'
     | '/contact'
-    | '/practice'
+    | '/listening'
     | '/premium'
-    | '/reading-listening'
+    | '/reading'
     | '/speaking'
     | '/videos'
     | '/writing'
@@ -161,11 +150,10 @@ export interface FileRouteTypes {
     | '/about'
     | '/account'
     | '/auth'
-    | '/blog'
     | '/contact'
-    | '/practice'
+    | '/listening'
     | '/premium'
-    | '/reading-listening'
+    | '/reading'
     | '/speaking'
     | '/videos'
     | '/writing'
@@ -176,11 +164,10 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   AccountRoute: typeof AccountRoute
   AuthRoute: typeof AuthRoute
-  BlogRoute: typeof BlogRoute
   ContactRoute: typeof ContactRoute
-  PracticeRoute: typeof PracticeRoute
+  ListeningRoute: typeof ListeningRoute
   PremiumRoute: typeof PremiumRoute
-  ReadingListeningRoute: typeof ReadingListeningRoute
+  ReadingRoute: typeof ReadingRoute
   SpeakingRoute: typeof SpeakingRoute
   VideosRoute: typeof VideosRoute
   WritingRoute: typeof WritingRoute
@@ -209,11 +196,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SpeakingRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/reading-listening': {
-      id: '/reading-listening'
-      path: '/reading-listening'
-      fullPath: '/reading-listening'
-      preLoaderRoute: typeof ReadingListeningRouteImport
+    '/reading': {
+      id: '/reading'
+      path: '/reading'
+      fullPath: '/reading'
+      preLoaderRoute: typeof ReadingRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/premium': {
@@ -223,11 +210,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PremiumRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/practice': {
-      id: '/practice'
-      path: '/practice'
-      fullPath: '/practice'
-      preLoaderRoute: typeof PracticeRouteImport
+    '/listening': {
+      id: '/listening'
+      path: '/listening'
+      fullPath: '/listening'
+      preLoaderRoute: typeof ListeningRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contact': {
@@ -235,13 +222,6 @@ declare module '@tanstack/react-router' {
       path: '/contact'
       fullPath: '/contact'
       preLoaderRoute: typeof ContactRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/blog': {
-      id: '/blog'
-      path: '/blog'
-      fullPath: '/blog'
-      preLoaderRoute: typeof BlogRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth': {
@@ -280,11 +260,10 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   AccountRoute: AccountRoute,
   AuthRoute: AuthRoute,
-  BlogRoute: BlogRoute,
   ContactRoute: ContactRoute,
-  PracticeRoute: PracticeRoute,
+  ListeningRoute: ListeningRoute,
   PremiumRoute: PremiumRoute,
-  ReadingListeningRoute: ReadingListeningRoute,
+  ReadingRoute: ReadingRoute,
   SpeakingRoute: SpeakingRoute,
   VideosRoute: VideosRoute,
   WritingRoute: WritingRoute,
