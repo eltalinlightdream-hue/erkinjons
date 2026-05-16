@@ -46,7 +46,7 @@ function Index() {
             Friendly lessons, real exam strategies, and structured practice — built for Uzbek learners who want a real score jump.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <Link to="/practice"><Button size="lg" className="bg-gradient-gold text-primary-foreground shadow-warm hover:opacity-90 h-12 px-7">Start Practicing Free <ArrowRight className="ml-1 w-4 h-4" /></Button></Link>
+            <Link to="/reading"><Button size="lg" className="bg-gradient-gold text-primary-foreground shadow-warm hover:opacity-90 h-12 px-7">Start Practicing Free <ArrowRight className="ml-1 w-4 h-4" /></Button></Link>
             <Link to="/premium"><Button size="lg" variant="outline" className="h-12 px-7 border-border">Get Premium Access</Button></Link>
           </div>
         </div>
