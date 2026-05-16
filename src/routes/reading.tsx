@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Lock, Crown, BookOpen } from "lucide-react";
+import { Lock, Crown, BookOpen, ExternalLink } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { useAuth } from "@/hooks/use-auth";
 import { cn } from "@/lib/utils";
@@ -23,10 +23,10 @@ type Passage = {
   title: string;
   passageNumber: 1 | 2 | 3;
   description?: string;
-  content: string; // raw HTML
+  htmlFile?: string;   // if set, opens standalone HTML in new tab
+  content?: string;    // raw HTML for inline passages
 };
 
-// Replace with your real HTML passages.
 const PASSAGES: Passage[] = [
   {
     id: "p1-bees",
@@ -61,6 +61,13 @@ const PASSAGES: Passage[] = [
       <p>Combined with nitrogen ratios, researchers can also estimate the proportion of marine versus terrestrial protein in ancient diets.</p>
     `,
   },
+  {
+    id: "p3-piraha",
+    title: "The Pirahã People of Brazil",
+    passageNumber: 3,
+    description: "An academic passage about the remarkable linguistic and cultural uniqueness of the Pirahã tribe in the Amazon rainforest.",
+    htmlFile: "/passages/Day_1_Passage_3_Piraha.html",
+  },
 ];
 
 const FILTERS = [
@@ -78,11 +85,22 @@ function Reading() {
 
   const visible = filter === "all" ? PASSAGES : PASSAGES.filter((p) => String(p.passageNumber) === filter);
 
+  function handleOpen(p: Passage) {
+    if (p.htmlFile) {
+      window.open(p.htmlFile, "_blank");
+    } else {
+      setActive(p);
+    }
+  }
+
   return (
     <SiteLayout>
       <section className="container mx-auto px-4 py-12 max-w-6xl">
         <h1 className="text-4xl md:text-5xl font-bold mb-3">IELTS Reading Practice</h1>
-        <p className="text-muted-foreground mb-8">Filter by passage type and open any passage in a clean reader view.</p>
+        <p className="text-muted-foreground mb-2">Filter by passage type and open any passage in a clean reader view.</p>
+        <p className="text-sm text-muted-foreground mb-8 italic">
+          ⏱ Recommended time: Passage 1 &amp; 2 — 20 min &nbsp;|&nbsp; Passage 3 — 22 min
+        </p>
 
         <div className="flex flex-wrap gap-2 mb-8">
           {FILTERS.map((f) => (
@@ -108,6 +126,9 @@ function Reading() {
                   <div className="flex items-center justify-between mb-3">
                     <Badge variant="secondary" className="bg-accent text-foreground">P{p.passageNumber}</Badge>
                     {locked && <Lock className="w-4 h-4 text-muted-foreground" />}
+                    {p.htmlFile && !locked && (
+                      <ExternalLink className="w-4 h-4 text-muted-foreground" />
+                    )}
                   </div>
                   <h3 className={cn("font-serif text-xl font-semibold mb-2 leading-snug", locked && "blur-sm select-none")}>
                     {p.title}
@@ -124,8 +145,9 @@ function Reading() {
                       </Button>
                     </Link>
                   ) : (
-                    <Button size="sm" variant="outline" className="w-full" onClick={() => setActive(p)}>
-                      <BookOpen className="w-4 h-4 mr-1" /> Open
+                    <Button size="sm" variant="outline" className="w-full" onClick={() => handleOpen(p)}>
+                      <BookOpen className="w-4 h-4 mr-1" />
+                      {p.htmlFile ? "Open Full Test" : "Open"}
                     </Button>
                   )}
                 </Card>
@@ -135,6 +157,7 @@ function Reading() {
         )}
       </section>
 
+      {/* Inline reader dialog — only for passages without htmlFile */}
       <Dialog open={!!active} onOpenChange={(o) => !o && setActive(null)}>
         <DialogContent className="max-w-3xl max-h-[85vh] overflow-y-auto">
           <DialogHeader>
@@ -146,7 +169,7 @@ function Reading() {
           {active && (
             <article
               className="prose prose-neutral max-w-none mt-4 text-base leading-relaxed"
-              dangerouslySetInnerHTML={{ __html: active.content }}
+              dangerouslySetInnerHTML={{ __html: active.content ?? "" }}
             />
           )}
         </DialogContent>
