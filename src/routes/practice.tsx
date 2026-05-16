@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { SiteLayout } from "@/components/site-layout";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -98,8 +98,11 @@ function SpeakingCueCard() {
   const [seconds, setSeconds] = useState(0);
   const [running, setRunning] = useState(false);
 
-  // Simple manual stopwatch
-  useMemoTimer(running, setSeconds);
+  useEffect(() => {
+    if (!running) return;
+    const id = setInterval(() => setSeconds((s) => s + 1), 1000);
+    return () => clearInterval(id);
+  }, [running]);
 
   const card = CUE_CARDS[idx];
 
@@ -142,24 +145,6 @@ function SpeakingCueCard() {
       <p className="text-xs text-muted-foreground mt-5">Tip: you have 1 minute to prepare and up to 2 minutes to speak. Cover all four bullet points.</p>
     </Card>
   );
-}
-
-function useMemoTimer(running: boolean, setSeconds: (fn: (s: number) => number) => void) {
-  useMemo(() => null, []);
-  // We use a dedicated effect via state-based interval
-  // (kept inline to avoid extra imports)
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  useTickEffect(running, setSeconds);
-}
-
-function useTickEffect(running: boolean, setSeconds: (fn: (s: number) => number) => void) {
-  // Lazy import to keep deps tidy
-  const React = require("react") as typeof import("react");
-  React.useEffect(() => {
-    if (!running) return;
-    const id = setInterval(() => setSeconds((s) => s + 1), 1000);
-    return () => clearInterval(id);
-  }, [running, setSeconds]);
 }
 
 function ReadingQuiz() {
