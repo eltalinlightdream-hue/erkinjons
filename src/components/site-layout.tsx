@@ -121,7 +121,7 @@ export function SiteLayout({ children }: { children: ReactNode }) {
           <div>
             <h4 className="font-semibold mb-3 text-sm">Connect</h4>
             <div className="flex flex-col gap-2">
-              <a href="http://www.youtube.com/@erkinjon_s" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground">
+              <a href="https://www.youtube.com/@erkinjon_s" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground">
                 <Youtube className="w-4 h-4 text-[#FF0000]" /> YouTube Channel
               </a>
               <a href="https://t.me/augustus_flores" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground">
