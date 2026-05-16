@@ -74,10 +74,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Augustus IELTS — Master IELTS with Guided Practice" },
+      { title: "Abduraimov Erkinjon — Master IELTS with Guided Practice" },
       { name: "description", content: "Free IELTS materials, online practice, and premium lessons from an experienced teacher in Uzbekistan. IELTS Band 8.0." },
-      { name: "author", content: "Augustus IELTS" },
-      { property: "og:title", content: "Augustus IELTS — Master IELTS with Guided Practice" },
+      { name: "author", content: "Abduraimov Erkinjon" },
+      { property: "og:title", content: "Abduraimov Erkinjon — Master IELTS with Guided Practice" },
       { property: "og:description", content: "Free IELTS materials, online practice, and premium lessons." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },

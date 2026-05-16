@@ -7,7 +7,7 @@ import { FileText, Download } from "lucide-react";
 
 export const Route = createFileRoute("/reading-listening")({
   head: () => ({ meta: [
-    { title: "IELTS Reading & Listening | Augustus IELTS" },
+    { title: "IELTS Reading & Listening | Abduraimov Erkinjon" },
     { name: "description", content: "Strategies per question type, plus downloadable PDF practice." },
   ]}),
   component: Page,

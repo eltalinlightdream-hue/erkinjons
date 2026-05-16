@@ -5,8 +5,8 @@ import { Youtube, Send, GraduationCap, MapPin, Award } from "lucide-react";
 
 export const Route = createFileRoute("/about")({
   head: () => ({ meta: [
-    { title: "About — Augustus IELTS" },
-    { name: "description", content: "Meet Augustus — an IELTS Band 8.0 teacher from Fergana, Uzbekistan." },
+    { title: "About — Abduraimov Erkinjon" },
+    { name: "description", content: "Meet Erkinjon — an IELTS Band 8.0 teacher from Fergana, Uzbekistan." },
   ]}),
   component: About,
 });
@@ -29,7 +29,7 @@ function About() {
               <span className="inline-flex items-center gap-1.5 text-sm bg-accent px-3 py-1.5 rounded-full"><Award className="w-4 h-4 text-gold" /> IELTS 8.0 overall</span>
               <span className="inline-flex items-center gap-1.5 text-sm bg-accent px-3 py-1.5 rounded-full"><MapPin className="w-4 h-4 text-sage" /> Fergana, Uzbekistan</span>
             </div>
-            <h2 className="text-2xl font-bold">Hi, I'm Augustus 👋</h2>
+            <h2 className="text-2xl font-bold">Hi, I'm Erkinjon 👋</h2>
             <p className="text-muted-foreground leading-relaxed">
               I'm an English teacher at a private educational center in the Fergana region of Uzbekistan. I scored a Band 8.0 overall on IELTS, but more importantly, I've spent years helping Uzbek students do the same.
             </p>

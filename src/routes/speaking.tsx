@@ -6,7 +6,7 @@ import { PremiumGate } from "@/components/premium-gate";
 
 export const Route = createFileRoute("/speaking")({
   head: () => ({ meta: [
-    { title: "IELTS Speaking — Parts 1, 2 & 3 | Augustus IELTS" },
+    { title: "IELTS Speaking — Parts 1, 2 & 3 | Abduraimov Erkinjon" },
     { name: "description", content: "Topic cards, model answers and tips for IELTS Speaking Parts 1, 2 and 3." },
   ]}),
   component: Speaking,

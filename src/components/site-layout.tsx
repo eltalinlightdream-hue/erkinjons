@@ -30,7 +30,7 @@ export function SiteLayout({ children }: { children: ReactNode }) {
             <span className="w-9 h-9 rounded-xl bg-gradient-gold flex items-center justify-center shadow-soft">
               <GraduationCap className="w-5 h-5 text-primary-foreground" />
             </span>
-            <span className="font-serif text-lg font-semibold tracking-tight">Augustus IELTS</span>
+            <span className="font-serif text-lg font-semibold tracking-tight">Abduraimov Erkinjon</span>
           </Link>
           <nav className="hidden lg:flex items-center gap-1">
             {NAV.map((n) => (
@@ -105,7 +105,7 @@ export function SiteLayout({ children }: { children: ReactNode }) {
           <div>
             <div className="flex items-center gap-2 mb-3">
               <span className="w-8 h-8 rounded-lg bg-gradient-gold flex items-center justify-center"><GraduationCap className="w-4 h-4 text-primary-foreground" /></span>
-              <span className="font-serif text-lg font-semibold">Augustus IELTS</span>
+              <span className="font-serif text-lg font-semibold">Abduraimov Erkinjon</span>
             </div>
             <p className="text-sm text-muted-foreground">Guided IELTS preparation from a Band 8.0 teacher in Fergana, Uzbekistan.</p>
           </div>
@@ -131,7 +131,7 @@ export function SiteLayout({ children }: { children: ReactNode }) {
           </div>
         </div>
         <div className="border-t border-border py-5 text-center text-xs text-muted-foreground">
-          © {new Date().getFullYear()} Augustus IELTS. Made with care in Uzbekistan.
+          © {new Date().getFullYear()} Abduraimov Erkinjon. Made with care in Uzbekistan.
         </div>
       </footer>
     </div>

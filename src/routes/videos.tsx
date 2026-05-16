@@ -9,7 +9,7 @@ import { useAuth } from "@/hooks/use-auth";
 
 export const Route = createFileRoute("/videos")({
   head: () => ({ meta: [
-    { title: "Video Lessons — Augustus IELTS YouTube Library" },
+    { title: "Video Lessons — Abduraimov Erkinjon YouTube Library" },
     { name: "description", content: "All IELTS YouTube lessons grouped into playlists — Writing, Speaking, Reading, Listening and Grammar." },
   ]}),
   component: Videos,
