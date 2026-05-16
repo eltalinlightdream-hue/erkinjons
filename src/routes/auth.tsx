@@ -73,18 +73,35 @@ function SignInForm() {
     </form>
   );
 }
+
 function SignUpForm() {
   const [name, setName] = useState(""); const [email, setEmail] = useState(""); const [pw, setPw] = useState(""); const [loading, setLoading] = useState(false);
   return (
     <form className="space-y-4" onSubmit={async (e) => {
       e.preventDefault(); setLoading(true);
-      const { error } = await supabase.auth.signUp({
+
+      // Sign up
+      const { data, error } = await supabase.auth.signUp({
         email, password: pw,
-        options: { data: { full_name: name }, emailRedirectTo: window.location.origin + "/account" },
+        options: { data: { full_name: name } },
       });
+
+      if (error) {
+        setLoading(false);
+        toast.error(error.message);
+        return;
+      }
+
+      // If email confirmation is off, session is returned immediately
+      if (data.session) {
+        toast.success("Account created! Welcome!");
+        setLoading(false);
+        return;
+      }
+
+      // If session is null, confirmation email was sent
+      toast.success("Account created!", { description: "Check your email to confirm your address." });
       setLoading(false);
-      if (error) toast.error(error.message);
-      else toast.success("Account created!", { description: "Check your email to confirm your address." });
     }}>
       <div><Label htmlFor="nm">Full name</Label><Input id="nm" value={name} onChange={e => setName(e.target.value)} required /></div>
       <div><Label htmlFor="eu">Email</Label><Input id="eu" type="email" value={email} onChange={e => setEmail(e.target.value)} required /></div>
