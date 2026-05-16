@@ -17,7 +17,7 @@ export const Route = createFileRoute("/videos")({
   component: Videos,
 });
 
-const CHANNEL_URL = "http://www.youtube.com/@erkinjon_s";
+const CHANNEL_URL = "http://www.youtube.com/@erkinjon_writes";
 
 type ActiveVideo = { id: string; title: string };
 
