@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as WritingRouteImport } from './routes/writing'
 import { Route as VideosRouteImport } from './routes/videos'
 import { Route as SpeakingRouteImport } from './routes/speaking'
+import { Route as ReadingRouteImport } from './routes/reading'
 import { Route as PremiumRouteImport } from './routes/premium'
 import { Route as ListeningRouteImport } from './routes/listening'
 import { Route as ContactRouteImport } from './routes/contact'
@@ -33,6 +34,11 @@ const VideosRoute = VideosRouteImport.update({
 const SpeakingRoute = SpeakingRouteImport.update({
   id: '/speaking',
   path: '/speaking',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReadingRoute = ReadingRouteImport.update({
+  id: '/reading',
+  path: '/reading',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PremiumRoute = PremiumRouteImport.update({
@@ -79,6 +85,7 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/listening': typeof ListeningRoute
   '/premium': typeof PremiumRoute
+  '/reading': typeof ReadingRoute
   '/speaking': typeof SpeakingRoute
   '/videos': typeof VideosRoute
   '/writing': typeof WritingRoute
@@ -91,6 +98,7 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/listening': typeof ListeningRoute
   '/premium': typeof PremiumRoute
+  '/reading': typeof ReadingRoute
   '/speaking': typeof SpeakingRoute
   '/videos': typeof VideosRoute
   '/writing': typeof WritingRoute
@@ -104,6 +112,7 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/listening': typeof ListeningRoute
   '/premium': typeof PremiumRoute
+  '/reading': typeof ReadingRoute
   '/speaking': typeof SpeakingRoute
   '/videos': typeof VideosRoute
   '/writing': typeof WritingRoute
@@ -118,6 +127,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/listening'
     | '/premium'
+    | '/reading'
     | '/speaking'
     | '/videos'
     | '/writing'
@@ -130,6 +140,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/listening'
     | '/premium'
+    | '/reading'
     | '/speaking'
     | '/videos'
     | '/writing'
@@ -142,6 +153,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/listening'
     | '/premium'
+    | '/reading'
     | '/speaking'
     | '/videos'
     | '/writing'
@@ -155,6 +167,7 @@ export interface RootRouteChildren {
   ContactRoute: typeof ContactRoute
   ListeningRoute: typeof ListeningRoute
   PremiumRoute: typeof PremiumRoute
+  ReadingRoute: typeof ReadingRoute
   SpeakingRoute: typeof SpeakingRoute
   VideosRoute: typeof VideosRoute
   WritingRoute: typeof WritingRoute
@@ -181,6 +194,13 @@ declare module '@tanstack/react-router' {
       path: '/speaking'
       fullPath: '/speaking'
       preLoaderRoute: typeof SpeakingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reading': {
+      id: '/reading'
+      path: '/reading'
+      fullPath: '/reading'
+      preLoaderRoute: typeof ReadingRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/premium': {
@@ -243,6 +263,7 @@ const rootRouteChildren: RootRouteChildren = {
   ContactRoute: ContactRoute,
   ListeningRoute: ListeningRoute,
   PremiumRoute: PremiumRoute,
+  ReadingRoute: ReadingRoute,
   SpeakingRoute: SpeakingRoute,
   VideosRoute: VideosRoute,
   WritingRoute: WritingRoute,
