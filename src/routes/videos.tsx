@@ -5,7 +5,6 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Youtube, Play, AlertCircle } from "lucide-react";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { useServerFn } from "@tanstack/react-start";
 import { getChannelPlaylists } from "@/lib/youtube.functions";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -17,16 +16,15 @@ export const Route = createFileRoute("/videos")({
   component: Videos,
 });
 
-const CHANNEL_URL = "http://www.youtube.com/@erkinjon_writes";
+const CHANNEL_URL = "https://www.youtube.com/@erkinjon_writes";
 
 type ActiveVideo = { id: string; title: string };
 
 function Videos() {
   const [active, setActive] = useState<ActiveVideo | null>(null);
-  const fetchPlaylists = useServerFn(getChannelPlaylists);
   const { data, isLoading, isError } = useQuery({
     queryKey: ["youtube-playlists"],
-    queryFn: () => fetchPlaylists(),
+    queryFn: () => getChannelPlaylists(),
     staleTime: 10 * 60 * 1000,
     retry: 1,
   });
@@ -77,18 +75,18 @@ function Videos() {
         )}
 
         {data?.ok && data.playlists.length > 0 && (
-        <div className="space-y-12">
-          {data.playlists.map((pl) => (
-            <div key={pl.id}>
-              <div className="flex items-baseline justify-between gap-4 mb-4">
-                <div>
-                  <h2 className="text-2xl font-bold">{pl.title}</h2>
-                  {pl.description && <p className="text-sm text-muted-foreground line-clamp-2 max-w-2xl">{pl.description}</p>}
+          <div className="space-y-12">
+            {data.playlists.map((pl) => (
+              <div key={pl.id}>
+                <div className="flex items-baseline justify-between gap-4 mb-4">
+                  <div>
+                    <h2 className="text-2xl font-bold">{pl.title}</h2>
+                    {pl.description && <p className="text-sm text-muted-foreground line-clamp-2 max-w-2xl">{pl.description}</p>}
+                  </div>
+                  <span className="text-xs text-muted-foreground whitespace-nowrap">{pl.videos.length} videos</span>
                 </div>
-                <span className="text-xs text-muted-foreground whitespace-nowrap">{pl.videos.length} videos</span>
-              </div>
-              <div className="flex gap-4 overflow-x-auto pb-3 -mx-4 px-4 snap-x">
-                {pl.videos.map((v) => (
+                <div className="flex gap-4 overflow-x-auto pb-3 -mx-4 px-4 snap-x">
+                  {pl.videos.map((v) => (
                     <button key={v.id} onClick={() => setActive({ id: v.id, title: v.title })} className="snap-start shrink-0 w-72 text-left group">
                       <div className="relative aspect-video rounded-xl overflow-hidden bg-muted border border-border">
                         <img src={v.thumbnail} alt={v.title} className="w-full h-full object-cover" loading="lazy" />
@@ -103,12 +101,12 @@ function Videos() {
                       </div>
                       <h3 className="font-medium text-sm mt-2 line-clamp-2 group-hover:text-secondary transition-colors">{v.title}</h3>
                     </button>
-                ))}
-                {pl.videos.length === 0 && <p className="text-sm text-muted-foreground">No videos in this playlist yet.</p>}
+                  ))}
+                  {pl.videos.length === 0 && <p className="text-sm text-muted-foreground">No videos in this playlist yet.</p>}
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
         )}
       </section>
 
@@ -120,7 +118,6 @@ function Videos() {
               <div className="aspect-video rounded-xl overflow-hidden bg-black">
                 <iframe className="w-full h-full" src={`https://www.youtube.com/embed/${active.id}`} title={active.title} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
               </div>
-
               <div>
                 <h4 className="font-semibold mb-2 text-sm">Attached files</h4>
                 <div className="rounded-xl border border-dashed border-border p-6 text-center text-sm text-muted-foreground">
