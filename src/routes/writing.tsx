@@ -1,6 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { Link } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/site-layout";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Button } from "@/components/ui/button";
+import { Youtube } from "lucide-react";
 
 export const Route = createFileRoute("/writing")({
   head: () => ({ meta: [
@@ -14,7 +17,21 @@ function Writing() {
   return (
     <SiteLayout>
       <section className="container mx-auto px-4 py-12 max-w-5xl">
-        <h1 className="text-4xl md:text-5xl font-bold mb-8">IELTS Writing</h1>
+        <h1 className="text-4xl md:text-5xl font-bold mb-4">IELTS Writing</h1>
+
+        {/* Video lessons banner */}
+        <div className="flex items-center justify-between bg-accent rounded-2xl px-6 py-4 mb-8 gap-4 flex-wrap">
+          <div>
+            <p className="font-semibold text-base">Want to watch Writing lessons?</p>
+            <p className="text-sm text-muted-foreground">I have dedicated Writing playlists on my Video Lessons page.</p>
+          </div>
+          <Link to="/videos">
+            <Button className="bg-[#FF0000] hover:bg-[#FF0000]/90 text-white shrink-0">
+              <Youtube className="w-4 h-4 mr-2" /> Watch Video Lessons
+            </Button>
+          </Link>
+        </div>
+
         <Tabs defaultValue="t1">
           <TabsList>
             <TabsTrigger value="t1">Task 1</TabsTrigger>
