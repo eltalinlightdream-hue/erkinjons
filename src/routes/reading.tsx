@@ -29,39 +29,6 @@ type Passage = {
 
 const PASSAGES: Passage[] = [
   {
-    id: "p1-bees",
-    title: "The Life of Urban Bees",
-    passageNumber: 1,
-    description: "A short factual passage about beekeeping in modern cities.",
-    content: `
-      <p>Urban beekeeping has grown rapidly in the last decade. Once confined to rural areas, hives are now found on rooftops across <strong>London, New York and Tokyo</strong>.</p>
-      <p>Researchers argue that city bees often produce more honey than their countryside counterparts because of the diversity of flowering plants in parks and gardens.</p>
-      <p>However, critics warn that overcrowding may put pressure on wild pollinators.</p>
-    `,
-  },
-  {
-    id: "p2-sleep",
-    title: "Why We Sleep",
-    passageNumber: 2,
-    description: "A medium-difficulty passage on the science of sleep.",
-    content: `
-      <p>For centuries, sleep was considered a passive state. Recent neuroscience has overturned this view entirely.</p>
-      <p>During <em>REM sleep</em>, the brain consolidates memories, processes emotions and even prunes unused neural connections.</p>
-      <p>Chronic sleep deprivation has been linked to cardiovascular disease, depression and impaired learning.</p>
-    `,
-  },
-  {
-    id: "p3-archaeology",
-    title: "Reconstructing Ancient Diets",
-    passageNumber: 3,
-    description: "A challenging passage on isotope analysis in archaeology.",
-    content: `
-      <p>Stable isotope analysis allows archaeologists to reconstruct what people ate thousands of years ago by examining trace elements preserved in bone collagen.</p>
-      <p>The ratio of carbon-13 to carbon-12, for instance, distinguishes between consumers of <strong>C3 plants</strong> such as wheat and <strong>C4 plants</strong> such as millet.</p>
-      <p>Combined with nitrogen ratios, researchers can also estimate the proportion of marine versus terrestrial protein in ancient diets.</p>
-    `,
-  },
-  {
     id: "p3-piraha",
     title: "The Pirahã People of Brazil",
     passageNumber: 3,
