@@ -6,7 +6,7 @@ export type YouTubeResult =
   | { ok: true; playlists: Playlist[] }
   | { ok: false; error: string };
 
-const CHANNEL_HANDLE = "erkinjon_s";
+const CHANNEL_HANDLE = "erkinjon_writes";
 const API = "https://www.googleapis.com/youtube/v3";
 
 // Parse ISO 8601 duration (PT#H#M#S) → "H:MM:SS" or "M:SS"
@@ -33,8 +33,8 @@ async function gfetch(path: string, params: Record<string, string>, key: string)
 
 export const getChannelPlaylists = createServerFn({ method: "GET" }).handler(
   async (): Promise<YouTubeResult> => {
-    const key = process.env.YOUTUBE_API_KEY;
-    if (!key) return { ok: false, error: "missing_key" };
+    const key = process.env.YOUTUBE_API_KEY || "AIzaSyDkLVbZfjzUSZLUv5WB7t8Dz2WsS3teoCU";
+if (!key) return { ok: false, error: "missing_key" };
 
     try {
       // 1. Resolve channel by handle
