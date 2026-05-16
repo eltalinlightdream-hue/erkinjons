@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as WritingRouteImport } from './routes/writing'
 import { Route as VideosRouteImport } from './routes/videos'
 import { Route as SpeakingRouteImport } from './routes/speaking'
+import { Route as ReadingListeningRouteImport } from './routes/reading-listening'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
@@ -29,6 +30,11 @@ const VideosRoute = VideosRouteImport.update({
 const SpeakingRoute = SpeakingRouteImport.update({
   id: '/speaking',
   path: '/speaking',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReadingListeningRoute = ReadingListeningRouteImport.update({
+  id: '/reading-listening',
+  path: '/reading-listening',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthRoute = AuthRouteImport.update({
@@ -51,6 +57,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
+  '/reading-listening': typeof ReadingListeningRoute
   '/speaking': typeof SpeakingRoute
   '/videos': typeof VideosRoute
   '/writing': typeof WritingRoute
@@ -59,6 +66,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
+  '/reading-listening': typeof ReadingListeningRoute
   '/speaking': typeof SpeakingRoute
   '/videos': typeof VideosRoute
   '/writing': typeof WritingRoute
@@ -68,20 +76,36 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
+  '/reading-listening': typeof ReadingListeningRoute
   '/speaking': typeof SpeakingRoute
   '/videos': typeof VideosRoute
   '/writing': typeof WritingRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/auth' | '/speaking' | '/videos' | '/writing'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/auth'
+    | '/reading-listening'
+    | '/speaking'
+    | '/videos'
+    | '/writing'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/auth' | '/speaking' | '/videos' | '/writing'
+  to:
+    | '/'
+    | '/about'
+    | '/auth'
+    | '/reading-listening'
+    | '/speaking'
+    | '/videos'
+    | '/writing'
   id:
     | '__root__'
     | '/'
     | '/about'
     | '/auth'
+    | '/reading-listening'
     | '/speaking'
     | '/videos'
     | '/writing'
@@ -91,6 +115,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   AuthRoute: typeof AuthRoute
+  ReadingListeningRoute: typeof ReadingListeningRoute
   SpeakingRoute: typeof SpeakingRoute
   VideosRoute: typeof VideosRoute
   WritingRoute: typeof WritingRoute
@@ -117,6 +142,13 @@ declare module '@tanstack/react-router' {
       path: '/speaking'
       fullPath: '/speaking'
       preLoaderRoute: typeof SpeakingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reading-listening': {
+      id: '/reading-listening'
+      path: '/reading-listening'
+      fullPath: '/reading-listening'
+      preLoaderRoute: typeof ReadingListeningRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth': {
@@ -147,6 +179,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   AuthRoute: AuthRoute,
+  ReadingListeningRoute: ReadingListeningRoute,
   SpeakingRoute: SpeakingRoute,
   VideosRoute: VideosRoute,
   WritingRoute: WritingRoute,
@@ -154,3 +187,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
