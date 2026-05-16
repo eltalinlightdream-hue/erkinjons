@@ -120,7 +120,7 @@ function Reading() {
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
             {visible.map((p) => {
-              const locked = p.passageNumber !== 1 && !isPremium;
+const locked = p.passageNumber > 3 && !isPremium;
               return (
                 <Card key={p.id} className="p-6 flex flex-col relative overflow-hidden">
                   <div className="flex items-center justify-between mb-3">
