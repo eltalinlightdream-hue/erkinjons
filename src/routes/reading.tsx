@@ -23,8 +23,8 @@ type Passage = {
   title: string;
   passageNumber: 1 | 2 | 3;
   description?: string;
-  htmlFile?: string;   // if set, opens standalone HTML in new tab
-  content?: string;    // raw HTML for inline passages
+  htmlFile?: string;
+  content?: string;
 };
 
 const PASSAGES: Passage[] = [
@@ -34,6 +34,20 @@ const PASSAGES: Passage[] = [
     passageNumber: 3,
     description: "An academic passage about the remarkable linguistic and cultural uniqueness of the Pirahã tribe in the Amazon rainforest.",
     htmlFile: "/passages/Day_1_Passage_3_Piraha.html",
+  },
+  {
+    id: "p2-tv-advertising",
+    title: "Children's Comprehension of Television Advertising",
+    passageNumber: 2,
+    description: "An academic passage examining how children understand and are influenced by TV commercials, and the techniques advertisers use to target them.",
+    htmlFile: "/passages/Passage_2_TV_Advertising.html",
+  },
+  {
+    id: "p1-thames-tunnel",
+    title: "Tunnelling under the Thames",
+    passageNumber: 1,
+    description: "An academic passage about the remarkable engineering challenges behind building the world's first tunnel beneath a navigable river in 19th-century London.",
+    htmlFile: "/passages/Tunnelling_under_the_Thames.html",
   },
 ];
 
@@ -87,7 +101,7 @@ function Reading() {
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
             {visible.map((p) => {
-const locked = p.passageNumber > 3 && !isPremium;
+              const locked = p.passageNumber > 3 && !isPremium;
               return (
                 <Card key={p.id} className="p-6 flex flex-col relative overflow-hidden">
                   <div className="flex items-center justify-between mb-3">
@@ -124,7 +138,6 @@ const locked = p.passageNumber > 3 && !isPremium;
         )}
       </section>
 
-      {/* Inline reader dialog — only for passages without htmlFile */}
       <Dialog open={!!active} onOpenChange={(o) => !o && setActive(null)}>
         <DialogContent className="max-w-3xl max-h-[85vh] overflow-y-auto">
           <DialogHeader>
