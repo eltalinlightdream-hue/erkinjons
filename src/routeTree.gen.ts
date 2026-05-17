@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as WritingRouteImport } from './routes/writing'
+import { Route as VocabularyRouteImport } from './routes/vocabulary'
 import { Route as VideosRouteImport } from './routes/videos'
 import { Route as SpeakingRouteImport } from './routes/speaking'
 import { Route as ReadingRouteImport } from './routes/reading'
@@ -28,6 +29,11 @@ import { Route as ArticlesSlugRouteImport } from './routes/articles.$slug'
 const WritingRoute = WritingRouteImport.update({
   id: '/writing',
   path: '/writing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VocabularyRoute = VocabularyRouteImport.update({
+  id: '/vocabulary',
+  path: '/vocabulary',
   getParentRoute: () => rootRouteImport,
 } as any)
 const VideosRoute = VideosRouteImport.update({
@@ -115,6 +121,7 @@ export interface FileRoutesByFullPath {
   '/reading': typeof ReadingRoute
   '/speaking': typeof SpeakingRoute
   '/videos': typeof VideosRoute
+  '/vocabulary': typeof VocabularyRoute
   '/writing': typeof WritingRoute
   '/articles/$slug': typeof ArticlesSlugRoute
 }
@@ -132,6 +139,7 @@ export interface FileRoutesByTo {
   '/reading': typeof ReadingRoute
   '/speaking': typeof SpeakingRoute
   '/videos': typeof VideosRoute
+  '/vocabulary': typeof VocabularyRoute
   '/writing': typeof WritingRoute
   '/articles/$slug': typeof ArticlesSlugRoute
 }
@@ -150,6 +158,7 @@ export interface FileRoutesById {
   '/reading': typeof ReadingRoute
   '/speaking': typeof SpeakingRoute
   '/videos': typeof VideosRoute
+  '/vocabulary': typeof VocabularyRoute
   '/writing': typeof WritingRoute
   '/articles/$slug': typeof ArticlesSlugRoute
 }
@@ -169,6 +178,7 @@ export interface FileRouteTypes {
     | '/reading'
     | '/speaking'
     | '/videos'
+    | '/vocabulary'
     | '/writing'
     | '/articles/$slug'
   fileRoutesByTo: FileRoutesByTo
@@ -186,6 +196,7 @@ export interface FileRouteTypes {
     | '/reading'
     | '/speaking'
     | '/videos'
+    | '/vocabulary'
     | '/writing'
     | '/articles/$slug'
   id:
@@ -203,6 +214,7 @@ export interface FileRouteTypes {
     | '/reading'
     | '/speaking'
     | '/videos'
+    | '/vocabulary'
     | '/writing'
     | '/articles/$slug'
   fileRoutesById: FileRoutesById
@@ -221,6 +233,7 @@ export interface RootRouteChildren {
   ReadingRoute: typeof ReadingRoute
   SpeakingRoute: typeof SpeakingRoute
   VideosRoute: typeof VideosRoute
+  VocabularyRoute: typeof VocabularyRoute
   WritingRoute: typeof WritingRoute
 }
 
@@ -231,6 +244,13 @@ declare module '@tanstack/react-router' {
       path: '/writing'
       fullPath: '/writing'
       preLoaderRoute: typeof WritingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/vocabulary': {
+      id: '/vocabulary'
+      path: '/vocabulary'
+      fullPath: '/vocabulary'
+      preLoaderRoute: typeof VocabularyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/videos': {
@@ -360,6 +380,7 @@ const rootRouteChildren: RootRouteChildren = {
   ReadingRoute: ReadingRoute,
   SpeakingRoute: SpeakingRoute,
   VideosRoute: VideosRoute,
+  VocabularyRoute: VocabularyRoute,
   WritingRoute: WritingRoute,
 }
 export const routeTree = rootRouteImport
