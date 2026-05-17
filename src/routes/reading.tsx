@@ -79,6 +79,14 @@ const PASSAGES: Passage[] = [
       "The Tasmanian tiger, or thylocine, was a carnivorous marsupial (a meat-eating mammal which carries its young in a pouch).",
     htmlFile: "/passages/gemini-code-1778995279738.html",
   },
+  {
+    id: "p1-radiocarbon-dating",
+    title: "Radiocarbon Dating — The Profile of Nancy Athfield",
+    passageNumber: 1,
+    description:
+      "Have you ever picked up a small stone off the ground and wondered how old it was?",
+    htmlFile: "/passages/IELTS_Radiocarbon_Dating_Nancy_Athfield_Test.html",
+  },
 ];
 
 const FILTERS = [
