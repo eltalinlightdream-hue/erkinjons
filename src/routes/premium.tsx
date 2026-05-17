@@ -93,7 +93,7 @@ function Premium() {
             </ul>
             <div className="pt-5 border-t border-border">
               <div className="flex items-baseline gap-2 mb-1">
-                <span className="text-4xl font-bold">350,000 UZS</span>
+                <span className="text-4xl font-bold">40,000 UZS</span>
                 <span className="text-sm text-muted-foreground line-through">700,000</span>
               </div>
               <p className="text-xs text-muted-foreground">One-time payment. Lifetime access. One device per account.</p>
