@@ -10,20 +10,28 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as WritingRouteImport } from './routes/writing'
+import { Route as VocabularyRouteImport } from './routes/vocabulary'
 import { Route as VideosRouteImport } from './routes/videos'
 import { Route as SpeakingRouteImport } from './routes/speaking'
 import { Route as ReadingRouteImport } from './routes/reading'
 import { Route as PremiumRouteImport } from './routes/premium'
+import { Route as PracticeRouteImport } from './routes/practice'
 import { Route as ListeningRouteImport } from './routes/listening'
-import { Route as ContactRouteImport } from './routes/contact'
+import { Route as ContactAboutRouteImport } from './routes/contact-about'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as ArticlesRouteImport } from './routes/articles'
 import { Route as AccountRouteImport } from './routes/account'
-import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ArticlesSlugRouteImport } from './routes/articles.$slug'
 
 const WritingRoute = WritingRouteImport.update({
   id: '/writing',
   path: '/writing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VocabularyRoute = VocabularyRouteImport.update({
+  id: '/vocabulary',
+  path: '/vocabulary',
   getParentRoute: () => rootRouteImport,
 } as any)
 const VideosRoute = VideosRouteImport.update({
@@ -46,14 +54,19 @@ const PremiumRoute = PremiumRouteImport.update({
   path: '/premium',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PracticeRoute = PracticeRouteImport.update({
+  id: '/practice',
+  path: '/practice',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ListeningRoute = ListeningRouteImport.update({
   id: '/listening',
   path: '/listening',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ContactRoute = ContactRouteImport.update({
-  id: '/contact',
-  path: '/contact',
+const ContactAboutRoute = ContactAboutRouteImport.update({
+  id: '/contact-about',
+  path: '/contact-about',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthRoute = AuthRouteImport.update({
@@ -61,14 +74,14 @@ const AuthRoute = AuthRouteImport.update({
   path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ArticlesRoute = ArticlesRouteImport.update({
+  id: '/articles',
+  path: '/articles',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AccountRoute = AccountRouteImport.update({
   id: '/account',
   path: '/account',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AboutRoute = AboutRouteImport.update({
-  id: '/about',
-  path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -76,100 +89,125 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ArticlesSlugRoute = ArticlesSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => ArticlesRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/about': typeof AboutRoute
   '/account': typeof AccountRoute
+  '/articles': typeof ArticlesRouteWithChildren
   '/auth': typeof AuthRoute
-  '/contact': typeof ContactRoute
+  '/contact-about': typeof ContactAboutRoute
   '/listening': typeof ListeningRoute
+  '/practice': typeof PracticeRoute
   '/premium': typeof PremiumRoute
   '/reading': typeof ReadingRoute
   '/speaking': typeof SpeakingRoute
   '/videos': typeof VideosRoute
+  '/vocabulary': typeof VocabularyRoute
   '/writing': typeof WritingRoute
+  '/articles/$slug': typeof ArticlesSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/about': typeof AboutRoute
   '/account': typeof AccountRoute
+  '/articles': typeof ArticlesRouteWithChildren
   '/auth': typeof AuthRoute
-  '/contact': typeof ContactRoute
+  '/contact-about': typeof ContactAboutRoute
   '/listening': typeof ListeningRoute
+  '/practice': typeof PracticeRoute
   '/premium': typeof PremiumRoute
   '/reading': typeof ReadingRoute
   '/speaking': typeof SpeakingRoute
   '/videos': typeof VideosRoute
+  '/vocabulary': typeof VocabularyRoute
   '/writing': typeof WritingRoute
+  '/articles/$slug': typeof ArticlesSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/about': typeof AboutRoute
   '/account': typeof AccountRoute
+  '/articles': typeof ArticlesRouteWithChildren
   '/auth': typeof AuthRoute
-  '/contact': typeof ContactRoute
+  '/contact-about': typeof ContactAboutRoute
   '/listening': typeof ListeningRoute
+  '/practice': typeof PracticeRoute
   '/premium': typeof PremiumRoute
   '/reading': typeof ReadingRoute
   '/speaking': typeof SpeakingRoute
   '/videos': typeof VideosRoute
+  '/vocabulary': typeof VocabularyRoute
   '/writing': typeof WritingRoute
+  '/articles/$slug': typeof ArticlesSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/about'
     | '/account'
+    | '/articles'
     | '/auth'
-    | '/contact'
+    | '/contact-about'
     | '/listening'
+    | '/practice'
     | '/premium'
     | '/reading'
     | '/speaking'
     | '/videos'
+    | '/vocabulary'
     | '/writing'
+    | '/articles/$slug'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/about'
     | '/account'
+    | '/articles'
     | '/auth'
-    | '/contact'
+    | '/contact-about'
     | '/listening'
+    | '/practice'
     | '/premium'
     | '/reading'
     | '/speaking'
     | '/videos'
+    | '/vocabulary'
     | '/writing'
+    | '/articles/$slug'
   id:
     | '__root__'
     | '/'
-    | '/about'
     | '/account'
+    | '/articles'
     | '/auth'
-    | '/contact'
+    | '/contact-about'
     | '/listening'
+    | '/practice'
     | '/premium'
     | '/reading'
     | '/speaking'
     | '/videos'
+    | '/vocabulary'
     | '/writing'
+    | '/articles/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AboutRoute: typeof AboutRoute
   AccountRoute: typeof AccountRoute
+  ArticlesRoute: typeof ArticlesRouteWithChildren
   AuthRoute: typeof AuthRoute
-  ContactRoute: typeof ContactRoute
+  ContactAboutRoute: typeof ContactAboutRoute
   ListeningRoute: typeof ListeningRoute
+  PracticeRoute: typeof PracticeRoute
   PremiumRoute: typeof PremiumRoute
   ReadingRoute: typeof ReadingRoute
   SpeakingRoute: typeof SpeakingRoute
   VideosRoute: typeof VideosRoute
+  VocabularyRoute: typeof VocabularyRoute
   WritingRoute: typeof WritingRoute
 }
 
@@ -180,6 +218,13 @@ declare module '@tanstack/react-router' {
       path: '/writing'
       fullPath: '/writing'
       preLoaderRoute: typeof WritingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/vocabulary': {
+      id: '/vocabulary'
+      path: '/vocabulary'
+      fullPath: '/vocabulary'
+      preLoaderRoute: typeof VocabularyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/videos': {
@@ -210,6 +255,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PremiumRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/practice': {
+      id: '/practice'
+      path: '/practice'
+      fullPath: '/practice'
+      preLoaderRoute: typeof PracticeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/listening': {
       id: '/listening'
       path: '/listening'
@@ -217,11 +269,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ListeningRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/contact': {
-      id: '/contact'
-      path: '/contact'
-      fullPath: '/contact'
-      preLoaderRoute: typeof ContactRouteImport
+    '/contact-about': {
+      id: '/contact-about'
+      path: '/contact-about'
+      fullPath: '/contact-about'
+      preLoaderRoute: typeof ContactAboutRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth': {
@@ -231,18 +283,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/articles': {
+      id: '/articles'
+      path: '/articles'
+      fullPath: '/articles'
+      preLoaderRoute: typeof ArticlesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/account': {
       id: '/account'
       path: '/account'
       fullPath: '/account'
       preLoaderRoute: typeof AccountRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -252,32 +304,43 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/articles/$slug': {
+      id: '/articles/$slug'
+      path: '/$slug'
+      fullPath: '/articles/$slug'
+      preLoaderRoute: typeof ArticlesSlugRouteImport
+      parentRoute: typeof ArticlesRoute
+    }
   }
 }
 
+interface ArticlesRouteChildren {
+  ArticlesSlugRoute: typeof ArticlesSlugRoute
+}
+
+const ArticlesRouteChildren: ArticlesRouteChildren = {
+  ArticlesSlugRoute: ArticlesSlugRoute,
+}
+
+const ArticlesRouteWithChildren = ArticlesRoute._addFileChildren(
+  ArticlesRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AboutRoute: AboutRoute,
   AccountRoute: AccountRoute,
+  ArticlesRoute: ArticlesRouteWithChildren,
   AuthRoute: AuthRoute,
-  ContactRoute: ContactRoute,
+  ContactAboutRoute: ContactAboutRoute,
   ListeningRoute: ListeningRoute,
+  PracticeRoute: PracticeRoute,
   PremiumRoute: PremiumRoute,
   ReadingRoute: ReadingRoute,
   SpeakingRoute: SpeakingRoute,
   VideosRoute: VideosRoute,
+  VocabularyRoute: VocabularyRoute,
   WritingRoute: WritingRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

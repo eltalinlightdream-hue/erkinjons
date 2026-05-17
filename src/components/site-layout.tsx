@@ -1,25 +1,33 @@
 import { ReactNode, useState } from "react";
 import { Link, useLocation } from "@tanstack/react-router";
-import { Menu, X, Youtube, Send, GraduationCap, LogOut, User as UserIcon, Crown } from "lucide-react";
+import { useServerFn } from "@tanstack/react-start";
+import { useQuery } from "@tanstack/react-query";
+import { Menu, X, Youtube, Send, GraduationCap, LogOut, User as UserIcon, Crown, ChevronDown, Bell, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/use-auth";
 import { cn } from "@/lib/utils";
+import { dueCount } from "@/lib/vocabulary.functions";
 
-const NAV = [
-  { to: "/", label: "Home" },
-  { to: "/about", label: "About" },
-  { to: "/writing", label: "Writing" },
-  { to: "/speaking", label: "Speaking" },
-  { to: "/reading", label: "Reading" },
-  { to: "/listening", label: "Listening" },
-  { to: "/videos", label: "Video Lessons" },
-  { to: "/contact", label: "Contact" },
+const PRACTICE_LINKS = [
+  { to: "/listening" as const, label: "Listening" },
+  { to: "/reading" as const, label: "Reading" },
+  { to: "/writing" as const, label: "Writing" },
+  { to: "/speaking" as const, label: "Speaking" },
 ];
 
 export function SiteLayout({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false);
   const { user, profile, signOut, deviceConflict } = useAuth();
   const loc = useLocation();
+  const fetchDue = useServerFn(dueCount);
+  const { data: due } = useQuery({
+    queryKey: ["due-count"],
+    queryFn: () => fetchDue(),
+    enabled: !!user,
+    refetchInterval: 60_000,
+  });
+  const isActive = (p: string) => loc.pathname === p;
+  const practiceActive = PRACTICE_LINKS.some((l) => isActive(l.to)) || isActive("/practice");
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
@@ -32,15 +40,32 @@ export function SiteLayout({ children }: { children: ReactNode }) {
             <span className="font-serif text-lg font-semibold tracking-tight">Abduraimov Erkinjon</span>
           </Link>
           <nav className="hidden lg:flex items-center gap-1">
-            {NAV.map((n) => (
-              <Link key={n.to} to={n.to}
-                className={cn(
-                  "px-3 py-2 rounded-md text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent/60 transition-colors",
-                  loc.pathname === n.to && "text-foreground bg-accent/80"
-                )}>{n.label}</Link>
-            ))}
+            <Link to="/" className={cn("px-3 py-2 rounded-md text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent/60 transition-colors", isActive("/") && "text-foreground bg-accent/80")}>Home</Link>
+
+            <div className="relative group">
+              <Link to="/practice" className={cn("px-3 py-2 rounded-md text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent/60 transition-colors inline-flex items-center gap-1", practiceActive && "text-foreground bg-accent/80")}>
+                Practice <ChevronDown className="w-3.5 h-3.5" />
+              </Link>
+              <div className="absolute left-0 top-full pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-150 z-50">
+                <div className="bg-card border border-border rounded-xl shadow-warm py-2 min-w-[180px]">
+                  {PRACTICE_LINKS.map((l) => (
+                    <Link key={l.to} to={l.to} className={cn("block px-4 py-2 text-sm hover:bg-accent/60", isActive(l.to) && "bg-accent/80 font-medium")}>{l.label}</Link>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <Link to="/videos" className={cn("px-3 py-2 rounded-md text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent/60 transition-colors", isActive("/videos") && "text-foreground bg-accent/80")}>Video Lessons</Link>
+            <Link to="/articles" className={cn("px-3 py-2 rounded-md text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent/60 transition-colors", isActive("/articles") && "text-foreground bg-accent/80")}>Articles</Link>
+            <Link to="/contact-about" className={cn("px-3 py-2 rounded-md text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent/60 transition-colors", isActive("/contact-about") && "text-foreground bg-accent/80")}>Contact &amp; About</Link>
           </nav>
           <div className="hidden lg:flex items-center gap-2">
+            {user && due && due.count > 0 && (
+              <Link to="/vocabulary" className="relative inline-flex items-center p-2 rounded-md hover:bg-accent/60" aria-label="Vocabulary due">
+                <Bell className="w-4 h-4 text-secondary" />
+                <span className="absolute -top-0.5 -right-0.5 bg-gold text-primary-foreground text-[10px] font-bold rounded-full min-w-[16px] h-4 px-1 flex items-center justify-center">{due.count}</span>
+              </Link>
+            )}
             {user ? (
               <>
                 {profile?.is_premium && (
@@ -67,10 +92,17 @@ export function SiteLayout({ children }: { children: ReactNode }) {
         {open && (
           <div className="lg:hidden border-t border-border bg-background">
             <div className="container mx-auto px-4 py-3 flex flex-col gap-1">
-              {NAV.map((n) => (
-                <Link key={n.to} to={n.to} onClick={() => setOpen(false)}
-                  className="py-2 text-sm font-medium">{n.label}</Link>
-              ))}
+              <Link to="/" onClick={() => setOpen(false)} className="py-2 text-sm font-medium">Home</Link>
+              <Link to="/practice" onClick={() => setOpen(false)} className="py-2 text-sm font-medium">Practice</Link>
+              <div className="pl-4 flex flex-col">
+                {PRACTICE_LINKS.map((l) => (
+                  <Link key={l.to} to={l.to} onClick={() => setOpen(false)} className="py-1.5 text-sm text-muted-foreground">{l.label}</Link>
+                ))}
+              </div>
+              <Link to="/videos" onClick={() => setOpen(false)} className="py-2 text-sm font-medium">Video Lessons</Link>
+              <Link to="/articles" onClick={() => setOpen(false)} className="py-2 text-sm font-medium">Articles</Link>
+              <Link to="/vocabulary" onClick={() => setOpen(false)} className="py-2 text-sm font-medium">Vocabulary</Link>
+              <Link to="/contact-about" onClick={() => setOpen(false)} className="py-2 text-sm font-medium">Contact &amp; About</Link>
               <div className="pt-3 border-t border-border mt-2 flex flex-col gap-2">
                 {user ? (
                   <>
@@ -111,11 +143,11 @@ export function SiteLayout({ children }: { children: ReactNode }) {
           <div>
             <h4 className="font-semibold mb-3 text-sm">Explore</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li><Link to="/writing" className="hover:text-foreground">Writing</Link></li>
-              <li><Link to="/speaking" className="hover:text-foreground">Speaking</Link></li>
+              <li><Link to="/practice" className="hover:text-foreground">Practice</Link></li>
               <li><Link to="/videos" className="hover:text-foreground">Video Lessons</Link></li>
-              <li><Link to="/reading" className="hover:text-foreground">Reading</Link></li>
-              <li><Link to="/listening" className="hover:text-foreground">Listening</Link></li>
+              <li><Link to="/articles" className="hover:text-foreground">Articles</Link></li>
+              <li><Link to="/vocabulary" className="hover:text-foreground">Vocabulary Practice</Link></li>
+              <li><Link to="/premium" className="hover:text-foreground">Premium</Link></li>
             </ul>
           </div>
           <div>
@@ -126,6 +158,9 @@ export function SiteLayout({ children }: { children: ReactNode }) {
               </a>
               <a href="https://t.me/augustus_flores" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground">
                 <Send className="w-4 h-4 text-[#229ED9]" /> Telegram Channel
+              </a>
+              <a href="https://t.me/augustus_at" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground">
+                <MessageCircle className="w-4 h-4 text-secondary" /> Personal Telegram
               </a>
             </div>
           </div>

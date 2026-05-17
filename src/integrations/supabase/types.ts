@@ -38,6 +38,75 @@ export type Database = {
         }
         Relationships: []
       }
+      articles_read: {
+        Row: {
+          article_slug: string
+          id: string
+          read_at: string
+          user_id: string
+        }
+        Insert: {
+          article_slug: string
+          id?: string
+          read_at?: string
+          user_id: string
+        }
+        Update: {
+          article_slug?: string
+          id?: string
+          read_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      bookmarks: {
+        Row: {
+          created_at: string
+          id: string
+          reference_id: string
+          type: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          reference_id: string
+          type: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          reference_id?: string
+          type?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      passage_notes: {
+        Row: {
+          id: string
+          notes: string
+          passage_id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          notes?: string
+          passage_id: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          id?: string
+          notes?: string
+          passage_id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           activated_at: string | null
@@ -73,6 +142,110 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      test_results: {
+        Row: {
+          band: number | null
+          completed_at: string
+          id: string
+          passage_title: string
+          score: number
+          total: number
+          user_id: string
+        }
+        Insert: {
+          band?: number | null
+          completed_at?: string
+          id?: string
+          passage_title: string
+          score: number
+          total: number
+          user_id: string
+        }
+        Update: {
+          band?: number | null
+          completed_at?: string
+          id?: string
+          passage_title?: string
+          score?: number
+          total?: number
+          user_id?: string
+        }
+        Relationships: []
+      }
+      vocabulary_folders: {
+        Row: {
+          created_at: string
+          id: string
+          is_default: boolean
+          name: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_default?: boolean
+          name: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_default?: boolean
+          name?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      vocabulary_words: {
+        Row: {
+          created_at: string
+          definition: string
+          ease_factor: number
+          example: string | null
+          folder_id: string
+          id: string
+          interval_days: number
+          last_reviewed: string | null
+          next_review: string
+          user_id: string
+          word: string
+        }
+        Insert: {
+          created_at?: string
+          definition: string
+          ease_factor?: number
+          example?: string | null
+          folder_id: string
+          id?: string
+          interval_days?: number
+          last_reviewed?: string | null
+          next_review?: string
+          user_id: string
+          word: string
+        }
+        Update: {
+          created_at?: string
+          definition?: string
+          ease_factor?: number
+          example?: string | null
+          folder_id?: string
+          id?: string
+          interval_days?: number
+          last_reviewed?: string | null
+          next_review?: string
+          user_id?: string
+          word?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "vocabulary_words_folder_id_fkey"
+            columns: ["folder_id"]
+            isOneToOne: false
+            referencedRelation: "vocabulary_folders"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {
