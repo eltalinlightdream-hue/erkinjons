@@ -28,6 +28,7 @@ type Passage = {
   description?: string;
   htmlFile?: string;
   content?: string;
+  isPremium: boolean; // change to true to lock a passage behind premium
 };
 
 const PASSAGES: Passage[] = [
@@ -35,6 +36,7 @@ const PASSAGES: Passage[] = [
     id: "p3-piraha",
     title: "The Pirahã People of Brazil",
     passageNumber: 3,
+    isPremium: true, // 🔒 locked
     description:
       "An academic passage about the remarkable linguistic and cultural uniqueness of the Pirahã tribe in the Amazon rainforest.",
     htmlFile: "/passages/Day_1_Passage_3_Piraha.html",
@@ -43,6 +45,7 @@ const PASSAGES: Passage[] = [
     id: "p2-tv-advertising",
     title: "Children's Comprehension of Television Advertising",
     passageNumber: 2,
+    isPremium: false,
     description:
       "An academic passage examining how children understand and are influenced by TV commercials, and the techniques advertisers use to target them.",
     htmlFile: "/passages/Passage_2_TV_Advertising.html",
@@ -51,6 +54,7 @@ const PASSAGES: Passage[] = [
     id: "p1-thames-tunnel",
     title: "Tunnelling under the Thames",
     passageNumber: 1,
+    isPremium: false,
     description:
       "An academic passage about the remarkable engineering challenges behind building the world's first tunnel beneath a navigable river in 19th-century London.",
     htmlFile: "/passages/Tunnelling_under_the_Thames.html",
@@ -59,6 +63,7 @@ const PASSAGES: Passage[] = [
     id: "p3-business-innovation",
     title: "Business Innovation",
     passageNumber: 3,
+    isPremium: false,
     description:
       "As new 'wonder products' are getting harder and harder to find, what should companies do to survive in today's ever more competitive markets?",
     htmlFile: "/passages/gemini-code-1778993342900.html",
@@ -67,6 +72,7 @@ const PASSAGES: Passage[] = [
     id: "p1-katherine-mansfield",
     title: "Katherine Mansfield",
     passageNumber: 1,
+    isPremium: false,
     description:
       "Katherine Mansfield was a modernist writer of short fiction who was born and brought up in New Zealand.",
     htmlFile: "/passages/gemini-code-1778994470958.html",
@@ -75,6 +81,7 @@ const PASSAGES: Passage[] = [
     id: "p2-the-tasmanian-tiger",
     title: "The Tasmanian Tiger",
     passageNumber: 2,
+    isPremium: false,
     description:
       "The Tasmanian tiger, or thylocine, was a carnivorous marsupial (a meat-eating mammal which carries its young in a pouch).",
     htmlFile: "/passages/gemini-code-1778995279738.html",
@@ -83,14 +90,16 @@ const PASSAGES: Passage[] = [
     id: "p1-radiocarbon-dating",
     title: "Radiocarbon Dating — The Profile of Nancy Athfield",
     passageNumber: 1,
+    isPremium: false,
     description:
       "Have you ever picked up a small stone off the ground and wondered how old it was?",
     htmlFile: "/passages/IELTS_Radiocarbon_Dating_Nancy_Athfield_Test.html",
-  }, 
+  },
   {
     id: "p2-the-return-of-monkey-life",
     title: "The Return of Monkey life",
     passageNumber: 2,
+    isPremium: false,
     description:
       "The recovery and life of monkeys in Northern Costa Rica",
     htmlFile: "/passages/IELTS_Passage2_Return_of_Monkey_life_Test.html",
@@ -99,6 +108,7 @@ const PASSAGES: Passage[] = [
     id: "p1-the-sound-of-dolphin",
     title: "The Sound of Dolphin",
     passageNumber: 1,
+    isPremium: false,
     description:
       "Each and every dolphin has a different sound just like you and me, a sound that other dolphins recognize as a particular individual.",
     htmlFile: "/passages/IELTS_The_Sound_of_Dolphin_Test.html",
@@ -161,7 +171,7 @@ function Reading() {
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
             {visible.map((p) => {
-              const locked = p.passageNumber > 3 && !isPremium;
+              const locked = p.isPremium && !isPremium;
               const status = statuses[p.id];
               const completed = !!status?.completed;
 
