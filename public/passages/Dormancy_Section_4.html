@@ -476,6 +476,10 @@
 (function () {
   'use strict';
 
+  // ── Test ID — must match the id in your TESTS array in listening.tsx ──
+  const TEST_ID = 's4-dormancy';
+  const TOTAL_QUESTIONS = 10;
+
   const correctAnswers = {
     q31:'resources', q32:'stressful', q33:'competition', q34:'light',
     q35:'reduced', q36:'mud', q37:'starvation', q38:'evaporation',
@@ -485,6 +489,22 @@
   let currentQuestion = 31;
   let selectedRange = null;
   let contextElement = null;
+
+  // ── Save score to localStorage (picked up by listening.tsx on window focus) ──
+  function saveScoreToLocalStorage(score, total) {
+    try {
+      const all = JSON.parse(localStorage.getItem('ielts_test_completions') || '{}');
+      all[TEST_ID] = {
+        completed: true,
+        score: score,
+        total: total,
+        completedAt: new Date().toISOString(),
+      };
+      localStorage.setItem('ielts_test_completions', JSON.stringify(all));
+    } catch (e) {
+      console.error('Could not save score:', e);
+    }
+  }
 
   // ── Dark mode ──
   const body = document.body;
@@ -626,6 +646,9 @@
       if (isCorrect) score++;
       resultsData.push({ question: q, userAnswer: userAnswer || '—', correctAnswer: correct, isCorrect });
     }
+
+    // ── Save score to localStorage so listening.tsx picks it up on focus ──
+    saveScoreToLocalStorage(score, TOTAL_QUESTIONS);
 
     // Band estimate (out of 10 questions)
     const band = score >= 9 ? 9 : score >= 8 ? 8.5 : score >= 7 ? 7.5 : score >= 6 ? 7 : score >= 5 ? 6.5 : score >= 4 ? 6 : score >= 3 ? 5.5 : score >= 2 ? 5 : score >= 1 ? 4.5 : 4;
