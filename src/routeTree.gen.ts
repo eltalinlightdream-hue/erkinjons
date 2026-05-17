@@ -16,6 +16,7 @@ import { Route as ReadingRouteImport } from './routes/reading'
 import { Route as PremiumRouteImport } from './routes/premium'
 import { Route as PracticeRouteImport } from './routes/practice'
 import { Route as ListeningRouteImport } from './routes/listening'
+import { Route as ContactAboutRouteImport } from './routes/contact-about'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AccountRouteImport } from './routes/account'
@@ -57,6 +58,11 @@ const ListeningRoute = ListeningRouteImport.update({
   path: '/listening',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ContactAboutRoute = ContactAboutRouteImport.update({
+  id: '/contact-about',
+  path: '/contact-about',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
@@ -89,6 +95,7 @@ export interface FileRoutesByFullPath {
   '/account': typeof AccountRoute
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
+  '/contact-about': typeof ContactAboutRoute
   '/listening': typeof ListeningRoute
   '/practice': typeof PracticeRoute
   '/premium': typeof PremiumRoute
@@ -103,6 +110,7 @@ export interface FileRoutesByTo {
   '/account': typeof AccountRoute
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
+  '/contact-about': typeof ContactAboutRoute
   '/listening': typeof ListeningRoute
   '/practice': typeof PracticeRoute
   '/premium': typeof PremiumRoute
@@ -118,6 +126,7 @@ export interface FileRoutesById {
   '/account': typeof AccountRoute
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
+  '/contact-about': typeof ContactAboutRoute
   '/listening': typeof ListeningRoute
   '/practice': typeof PracticeRoute
   '/premium': typeof PremiumRoute
@@ -134,6 +143,7 @@ export interface FileRouteTypes {
     | '/account'
     | '/auth'
     | '/contact'
+    | '/contact-about'
     | '/listening'
     | '/practice'
     | '/premium'
@@ -148,6 +158,7 @@ export interface FileRouteTypes {
     | '/account'
     | '/auth'
     | '/contact'
+    | '/contact-about'
     | '/listening'
     | '/practice'
     | '/premium'
@@ -162,6 +173,7 @@ export interface FileRouteTypes {
     | '/account'
     | '/auth'
     | '/contact'
+    | '/contact-about'
     | '/listening'
     | '/practice'
     | '/premium'
@@ -177,6 +189,7 @@ export interface RootRouteChildren {
   AccountRoute: typeof AccountRoute
   AuthRoute: typeof AuthRoute
   ContactRoute: typeof ContactRoute
+  ContactAboutRoute: typeof ContactAboutRoute
   ListeningRoute: typeof ListeningRoute
   PracticeRoute: typeof PracticeRoute
   PremiumRoute: typeof PremiumRoute
@@ -237,6 +250,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ListeningRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/contact-about': {
+      id: '/contact-about'
+      path: '/contact-about'
+      fullPath: '/contact-about'
+      preLoaderRoute: typeof ContactAboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/contact': {
       id: '/contact'
       path: '/contact'
@@ -281,6 +301,7 @@ const rootRouteChildren: RootRouteChildren = {
   AccountRoute: AccountRoute,
   AuthRoute: AuthRoute,
   ContactRoute: ContactRoute,
+  ContactAboutRoute: ContactAboutRoute,
   ListeningRoute: ListeningRoute,
   PracticeRoute: PracticeRoute,
   PremiumRoute: PremiumRoute,
