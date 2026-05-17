@@ -1,6 +1,6 @@
 // src/hooks/use-test-status.ts
 import { useEffect, useState, useCallback } from "react";
-import { supabase } from "@/lib/supabase"; // adjust to your supabase client path
+import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
 
 export type TestStatus = {
