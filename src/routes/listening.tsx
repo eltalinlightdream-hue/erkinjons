@@ -35,6 +35,7 @@ const TESTS: ListeningTest[] = [
     description: "A lecture on animal dormancy — insects, the African lungfish, snails, and the Arctic ground squirrel.",
     questions: 10,
     htmlFile: "/passages/Dormancy_Section_4.html",
+    audioFile: "/audio/part_4_dormancy.mp3",
     isPremium: false,
   },
 ];
