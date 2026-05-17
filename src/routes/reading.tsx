@@ -56,6 +56,13 @@ const PASSAGES: Passage[] = [
   description: "As new 'wonder products' are getting harder and harder to find, what should companies do to survive in today's ever more competitive markets?",
   htmlFile: "/passages/gemini-code-1778993342900.html",
 },
+  {
+  id: "p1-katherine-mansfield",
+  title: "Katherine Mansfield",
+  passageNumber: 1,
+  description: "Katherine Mansfield was a modernist writer of short fiction who was born and brought up in New Zealand.",
+  htmlFile: "/passages/gemini-code-1778994470958.html",
+},
 ];
 
 const FILTERS = [
