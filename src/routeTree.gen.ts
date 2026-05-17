@@ -18,7 +18,6 @@ import { Route as PremiumRouteImport } from './routes/premium'
 import { Route as PracticeRouteImport } from './routes/practice'
 import { Route as ListeningRouteImport } from './routes/listening'
 import { Route as ContactAboutRouteImport } from './routes/contact-about'
-import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ArticlesRouteImport } from './routes/articles'
 import { Route as AccountRouteImport } from './routes/account'
@@ -70,11 +69,6 @@ const ContactAboutRoute = ContactAboutRouteImport.update({
   path: '/contact-about',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ContactRoute = ContactRouteImport.update({
-  id: '/contact',
-  path: '/contact',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
@@ -106,7 +100,6 @@ export interface FileRoutesByFullPath {
   '/account': typeof AccountRoute
   '/articles': typeof ArticlesRouteWithChildren
   '/auth': typeof AuthRoute
-  '/contact': typeof ContactRoute
   '/contact-about': typeof ContactAboutRoute
   '/listening': typeof ListeningRoute
   '/practice': typeof PracticeRoute
@@ -123,7 +116,6 @@ export interface FileRoutesByTo {
   '/account': typeof AccountRoute
   '/articles': typeof ArticlesRouteWithChildren
   '/auth': typeof AuthRoute
-  '/contact': typeof ContactRoute
   '/contact-about': typeof ContactAboutRoute
   '/listening': typeof ListeningRoute
   '/practice': typeof PracticeRoute
@@ -141,7 +133,6 @@ export interface FileRoutesById {
   '/account': typeof AccountRoute
   '/articles': typeof ArticlesRouteWithChildren
   '/auth': typeof AuthRoute
-  '/contact': typeof ContactRoute
   '/contact-about': typeof ContactAboutRoute
   '/listening': typeof ListeningRoute
   '/practice': typeof PracticeRoute
@@ -160,7 +151,6 @@ export interface FileRouteTypes {
     | '/account'
     | '/articles'
     | '/auth'
-    | '/contact'
     | '/contact-about'
     | '/listening'
     | '/practice'
@@ -177,7 +167,6 @@ export interface FileRouteTypes {
     | '/account'
     | '/articles'
     | '/auth'
-    | '/contact'
     | '/contact-about'
     | '/listening'
     | '/practice'
@@ -194,7 +183,6 @@ export interface FileRouteTypes {
     | '/account'
     | '/articles'
     | '/auth'
-    | '/contact'
     | '/contact-about'
     | '/listening'
     | '/practice'
@@ -212,7 +200,6 @@ export interface RootRouteChildren {
   AccountRoute: typeof AccountRoute
   ArticlesRoute: typeof ArticlesRouteWithChildren
   AuthRoute: typeof AuthRoute
-  ContactRoute: typeof ContactRoute
   ContactAboutRoute: typeof ContactAboutRoute
   ListeningRoute: typeof ListeningRoute
   PracticeRoute: typeof PracticeRoute
@@ -289,13 +276,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ContactAboutRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/contact': {
-      id: '/contact'
-      path: '/contact'
-      fullPath: '/contact'
-      preLoaderRoute: typeof ContactRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/auth': {
       id: '/auth'
       path: '/auth'
@@ -351,7 +331,6 @@ const rootRouteChildren: RootRouteChildren = {
   AccountRoute: AccountRoute,
   ArticlesRoute: ArticlesRouteWithChildren,
   AuthRoute: AuthRoute,
-  ContactRoute: ContactRoute,
   ContactAboutRoute: ContactAboutRoute,
   ListeningRoute: ListeningRoute,
   PracticeRoute: PracticeRoute,

@@ -63,7 +63,7 @@ function Index() {
             <p className="text-muted-foreground leading-relaxed">
               Hi — I'm an English teacher at a private educational center in Fergana, Uzbekistan, with an IELTS 8.0 overall. I've helped hundreds of Uzbek students reach Band 7+ through structured, no-nonsense practice. This site is everything I wish I had when I was preparing.
             </p>
-            <Link to="/about"><Button variant="link" className="px-0 mt-2 text-secondary">Read my story →</Button></Link>
+            <Link to="/contact-about"><Button variant="link" className="px-0 mt-2 text-secondary">Read my story →</Button></Link>
           </div>
         </div>
       </section>
