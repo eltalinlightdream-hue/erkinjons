@@ -10,7 +10,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
-import { Folder, Plus, Trash2, Pencil, Play, Loader2, Flame, ArrowLeft } from "lucide-react";
+import { Folder, Plus, Trash2, Pencil, Play, Loader2, Flame, ArrowLeft, Search, BookOpen, RotateCcw } from "lucide-react";
 import { toast } from "sonner";
 import { useAuth } from "@/hooks/use-auth";
 import {
@@ -58,7 +58,7 @@ function Vocab() {
   );
 }
 
-// ----- Folders list -----
+// ─── Folders list ─────────────────────────────────────────────────────────────
 function Folders({ onOpen, onReview }: { onOpen: (id: string) => void; onReview: (id?: string) => void }) {
   const fetchFolders = useServerFn(listFolders);
   const fetchStreak = useServerFn(reviewStreak);
@@ -77,10 +77,12 @@ function Folders({ onOpen, onReview }: { onOpen: (id: string) => void; onReview:
       await createFn({ data: { name: newName.trim() } });
       setNewName("");
       qc.invalidateQueries({ queryKey: ["folders"] });
+      toast.success("Folder created!");
     } finally { setAdding(false); }
   };
 
   const totalDue = (folders ?? []).reduce((s, f) => s + (f.due ?? 0), 0);
+  const totalWords = (folders ?? []).reduce((s, f) => s + (f.count ?? 0), 0);
 
   return (
     <>
@@ -89,26 +91,45 @@ function Folders({ onOpen, onReview }: { onOpen: (id: string) => void; onReview:
           <h1 className="text-4xl md:text-5xl font-bold mb-2">Vocabulary</h1>
           <p className="text-muted-foreground">Folders, spaced-repetition flashcards, and your review streak.</p>
         </div>
-        <div className="flex gap-3">
+        <div className="flex gap-3 flex-wrap">
           <Card className="px-4 py-3 inline-flex items-center gap-2">
             <Flame className="w-4 h-4 text-gold" />
             <span className="text-sm"><strong>{streak?.streak ?? 0}</strong> day streak</span>
           </Card>
-          <Button onClick={() => onReview(undefined)} disabled={totalDue === 0} className="bg-gradient-gold text-primary-foreground">
+          <Card className="px-4 py-3 inline-flex items-center gap-2">
+            <BookOpen className="w-4 h-4 text-secondary" />
+            <span className="text-sm"><strong>{totalWords}</strong> total words</span>
+          </Card>
+          <Button
+            onClick={() => onReview(undefined)}
+            disabled={totalDue === 0}
+            className="bg-gradient-gold text-primary-foreground"
+          >
             <Play className="w-4 h-4 mr-1" /> Review all ({totalDue})
           </Button>
         </div>
       </div>
 
+      {/* New folder */}
       <Card className="p-4 mb-6 flex items-center gap-2">
-        <Input value={newName} onChange={(e) => setNewName(e.target.value)} placeholder="New folder name…" />
+        <Input
+          value={newName}
+          onChange={(e) => setNewName(e.target.value)}
+          placeholder="New folder name…"
+          onKeyDown={(e) => e.key === "Enter" && onCreate()}
+        />
         <Button onClick={onCreate} disabled={adding || !newName.trim()}>
           <Plus className="w-4 h-4 mr-1" /> Create
         </Button>
       </Card>
 
       {isLoading ? (
-        <Loader2 className="w-5 h-5 animate-spin text-muted-foreground" />
+        <div className="flex justify-center py-8"><Loader2 className="w-5 h-5 animate-spin text-muted-foreground" /></div>
+      ) : (folders ?? []).length === 0 ? (
+        <div className="text-center py-16 text-muted-foreground">
+          <Folder className="w-12 h-12 mx-auto mb-3 opacity-30" />
+          <p>No folders yet. Create one above to get started.</p>
+        </div>
       ) : (
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {(folders ?? []).map((f) => (
@@ -128,14 +149,18 @@ function FolderCard({ folder, onOpen, onReview }: { folder: any; onOpen: () => v
   const [name, setName] = useState(folder.name);
 
   const save = async () => {
-    await renameFn({ data: { id: folder.id, name } });
+    if (!name.trim()) return;
+    await renameFn({ data: { id: folder.id, name: name.trim() } });
     setEditing(false);
     qc.invalidateQueries({ queryKey: ["folders"] });
+    toast.success("Folder renamed.");
   };
+
   const remove = async () => {
     if (!confirm(`Delete folder "${folder.name}" and all its words?`)) return;
     await deleteFn({ data: { id: folder.id } });
     qc.invalidateQueries({ queryKey: ["folders"] });
+    toast.success("Folder deleted.");
   };
 
   return (
@@ -144,29 +169,46 @@ function FolderCard({ folder, onOpen, onReview }: { folder: any; onOpen: () => v
         <span className="w-10 h-10 rounded-xl bg-accent flex items-center justify-center">
           <Folder className="w-5 h-5 text-secondary" />
         </span>
-        {folder.is_default && <Badge variant="secondary" className="bg-accent text-foreground">Default</Badge>}
+        {folder.is_default && <Badge variant="secondary" className="bg-accent text-foreground text-xs">Default</Badge>}
       </div>
+
       {editing ? (
         <div className="flex gap-2 mb-3">
-          <Input value={name} onChange={(e) => setName(e.target.value)} />
+          <Input value={name} onChange={(e) => setName(e.target.value)} onKeyDown={(e) => e.key === "Enter" && save()} />
           <Button size="sm" onClick={save}>Save</Button>
         </div>
       ) : (
         <h3 className="font-serif text-lg font-semibold mb-1">{folder.name}</h3>
       )}
-      <div className="text-xs text-muted-foreground mb-4 flex flex-wrap gap-3">
-        <span>{folder.count} words</span>
-        {folder.due > 0 && <Badge className="bg-gold/15 text-gold border-gold/30 text-[10px]">{folder.due} due today</Badge>}
+
+      <div className="text-xs text-muted-foreground mb-4 flex flex-wrap gap-2 items-center">
+        <span>{folder.count ?? 0} words</span>
+        {(folder.due ?? 0) > 0 && (
+          <Badge className="bg-gold/15 text-gold border-gold/30 text-[10px]">{folder.due} due today</Badge>
+        )}
+        {folder.last_reviewed && (
+          <span className="text-muted-foreground">· Last reviewed {new Date(folder.last_reviewed).toLocaleDateString()}</span>
+        )}
       </div>
+
       <div className="mt-auto flex flex-wrap gap-2">
         <Button size="sm" variant="outline" onClick={onOpen}>Open</Button>
-        <Button size="sm" onClick={onReview} disabled={folder.count === 0} className="bg-gradient-gold text-primary-foreground">
+        <Button
+          size="sm"
+          onClick={onReview}
+          disabled={(folder.count ?? 0) === 0}
+          className="bg-gradient-gold text-primary-foreground"
+        >
           <Play className="w-3 h-3 mr-1" /> Review
         </Button>
         {!folder.is_default && (
           <>
-            <Button size="icon" variant="ghost" onClick={() => setEditing(!editing)}><Pencil className="w-4 h-4" /></Button>
-            <Button size="icon" variant="ghost" onClick={remove}><Trash2 className="w-4 h-4 text-destructive" /></Button>
+            <Button size="icon" variant="ghost" onClick={() => setEditing(!editing)} title="Rename">
+              <Pencil className="w-4 h-4" />
+            </Button>
+            <Button size="icon" variant="ghost" onClick={remove} title="Delete">
+              <Trash2 className="w-4 h-4 text-destructive" />
+            </Button>
           </>
         )}
       </div>
@@ -174,7 +216,7 @@ function FolderCard({ folder, onOpen, onReview }: { folder: any; onOpen: () => v
   );
 }
 
-// ----- Folder detail (word list + add) -----
+// ─── Folder detail ────────────────────────────────────────────────────────────
 function FolderDetail({ folderId, onBack, onReview }: { folderId: string; onBack: () => void; onReview: () => void }) {
   const fetchWords = useServerFn(listWords);
   const addFn = useServerFn(addWord);
@@ -183,6 +225,7 @@ function FolderDetail({ folderId, onBack, onReview }: { folderId: string; onBack
   const qc = useQueryClient();
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState({ word: "", definition: "", example: "" });
+  const [search, setSearch] = useState("");
 
   const { data: folders } = useQuery({ queryKey: ["folders"], queryFn: () => fetchFolders() });
   const folder = folders?.find((f) => f.id === folderId);
@@ -191,15 +234,27 @@ function FolderDetail({ folderId, onBack, onReview }: { folderId: string; onBack
     queryFn: () => fetchWords({ data: { folderId } }),
   });
 
+  const filtered = useMemo(() => {
+    if (!words) return [];
+    if (!search.trim()) return words;
+    const q = search.toLowerCase();
+    return words.filter(w =>
+      w.word.toLowerCase().includes(q) ||
+      w.definition.toLowerCase().includes(q)
+    );
+  }, [words, search]);
+
   const onAdd = async () => {
     if (!form.word.trim() || !form.definition.trim()) {
-      toast.error("Word and definition are required"); return;
+      toast.error("Word and definition are required.");
+      return;
     }
     await addFn({ data: { folderId, word: form.word.trim(), definition: form.definition.trim(), example: form.example.trim() } });
     setForm({ word: "", definition: "", example: "" });
     setOpen(false);
     qc.invalidateQueries({ queryKey: ["words", folderId] });
     qc.invalidateQueries({ queryKey: ["folders"] });
+    toast.success("Word added!");
   };
 
   return (
@@ -207,52 +262,105 @@ function FolderDetail({ folderId, onBack, onReview }: { folderId: string; onBack
       <button onClick={onBack} className="text-sm text-muted-foreground hover:text-foreground inline-flex items-center gap-1 mb-4">
         <ArrowLeft className="w-4 h-4" /> All folders
       </button>
-      <div className="flex items-end justify-between gap-4 flex-wrap mb-6">
+
+      <div className="flex items-end justify-between gap-4 flex-wrap mb-4">
         <div>
           <h1 className="text-3xl font-bold">{folder?.name ?? "Folder"}</h1>
-          <p className="text-sm text-muted-foreground">{words?.length ?? 0} words • {folder?.due ?? 0} due today</p>
+          <p className="text-sm text-muted-foreground">
+            {words?.length ?? 0} words
+            {(folder?.due ?? 0) > 0 && <span className="ml-2 text-gold font-medium">{folder.due} due today</span>}
+          </p>
         </div>
-        <div className="flex gap-2">
-          <Button variant="outline" onClick={() => setOpen(true)}><Plus className="w-4 h-4 mr-1" /> Add Word</Button>
-          <Button onClick={onReview} disabled={!words?.length} className="bg-gradient-gold text-primary-foreground">
+        <div className="flex gap-2 flex-wrap">
+          <Button variant="outline" onClick={() => setOpen(true)}>
+            <Plus className="w-4 h-4 mr-1" /> Add Word
+          </Button>
+          <Button
+            onClick={onReview}
+            disabled={!words?.length}
+            className="bg-gradient-gold text-primary-foreground"
+          >
             <Play className="w-4 h-4 mr-1" /> Review
           </Button>
         </div>
       </div>
 
-      {isLoading ? <Loader2 className="w-5 h-5 animate-spin text-muted-foreground" /> : (
+      {/* Search inside folder */}
+      {(words?.length ?? 0) > 0 && (
+        <div className="relative mb-5 max-w-sm">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+          <Input
+            placeholder="Search words…"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="pl-9"
+          />
+        </div>
+      )}
+
+      {isLoading ? (
+        <div className="flex justify-center py-8"><Loader2 className="w-5 h-5 animate-spin text-muted-foreground" /></div>
+      ) : (
         <div className="grid sm:grid-cols-2 gap-3">
-          {(words ?? []).map((w) => (
+          {filtered.map((w) => (
             <Card key={w.id} className="p-4">
               <div className="flex items-center justify-between mb-1">
                 <h3 className="font-serif text-lg font-semibold">{w.word}</h3>
-                <Button size="icon" variant="ghost" onClick={async () => {
-                  await delFn({ data: { id: w.id } });
-                  qc.invalidateQueries({ queryKey: ["words", folderId] });
-                  qc.invalidateQueries({ queryKey: ["folders"] });
-                }}><Trash2 className="w-4 h-4 text-destructive" /></Button>
+                <Button
+                  size="icon"
+                  variant="ghost"
+                  onClick={async () => {
+                    if (!confirm(`Delete "${w.word}"?`)) return;
+                    await delFn({ data: { id: w.id } });
+                    qc.invalidateQueries({ queryKey: ["words", folderId] });
+                    qc.invalidateQueries({ queryKey: ["folders"] });
+                    toast.success("Word deleted.");
+                  }}
+                >
+                  <Trash2 className="w-4 h-4 text-destructive" />
+                </Button>
               </div>
               <p className="text-sm text-muted-foreground">{w.definition}</p>
               {w.example && <p className="text-sm italic text-muted-foreground mt-1">"{w.example}"</p>}
+              {w.next_review && (
+                <p className="text-xs text-muted-foreground mt-2">
+                  Next review: {new Date(w.next_review) <= new Date() ? <span className="text-gold font-medium">Due now</span> : new Date(w.next_review).toLocaleDateString()}
+                </p>
+              )}
             </Card>
           ))}
-          {(words ?? []).length === 0 && (
-            <p className="text-sm text-muted-foreground sm:col-span-2 text-center py-12">No words yet — add your first one.</p>
+          {filtered.length === 0 && (
+            <p className="text-sm text-muted-foreground sm:col-span-2 text-center py-12">
+              {search ? "No words match your search." : "No words yet — add your first one."}
+            </p>
           )}
         </div>
       )}
 
+      {/* Add word dialog */}
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent>
           <DialogHeader><DialogTitle>Add Word</DialogTitle></DialogHeader>
           <div className="space-y-3">
-            <Input placeholder="Word" value={form.word} onChange={(e) => setForm({ ...form, word: e.target.value })} />
-            <Textarea placeholder="Definition" value={form.definition} onChange={(e) => setForm({ ...form, definition: e.target.value })} />
-            <Textarea placeholder="Example sentence (optional)" value={form.example} onChange={(e) => setForm({ ...form, example: e.target.value })} />
+            <Input
+              placeholder="Word *"
+              value={form.word}
+              onChange={(e) => setForm({ ...form, word: e.target.value })}
+            />
+            <Textarea
+              placeholder="Definition *"
+              value={form.definition}
+              onChange={(e) => setForm({ ...form, definition: e.target.value })}
+            />
+            <Textarea
+              placeholder="Example sentence (optional)"
+              value={form.example}
+              onChange={(e) => setForm({ ...form, example: e.target.value })}
+            />
           </div>
           <DialogFooter>
             <Button variant="ghost" onClick={() => setOpen(false)}>Cancel</Button>
-            <Button onClick={onAdd} className="bg-gradient-gold text-primary-foreground">Save</Button>
+            <Button onClick={onAdd} className="bg-gradient-gold text-primary-foreground">Save Word</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
@@ -260,7 +368,7 @@ function FolderDetail({ folderId, onBack, onReview }: { folderId: string; onBack
   );
 }
 
-// ----- Review session -----
+// ─── Review session ───────────────────────────────────────────────────────────
 function Review({ folderId, onBack }: { folderId?: string; onBack: () => void }) {
   const fetchDue = useServerFn(dueWords);
   const reviewFn = useServerFn(reviewWord);
@@ -274,6 +382,8 @@ function Review({ folderId, onBack }: { folderId?: string; onBack: () => void })
 
   const [i, setI] = useState(0);
   const [flipped, setFlipped] = useState(false);
+  const [sessionDone, setSessionDone] = useState(false);
+  const [correct, setCorrect] = useState(0);
 
   const total = cards?.length ?? 0;
   const current = cards?.[i];
@@ -282,14 +392,35 @@ function Review({ folderId, onBack }: { folderId?: string; onBack: () => void })
   const rate = async (rating: "again" | "hard" | "good" | "easy") => {
     if (!current) return;
     await reviewFn({ data: { id: current.id, rating } });
+    if (rating === "good" || rating === "easy") setCorrect(c => c + 1);
     setFlipped(false);
     if (i + 1 >= total) {
       qc.invalidateQueries({ queryKey: ["folders"] });
       qc.invalidateQueries({ queryKey: ["streak"] });
-      refetch();
-      setI(0);
-    } else { setI(i + 1); }
+      setSessionDone(true);
+    } else {
+      setI(i + 1);
+    }
   };
+
+  const restart = async () => {
+    setI(0);
+    setFlipped(false);
+    setCorrect(0);
+    setSessionDone(false);
+    await refetch();
+  };
+
+  if (isLoading) {
+    return (
+      <>
+        <button onClick={onBack} className="text-sm text-muted-foreground hover:text-foreground inline-flex items-center gap-1 mb-4">
+          <ArrowLeft className="w-4 h-4" /> Exit session
+        </button>
+        <div className="flex justify-center py-16"><Loader2 className="w-6 h-6 animate-spin text-muted-foreground" /></div>
+      </>
+    );
+  }
 
   return (
     <>
@@ -297,47 +428,75 @@ function Review({ folderId, onBack }: { folderId?: string; onBack: () => void })
         <ArrowLeft className="w-4 h-4" /> Exit session
       </button>
       <h1 className="text-3xl font-bold mb-2">Review</h1>
-      <Progress value={progress} className="mb-6" />
-      {isLoading ? <Loader2 className="w-5 h-5 animate-spin text-muted-foreground" /> :
-        !current ? (
-          <Card className="p-12 text-center">
-            <h3 className="font-serif text-2xl font-semibold mb-2">All done 🎉</h3>
-            <p className="text-muted-foreground mb-4">No more cards due. Come back later!</p>
-            <Button onClick={onBack} variant="outline">Back to folders</Button>
-          </Card>
-        ) : (
-          <>
-            <Card
-              className="p-10 min-h-[260px] flex flex-col items-center justify-center cursor-pointer text-center bg-gradient-warm"
-              onClick={() => setFlipped(!flipped)}
-            >
-              {!flipped ? (
-                <>
-                  <h2 className="font-serif text-4xl font-semibold mb-3">{current.word}</h2>
-                  <p className="text-sm text-muted-foreground">Tap to reveal</p>
-                </>
-              ) : (
-                <>
-                  <p className="text-lg mb-3">{current.definition}</p>
-                  {current.example && <p className="italic text-muted-foreground">"{current.example}"</p>}
-                </>
-              )}
-            </Card>
-            {flipped && (
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-5">
-                <Button variant="outline" onClick={() => rate("again")} className="border-destructive/40 text-destructive">Again</Button>
-                <Button variant="outline" onClick={() => rate("hard")}>Hard</Button>
-                <Button variant="outline" onClick={() => rate("good")} className="border-sage/40 text-sage">Good</Button>
-                <Button onClick={() => rate("easy")} className="bg-gradient-gold text-primary-foreground">Easy</Button>
-              </div>
+
+      {sessionDone || !current ? (
+        <Card className="p-12 text-center">
+          <div className="text-5xl mb-4">🎉</div>
+          <h3 className="font-serif text-2xl font-semibold mb-2">Session complete!</h3>
+          <p className="text-muted-foreground mb-2">
+            You reviewed <strong>{total}</strong> card{total !== 1 ? "s" : ""}.
+          </p>
+          <p className="text-muted-foreground mb-6">
+            Good/Easy: <span className="text-green-600 font-semibold">{correct}</span> · Again/Hard: <span className="text-red-500 font-semibold">{total - correct}</span>
+          </p>
+          <div className="flex gap-3 justify-center flex-wrap">
+            <Button onClick={restart} variant="outline">
+              <RotateCcw className="w-4 h-4 mr-1" /> Review again
+            </Button>
+            <Button onClick={onBack} className="bg-gradient-gold text-primary-foreground">Back to folders</Button>
+          </div>
+        </Card>
+      ) : (
+        <>
+          <div className="flex items-center justify-between text-sm text-muted-foreground mb-2">
+            <span>{i + 1} of {total}</span>
+            <span>{correct} correct so far</span>
+          </div>
+          <Progress value={progress} className="mb-6" />
+
+          <Card
+            className="p-10 min-h-[280px] flex flex-col items-center justify-center cursor-pointer text-center bg-gradient-warm select-none"
+            onClick={() => setFlipped(!flipped)}
+          >
+            {!flipped ? (
+              <>
+                <h2 className="font-serif text-4xl font-semibold mb-3">{current.word}</h2>
+                <p className="text-sm text-muted-foreground">Tap to reveal definition</p>
+              </>
+            ) : (
+              <>
+                <p className="text-lg mb-3 leading-relaxed">{current.definition}</p>
+                {current.example && (
+                  <p className="italic text-muted-foreground text-sm border-t border-border pt-3 mt-2">
+                    "{current.example}"
+                  </p>
+                )}
+              </>
             )}
-            <p className="text-center text-xs text-muted-foreground mt-4">{i + 1} of {total}</p>
-          </>
-        )
-      }
+          </Card>
+
+          {flipped ? (
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-5">
+              <Button variant="outline" onClick={() => rate("again")} className="border-destructive/40 text-destructive hover:bg-destructive/10">
+                Again
+              </Button>
+              <Button variant="outline" onClick={() => rate("hard")} className="hover:bg-muted">
+                Hard
+              </Button>
+              <Button variant="outline" onClick={() => rate("good")} className="border-green-400/40 text-green-600 hover:bg-green-50">
+                Good
+              </Button>
+              <Button onClick={() => rate("easy")} className="bg-gradient-gold text-primary-foreground">
+                Easy
+              </Button>
+            </div>
+          ) : (
+            <p className="text-center text-xs text-muted-foreground mt-4">Click the card to flip it</p>
+          )}
+        </>
+      )}
     </>
   );
 }
 
-// silence unused warning
 void Link;
