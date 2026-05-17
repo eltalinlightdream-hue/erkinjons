@@ -63,6 +63,13 @@ const PASSAGES: Passage[] = [
   description: "Katherine Mansfield was a modernist writer of short fiction who was born and brought up in New Zealand.",
   htmlFile: "/passages/gemini-code-1778994470958.html",
 },
+  {
+  id: "p2-the-tasmanian-tiger",
+  title: "The Tasmanian Tiger",
+  passageNumber: 2,
+  description: "The Tasmanian tiger, or thylocine, was a carnivorous marsupial (a meat-eating mammal which carries its young in a pouch).",
+  htmlFile: "/passages/gemini-code-1778995279738.html",
+},
 ];
 
 const FILTERS = [
