@@ -14,6 +14,7 @@ import { Route as VideosRouteImport } from './routes/videos'
 import { Route as SpeakingRouteImport } from './routes/speaking'
 import { Route as ReadingRouteImport } from './routes/reading'
 import { Route as PremiumRouteImport } from './routes/premium'
+import { Route as PracticeRouteImport } from './routes/practice'
 import { Route as ListeningRouteImport } from './routes/listening'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AuthRouteImport } from './routes/auth'
@@ -44,6 +45,11 @@ const ReadingRoute = ReadingRouteImport.update({
 const PremiumRoute = PremiumRouteImport.update({
   id: '/premium',
   path: '/premium',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PracticeRoute = PracticeRouteImport.update({
+  id: '/practice',
+  path: '/practice',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ListeningRoute = ListeningRouteImport.update({
@@ -84,6 +90,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
   '/listening': typeof ListeningRoute
+  '/practice': typeof PracticeRoute
   '/premium': typeof PremiumRoute
   '/reading': typeof ReadingRoute
   '/speaking': typeof SpeakingRoute
@@ -97,6 +104,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
   '/listening': typeof ListeningRoute
+  '/practice': typeof PracticeRoute
   '/premium': typeof PremiumRoute
   '/reading': typeof ReadingRoute
   '/speaking': typeof SpeakingRoute
@@ -111,6 +119,7 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
   '/listening': typeof ListeningRoute
+  '/practice': typeof PracticeRoute
   '/premium': typeof PremiumRoute
   '/reading': typeof ReadingRoute
   '/speaking': typeof SpeakingRoute
@@ -126,6 +135,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/contact'
     | '/listening'
+    | '/practice'
     | '/premium'
     | '/reading'
     | '/speaking'
@@ -139,6 +149,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/contact'
     | '/listening'
+    | '/practice'
     | '/premium'
     | '/reading'
     | '/speaking'
@@ -152,6 +163,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/contact'
     | '/listening'
+    | '/practice'
     | '/premium'
     | '/reading'
     | '/speaking'
@@ -166,6 +178,7 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   ContactRoute: typeof ContactRoute
   ListeningRoute: typeof ListeningRoute
+  PracticeRoute: typeof PracticeRoute
   PremiumRoute: typeof PremiumRoute
   ReadingRoute: typeof ReadingRoute
   SpeakingRoute: typeof SpeakingRoute
@@ -208,6 +221,13 @@ declare module '@tanstack/react-router' {
       path: '/premium'
       fullPath: '/premium'
       preLoaderRoute: typeof PremiumRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/practice': {
+      id: '/practice'
+      path: '/practice'
+      fullPath: '/practice'
+      preLoaderRoute: typeof PracticeRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/listening': {
@@ -262,6 +282,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   ContactRoute: ContactRoute,
   ListeningRoute: ListeningRoute,
+  PracticeRoute: PracticeRoute,
   PremiumRoute: PremiumRoute,
   ReadingRoute: ReadingRoute,
   SpeakingRoute: SpeakingRoute,
@@ -271,3 +292,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
