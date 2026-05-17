@@ -49,6 +49,13 @@ const PASSAGES: Passage[] = [
     description: "An academic passage about the remarkable engineering challenges behind building the world's first tunnel beneath a navigable river in 19th-century London.",
     htmlFile: "/passages/Tunnelling_under_the_Thames.html",
   },
+  {
+  id: "p3-business-innovation",
+  title: "Business Innovation",
+  passageNumber: 3,
+  description: "As new 'wonder products' are getting harder and harder to find, what should companies do to survive in today's ever more competitive markets?",
+  htmlFile: "/passages/gemini-code-1778993342900.html",
+},
 ];
 
 const FILTERS = [
