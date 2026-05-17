@@ -86,6 +86,22 @@ const PASSAGES: Passage[] = [
     description:
       "Have you ever picked up a small stone off the ground and wondered how old it was?",
     htmlFile: "/passages/IELTS_Radiocarbon_Dating_Nancy_Athfield_Test.html",
+  }, 
+  {
+    id: "p2-the-return-of-monkey-life",
+    title: "The Return of Monkey life",
+    passageNumber: 2,
+    description:
+      "The recovery and life of monkeys in Northern Costa Rica",
+    htmlFile: "/passages/IELTS_Passage2_Return_of_Monkey_life_Test.html",
+  },
+  {
+    id: "p1-the-sound-of-dolphin",
+    title: "The Sound of Dolphin",
+    passageNumber: 1,
+    description:
+      "Each and every dolphin has a different sound just like you and me, a sound that other dolphins recognize as a particular individual.",
+    htmlFile: "/passages/IELTS_The_Sound_of_Dolphin_Test.html",
   },
 ];
 
