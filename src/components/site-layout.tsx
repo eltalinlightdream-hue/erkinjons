@@ -1,12 +1,11 @@
 import { ReactNode, useState } from "react";
 import { Link, useLocation } from "@tanstack/react-router";
-import { useServerFn } from "@tanstack/react-start";
 import { useQuery } from "@tanstack/react-query";
 import { Menu, X, Youtube, Send, GraduationCap, LogOut, User as UserIcon, Crown, ChevronDown, Bell, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/use-auth";
 import { cn } from "@/lib/utils";
-import { dueCount } from "@/lib/vocabulary.functions";
+import { supabase } from "@/integrations/supabase/client";
 
 const PRACTICE_LINKS = [
   { to: "/listening" as const, label: "Listening" },
@@ -19,15 +18,19 @@ export function SiteLayout({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false);
   const { user, profile, signOut, deviceConflict } = useAuth();
   const loc = useLocation();
-  const fetchDue = useServerFn(dueCount);
   const { data: due } = useQuery({
-    queryKey: ["due-count"],
+    queryKey: ["due-count", user?.id],
     queryFn: async () => {
-      try {
-        return await fetchDue();
-      } catch {
-        return { count: 0 } as any;
-      }
+      if (!user) return { count: 0 };
+
+      const { count, error } = await supabase
+        .from("vocabulary_words")
+        .select("id", { count: "exact", head: true })
+        .eq("user_id", user.id)
+        .lte("next_review", new Date().toISOString());
+
+      if (error) return { count: 0 };
+      return { count: count ?? 0 };
     },
     enabled: !!user,
     refetchInterval: 60_000,
