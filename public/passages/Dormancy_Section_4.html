@@ -559,10 +559,21 @@
   });
   audio.addEventListener('ended', () => { playBtn.innerHTML = playSVG; });
 
-  playBtn.addEventListener('click', () => {
-    if (audio.paused) { audio.play(); playBtn.innerHTML = pauseSVG; }
-    else { audio.pause(); playBtn.innerHTML = playSVG; }
-  });
+  playBtn.addEventListener('click', async () => {
+  try {
+    if (audio.paused) {
+      await audio.play();
+      playBtn.innerHTML = pauseSVG;
+    } else {
+      audio.pause();
+      playBtn.innerHTML = playSVG;
+    }
+  } catch (error) {
+    console.error('Audio could not play:', error);
+    alert('Audio could not play. Please check that the audio file exists in public/audio.');
+    playBtn.innerHTML = playSVG;
+  }
+});
 
   progressTrack.addEventListener('click', e => {
     const rect = progressTrack.getBoundingClientRect();
