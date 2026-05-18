@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Dolls Through the Ages - Computer-based IELTS</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<style>
+:root {
+  --bg-color:#ffffff; --text-color:#333333; --passage-bg:#f8f9fa; --questions-bg:#ffffff; --border-color:#5770ff; --highlight-color:springgreen;
+  --header-bg:#F8F8F8; --header-text:#333333; --telegram-blue:#0088CC; --button-bg:#28a745; --button-hover:#218838;
+  --correct-color:#28a745; --incorrect-color:#dc3545; --progress-complete:#28a745; --progress-incomplete:#bdbdbd; --timer-bg:#0088CC; --timer-text:#ffffff; --footer-bg:#f5f5f5;
+  --content-font-size:16px; --content-line-height:1.6;
+}
+.night-mode {
+  --bg-color:#121212; --text-color:#e0e0e0; --passage-bg:#1e1e1e; --questions-bg:#1e1e1e; --border-color:#424242; --highlight-color:#0084ff;
+  --header-bg:#1a1a1a; --header-text:#ffffff; --telegram-blue:#005f99; --button-bg:#990000; --button-hover:#7a0000;
+  --correct-color:#218838; --incorrect-color:#c82333; --progress-complete:#218838; --progress-incomplete:#616161; --timer-bg:#0088CC; --timer-text:#ffcdd2; --footer-bg:#121212;
+}
+* { margin:0; padding:0; box-sizing:border-box; transition:background-color .3s,color .3s; }
+body { font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif; background:var(--bg-color); color:var(--text-color); height:100vh; display:flex; flex-direction:column; overflow:hidden; }
+header { background:var(--header-bg); color:var(--header-text); padding:12px 20px; display:flex; justify-content:space-between; align-items:center; box-shadow:0 2px 5px rgba(0,0,0,.1); z-index:100; }
+.logo-area { display:flex; align-items:center; gap:15px; }
+.social-link { display:flex; align-items:center; gap:8px; color:#fff; padding:8px 15px; border-radius:50px; text-decoration:none; font-weight:600; font-size:14px; }
+.social-link.telegram { background:var(--telegram-blue); }
+.header-controls { display:flex; gap:15px; align-items:center; }
+.timer-container { background:var(--timer-bg); color:var(--timer-text); padding:8px 15px; border-radius:50px; font-weight:bold; display:flex; align-items:center; gap:8px; }
+.timer-btn,.icon-btn { background:none; border:none; color:inherit; cursor:pointer; font-size:16px; padding:4px; }
+.icon-btn { color:var(--header-text); background:rgba(0,0,0,.05); border-radius:50%; width:36px; height:36px; display:flex; align-items:center; justify-content:center; }
+.main-container { flex:1; display:flex; overflow:hidden; }
+.passage-container,.questions-container { overflow-y:auto; padding:25px; font-size:var(--content-font-size); line-height:var(--content-line-height); }
+.passage-container { width:50%; background:var(--passage-bg); }
+.questions-container { flex:1; background:var(--questions-bg); }
+.divider { width:8px; background:var(--border-color); cursor:col-resize; position:relative; flex:0 0 8px; }
+.divider::after { content:""; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:3px; height:50px; background:rgba(255,255,255,.7); border-radius:3px; }
+.sectionRubric { margin-bottom:20px; padding:15px; background:var(--questions-bg); border:1px solid var(--border-color); border-radius:8px; }
+#passageContent h1,#passageContent h2 { text-align:center; margin:16px 0; }
+#passageContent p,.questions-container p,.questions-container li { margin-bottom:12px; }
+.question,.question-options,.true-false-option { margin-bottom:22px; }
+.question-rubric { margin-bottom:18px; }
+input[type="text"], select { padding:6px 8px; border:1px solid #999; border-radius:4px; margin:4px; background:var(--bg-color); color:var(--text-color); }
+input[type="radio"] { margin-right:8px; }
+.drop-zone { display:inline-block; min-width:70px; min-height:32px; border:2px dashed #777; border-radius:5px; padding:6px 10px; margin:6px; background:var(--bg-color); cursor:pointer; }
+.drop-zone.filled { border-style:solid; border-color:var(--progress-complete); }
+.headings-bank li { cursor:grab; padding:6px; margin:4px 0; border:1px solid #ddd; border-radius:4px; list-style-position:inside; }
+.highlight { background:var(--highlight-color); border-radius:3px; padding:0 2px; }
+.highlight-toolbar { position:fixed; display:none; z-index:1000; background:var(--questions-bg); border:1px solid var(--border-color); border-radius:6px; box-shadow:0 3px 12px rgba(0,0,0,.2); padding:6px; }
+.highlight-toolbar button { border:0; padding:7px 10px; margin:2px; border-radius:4px; cursor:pointer; }
+footer { background:var(--footer-bg); border-top:1px solid #ddd; padding:10px 15px; display:flex; align-items:center; justify-content:space-between; }
+.question-nav { display:flex; gap:5px; flex-wrap:wrap; }
+.question-nav-btn { width:34px; height:34px; border-radius:50%; border:1px solid #bbb; background:#fff; cursor:pointer; font-weight:600; }
+.question-nav-btn.answered { background:var(--progress-complete); color:white; border-color:var(--progress-complete); }
+.submit-btn { background:var(--button-bg); color:#fff; border:0; border-radius:6px; padding:10px 20px; font-weight:700; cursor:pointer; }
+.submit-btn:hover { background:var(--button-hover); }
+.settings-menu { position:absolute; right:20px; top:62px; background:var(--questions-bg); color:var(--text-color); border:1px solid var(--border-color); border-radius:8px; padding:15px; box-shadow:0 4px 15px rgba(0,0,0,.2); display:none; z-index:200; width:280px; }
+.settings-menu label { display:block; margin:12px 0 6px; font-weight:600; }
+.settings-menu input[type=range] { width:100%; }
+.theme-row { display:flex; gap:8px; margin-top:8px; }
+.theme-row button { flex:1; padding:7px; border:1px solid #aaa; border-radius:5px; cursor:pointer; }
+.modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,.65); z-index:2000; align-items:center; justify-content:center; }
+.modal-content { background:var(--questions-bg); color:var(--text-color); width:90%; max-width:760px; max-height:85vh; overflow-y:auto; border-radius:10px; padding:25px; box-shadow:0 5px 30px rgba(0,0,0,.4); }
+.score-box { text-align:center; padding:18px; border-radius:8px; background:var(--passage-bg); margin-bottom:20px; }
+.score-num { font-size:42px; font-weight:800; color:var(--telegram-blue); }
+.answer-item { padding:10px; border-left:5px solid #ccc; margin:8px 0; background:var(--passage-bg); }
+.answer-item.correct { border-left-color:var(--correct-color); }
+.answer-item.incorrect { border-left-color:var(--incorrect-color); }
+.close-modal { background:var(--button-bg); color:white; border:0; border-radius:6px; padding:10px 18px; float:right; margin-top:15px; cursor:pointer; }
+@media(max-width:768px) { .main-container { flex-direction:column; } .passage-container { width:100%; height:50%; } .divider { height:8px; width:100%; cursor:row-resize; } }
+</style>
+</head>
+<body>
+<header>
+  <div class="logo-area">
+    <a class="social-link telegram" href="https://t.me/augustus_flores" target="_blank"><i class="fab fa-telegram-plane"></i> Abduraimov Erkinjon</a>
+  </div>
+  <div class="header-controls">
+    <div class="timer-container"><i class="fas fa-clock"></i><span id="timer">20:00</span><button id="timerToggle" class="timer-btn"><i class="fas fa-pause"></i></button><button id="timerReset" class="timer-btn"><i class="fas fa-redo"></i></button></div>
+    <button id="settingsBtn" class="icon-btn" title="Display settings"><i class="fas fa-cog"></i></button>
+    <button id="fullscreenBtn" class="icon-btn" title="Fullscreen"><i class="fas fa-expand"></i></button>
+  </div>
+  <div class="settings-menu" id="settingsMenu">
+    <label for="fontSizeRange">Text size</label>
+    <input type="range" id="fontSizeRange" min="14" max="24" value="16"/>
+    <label for="lineHeightRange">Line spacing</label>
+    <input type="range" id="lineHeightRange" min="1.2" max="2.2" step="0.1" value="1.6"/>
+    <label>Theme</label>
+    <div class="theme-row"><button id="lightModeBtn">Light</button><button id="darkModeBtn">Dark</button></div>
+  </div>
+</header>
+
+<div class="main-container" id="mainContainer">
+  <section class="passage-container" id="passagePanel">
+    <div class="sectionRubric"><h2>Reading Passage 1</h2><p>You should spend about 20 minutes on Questions 1-13, which are based on Reading Passage 1.</p></div>
+    <div id="passageContent">
+<h2 style="text-align: center;">Dolls through the ages</h2>
+<p style="text-align: center; font-style: italic;">What is today a simple children’s toy has a surprisingly rich history</p>
+<p>Dolls have been a part of humankind for thousands of years. Often depicting religious figures, or used as playthings, early dolls were probably made from primitive materials such as clay, fur, or wood.</p>
+<p>Dolls constructed of flat pieces of wood, painted with various designs, and with 'hair' made of clay, have often been found in Egyptian graves dating back to 2000 BC. Egyptian tombs of wealthy families have included pottery dolls. Dolls being placed in these graves leads some to believe that they were cherished possessions.</p>
+<p>Girls from ancient Greece and Rome offered their wooden dolls to goddesses after they were too 'grown-up' to play with dolls. Most ancient dolls that were found in tombs were very simple creations, often made from such materials as clay, rags, wood, or bone. Some of the more unique dolls were made with ivory or wax. The main goal was to make the doll as 'lifelike' as possible. That ideal led to the creation of dolls with movable limbs and removable garments, dating back to 600 BC.</p>
+<p>Following the era of the ancient dolls, Europe became a major hub for doll production. These dolls were primarily made of wood. Fewer than 30 examples of primitive wooden stump dolls from England survive today. The Grodnertal area of Germany produced many peg wooden dolls, a type of doll that has very simple peg joints and resembles a clothespin (a device for hanging washing on a clothesline). An alternative to wood was developed in the 1800s. 'Composition' is a collective term for mixtures of pulped wood or paper that were used to make doll heads and bodies. These mixtures were moulded under pressure, creating a durable doll that could be mass produced. Manufacturers closely guarded the recipes for their mixtures, sometimes using strange ingredients like ash or eggshells. Papier-mâché, a type of composition, was one of the most popular mixtures.</p>
+<p>In addition to wooden dolls, wax dolls grew in popularity in the 17th and 18th centuries. Munich in Germany was a major manufacturing centre for wax dolls. Wax modellers would model a doll's head in wax or clay, and then cover it with plaster to create a mould. Then they would pour melted wax into the cast. The wax for the head would be very thin, no more than 3 mm. Some of the most distinctive wax dolls were created in England between 1850 and 1930. One of the first dolls that portrayed a baby was made in England from wax at the beginning of the 19th century.</p>
+<p>Around the same time porcelain became popular. It is made by firing special clays in a kiln at more than 2372 degrees Fahrenheit (1300°C), and only a few clays can withstand firing at such high temperatures. Porcelain is used generically to refer to both china and bisque dolls; china is glazed, whereas bisque is unglazed. Germany, France, and Denmark started creating china heads for dolls in the 1840s. These china heads were replaced in the 1860s by ones made of bisque. Bisque, which is porcelain fired twice with colour added to it after the first firing, looked more like skin than china did.</p>
+<p>In France, the bébé was popular in the 1880s, and it has become a highly sought after doll today. The bébé, first made in the 1850s, was different from its predecessors because it depicted a younger girl. Until then, most French dolls were representations of adults. Although the French dolls were unrivalled in their artistry, German bisque dolls became quite popular because they were not as expensive. Kammer &amp; Reinhardt introduced a bisque character doll in the 1900s, starting a trend of creating realistic dolls.</p>
+<p>For many centuries, rag dolls were made by mothers for their children. The term 'rag doll' refers generically to dolls made of any fabric. 'Cloth doll' refers to a subset of rag dolls made of linen or cotton. Commercially produced rag dolls were first introduced in the 1850s by English and American manufacturers. Although not as sophisticated as dolls made from other materials, rag dolls were well loved, often as a child's first toy.</p>
+<p>Dollmaking did not become an industry in the United States until after the Civil War in the 1860s. Doll production was concentrated in the New England region of the United States, with dolls made from a variety of materials such as leather, rubber, papier-mâché, and cloth. Celluloid was developed in the state of New Jersey in the late 1860s and was used to manufacture dolls until the mid-1950s. German, French, American, and Japanese factories churned out cheaply produced celluloid dolls in mass quantities. However, celluloid fell out of favour because of its extreme flammability and propensity to fade in bright light.</p>
+<p>After World War I, doll makers experimented with plastics. Hard plastic dolls were manufactured in the 1940s. They resembled composition dolls, but they were much more durable. Other materials used in doll manufacturing included rubber, foam rubber, and vinyl in the 1950s and 1960s. Vinyl changed doll making, allowing doll makers to root hair into the head, rather than using wigs or painting the hair. Although most dolls are now mass-manufactured using these modern materials, many modern doll makers are still using the traditional materials of the past to make collectible dolls.</p>
+</div>
+  </section>
+  <div class="divider" id="divider"></div>
+  <section class="questions-container" id="questionsPanel">
+<!-- Questions 1-6 - Complete the notes (ONE WORD ONLY) -->
+<div class="question">
+<div class="question-rubric">
+<h3>Questions 1-6</h3>
+<p>Complete the notes below.</p>
+<p>Choose ONE WORD ONLY from the passage for each answer.</p>
+<p>Write your answer in boxes 1-6 on your answer sheet.</p>
+<p><strong>Dolls</strong></p>
+<p><strong>Earliest known dolls</strong></p>
+<p>• represented religious figures</p>
+<p>• used as toys</p>
+<p><strong>Egypt 2000 BC</strong></p>
+<p>• bodies were made of wood</p>
+<p>• <input class="summary-input" maxlength="20" name="q1" placeholder="1" type="text"/> was used for the hair</p>
+<p><strong>Ancient Greece and Rome</strong></p>
+<p>• dolls were given to <input class="summary-input" maxlength="20" name="q2" placeholder="2" type="text"/> by older girls</p>
+<p><strong>600 BC</strong></p>
+<p>• realistic dolls had separate clothes and <input class="summary-input" maxlength="20" name="q3" placeholder="3" type="text"/> that could be put in different positions</p>
+<p><strong>17th and 18th centuries</strong></p>
+<p>• dolls made of <input class="summary-input" maxlength="20" name="q4" placeholder="4" type="text"/> became more common</p>
+<p>• moulds made of <input class="summary-input" maxlength="20" name="q5" placeholder="5" type="text"/></p>
+<p><strong>1800s</strong></p>
+<p>• new manufacturing process developed</p>
+<p>• new group of mixtures known as <input class="summary-input" maxlength="20" name="q6" placeholder="6" type="text"/></p>
+<p>• recipies for these mixtures kept secret</p>
+</div>
+</div>
+<!-- Questions 7-13 - True/False/Not Given -->
+<div class="question">
+<div class="question-rubric">
+<h3>Questions 7-13</h3>
+<p>Do the following statements agree with the information given in Reading Passage 1?</p>
+<p>In boxes 7-13 on your answer sheet, write</p>
+<p><strong>TRUE</strong> if the statement agrees with the information</p>
+<p><strong>FALSE</strong> if the statement contradicts the information</p>
+<p><strong>NOT GIVEN</strong> if there is no information on this</p>
+</div>
+<div class="question-content">
+<div class="true-false-option">
+<p><span class="question-number">7</span> Bisque dolls appear less realistic than dolls made of China.</p>
+<select name="q7">
+<option value="">--</option>
+<option value="TRUE">TRUE</option>
+<option value="FALSE">FALSE</option>
+<option value="NOT GIVEN">NOT GIVEN</option>
+</select>
+</div>
+<div class="true-false-option">
+<p><span class="question-number">8</span> French dolls tended to cost more than German bisque dolls.</p>
+<select name="q8">
+<option value="">--</option>
+<option value="TRUE">TRUE</option>
+<option value="FALSE">FALSE</option>
+<option value="NOT GIVEN">NOT GIVEN</option>
+</select>
+</div>
+<div class="true-false-option">
+<p><span class="question-number">9</span> The first rag dolls were made in the 1850s.</p>
+<select name="q9">
+<option value="">--</option>
+<option value="TRUE">TRUE</option>
+<option value="FALSE">FALSE</option>
+<option value="NOT GIVEN">NOT GIVEN</option>
+</select>
+</div>
+<div class="true-false-option">
+<p><span class="question-number">10</span> Only dolls made of cotton or linen are classified as cloth dolls.</p>
+<select name="q10">
+<option value="">--</option>
+<option value="TRUE">TRUE</option>
+<option value="FALSE">FALSE</option>
+<option value="NOT GIVEN">NOT GIVEN</option>
+</select>
+</div>
+<div class="true-false-option">
+<p><span class="question-number">11</span> Dolls made of celluloid tended to lose their colour.</p>
+<select name="q11">
+<option value="">--</option>
+<option value="TRUE">TRUE</option>
+<option value="FALSE">FALSE</option>
+<option value="NOT GIVEN">NOT GIVEN</option>
+</select>
+</div>
+<div class="true-false-option">
+<p><span class="question-number">12</span> Composition dolls lasted longer than the plastic dolls that were made in the 1940s.</p>
+<select name="q12">
+<option value="">--</option>
+<option value="TRUE">TRUE</option>
+<option value="FALSE">FALSE</option>
+<option value="NOT GIVEN">NOT GIVEN</option>
+</select>
+</div>
+<div class="true-false-option">
+<p><span class="question-number">13</span> Doll collectors prefer a doll to be dressed in its original clothing.</p>
+<select name="q13">
+<option value="">--</option>
+<option value="TRUE">TRUE</option>
+<option value="FALSE">FALSE</option>
+<option value="NOT GIVEN">NOT GIVEN</option>
+</select>
+</div>
+</div>
+</div>
+</section>
+</div>
+
+<footer>
+  <div class="question-nav"><button class="question-nav-btn" data-q="1">1</button>
+<button class="question-nav-btn" data-q="2">2</button>
+<button class="question-nav-btn" data-q="3">3</button>
+<button class="question-nav-btn" data-q="4">4</button>
+<button class="question-nav-btn" data-q="5">5</button>
+<button class="question-nav-btn" data-q="6">6</button>
+<button class="question-nav-btn" data-q="7">7</button>
+<button class="question-nav-btn" data-q="8">8</button>
+<button class="question-nav-btn" data-q="9">9</button>
+<button class="question-nav-btn" data-q="10">10</button>
+<button class="question-nav-btn" data-q="11">11</button>
+<button class="question-nav-btn" data-q="12">12</button>
+<button class="question-nav-btn" data-q="13">13</button></div>
+  <button id="submitBtn" class="submit-btn"><i class="fas fa-check"></i> Submit / Check Answers</button>
+</footer>
+
+<div class="highlight-toolbar" id="highlightToolbar"><button id="applyHighlight"><i class="fas fa-highlighter"></i> Highlight</button><button id="removeHighlight"><i class="fas fa-times"></i> Remove</button></div>
+
+<div class="modal" id="resultsModal">
+  <div class="modal-content">
+    <h2>Test Results</h2>
+    <div class="score-box"><div>Your Score</div><div class="score-num"><span id="scoreValue">0</span>/<span id="scoreTotal">0</span></div></div>
+    <div id="answersList"></div>
+    <button class="close-modal" id="closeModal">Close</button>
+    <div style="clear:both"></div>
+  </div>
+</div>
+
+<script>
+const correctAnswers = {"1": "clay", "2": "goddesses", "3": "limbs", "4": "wax", "5": "plaster", "6": "composition", "7": "FALSE", "8": "TRUE", "9": "FALSE", "10": "TRUE", "11": "TRUE", "12": "FALSE", "13": "NOT GIVEN"};
+const answerKeys = Object.keys(correctAnswers).sort((a,b)=>Number(a)-Number(b));
+let totalSeconds = 20 * 60, timerInterval = null, timerRunning = true, selectedRange = null;
+const timerEl = document.getElementById('timer');
+function renderTimer() { const m=Math.floor(totalSeconds/60), s=totalSeconds%60; timerEl.textContent=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0'); }
+function tick() { if(totalSeconds>0) { totalSeconds--; renderTimer(); } else { clearInterval(timerInterval); timerRunning=false; } }
+timerInterval = setInterval(tick,1000); renderTimer();
+document.getElementById('timerToggle').addEventListener('click',()=>{ if(timerRunning){clearInterval(timerInterval); timerRunning=false; document.getElementById('timerToggle').innerHTML='<i class="fas fa-play"></i>';} else {timerInterval=setInterval(tick,1000); timerRunning=true; document.getElementById('timerToggle').innerHTML='<i class="fas fa-pause"></i>';} });
+document.getElementById('timerReset').addEventListener('click',()=>{ totalSeconds=20*60; renderTimer(); if(!timerRunning){timerInterval=setInterval(tick,1000); timerRunning=true; document.getElementById('timerToggle').innerHTML='<i class="fas fa-pause"></i>';} });
+
+document.getElementById('fullscreenBtn').addEventListener('click',()=>{ if(!document.fullscreenElement) document.documentElement.requestFullscreen?.(); else document.exitFullscreen?.(); });
+document.getElementById('settingsBtn').addEventListener('click',()=>{ const m=document.getElementById('settingsMenu'); m.style.display=m.style.display==='block'?'none':'block'; });
+document.getElementById('fontSizeRange').addEventListener('input',e=>document.documentElement.style.setProperty('--content-font-size', e.target.value+'px'));
+document.getElementById('lineHeightRange').addEventListener('input',e=>document.documentElement.style.setProperty('--content-line-height', e.target.value));
+document.getElementById('darkModeBtn').addEventListener('click',()=>document.body.classList.add('night-mode'));
+document.getElementById('lightModeBtn').addEventListener('click',()=>document.body.classList.remove('night-mode'));
+
+const divider=document.getElementById('divider'), passagePanel=document.getElementById('passagePanel'), mainContainer=document.getElementById('mainContainer');
+let dragging=false;
+function startDrag(e){ dragging=true; document.body.style.cursor='col-resize'; e.preventDefault(); }
+function moveDrag(e){ if(!dragging) return; const x=(e.touches?e.touches[0].clientX:e.clientX); const rect=mainContainer.getBoundingClientRect(); let pct=((x-rect.left)/rect.width)*100; pct=Math.max(30,Math.min(70,pct)); passagePanel.style.width=pct+'%'; }
+function endDrag(){ dragging=false; document.body.style.cursor=''; }
+divider.addEventListener('mousedown',startDrag); divider.addEventListener('touchstart',startDrag);
+document.addEventListener('mousemove',moveDrag); document.addEventListener('touchmove',moveDrag);
+document.addEventListener('mouseup',endDrag); document.addEventListener('touchend',endDrag);
+
+const toolbar=document.getElementById('highlightToolbar');
+document.addEventListener('mouseup',()=>{ setTimeout(()=>{ const sel=window.getSelection(); if(sel && sel.toString().trim() && document.getElementById('mainContainer').contains(sel.anchorNode)){ selectedRange=sel.getRangeAt(0).cloneRange(); const r=selectedRange.getBoundingClientRect(); toolbar.style.left=(r.left+r.width/2)+'px'; toolbar.style.top=(r.top-45)+'px'; toolbar.style.display='block'; } },0); });
+document.addEventListener('mousedown',e=>{ if(!toolbar.contains(e.target)) toolbar.style.display='none'; });
+document.getElementById('applyHighlight').addEventListener('click',()=>{ if(!selectedRange) return; const span=document.createElement('span'); span.className='highlight'; try { selectedRange.surroundContents(span); } catch(e) { const frag=selectedRange.extractContents(); span.appendChild(frag); selectedRange.insertNode(span); } window.getSelection().removeAllRanges(); toolbar.style.display='none'; });
+document.getElementById('removeHighlight').addEventListener('click',()=>{ const sel=window.getSelection(); document.querySelectorAll('.highlight').forEach(h=>{ if(selectedRange && selectedRange.intersectsNode(h)) { h.replaceWith(document.createTextNode(h.textContent)); } }); toolbar.style.display='none'; });
+
+document.querySelectorAll('.headings-bank li[data-heading]').forEach(li=>{ li.setAttribute('draggable','true'); li.addEventListener('dragstart',e=>e.dataTransfer.setData('text/plain',li.dataset.heading)); });
+document.querySelectorAll('.drop-zone').forEach(zone=>{ zone.addEventListener('dragover',e=>e.preventDefault()); zone.addEventListener('drop',e=>{ e.preventDefault(); const h=e.dataTransfer.getData('text/plain'); if(h){zone.dataset.answer=h; zone.textContent=zone.dataset.qnum+' - '+h; zone.classList.add('filled'); updateNav();} }); });
+
+function getAnswer(q) {
+  let el=document.querySelector('input[name="q'+q+'"]:checked');
+  if(el) return el.value.trim();
+  el=document.querySelector('input[name="q'+q+'"], textarea[name="q'+q+'"], select[name="q'+q+'"]');
+  if(el) return (el.value||'').trim();
+  el=document.querySelector('#q'+q+' select, #q'+q+' input, #q'+q+' textarea');
+  if(el) return (el.value||'').trim();
+  el=document.querySelector('.drop-zone[data-qnum="'+q+'"]');
+  if(el) return (el.dataset.answer||'').trim();
+  return '';
+}
+function norm(v) { return String(v||'').trim().toLowerCase().replace(/\s+/g,' '); }
+function updateNav() { answerKeys.forEach(q=>{ const btn=document.querySelector('.question-nav-btn[data-q="'+q+'"]'); if(btn) btn.classList.toggle('answered', !!getAnswer(q)); }); }
+document.querySelectorAll('input,select,textarea').forEach(el=>{ el.addEventListener('change',updateNav); el.addEventListener('input',updateNav); });
+document.querySelectorAll('.question-nav-btn').forEach(btn=>btn.addEventListener('click',()=>{ const q=btn.dataset.q; const target=document.querySelector('[name="q'+q+'"], #q'+q+', .drop-zone[data-qnum="'+q+'"]'); if(target) target.scrollIntoView({behavior:'smooth',block:'center'}); }));
+
+document.getElementById('submitBtn').addEventListener('click',()=>{ 
+  let score=0; const list=document.getElementById('answersList'); list.innerHTML='';
+  answerKeys.forEach(q=>{ const user=getAnswer(q)||'Not answered'; const correct=correctAnswers[q]; const ok=norm(user)===norm(correct); if(ok) score++;
+    const div=document.createElement('div'); div.className='answer-item '+(ok?'correct':'incorrect');
+    div.innerHTML='<strong>Question '+q+':</strong> '+user+' <span style="float:right">'+(ok?'✓':'✗ Correct: '+correct)+'</span>';
+    list.appendChild(div);
+  });
+  document.getElementById('scoreValue').textContent=score; document.getElementById('scoreTotal').textContent=answerKeys.length; document.getElementById('resultsModal').style.display='flex';
+  try { localStorage.setItem('reading-progress:'+location.pathname.split('/').pop(), JSON.stringify({status:'finished', completed_at:new Date().toISOString(), score:score, total:answerKeys.length})); window.dispatchEvent(new CustomEvent('reading-test-finished',{detail:{status:'finished',score,total:answerKeys.length}})); } catch(e) {}
+});
+document.getElementById('closeModal').addEventListener('click',()=>document.getElementById('resultsModal').style.display='none');
+updateNav();
+</script>
+<script src="/passages/test-progress-bridge.js"></script>
+</body>
+</html>

@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Research into Teaching Styles - Computer-based IELTS</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<style>
+:root {
+  --bg-color:#ffffff; --text-color:#333333; --passage-bg:#f8f9fa; --questions-bg:#ffffff; --border-color:#5770ff; --highlight-color:springgreen;
+  --header-bg:#F8F8F8; --header-text:#333333; --telegram-blue:#0088CC; --button-bg:#28a745; --button-hover:#218838;
+  --correct-color:#28a745; --incorrect-color:#dc3545; --progress-complete:#28a745; --progress-incomplete:#bdbdbd; --timer-bg:#0088CC; --timer-text:#ffffff; --footer-bg:#f5f5f5;
+  --content-font-size:16px; --content-line-height:1.6;
+}
+.night-mode {
+  --bg-color:#121212; --text-color:#e0e0e0; --passage-bg:#1e1e1e; --questions-bg:#1e1e1e; --border-color:#424242; --highlight-color:#0084ff;
+  --header-bg:#1a1a1a; --header-text:#ffffff; --telegram-blue:#005f99; --button-bg:#990000; --button-hover:#7a0000;
+  --correct-color:#218838; --incorrect-color:#c82333; --progress-complete:#218838; --progress-incomplete:#616161; --timer-bg:#0088CC; --timer-text:#ffcdd2; --footer-bg:#121212;
+}
+* { margin:0; padding:0; box-sizing:border-box; transition:background-color .3s,color .3s; }
+body { font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif; background:var(--bg-color); color:var(--text-color); height:100vh; display:flex; flex-direction:column; overflow:hidden; }
+header { background:var(--header-bg); color:var(--header-text); padding:12px 20px; display:flex; justify-content:space-between; align-items:center; box-shadow:0 2px 5px rgba(0,0,0,.1); z-index:100; }
+.logo-area { display:flex; align-items:center; gap:15px; }
+.social-link { display:flex; align-items:center; gap:8px; color:#fff; padding:8px 15px; border-radius:50px; text-decoration:none; font-weight:600; font-size:14px; }
+.social-link.telegram { background:var(--telegram-blue); }
+.header-controls { display:flex; gap:15px; align-items:center; }
+.timer-container { background:var(--timer-bg); color:var(--timer-text); padding:8px 15px; border-radius:50px; font-weight:bold; display:flex; align-items:center; gap:8px; }
+.timer-btn,.icon-btn { background:none; border:none; color:inherit; cursor:pointer; font-size:16px; padding:4px; }
+.icon-btn { color:var(--header-text); background:rgba(0,0,0,.05); border-radius:50%; width:36px; height:36px; display:flex; align-items:center; justify-content:center; }
+.main-container { flex:1; display:flex; overflow:hidden; }
+.passage-container,.questions-container { overflow-y:auto; padding:25px; font-size:var(--content-font-size); line-height:var(--content-line-height); }
+.passage-container { width:50%; background:var(--passage-bg); }
+.questions-container { flex:1; background:var(--questions-bg); }
+.divider { width:8px; background:var(--border-color); cursor:col-resize; position:relative; flex:0 0 8px; }
+.divider::after { content:""; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:3px; height:50px; background:rgba(255,255,255,.7); border-radius:3px; }
+.sectionRubric { margin-bottom:20px; padding:15px; background:var(--questions-bg); border:1px solid var(--border-color); border-radius:8px; }
+#passageContent h1,#passageContent h2 { text-align:center; margin:16px 0; }
+#passageContent p,.questions-container p,.questions-container li { margin-bottom:12px; }
+.question,.question-options,.true-false-option { margin-bottom:22px; }
+.question-rubric { margin-bottom:18px; }
+input[type="text"], select { padding:6px 8px; border:1px solid #999; border-radius:4px; margin:4px; background:var(--bg-color); color:var(--text-color); }
+input[type="radio"] { margin-right:8px; }
+.drop-zone { display:inline-block; min-width:70px; min-height:32px; border:2px dashed #777; border-radius:5px; padding:6px 10px; margin:6px; background:var(--bg-color); cursor:pointer; }
+.drop-zone.filled { border-style:solid; border-color:var(--progress-complete); }
+.headings-bank li { cursor:grab; padding:6px; margin:4px 0; border:1px solid #ddd; border-radius:4px; list-style-position:inside; }
+.highlight { background:var(--highlight-color); border-radius:3px; padding:0 2px; }
+.highlight-toolbar { position:fixed; display:none; z-index:1000; background:var(--questions-bg); border:1px solid var(--border-color); border-radius:6px; box-shadow:0 3px 12px rgba(0,0,0,.2); padding:6px; }
+.highlight-toolbar button { border:0; padding:7px 10px; margin:2px; border-radius:4px; cursor:pointer; }
+footer { background:var(--footer-bg); border-top:1px solid #ddd; padding:10px 15px; display:flex; align-items:center; justify-content:space-between; }
+.question-nav { display:flex; gap:5px; flex-wrap:wrap; }
+.question-nav-btn { width:34px; height:34px; border-radius:50%; border:1px solid #bbb; background:#fff; cursor:pointer; font-weight:600; }
+.question-nav-btn.answered { background:var(--progress-complete); color:white; border-color:var(--progress-complete); }
+.submit-btn { background:var(--button-bg); color:#fff; border:0; border-radius:6px; padding:10px 20px; font-weight:700; cursor:pointer; }
+.submit-btn:hover { background:var(--button-hover); }
+.settings-menu { position:absolute; right:20px; top:62px; background:var(--questions-bg); color:var(--text-color); border:1px solid var(--border-color); border-radius:8px; padding:15px; box-shadow:0 4px 15px rgba(0,0,0,.2); display:none; z-index:200; width:280px; }
+.settings-menu label { display:block; margin:12px 0 6px; font-weight:600; }
+.settings-menu input[type=range] { width:100%; }
+.theme-row { display:flex; gap:8px; margin-top:8px; }
+.theme-row button { flex:1; padding:7px; border:1px solid #aaa; border-radius:5px; cursor:pointer; }
+.modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,.65); z-index:2000; align-items:center; justify-content:center; }
+.modal-content { background:var(--questions-bg); color:var(--text-color); width:90%; max-width:760px; max-height:85vh; overflow-y:auto; border-radius:10px; padding:25px; box-shadow:0 5px 30px rgba(0,0,0,.4); }
+.score-box { text-align:center; padding:18px; border-radius:8px; background:var(--passage-bg); margin-bottom:20px; }
+.score-num { font-size:42px; font-weight:800; color:var(--telegram-blue); }
+.answer-item { padding:10px; border-left:5px solid #ccc; margin:8px 0; background:var(--passage-bg); }
+.answer-item.correct { border-left-color:var(--correct-color); }
+.answer-item.incorrect { border-left-color:var(--incorrect-color); }
+.close-modal { background:var(--button-bg); color:white; border:0; border-radius:6px; padding:10px 18px; float:right; margin-top:15px; cursor:pointer; }
+@media(max-width:768px) { .main-container { flex-direction:column; } .passage-container { width:100%; height:50%; } .divider { height:8px; width:100%; cursor:row-resize; } }
+</style>
+</head>
+<body>
+<header>
+  <div class="logo-area">
+    <a class="social-link telegram" href="https://t.me/augustus_flores" target="_blank"><i class="fab fa-telegram-plane"></i> Abduraimov Erkinjon</a>
+  </div>
+  <div class="header-controls">
+    <div class="timer-container"><i class="fas fa-clock"></i><span id="timer">20:00</span><button id="timerToggle" class="timer-btn"><i class="fas fa-pause"></i></button><button id="timerReset" class="timer-btn"><i class="fas fa-redo"></i></button></div>
+    <button id="settingsBtn" class="icon-btn" title="Display settings"><i class="fas fa-cog"></i></button>
+    <button id="fullscreenBtn" class="icon-btn" title="Fullscreen"><i class="fas fa-expand"></i></button>
+  </div>
+  <div class="settings-menu" id="settingsMenu">
+    <label for="fontSizeRange">Text size</label>
+    <input type="range" id="fontSizeRange" min="14" max="24" value="16"/>
+    <label for="lineHeightRange">Line spacing</label>
+    <input type="range" id="lineHeightRange" min="1.2" max="2.2" step="0.1" value="1.6"/>
+    <label>Theme</label>
+    <div class="theme-row"><button id="lightModeBtn">Light</button><button id="darkModeBtn">Dark</button></div>
+  </div>
+</header>
+
+<div class="main-container" id="mainContainer">
+  <section class="passage-container" id="passagePanel">
+    <div class="sectionRubric"><h2>Reading Passage 3</h2><p>You should spend about 20 minutes on Questions 27-40, which are based on Reading Passage 3.</p></div>
+    <div id="passageContent">
+<h2>Research into the Effects of Different Teaching Styles</h2>
+<p><strong>A</strong> Prior to 1960, most inquiries into pupils' learning skills explored the relationship between factors such as children's social background, personality or measured intelligence and their achievement in various school subjects. Studies of teachers were largely a quest for criteria of effectiveness, and numerous investigations sought links between personality or attitude and 'success' at teaching. By 1950, Domas and Tiedeman were able to survey 672 such studies of teacher effectiveness. Yet there was widespread disappointment with such research, partly because so little of value seemed to emerge. First of all, there was little agreement about what constituted 'good' teaching or who the good teachers were. Secondly, there were numerous conflicting and contradictory findings. No sooner had one investigator found a relationship which appeared to be significant, than another discovered the opposite effect.</p>
+<p><strong>B</strong> For example, in 1945, two American researchers, Rostker and Rolfe, both using standardized testing techniques and broad samples of teachers, reached exactly opposite conclusions. Rostker concluded that the intelligence of the teacher is the most important single factor conditioning teaching ability, and that there is no significant relationship between personality and teaching ability. Rolfe, however, found no correlation between intelligence and teaching efficiency: he claimed that the teacher's personality was what produced good teaching. Another American writer, Barr (1961), summarized a massive amount of American research and underlined the chaos in the research literature on effectiveness: "Some teachers were preferred by administrators, some were liked by the pupils, and some taught in classes where there were substantial pupil gains, and generally speaking these were not the same teachers."</p>
+<p><strong>C</strong> One of the earliest pieces of research dates from 1912, when Stevens made 100 random observations of lessons in a variety of subject areas, in order to analyze the number and nature of questions being asked by teachers. Stevens's overall total was 64% teacher talk and 36% pupil talk, figures which are remarkably similar to a number of findings half a century later.</p>
+<p><strong>D</strong> For many years in the first half of the 20th century, so-called 'formal' teaching was the norm. Teachers taught their classes as a whole group, gave out information, asked questions which predominantly required factual recall, and frequently set a common written task for the children to complete in a prescribed period of time. It was hardly surprising, therefore, that one focus of classroom interaction research in the decades following Stevens's inquiry was on the phenomenon of 'attentiveness'. A number of studies in the 1920s and 1930s, by Morrison and others, sought relationships between the degree of attention being paid by children and the amount they subsequently appeared to have learnt. Such research was usually based on observing teachers at work, a technique which was also employed extensively by United States administrators in the 1920s and 1930s, in order to assess teachers' competence and allocate merit payments to so-called 'superior' teachers.</p>
+<p><strong>E</strong> As the 1930s came to an end, it was partly the emergence of totalitarian regimes in Europe which led to a shift in interest in the United States away from attentiveness, with its emphasis on the authority of the teacher, and towards a scrutiny of authoritarianism itself. A number of people began to feel that if dictatorship were to be avoided, children must learn in school how to handle democracy. Several investigators examined the processes taking place within small discussion groups, and tried to establish superiority for discussion groups over lecture classes, but with conflicting results. The movement towards what was becoming known as child-centred education was gathering momentum, and as interest in child development increased, investigators began to discover the usefulness of direct observation and the categorization of child behavior.</p>
+<p><strong>F</strong> This was when systematic observation of teacher-pupil interaction began in earnest. Anderson (1939) studied what he called 'domination' and "integration" amongst kindergarten children. Dominative acts by children included blaming and snatching toys, and such acts by teachers included restricting children's activities; while children's integrative acts included sharing facilities and playing harmoniously, and those of teachers included expanding opportunities for self-direction and co-operation. Anderson then attempted to measure what is now commonly called 'classroom climate'.</p>
+<p><strong>G</strong> Lewin, Lippitt and White (1939 and 1943) studied the effects of different teaching styles. They arranged for three groups of five boys each to be taught in very different ways: these were labelled 'authoritarian', 'democratic' and "laissez-faire". The first two of these were similar to Anderson's concept of dominative and integrative teachers.</p>
+<p><strong>H</strong> Beginning with Withall's work in 1949, there was much greater interest in interaction within the classroom. Withall used the term 'social-emotional climate' to describe the emotional tone created as a result of face-to-face interaction in groups, and, like many who followed him, concentrated his analysis of this climate on the study of teachers' verbal behavior. Withall also made efforts towards increasing the reliability of analyses, and this important pioneering work in the development of classroom observation methodology was followed by many others during the 1950s.</p>
+<p><strong>I</strong> Partly because of the disappointing results of the teacher-effectiveness research, and partly because of the general neglect in earlier work of the variables of actual classroom behavior, the decade 1960-70 produced a large number of studies of classroom processes, based on observation of teachers at work.</p>
+</div>
+  </section>
+  <div class="divider" id="divider"></div>
+  <section class="questions-container" id="questionsPanel">
+<div class="question">
+<div class="question-rubric">
+<h3>Questions 27–33</h3>
+<p>Read the list of words (A–J) below and complete the gaps (27–33) in the summary.</p>
+<p>Write the correct letter, <strong>A–J</strong>, for each gap on your answer sheet.</p>
+</div>
+<div class="question-content">
+<div class="matching-box">
+<h4>List of Words</h4>
+<ul class="matching-list">
+<li><strong>A</strong> authoritarianism</li>
+<li><strong>B</strong> competence</li>
+<li><strong>C</strong> emergence</li>
+<li><strong>D</strong> learning</li>
+<li><strong>E</strong> observation</li>
+<li><strong>F</strong> personality</li>
+<li><strong>G</strong> processes</li>
+<li><strong>H</strong> reliability</li>
+<li><strong>I</strong> training</li>
+<li><strong>J</strong> verbal behavior</li>
+</ul>
+</div>
+<div class="question-item">
+<p><strong>Research into classroom interaction: 1920–1970</strong></p>
+<p>1920–1939 Research largely investigated the relationship between children’s attentiveness and their <input class="gap-input" data-q="27" id="q27" name="q27" placeholder="27" type="text"/>.</p>
+<p>In addition, attentiveness was used to measure the <input class="gap-input" data-q="28" id="q28" name="q28" placeholder="28" type="text"/> of the teachers.</p>
+<p>1939–49 Research was influenced by a growing distrust of <input class="gap-input" data-q="29" id="q29" name="q29" placeholder="29" type="text"/>.</p>
+<p>The period saw the beginnings of systematic analysis of the <input class="gap-input" data-q="30" id="q30" name="q30" placeholder="30" type="text"/> which occur in lecture classes and in small group discussions.</p>
+<p>1949–60 Classroom transactions were analysed in more detail, often with a focus on the <input class="gap-input" data-q="31" id="q31" name="q31" placeholder="31" type="text"/> of teachers.</p>
+<p>Researchers aimed to improve the <input class="gap-input" data-q="32" id="q32" name="q32" placeholder="32" type="text"/> of their methods.</p>
+<p>1960–70 The number of studies based on live <input class="gap-input" data-q="33" id="q33" name="q33" placeholder="33" type="text"/> greatly increased.</p>
+</div>
+</div>
+</div>
+<div class="question">
+<div class="question-rubric">
+<h3>Questions 34–37</h3>
+<p>Match each description with the correct researcher(s), <strong>A–G</strong>.</p>
+<p>Write the correct letter for each question 34–37 on your answer sheet.</p>
+</div>
+<div class="question-content">
+<div class="matching-box">
+<h4>List of Researchers</h4>
+<ul class="matching-list">
+<li><strong>A</strong> Domas and Tiedeman</li>
+<li><strong>B</strong> Rostker</li>
+<li><strong>C</strong> Rolfe</li>
+<li><strong>D</strong> Barr</li>
+<li><strong>E</strong> Stevens</li>
+<li><strong>F</strong> Morrison</li>
+<li><strong>G</strong> Lewin, Lippitt and White</li>
+</ul>
+</div>
+<div class="dropdown-question-row">
+<p><span class="question-number">34</span> claimed that the most important contribution to success in teaching is made by intelligence</p>
+<select id="q34" name="q34">
+<option value="">--</option>
+<option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option><option value="F">F</option><option value="G">G</option>
+</select>
+</div>
+<div class="dropdown-question-row">
+<p><span class="question-number">35</span> set up an experiment to discover how pupils responded to various types of teaching</p>
+<select id="q35" name="q35">
+<option value="">--</option>
+<option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option><option value="F">F</option><option value="G">G</option>
+</select>
+</div>
+<div class="dropdown-question-row">
+<p><span class="question-number">36</span> focused on the questions which teachers asked in the classroom</p>
+<select id="q36" name="q36">
+<option value="">--</option>
+<option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option><option value="F">F</option><option value="G">G</option>
+</select>
+</div>
+<div class="dropdown-question-row">
+<p><span class="question-number">37</span> discovered a connection between success in teaching and the personality of the teacher</p>
+<select id="q37" name="q37">
+<option value="">--</option>
+<option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option><option value="F">F</option><option value="G">G</option>
+</select>
+</div>
+</div>
+</div>
+<div class="question">
+<div class="question-rubric">
+<h3>Questions 38–40</h3>
+<p>Reading Passage 3 has nine paragraphs, A–I.</p>
+<p>Which paragraph contains the following information?</p>
+<p>Write the correct letter, <strong>A–I</strong>, in boxes <strong>38–40</strong> on your answer sheet.</p>
+</div>
+<div class="question-content">
+<div class="dropdown-question-row">
+<p><span class="question-number">38</span> the influence of political events on research</p>
+<select id="q38" name="q38">
+<option value="">--</option>
+<option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option><option value="F">F</option><option value="G">G</option><option value="H">H</option><option value="I">I</option>
+</select>
+</div>
+<div class="dropdown-question-row">
+<p><span class="question-number">39</span> an example of how children’s behavior was categorized for research purposes</p>
+<select id="q39" name="q39">
+<option value="">--</option>
+<option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option><option value="F">F</option><option value="G">G</option><option value="H">H</option><option value="I">I</option>
+</select>
+</div>
+<div class="dropdown-question-row">
+<p><span class="question-number">40</span> a reason for research into children’s attention</p>
+<select id="q40" name="q40">
+<option value="">--</option>
+<option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option><option value="F">F</option><option value="G">G</option><option value="H">H</option><option value="I">I</option>
+</select>
+</div>
+</div>
+</div>
+</section>
+</div>
+
+<footer>
+  <div class="question-nav"><button class="question-nav-btn" data-q="27">27</button>
+<button class="question-nav-btn" data-q="28">28</button>
+<button class="question-nav-btn" data-q="29">29</button>
+<button class="question-nav-btn" data-q="30">30</button>
+<button class="question-nav-btn" data-q="31">31</button>
+<button class="question-nav-btn" data-q="32">32</button>
+<button class="question-nav-btn" data-q="33">33</button>
+<button class="question-nav-btn" data-q="34">34</button>
+<button class="question-nav-btn" data-q="35">35</button>
+<button class="question-nav-btn" data-q="36">36</button>
+<button class="question-nav-btn" data-q="37">37</button>
+<button class="question-nav-btn" data-q="38">38</button>
+<button class="question-nav-btn" data-q="39">39</button>
+<button class="question-nav-btn" data-q="40">40</button></div>
+  <button id="submitBtn" class="submit-btn"><i class="fas fa-check"></i> Submit / Check Answers</button>
+</footer>
+
+<div class="highlight-toolbar" id="highlightToolbar"><button id="applyHighlight"><i class="fas fa-highlighter"></i> Highlight</button><button id="removeHighlight"><i class="fas fa-times"></i> Remove</button></div>
+
+<div class="modal" id="resultsModal">
+  <div class="modal-content">
+    <h2>Test Results</h2>
+    <div class="score-box"><div>Your Score</div><div class="score-num"><span id="scoreValue">0</span>/<span id="scoreTotal">0</span></div></div>
+    <div id="answersList"></div>
+    <button class="close-modal" id="closeModal">Close</button>
+    <div style="clear:both"></div>
+  </div>
+</div>
+
+<script>
+const correctAnswers = {"27": "D", "28": "B", "29": "A", "30": "G", "31": "J", "32": "H", "33": "E", "34": "B", "35": "G", "36": "E", "37": "C", "38": "E", "39": "F", "40": "D"};
+const answerKeys = Object.keys(correctAnswers).sort((a,b)=>Number(a)-Number(b));
+let totalSeconds = 20 * 60, timerInterval = null, timerRunning = true, selectedRange = null;
+const timerEl = document.getElementById('timer');
+function renderTimer() { const m=Math.floor(totalSeconds/60), s=totalSeconds%60; timerEl.textContent=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0'); }
+function tick() { if(totalSeconds>0) { totalSeconds--; renderTimer(); } else { clearInterval(timerInterval); timerRunning=false; } }
+timerInterval = setInterval(tick,1000); renderTimer();
+document.getElementById('timerToggle').addEventListener('click',()=>{ if(timerRunning){clearInterval(timerInterval); timerRunning=false; document.getElementById('timerToggle').innerHTML='<i class="fas fa-play"></i>';} else {timerInterval=setInterval(tick,1000); timerRunning=true; document.getElementById('timerToggle').innerHTML='<i class="fas fa-pause"></i>';} });
+document.getElementById('timerReset').addEventListener('click',()=>{ totalSeconds=20*60; renderTimer(); if(!timerRunning){timerInterval=setInterval(tick,1000); timerRunning=true; document.getElementById('timerToggle').innerHTML='<i class="fas fa-pause"></i>';} });
+
+document.getElementById('fullscreenBtn').addEventListener('click',()=>{ if(!document.fullscreenElement) document.documentElement.requestFullscreen?.(); else document.exitFullscreen?.(); });
+document.getElementById('settingsBtn').addEventListener('click',()=>{ const m=document.getElementById('settingsMenu'); m.style.display=m.style.display==='block'?'none':'block'; });
+document.getElementById('fontSizeRange').addEventListener('input',e=>document.documentElement.style.setProperty('--content-font-size', e.target.value+'px'));
+document.getElementById('lineHeightRange').addEventListener('input',e=>document.documentElement.style.setProperty('--content-line-height', e.target.value));
+document.getElementById('darkModeBtn').addEventListener('click',()=>document.body.classList.add('night-mode'));
+document.getElementById('lightModeBtn').addEventListener('click',()=>document.body.classList.remove('night-mode'));
+
+const divider=document.getElementById('divider'), passagePanel=document.getElementById('passagePanel'), mainContainer=document.getElementById('mainContainer');
+let dragging=false;
+function startDrag(e){ dragging=true; document.body.style.cursor='col-resize'; e.preventDefault(); }
+function moveDrag(e){ if(!dragging) return; const x=(e.touches?e.touches[0].clientX:e.clientX); const rect=mainContainer.getBoundingClientRect(); let pct=((x-rect.left)/rect.width)*100; pct=Math.max(30,Math.min(70,pct)); passagePanel.style.width=pct+'%'; }
+function endDrag(){ dragging=false; document.body.style.cursor=''; }
+divider.addEventListener('mousedown',startDrag); divider.addEventListener('touchstart',startDrag);
+document.addEventListener('mousemove',moveDrag); document.addEventListener('touchmove',moveDrag);
+document.addEventListener('mouseup',endDrag); document.addEventListener('touchend',endDrag);
+
+const toolbar=document.getElementById('highlightToolbar');
+document.addEventListener('mouseup',()=>{ setTimeout(()=>{ const sel=window.getSelection(); if(sel && sel.toString().trim() && document.getElementById('mainContainer').contains(sel.anchorNode)){ selectedRange=sel.getRangeAt(0).cloneRange(); const r=selectedRange.getBoundingClientRect(); toolbar.style.left=(r.left+r.width/2)+'px'; toolbar.style.top=(r.top-45)+'px'; toolbar.style.display='block'; } },0); });
+document.addEventListener('mousedown',e=>{ if(!toolbar.contains(e.target)) toolbar.style.display='none'; });
+document.getElementById('applyHighlight').addEventListener('click',()=>{ if(!selectedRange) return; const span=document.createElement('span'); span.className='highlight'; try { selectedRange.surroundContents(span); } catch(e) { const frag=selectedRange.extractContents(); span.appendChild(frag); selectedRange.insertNode(span); } window.getSelection().removeAllRanges(); toolbar.style.display='none'; });
+document.getElementById('removeHighlight').addEventListener('click',()=>{ const sel=window.getSelection(); document.querySelectorAll('.highlight').forEach(h=>{ if(selectedRange && selectedRange.intersectsNode(h)) { h.replaceWith(document.createTextNode(h.textContent)); } }); toolbar.style.display='none'; });
+
+document.querySelectorAll('.headings-bank li[data-heading]').forEach(li=>{ li.setAttribute('draggable','true'); li.addEventListener('dragstart',e=>e.dataTransfer.setData('text/plain',li.dataset.heading)); });
+document.querySelectorAll('.drop-zone').forEach(zone=>{ zone.addEventListener('dragover',e=>e.preventDefault()); zone.addEventListener('drop',e=>{ e.preventDefault(); const h=e.dataTransfer.getData('text/plain'); if(h){zone.dataset.answer=h; zone.textContent=zone.dataset.qnum+' - '+h; zone.classList.add('filled'); updateNav();} }); });
+
+function getAnswer(q) {
+  let el=document.querySelector('input[name="q'+q+'"]:checked');
+  if(el) return el.value.trim();
+  el=document.querySelector('input[name="q'+q+'"], textarea[name="q'+q+'"], select[name="q'+q+'"]');
+  if(el) return (el.value||'').trim();
+  el=document.querySelector('#q'+q+' select, #q'+q+' input, #q'+q+' textarea');
+  if(el) return (el.value||'').trim();
+  el=document.querySelector('.drop-zone[data-qnum="'+q+'"]');
+  if(el) return (el.dataset.answer||'').trim();
+  return '';
+}
+function norm(v) { return String(v||'').trim().toLowerCase().replace(/\s+/g,' '); }
+function updateNav() { answerKeys.forEach(q=>{ const btn=document.querySelector('.question-nav-btn[data-q="'+q+'"]'); if(btn) btn.classList.toggle('answered', !!getAnswer(q)); }); }
+document.querySelectorAll('input,select,textarea').forEach(el=>{ el.addEventListener('change',updateNav); el.addEventListener('input',updateNav); });
+document.querySelectorAll('.question-nav-btn').forEach(btn=>btn.addEventListener('click',()=>{ const q=btn.dataset.q; const target=document.querySelector('[name="q'+q+'"], #q'+q+', .drop-zone[data-qnum="'+q+'"]'); if(target) target.scrollIntoView({behavior:'smooth',block:'center'}); }));
+
+document.getElementById('submitBtn').addEventListener('click',()=>{ 
+  let score=0; const list=document.getElementById('answersList'); list.innerHTML='';
+  answerKeys.forEach(q=>{ const user=getAnswer(q)||'Not answered'; const correct=correctAnswers[q]; const ok=norm(user)===norm(correct); if(ok) score++;
+    const div=document.createElement('div'); div.className='answer-item '+(ok?'correct':'incorrect');
+    div.innerHTML='<strong>Question '+q+':</strong> '+user+' <span style="float:right">'+(ok?'✓':'✗ Correct: '+correct)+'</span>';
+    list.appendChild(div);
+  });
+  document.getElementById('scoreValue').textContent=score; document.getElementById('scoreTotal').textContent=answerKeys.length; document.getElementById('resultsModal').style.display='flex';
+  try { localStorage.setItem('reading-progress:'+location.pathname.split('/').pop(), JSON.stringify({status:'finished', completed_at:new Date().toISOString(), score:score, total:answerKeys.length})); window.dispatchEvent(new CustomEvent('reading-test-finished',{detail:{status:'finished',score,total:answerKeys.length}})); } catch(e) {}
+});
+document.getElementById('closeModal').addEventListener('click',()=>document.getElementById('resultsModal').style.display='none');
+updateNav();
+</script>
+<script src="/passages/test-progress-bridge.js"></script>
+</body>
+</html>
