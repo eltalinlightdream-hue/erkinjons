@@ -28,7 +28,7 @@ export const Route = createFileRoute("/articles/$slug")({
     const a = findArticle(params.slug);
     return {
       meta: [
-        { title: a ? `${a.title} — Abduraimov Erkinjon` : "Article not found" },
+        { title: a ? `${a.title} вЂ” Abduraimov Erkinjon` : "Article not found" },
         { name: "description", content: a?.description ?? "Article" },
         { property: "og:title", content: a?.title ?? "Article" },
         { property: "og:description", content: a?.description ?? "" },
@@ -41,13 +41,23 @@ export const Route = createFileRoute("/articles/$slug")({
     <SiteLayout>
       <div className="container mx-auto px-4 py-24 text-center">
         <h1 className="text-3xl font-bold mb-2">Article not found</h1>
-        <Link to="/articles" className="text-secondary">← Back to articles</Link>
+        <Link to="/articles" className="text-secondary">в†ђ Back to articles</Link>
       </div>
     </SiteLayout>
   ),
 });
 
 type TabKey = "article" | "vocabulary" | "pronunciation";
+
+type SelectionAction = {
+  text: string;
+  top: number;
+  left: number;
+};
+
+function getSelectionWordCount(text: string) {
+  return text.trim().split(/\s+/).filter(Boolean).length;
+}
 
 function ArticleView() {
   const { slug } = Route.useParams();
@@ -59,6 +69,7 @@ function ArticleView() {
   const qc = useQueryClient();
   const [saveOpen, setSaveOpen] = useState<null | { word: string; definition: string; example: string }>(null);
   const [tab, setTab] = useState<TabKey>("article");
+  const [selectionAction, setSelectionAction] = useState<SelectionAction | null>(null);
   const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -83,7 +94,74 @@ function ArticleView() {
     qc.invalidateQueries({ queryKey: ["bookmarks"] });
   };
 
-  // Highlighting
+  const openSelectionSave = () => {
+    if (!selectionAction) return;
+    if (!user) {
+      toast.error("Please sign in to save vocabulary.");
+      return;
+    }
+    setSaveOpen({
+      word: selectionAction.text,
+      definition: "",
+      example: "",
+    });
+    setSelectionAction(null);
+    window.getSelection()?.removeAllRanges();
+  };
+
+  useEffect(() => {
+    if (tab !== "article") {
+      setSelectionAction(null);
+      return;
+    }
+
+    const updateSelectionAction = () => {
+      const sel = window.getSelection();
+      if (!sel || sel.rangeCount === 0 || sel.isCollapsed) {
+        setSelectionAction(null);
+        return;
+      }
+
+      const range = sel.getRangeAt(0);
+      const articleBody = contentRef.current;
+      if (!articleBody?.contains(range.commonAncestorContainer)) {
+        setSelectionAction(null);
+        return;
+      }
+
+      const text = sel.toString().replace(/\s+/g, " ").trim();
+      const wordCount = getSelectionWordCount(text);
+      if (!text || wordCount < 1 || wordCount > 5) {
+        setSelectionAction(null);
+        return;
+      }
+
+      const rect = range.getBoundingClientRect();
+      if (!rect.width && !rect.height) {
+        setSelectionAction(null);
+        return;
+      }
+
+      const buttonWidth = 168;
+      const left = Math.min(
+        Math.max(rect.left + rect.width / 2 - buttonWidth / 2, 12),
+        window.innerWidth - buttonWidth - 12,
+      );
+      const top = Math.max(rect.top - 44, 12);
+      setSelectionAction({ text, top, left });
+    };
+
+    document.addEventListener("selectionchange", updateSelectionAction);
+    window.addEventListener("resize", updateSelectionAction);
+    window.addEventListener("scroll", updateSelectionAction, true);
+
+    return () => {
+      document.removeEventListener("selectionchange", updateSelectionAction);
+      window.removeEventListener("resize", updateSelectionAction);
+      window.removeEventListener("scroll", updateSelectionAction, true);
+    };
+  }, [tab]);
+
   const applyHighlight = (color: "yellow" | "blue") => {
     const sel = window.getSelection();
     if (!sel || sel.rangeCount === 0 || sel.isCollapsed) {
@@ -91,7 +169,6 @@ function ArticleView() {
       return;
     }
     const range = sel.getRangeAt(0);
-    // Ensure selection is within article body
     if (!contentRef.current?.contains(range.commonAncestorContainer)) {
       toast.message("Select text inside the article.");
       return;
@@ -110,7 +187,6 @@ function ArticleView() {
     }
   };
 
-  // Right-click on highlighted text → clear
   useEffect(() => {
     const el = contentRef.current;
     if (!el) return;
@@ -132,7 +208,7 @@ function ArticleView() {
       <SiteLayout>
         <div className="container mx-auto px-4 py-24 text-center">
           <h1 className="text-3xl font-bold mb-2">Article not found</h1>
-          <Link to="/articles" className="text-secondary">← Back to articles</Link>
+          <Link to="/articles" className="text-secondary">в†ђ Back to articles</Link>
         </div>
       </SiteLayout>
     );
@@ -144,7 +220,6 @@ function ArticleView() {
 
   return (
     <SiteLayout>
-      {/* Hero */}
       <div className="relative w-full h-[42vh] min-h-[280px] max-h-[480px] overflow-hidden">
         <img
           src={cover}
@@ -179,7 +254,6 @@ function ArticleView() {
           </div>
         </div>
 
-        {/* Bookmark in top right */}
         <div className="absolute top-4 right-4">
           <Button size="sm" variant="secondary" onClick={onBookmark}>
             {isBookmarked ? (
@@ -191,7 +265,6 @@ function ArticleView() {
         </div>
       </div>
 
-      {/* Sticky tabs */}
       <div className="sticky top-16 z-30 bg-background/95 backdrop-blur border-b">
         <div className="container mx-auto px-4 max-w-4xl flex gap-1 overflow-x-auto">
           {([
@@ -215,11 +288,9 @@ function ArticleView() {
         </div>
       </div>
 
-      {/* Tab content */}
       <article className="container mx-auto px-4 py-10 max-w-3xl">
         {tab === "article" && (
           <>
-            {/* Highlight toolbar */}
             <div className="fixed right-4 top-1/2 -translate-y-1/2 z-40 hidden md:flex flex-col gap-2 bg-card border rounded-full p-2 shadow-lg">
               <Button
                 size="icon"
@@ -241,7 +312,6 @@ function ArticleView() {
               </Button>
             </div>
 
-            {/* Mobile highlight bar */}
             <div className="md:hidden mb-4 flex items-center gap-2 text-sm text-muted-foreground">
               <span>Highlight:</span>
               <Button size="sm" variant="outline" onClick={() => applyHighlight("yellow")}>
@@ -257,6 +327,21 @@ function ArticleView() {
               className="prose prose-neutral dark:prose-invert max-w-none text-base leading-relaxed [&_h2]:font-serif [&_h2]:text-2xl [&_h2]:mt-8 [&_h2]:mb-3 [&_p]:my-3 [&_ol]:list-decimal [&_ol]:pl-6 [&_ul]:list-disc [&_ul]:pl-6"
               dangerouslySetInnerHTML={{ __html: article.content }}
             />
+            {selectionAction && (
+              <Button
+                size="sm"
+                className="fixed z-50 h-9 shadow-lg"
+                style={{ top: selectionAction.top, left: selectionAction.left }}
+                onMouseDown={(event) => event.preventDefault()}
+                onTouchEnd={(event) => {
+                  event.preventDefault();
+                  openSelectionSave();
+                }}
+                onClick={openSelectionSave}
+              >
+                <BPIcon className="w-4 h-4 mr-1" /> Save to Vocabulary
+              </Button>
+            )}
             <p className="mt-8 text-xs text-muted-foreground inline-flex items-center gap-1">
               <Eraser className="w-3 h-3" /> Tip: right-click a highlight to clear it.
             </p>
@@ -317,7 +402,7 @@ function ArticleView() {
                     Syllables: <span className="font-medium text-foreground">{p.syllables}</span>
                   </p>
                   <p className="text-xs text-muted-foreground bg-muted/50 rounded p-2">
-                    💡 {p.tip}
+                    рџ’Ў {p.tip}
                   </p>
                 </Card>
               ))}
@@ -330,10 +415,10 @@ function ArticleView() {
                   <strong>Stress the content words</strong> (nouns, verbs, adjectives) and reduce function words (the, of, and). Native English has a strong stress-timed rhythm.
                 </li>
                 <li>
-                  <strong>Connected speech:</strong> link final consonants to next vowels, e.g. "an apple" → "a-napple". It sounds natural and improves fluency.
+                  <strong>Connected speech:</strong> link final consonants to next vowels, e.g. "an apple" в†’ "a-napple". It sounds natural and improves fluency.
                 </li>
                 <li>
-                  Record yourself reading the article aloud, then compare against the IPA above. Focus on one or two words per session — don't try to fix everything at once.
+                  Record yourself reading the article aloud, then compare against the IPA above. Focus on one or two words per session вЂ” don't try to fix everything at once.
                 </li>
               </ul>
             </Card>
@@ -354,5 +439,4 @@ function ArticleView() {
   );
 }
 
-// Used by SSG to know about all article slugs
 export const _allSlugs = ARTICLES.map((a) => a.slug);
