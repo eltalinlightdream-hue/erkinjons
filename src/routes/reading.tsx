@@ -149,6 +149,60 @@ const PASSAGES: Passage[] = [
       "As Daniel Haworth is settled into a high chair and wheeled behind a black screen, a sudden look of worry furrows his 9-month-old brow.",
     htmlFile: "/passages/IELTS_Passage3_What_Do_Babies_Know_Test.html",
   },
+  {
+    id: "p1-malaria-italy",
+    title: "Malaria Italy",
+    passageNumber: 1,
+    isPremium: true,
+    description:
+      "Mal-aria. Bad air. Even the world is Italian, and this horrible disease marked the life of those in the peninsula for thousands of years. ",
+    htmlFile: "/passages/IELTS_Malaria_Italy_Test.html",
+  },
+   {
+    id: "p1-ambergris",
+    title: "Ambergris",
+    passageNumber: 1,
+    isPremium: false,
+    description:
+      "Ambergris was used to perfume cosmetics in the days of ancient Mesopotamia and almost every civilization on the earth has a brush with ambergris.",
+    htmlFile: "/passages/IELTS_Passage1_Ambergris_Test.html",
+  },
+   {
+    id: "p3-mite-harvestmen",
+    title: "Mite Harvestmen",
+    passageNumber: 3,
+    isPremium: true,
+    description:
+      "Few people have heard of the mite harvestman, and fewer still would recognize it at close range.",
+    htmlFile: "/passages/IELTS_Passage3_Mite_Harvestmen_Test.html",
+  },
+  {
+    id: "p2-bird-migration",
+    title: "Bird Migration",
+    passageNumber: 2,
+    isPremium: false,
+    description:
+      "Birds have many unique design features that enable them to perform such amazing feats of endurance.",
+    htmlFile: "/passages/IELTS_Passage2_Bird_Migration_Test.html",
+  },
+  {
+    id: "p3-global-warming-in-new-zealand",
+    title: "Global Warming in New Zealand",
+    passageNumber: 3,
+    isPremium: false,
+    description:
+      "For many environmentalists, the world seems to be getting warmer.",
+    htmlFile: "/passages/IELTS_Passage3_Global_Warming_NZ_Test.html",
+  },
+  {
+    id: "p1-nintendo-preschoolers",
+    title: "Nintendo Preschoolers",
+    passageNumber: 1,
+    isPremium: false,
+    description:
+      "Designing computer games for young children is a daunting task for game producers, who, for a long time, have concentrated on more hard core game fans.",
+    htmlFile: "/passages/IELTS_Passage1_Nintendo_Preschoolers_Test.html",
+  },
 ];
 
 const FILTERS = [
