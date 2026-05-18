@@ -5,17 +5,23 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Lock, Crown, BookOpen, CheckCircle2, RotateCcw } from "lucide-react";
+import { Lock, Crown, BookOpen, RotateCcw } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { useAuth } from "@/hooks/use-auth";
 import { cn } from "@/lib/utils";
-import { useTestStatus } from "@/hooks/use-test-status";
+import {
+  getTestProgressMeta,
+  ProgressStatus,
+  TEST_PROGRESS_OPTIONS,
+  useTestStatus,
+} from "@/hooks/use-test-status";
+import { TestProgressBadge, TestProgressSelect } from "@/components/test-progress-controls";
 
 export const Route = createFileRoute("/reading")({
   head: () => ({
     meta: [
       { title: "IELTS Reading Practice | Abduraimov Erkinjon" },
-      { name: "description", content: "IELTS Reading passages — Passage 1, 2 and 3 practice." },
+      { name: "description", content: "IELTS Reading passages вЂ” Passage 1, 2 and 3 practice." },
     ],
   }),
   component: Reading,
@@ -28,17 +34,17 @@ type Passage = {
   description?: string;
   htmlFile?: string;
   content?: string;
-  isPremium: boolean; // change to true to lock a passage behind premium
+  isPremium: boolean;
 };
 
 const PASSAGES: Passage[] = [
   {
     id: "p3-piraha",
-    title: "The Pirahã People of Brazil",
+    title: "The PirahГЈ People of Brazil",
     passageNumber: 3,
-    isPremium: true, // 🔒 locked
+    isPremium: true,
     description:
-      "An academic passage about the remarkable linguistic and cultural uniqueness of the Pirahã tribe in the Amazon rainforest.",
+      "An academic passage about the remarkable linguistic and cultural uniqueness of the PirahГЈ tribe in the Amazon rainforest.",
     htmlFile: "/passages/Day_1_Passage_3_Piraha.html",
   },
   {
@@ -88,7 +94,7 @@ const PASSAGES: Passage[] = [
   },
   {
     id: "p1-radiocarbon-dating",
-    title: "Radiocarbon Dating — The Profile of Nancy Athfield",
+    title: "Radiocarbon Dating вЂ” The Profile of Nancy Athfield",
     passageNumber: 1,
     isPremium: false,
     description:
@@ -100,8 +106,7 @@ const PASSAGES: Passage[] = [
     title: "The Return of Monkey life",
     passageNumber: 2,
     isPremium: true,
-    description:
-      "The recovery and life of monkeys in Northern Costa Rica",
+    description: "The recovery and life of monkeys in Northern Costa Rica",
     htmlFile: "/passages/IELTS_Passage2_Return_of_Monkey_Life_Test.html",
   },
   {
@@ -113,7 +118,7 @@ const PASSAGES: Passage[] = [
       "Each and every dolphin has a different sound just like you and me, a sound that other dolphins recognize as a particular individual.",
     htmlFile: "/passages/IELTS_The_Sound_of_Dolphin_Test.html",
   },
-   {
+  {
     id: "p1-morse-code",
     title: "Morse code",
     passageNumber: 1,
@@ -137,10 +142,10 @@ const PASSAGES: Passage[] = [
     passageNumber: 1,
     isPremium: false,
     description:
-      "Thomas Young (1773-1829) contributed 63 articles to the Encyclopedia Britannica, including 46 biographical entries (mostly on scientists and classicists) and substantial essays on “Bridge,” “Chromatics,” “Egypt,” “Languages” and “Tides”.",
+      "Thomas Young (1773-1829) contributed 63 articles to the Encyclopedia Britannica, including 46 biographical entries (mostly on scientists and classicists) and substantial essays on вЂњBridge,вЂќ вЂњChromatics,вЂќ вЂњEgypt,вЂќ вЂњLanguagesвЂќ and вЂњTidesвЂќ.",
     htmlFile: "/passages/IELTS_Passage1_Thomas_Young_Test.html",
   },
-   {
+  {
     id: "p3-what-do-babies-know",
     title: "What do Babies know?",
     passageNumber: 3,
@@ -214,17 +219,24 @@ const FILTERS = [
 
 function Reading() {
   const [filter, setFilter] = useState<(typeof FILTERS)[number]["v"]>("all");
+  const [statusFilter, setStatusFilter] = useState<"all" | ProgressStatus>("all");
   const [active, setActive] = useState<Passage | null>(null);
   const { profile, deviceConflict, user } = useAuth();
   const isPremium = !!profile?.is_premium && !deviceConflict;
 
   const passageIds = PASSAGES.map((p) => p.id);
-  const { statuses, resetTest } = useTestStatus(passageIds);
+  const { statuses, statusFor, setTestStatus, resetTest } = useTestStatus(passageIds);
 
-  const visible =
-    filter === "all" ? PASSAGES : PASSAGES.filter((p) => String(p.passageNumber) === filter);
+  const visible = PASSAGES.filter((p) => {
+    const matchesPassage = filter === "all" || String(p.passageNumber) === filter;
+    const matchesStatus = statusFilter === "all" || statusFor(p.id) === statusFilter;
+    return matchesPassage && matchesStatus;
+  });
 
   function handleOpen(p: Passage) {
+    if (statusFor(p.id) === "not_done") {
+      void setTestStatus(p.id, "not_completed");
+    }
     if (p.htmlFile) {
       window.open(p.htmlFile, "_blank");
     } else {
@@ -240,10 +252,10 @@ function Reading() {
           Filter by passage type and open any passage in a clean reader view.
         </p>
         <p className="text-sm text-muted-foreground mb-8 italic">
-          ⏱ Recommended time: Passage 1 &amp; 2 — 20 min &nbsp;|&nbsp; Passage 3 — 22 min
+          вЏ± Recommended time: Passage 1 &amp; 2 вЂ” 20 min &nbsp;|&nbsp; Passage 3 вЂ” 22 min
         </p>
 
-        <div className="flex flex-wrap gap-2 mb-8">
+        <div className="flex flex-wrap gap-2 mb-4">
           {FILTERS.map((f) => (
             <Button
               key={f.v}
@@ -256,6 +268,26 @@ function Reading() {
           ))}
         </div>
 
+        <div className="flex flex-wrap gap-2 mb-8">
+          <Button
+            variant={statusFilter === "all" ? "default" : "outline"}
+            size="sm"
+            onClick={() => setStatusFilter("all")}
+          >
+            All statuses
+          </Button>
+          {TEST_PROGRESS_OPTIONS.map((option) => (
+            <Button
+              key={option.value}
+              variant={statusFilter === option.value ? "default" : "outline"}
+              size="sm"
+              onClick={() => setStatusFilter(option.value)}
+            >
+              {option.label}
+            </Button>
+          ))}
+        </div>
+
         {visible.length === 0 ? (
           <p className="text-muted-foreground py-12 text-center">No passages in this category yet.</p>
         ) : (
@@ -263,69 +295,70 @@ function Reading() {
             {visible.map((p) => {
               const locked = p.isPremium && !isPremium;
               const status = statuses[p.id];
-              const completed = !!status?.completed;
+              const progressStatus = statusFor(p.id);
+              const isFinished = progressStatus === "finished";
+              const progressMeta = getTestProgressMeta(progressStatus);
 
               return (
                 <Card
                   key={p.id}
                   className={cn(
                     "p-6 flex flex-col relative overflow-hidden transition-colors",
-                    completed && "border-green-500/40 bg-green-500/5"
+                    progressMeta.cardClassName,
                   )}
                 >
-                  {/* Top row */}
                   <div className="flex items-center justify-between mb-3">
                     <div className="flex items-center gap-2">
                       <Badge variant="secondary" className="bg-accent text-foreground">
                         P{p.passageNumber}
                       </Badge>
-                      {completed && (
-                        <Badge className="bg-green-600 text-white text-xs gap-1 flex items-center">
-                          <CheckCircle2 className="w-3 h-3" />
-                          {status.score}/{status.total}
-                        </Badge>
-                      )}
+                      <TestProgressBadge status={progressStatus} detail={status} />
                     </div>
                     {locked && <Lock className="w-4 h-4 text-muted-foreground" />}
                   </div>
 
-                  {/* Title */}
                   <h3
                     className={cn(
                       "font-serif text-xl font-semibold mb-2 leading-snug",
-                      locked && "blur-sm select-none"
+                      locked && "blur-sm select-none",
                     )}
                   >
                     {p.title}
                   </h3>
 
-                  {/* Description */}
                   {p.description && (
                     <p
                       className={cn(
                         "text-sm text-muted-foreground mb-5 flex-1",
-                        locked && "blur-sm select-none"
+                        locked && "blur-sm select-none",
                       )}
                     >
                       {p.description}
                     </p>
                   )}
 
-                  {/* Last completed date */}
-                  {completed && (
+                  {status?.completedAt && (
                     <p className="text-xs text-muted-foreground mb-3">
                       Completed {new Date(status.completedAt).toLocaleDateString()}
                     </p>
                   )}
 
-                  {/* Action buttons */}
+                  {!locked && (
+                    <div className="mb-3">
+                      <TestProgressSelect
+                        value={progressStatus}
+                        onChange={(next) => setTestStatus(p.id, next)}
+                      />
+                    </div>
+                  )}
+
                   {locked ? (
                     <Link to={user ? "/premium" : "/auth"}>
                       <Button size="sm" className="w-full bg-gradient-gold text-primary-foreground">
                         <Crown className="w-4 h-4 mr-1" /> Unlock with Premium
                       </Button>
                     </Link>
-                  ) : completed ? (
+                  ) : isFinished ? (
                     <div className="flex gap-2">
                       <Button
                         size="sm"
@@ -345,14 +378,9 @@ function Reading() {
                       </Button>
                     </div>
                   ) : (
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      className="w-full"
-                      onClick={() => handleOpen(p)}
-                    >
+                    <Button size="sm" variant="outline" className="w-full" onClick={() => handleOpen(p)}>
                       <BookOpen className="w-4 h-4 mr-1" />
-                      {p.htmlFile ? "Open Full Test" : "Open"}
+                      {progressStatus === "not_completed" ? "Continue Test" : p.htmlFile ? "Open Full Test" : "Open"}
                     </Button>
                   )}
                 </Card>
