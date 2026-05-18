@@ -685,7 +685,7 @@
   box-shadow: 0 0 0 2px rgba(87,112,255,0.25);
 }
 
-.select-input{
+.text-input{
   min-width: 320px;
   padding: 8px 12px;
   border-radius: 4px;
@@ -695,45 +695,408 @@
   font-size: 16px;
   outline: none;
 }
+.text-input:focus{ box-shadow: 0 0 0 2px rgba(87,112,255,0.25); }
+.select-input{
+  min-width: 340px;
+  padding: 8px 12px;
+  border-radius: 4px;
+  border: 1px solid var(--border-color);
+  background-color: var(--questions-bg);
+  color: var(--text-color);
+  font-size: 16px;
+  outline: none;
+}
 .select-input:focus{ box-shadow: 0 0 0 2px rgba(87,112,255,0.25); }
-</style>
+.mcq-options{ margin-top: 12px; display:flex; flex-direction:column; gap:8px; }
+.mcq-option{ display:flex; align-items:center; gap:10px; padding:10px 12px; border:1px solid var(--border-color); border-radius:8px; background:var(--questions-bg); cursor:pointer; }
+.mcq-option input{ transform: scale(1.1); }
 
-<link rel="stylesheet" href="/passages/reading-universal-layout.css?v=chatgpt3">
+
+/* ===== CDI-style functional additions ===== */
+:root {
+  --cdi-font-size: 16px;
+  --cdi-line-height: 1.6;
+}
+html, body { height: 100%; overflow: hidden; }
+header { height: 56px; min-height: 56px; box-shadow: none !important; border-bottom: 1px solid #d5d5d5; }
+.logo-area .social-link.telegram {
+  background: transparent !important;
+  color: rgba(0,0,0,.55) !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  font-size: 13px !important;
+  letter-spacing: .02em;
+  box-shadow: none !important;
+}
+.logo-area .social-link.telegram:hover { color: rgba(0,0,0,.8) !important; text-decoration: underline; transform: none !important; }
+.logo-area .social-link.telegram i { color:#0088cc; }
+.header-controls { gap: 4px !important; }
+.timer-container { background: transparent !important; color: var(--text-color) !important; padding: 0 !important; border-radius: 0 !important; }
+#timer { font-size: 15px; font-weight: 700; min-width: 50px; text-align: right; }
+.timer-controls button, .mode-toggle {
+  width: 56px !important;
+  height: 56px !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  color: var(--text-color) !important;
+  padding: 0 !important;
+}
+.timer-controls button:hover, .mode-toggle:hover { background: #e4e4e4 !important; }
+main {
+  flex: 1;
+  min-height: 0;
+  display: flex !important;
+  overflow: hidden;
+}
+.passage-container, .questions-container {
+  width: auto !important;
+  flex: 1 1 0;
+  min-width: 220px;
+  padding: 24px 28px 90px !important;
+  background: #fff !important;
+}
+.passage-text, .passage-text p, .question-text, .questions-container, .questions-container *:not(i):not(svg):not(path), .passage-container {
+  font-size: var(--cdi-font-size) !important;
+  line-height: var(--cdi-line-height) !important;
+}
+.passage-title { font-size: 16px !important; border-bottom: none !important; padding-bottom: 0 !important; }
+.question { background: transparent !important; border-left: none !important; padding: 0 !important; }
+.question-number {
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  min-width:21px !important;
+  height:24px !important;
+  border:1.6px solid rgb(65,143,198) !important;
+  border-radius:3px !important;
+  background:transparent !important;
+  color:var(--text-color) !important;
+  font-weight:700 !important;
+  padding:0 4px !important;
+}
+footer { height: 53px !important; padding: 0 16px !important; box-shadow: none !important; }
+.progress-item { border-radius: 3px !important; background: transparent !important; color: var(--text-color) !important; border: 1.6px solid transparent !important; height: 36px !important; }
+.progress-item.completed { color: #2a6c96 !important; border-color: rgb(65,143,198) !important; }
+.cdi-resizer {
+  width: 16px;
+  flex: 0 0 16px;
+  cursor: col-resize;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  user-select: none;
+  z-index: 50;
+}
+.cdi-resizer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 1px;
+  background: #d5d5d5;
+  transform: translateX(-50%);
+}
+.cdi-resizer-handle {
+  width: 35px;
+  height: 35px;
+  background: #f9f9f9;
+  border: 1.6px solid #535353;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  color: #535353;
+  pointer-events: none;
+  z-index: 2;
+}
+.cdi-resizer.dragging::before, .cdi-resizer:hover::before { background:#2a6c96; }
+.cdi-resizer.dragging .cdi-resizer-handle, .cdi-resizer:hover .cdi-resizer-handle { border-color:#2a6c96; color:#2a6c96; }
+.display-panel {
+  position: fixed;
+  top: 56px;
+  right: 0;
+  width: min(320px, 100vw);
+  background: var(--questions-bg);
+  border-left: 1px solid var(--border-color);
+  box-shadow: -4px 0 16px rgba(0,0,0,.15);
+  padding: 16px;
+  z-index: 2000;
+  display: none;
+  color: var(--text-color);
+}
+.display-panel.open { display: block; }
+.display-panel h3 { font-size: 14px; text-transform: uppercase; letter-spacing: .04em; margin-bottom: 16px; }
+.display-panel label { display:block; font-size: 13px; font-weight: 700; margin: 12px 0 6px; }
+.display-panel input[type="range"] { width: 100%; accent-color: #2a6c96; }
+.theme-row { display:flex; gap:8px; margin-top: 14px; }
+.theme-row button { border:1px solid var(--border-color); background:var(--questions-bg); color:var(--text-color); padding:8px 12px; border-radius:4px; }
+.night-mode .display-panel { background:#1e1e1e; }
+.night-mode .logo-area .social-link.telegram { color: rgba(255,255,255,.65) !important; }
+.night-mode .timer-controls button:hover, .night-mode .mode-toggle:hover { background: rgba(255,255,255,.12) !important; }
+@media (max-width: 900px) {
+  main { flex-direction: column !important; }
+  .cdi-resizer { display: none; }
+  .passage-container, .questions-container { width: 100% !important; flex: none !important; height: 50% !important; }
+}
+
+
+
+/* ===== CDI reference visual match v5 ===== */
+:root{
+  --bg-color:#ffffff;
+  --text-color:#000000;
+  --passage-bg:#ffffff;
+  --questions-bg:#ffffff;
+  --border-color:#d5d5d5;
+  --header-bg:#ffffff;
+  --header-text:#000000;
+  --footer-bg:#ffffff;
+  --timer-bg:transparent;
+  --timer-text:#000000;
+  --button-bg:#efefef;
+  --button-hover:#e4e4e4;
+  --progress-complete:#21aa74;
+  --progress-incomplete:#ffffff;
+  --highlight-color:#fef08a;
+  --cdi-font-size:16px;
+  --cdi-line-height:1.5;
+}
+body.night-mode{
+  --bg-color:#1a1a2e;
+  --text-color:#e4e6eb;
+  --passage-bg:#16213e;
+  --questions-bg:#16213e;
+  --border-color:#3a3f4b;
+  --header-bg:#16213e;
+  --header-text:#e4e6eb;
+  --footer-bg:#16213e;
+  --timer-bg:transparent;
+  --timer-text:#e4e6eb;
+  --button-bg:#1f2b47;
+  --button-hover:#2a3550;
+  --progress-complete:#81c995;
+  --progress-incomplete:#16213e;
+  --highlight-color:#6b5c10;
+}
+html,body{height:100%;font-family:Arial,sans-serif;background:var(--bg-color);color:var(--text-color);}
+body{overflow:hidden;display:flex;flex-direction:column;line-height:1.5;font-size:16px;}
+header{
+  height:56px !important;
+  min-height:56px;
+  padding:0 14px !important;
+  background:var(--header-bg) !important;
+  border-bottom:1px solid var(--border-color) !important;
+  box-shadow:none !important;
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  flex-shrink:0;
+  z-index:50;
+}
+.cdi-left-brand{gap:12px;min-width:260px;}
+.ielts-logo{font-size:42px;font-weight:900;letter-spacing:-2px;color:#e31837;line-height:1;font-family:Arial Black,Arial,sans-serif;}
+.ielts-logo::after{content:'™';font-size:9px;vertical-align:top;margin-left:1px;color:#e31837;}
+.test-taker{font-size:16px;font-weight:700;color:var(--header-text);}
+.cdi-center-brand{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);}
+.social-link.telegram{background:#0088cc !important;color:#fff !important;border-radius:22px;padding:6px 18px;font-size:15px;font-weight:500;box-shadow:none;text-transform:none;}
+.social-link.telegram:hover{background:#007bb5 !important;transform:none;}
+.header-controls{margin-left:auto;display:flex;align-items:center;gap:18px;color:var(--header-text);}
+.timer-container{background:transparent !important;color:var(--timer-text) !important;padding:0 !important;border-radius:0 !important;font-size:16px;font-weight:700;min-width:70px;justify-content:flex-end;}
+.timer-container i{font-size:14px;opacity:.85;}
+.mode-toggle,#start-timer,#pause-timer,#reset-timer{
+  background:transparent !important;
+  border:0 !important;
+  color:var(--header-text) !important;
+  width:34px !important;
+  height:34px !important;
+  padding:0 !important;
+  border-radius:0 !important;
+  font-size:22px !important;
+  display:inline-flex;align-items:center;justify-content:center;
+}
+.mode-toggle:hover,#start-timer:hover,#pause-timer:hover,#reset-timer:hover{background:var(--button-hover) !important;transform:none !important;}
+.cdi-part-header{
+  margin:16px 14px 0;
+  padding:12px 20px;
+  background:rgb(241,242,236);
+  border:1px solid var(--border-color);
+  flex-shrink:0;
+}
+body.night-mode .cdi-part-header{background:#1f2b47;border-color:#3a3f4b;}
+.cdi-part-header p{margin:0;font-size:16px;line-height:1.45;color:var(--text-color);}
+.cdi-part-header p+p{margin-top:4px;}
+main{display:flex !important;flex:1;min-height:0;background:var(--questions-bg);overflow:hidden;border-top:0;margin-top:16px;}
+.passage-container,.questions-container{
+  height:100% !important;
+  overflow-y:auto !important;
+  padding:24px 28px 70px !important;
+  background:var(--passage-bg) !important;
+  color:var(--text-color) !important;
+  min-width:220px;
+  font-size:var(--cdi-font-size) !important;
+  line-height:var(--cdi-line-height) !important;
+}
+.questions-container{background:var(--questions-bg) !important;border-left:0 !important;}
+.passage-content{max-width:none;margin:0;}
+.passage-content h4{display:none;}
+.instructions{font-size:16px !important;color:var(--text-color) !important;font-style:normal !important;margin:0 0 16px 0 !important;}
+.passage-title{font-size:16px !important;font-weight:700 !important;margin:0 0 16px !important;border:0 !important;padding:0 !important;color:var(--text-color) !important;}
+.passage-text,.question-text,.passage-text p,.questions-container p,.questions-container li,.questions-container label{
+  font-family:Arial,sans-serif !important;
+  font-size:var(--cdi-font-size) !important;
+  line-height:var(--cdi-line-height) !important;
+  color:var(--text-color) !important;
+}
+.passage-text p{margin:0 0 16px !important;text-align:left !important;}
+.passage-text p strong{font-weight:700;margin-right:4px;}
+.section-title{font-size:16px !important;font-weight:700 !important;margin:0 0 12px !important;padding:0 !important;border:0 !important;color:var(--text-color) !important;}
+.question-group,.question{background:transparent !important;border:0 !important;border-radius:0 !important;padding:0 !important;margin:0 0 28px !important;}
+.question-title{font-size:16px !important;font-weight:700 !important;display:flex;align-items:flex-start;gap:8px;margin-bottom:8px;color:var(--text-color);}
+.question-number{
+  display:inline-flex !important;align-items:center;justify-content:center;
+  min-width:24px;width:auto;height:24px;padding:0 5px;
+  border:1.6px solid rgb(65,143,198) !important;border-radius:3px !important;
+  background:transparent !important;color:var(--text-color) !important;font-size:16px !important;font-weight:700 !important;line-height:1 !important;
+}
+.select-input,.text-input,select,input[type="text"]{
+  border:1px solid var(--border-color) !important;
+  border-radius:3px !important;
+  background:var(--questions-bg) !important;
+  color:var(--text-color) !important;
+  font-family:Arial,sans-serif !important;
+  font-size:16px !important;
+  min-height:28px;
+  padding:3px 8px !important;
+}
+select.select-input{min-width:300px;max-width:500px;height:43px;font-size:16px !important;}
+.cdi-resizer{
+  width:16px !important;flex:0 0 16px !important;background:transparent !important;cursor:col-resize !important;position:relative !important;display:flex !important;align-items:center !important;justify-content:center !important;z-index:5;
+}
+.cdi-resizer::before{content:'';position:absolute;left:50%;top:0;bottom:0;width:1px;background:var(--border-color);transform:translateX(-50%);}
+.cdi-resizer-handle{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:35px;height:35px;border:1.6px solid #535353;background:#f9f9f9;color:#535353;display:flex;align-items:center;justify-content:center;font-size:16px;pointer-events:none;}
+body.night-mode .cdi-resizer-handle{background:#1f2b47;color:#b0b3b8;border-color:#3a3f4b;}
+.cdi-resizer:hover::before,.cdi-resizer.dragging::before{background:#2a6c96;}
+.cdi-resizer:hover .cdi-resizer-handle,.cdi-resizer.dragging .cdi-resizer-handle{color:#2a6c96;border-color:#2a6c96;}
+footer{
+  height:60px !important;background:var(--footer-bg) !important;border-top:1px solid var(--border-color) !important;box-shadow:none !important;padding:0 !important;display:flex !important;align-items:stretch !important;flex-shrink:0;
+}
+.progress-container{display:flex;gap:0;align-items:stretch;overflow-x:auto;flex:1;padding:0 16px;}
+.progress-item{width:40px !important;height:100% !important;border-radius:3px !important;background:transparent !important;color:var(--text-color) !important;border:1.6px solid transparent !important;display:inline-flex;align-items:center;justify-content:center;font-size:16px;position:relative;margin:0;}
+.progress-item::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:#d7d7d7;}
+.progress-item.completed{color:#2a6c96 !important;background:transparent !important;}
+.progress-item.completed::before{background:#21aa74;}
+.action-buttons{display:flex;align-items:stretch;gap:0;margin-left:auto;}
+.btn-secondary,.btn-primary{height:100%;border-radius:0 !important;padding:0 28px !important;background:#efefef !important;color:#535353 !important;border:0 !important;border-left:1px solid var(--border-color) !important;font-size:16px !important;font-weight:400 !important;}
+.btn-primary{background:#efefef !important;color:#535353 !important;}
+.btn-secondary:hover,.btn-primary:hover{background:#e4e4e4 !important;}
+.display-panel{top:56px !important;right:0 !important;background:var(--questions-bg) !important;border-left:1px solid var(--border-color);box-shadow:-4px 0 16px rgba(0,0,0,.1);border-radius:0 !important;color:var(--text-color) !important;}
+.display-panel input[type="range"]{width:100%;accent-color:#2a6c96;}
+.theme-row button{border:1px solid var(--border-color) !important;background:var(--questions-bg) !important;color:var(--text-color) !important;border-radius:6px !important;padding:7px 10px !important;}
+@media(max-width:900px){
+  .cdi-left-brand{min-width:0}.test-taker{display:none}.ielts-logo{font-size:30px}.cdi-center-brand{position:static;transform:none;margin-left:8px}.social-link.telegram span{display:inline}.header-controls{gap:8px}.cdi-part-header{margin:8px}.passage-container,.questions-container{padding:16px 18px 70px !important}.cdi-resizer{display:none !important;}main{flex-direction:column}.passage-container,.questions-container{width:100% !important;flex:none !important;height:50% !important;}
+}
+
+/* Extra normalized question/input styling for converted source question blocks */
+.answer-input, .blank-input, input[type="text"], textarea, select {
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 6px 8px;
+  background: var(--questions-bg);
+  color: var(--text-color);
+  font: inherit;
+  max-width: 100%;
+}
+.answer-input.narrow { width: 80px; }
+.tf-question, .item-question, .summary-line, .question-line {
+  margin: 12px 0;
+}
+.question-block, .question {
+  margin-bottom: 28px;
+}
+.part-header, .question-prompt {
+  margin: 0 0 16px 0;
+}
+.options-container, .radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 8px 0 16px 0;
+}
+.option-box, .mcq-option, .tf-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background: var(--questions-bg);
+}
+table { border-collapse: collapse; width: 100%; margin: 12px 0; }
+td, th { border: 1px solid var(--border-color); padding: 8px; vertical-align: top; }
+
+</style>
 </head>
 <body>
 <header>
-  <div class="logo-area">
-    <a class="social-link telegram" href="https://t.me/augustus_flores" target="_blank" title="Telegram">
-      <i class="fab fa-telegram-plane"></i>
-      <span>Abduraimov Erkinjon</span>
-    </a>
-  </div>
-  <div class="header-controls">
-    <div class="timer-container">
-      <i class="fas fa-clock"></i>
-      <span id="timer">20:00</span>
-      <div class="timer-controls">
-        <button id="start-timer" title="Start"><i class="fas fa-play"></i></button>
-        <button id="pause-timer" title="Pause"><i class="fas fa-pause"></i></button>
-        <button id="reset-timer" title="Reset"><i class="fas fa-redo"></i></button>
-      </div>
-    </div>
-    <button class="mode-toggle" id="night-mode-toggle" title="Toggle Night Mode">
-      <i class="fas fa-moon"></i>
-    </button>
-  </div>
+<div class="logo-area cdi-left-brand">
+<span class="ielts-logo">IELTS</span>
+<span class="test-taker">Test taker ID</span>
+</div>
+<div class="cdi-center-brand">
+<a class="social-link telegram" href="https://t.me/augustus_flores" target="_blank" title="Telegram">
+<i class="fab fa-telegram-plane"></i>
+<span>Abduraimov Erkinjon</span>
+</a>
+</div>
+<div class="header-controls">
+<div class="timer-container">
+<i class="fas fa-clock"></i>
+<span id="timer">20:00</span>
+</div>
+<button class="mode-toggle" id="start-timer" title="Start"><i class="fas fa-play"></i></button>
+<button class="mode-toggle" id="pause-timer" title="Pause"><i class="fas fa-pause"></i></button>
+<button class="mode-toggle" id="reset-timer" title="Reset"><i class="fas fa-redo"></i></button>
+<button aria-label="Toggle fullscreen" class="mode-toggle" id="fullscreen-toggle" title="Fullscreen">
+<i class="fas fa-expand"></i>
+</button>
+<button class="mode-toggle" id="night-mode-toggle" title="Toggle Night Mode">
+<i class="fas fa-moon"></i>
+</button>
+<button aria-label="Display options" class="mode-toggle" id="display-menu-toggle" title="Display options">
+<i class="fas fa-bars"></i>
+</button>
+</div>
 </header>
-
+<div aria-label="Display options" class="display-panel" id="display-panel">
+<h3>Display options</h3>
+<label for="font-size-range">Text size</label>
+<input id="font-size-range" max="22" min="14" type="range" value="16"/>
+<label for="line-height-range">Line spacing</label>
+<input id="line-height-range" max="190" min="140" type="range" value="160"/>
+<div class="theme-row">
+<button data-theme-choice="light" type="button">Light</button>
+<button data-theme-choice="dark" type="button">Dark</button>
+</div>
+</div>
+<div class="cdi-part-header">
+<p><strong>Part 1</strong></p>
+<p>Read the text and answer questions 27–40.</p>
+</div>
 <main>
-  <div class="passage-container" id="passage-container">
-    <div class="passage-content">
-      <h4>READING PASSAGE 3</h4>
-      <div class="instructions">You should spend about 20 minutes on Questions 27–40, which are based on Reading Passage 3.</div>
-      <div class="passage-title">What Do Babies Know?</div>
-      <div class="passage-text" id="passage-text">
-        <p>As Daniel Haworth is settled into a high chair and wheeled behind a black screen, a sudden 
+<div class="passage-container" id="passage-container">
+<div class="passage-content">
+<h4>READING PASSAGE</h4>
+<div class="instructions">You should spend about 20 minutes on Questions 27–40, which are based on the Reading Passage.</div>
+<div class="passage-title">What Do Babies Know?</div>
+<div class="passage-text" id="passage-text">
+
+<p>As Daniel Haworth is settled into a high chair and wheeled behind a black screen, a sudden 
 look of worry furrows his 9-month-old brow. His dark blue eyes dart left and right in search 
-of the familiar reassurance of his mother&#x27;s face. She calls his name and makes soothing 
+of the familiar reassurance of his mother's face. She calls his name and makes soothing 
 noises, but Daniel senses something unusual is happening. He sucks his fingers for comfort, 
 but, finding no solace, his mouth crumples, his body stiffens, and he lets rip an almighty 
 shriek of distress. This is the usual expression when babies are left alone or abandoned. 
@@ -743,311 +1106,311 @@ to the darkened booth behind the screen and submits himself to baby lab, a unit 
 <p>Watching infants piece life together, seeing their senses, emotions and motor skills take 
 shape, is a source of mystery and endless fascination—at least to parents and 
 developmental psychologists. We can decode their signals of distress or read a million 
-messages into their first smile. But how much do we really know about what&#x27;s going on 
+messages into their first smile. But how much do we really know about what's going on 
 behind those wide, innocent eyes? How much of their understanding of and response to the 
 world comes preloaded at birth? How much is built from scratch by experience? Such are 
 the questions being explored at baby lab. Though the facility is just 18 months old and has 
-tested only 100 infants, it&#x27;s already challenging current thinking on what babies know and 
+tested only 100 infants, it's already challenging current thinking on what babies know and 
 how they come to know it.</p>
 <p>Daniel is now engrossed in watching video clips of a red toy train on a circular track. The 
 train disappears into a tunnel and emerges on the other side. A hidden device above the 
-screen is tracking Daniel&#x27;s eyes as they follow the train and measuring the diameter of his 
-pupils 50 times a second. As the child gets bored—or &quot;habituated&quot;, as psychologists call the 
+screen is tracking Daniel's eyes as they follow the train and measuring the diameter of his 
+pupils 50 times a second. As the child gets bored—or "habituated", as psychologists call the 
 process—his attention level steadily drops. But it picks up a little whenever some novelty is 
 introduced. The train might be green, or it might be blue. And sometimes an impossible thing 
 happens—the train goes into the tunnel one color and comes out another.</p>
 <p>Variations of experiments like this one, examining infant attention, have been a standard 
 tool of developmental psychology ever since the Swiss pioneer of the field, Jean Piaget, 
-started experimenting on his children in the 1920s. Piaget&#x27;s work led him to conclude that 
+started experimenting on his children in the 1920s. Piaget's work led him to conclude that 
 infants younger than 9 months have no innate knowledge of how the world works or any 
-sense of &quot;object permanence&quot; (that people and things still exist even when they&#x27;re not seen). 
-Instead, babies must gradually construct this knowledge from experience. Piaget&#x27;s 
-&quot;constructivist&quot; theories were massively influential on postwar educators and psychologists, 
+sense of "object permanence" (that people and things still exist even when they're not seen). 
+Instead, babies must gradually construct this knowledge from experience. Piaget's 
+"constructivist" theories were massively influential on postwar educators and psychologists, 
 but over the past 20 years or so they have been largely set aside by a new generation of 
-&quot;nativist&quot; psychologists and cognitive scientists whose more sophisticated experiments led 
+"nativist" psychologists and cognitive scientists whose more sophisticated experiments led 
 them to theorise that infants arrive already equipped with some knowledge of the physical 
 world and even rudimentary programming for math and language. Baby lab director Sylvain 
 Sirois has been putting these smart-baby theories through a rigorous set of tests. His 
-conclusions so far tend to be more Piagetian: &quot;Babies,&quot; he says, &quot;know nothing.&quot;</p>
+conclusions so far tend to be more Piagetian: "Babies," he says, "know nothing."</p>
 <p>What Sirois and his postgraduate assistant Iain Jackson are challenging is the interpretation 
 of a variety of classic experiments begun in the mid-1980s in which babies were shown 
 physical events that appeared to violate such basic concepts as gravity, solidity and 
 contiguity. In one such experiment, by University of Illinois psychologist Renee Baillargeon, 
-a hinged wooden panel appeared to pass right through a box. Baillargeon and M.I.T&#x27;s 
+a hinged wooden panel appeared to pass right through a box. Baillargeon and M.I.T's 
 Elizabeth Spelke found that babies as young as 3 1/2 months would reliably look longer at 
 the impossible event than at the normal one, their conclusion: babies have enough built-in 
 knowledge to recognise that something is wrong.</p>
-<p>Sirois does not take issue with the way these experiments were conducted. &quot;The methods 
-are correct and replicable,&quot; he says, &quot;it&#x27;s the interpretation that&#x27;s the problem.&quot; In a critical 
+<p>Sirois does not take issue with the way these experiments were conducted. "The methods 
+are correct and replicable," he says, "it's the interpretation that's the problem." In a critical 
 review to be published in the forthcoming issue of the European Journal of Developmental 
 Psychology, he and Jackson pour cold water over recent experiments that claim to have 
 observed innate or precocious social cognition skills in infants. His own experiments indicate 
-that a baby&#x27;s fascination with physically impossible events merely reflects a response to 
+that a baby's fascination with physically impossible events merely reflects a response to 
 stimuli that are novel. Data from the eye tracker and the measurement of the pupils (which 
 widen in response to arousal or interest) show that impossible events involving familiar 
 objects are no more interesting than possible events involving novel objects. In other words, 
 when Daniel had seen the red train come out of the tunnel green a few times, he gets as 
 bored as when it stays the same color. The mistake of previous research, says Sirois, has 
 been to leap to the conclusion that infants can understand the concept of impossibility from 
-the mere fact that they are able to perceive some novelty in it. &quot;The real explanation is 
-boring,&quot; he says.</p>
+the mere fact that they are able to perceive some novelty in it. "The real explanation is 
+boring," he says.</p>
 <p>So how do babies bridge the gap between knowing squat and drawing triangles—a task 
-Daniel&#x27;s sister Lois, 2 1/2, is happily tackling as she waits for her brother? &quot;Babies have to 
+Daniel's sister Lois, 2 1/2, is happily tackling as she waits for her brother? "Babies have to 
 learn everything, but as Piaget was saying, they start with a few primitive reflexes that get 
-things going,&quot; said Sirois. For example, hardwired in the brain is an instinct that draws a 
-baby&#x27;s eyes to a human face. From brain imaging studies we also know that the brain has 
+things going," said Sirois. For example, hardwired in the brain is an instinct that draws a 
+baby's eyes to a human face. From brain imaging studies we also know that the brain has 
 some sort of visual buffer that continues to represent objects after they have been 
 removed—a lingering perception rather than conceptual understanding. So when babies 
-encounter novel or unexpected events, Sirois explains, &quot;there&#x27;s a mismatch between the 
-buffer and the information they&#x27;re getting at that moment. And what you do when you&#x27;ve got 
-a mismatch is you try to clear the buffer. And that takes attention.&quot; So learning, says Sirois, 
-is essentially the laborious business of resolving mismatches. &quot;The thing is, you can do a lot 
-of it with this wet sticky thing called a brain. It&#x27;s a fantastic, statistical-learning machine&quot;.</p>
+encounter novel or unexpected events, Sirois explains, "there's a mismatch between the 
+buffer and the information they're getting at that moment. And what you do when you've got 
+a mismatch is you try to clear the buffer. And that takes attention." So learning, says Sirois, 
+is essentially the laborious business of resolving mismatches. "The thing is, you can do a lot 
+of it with this wet sticky thing called a brain. It's a fantastic, statistical-learning machine".</p>
 <p>Daniel, exams ended, picks up a plastic tiger and, chewing thoughtfully upon its head, smiles 
 as if to agree.</p>
-      </div>
-    </div>
-  </div>
 
-  <div class="questions-container" id="questions-container">
-    <div class="section-title">Questions 27–32</div>
+</div>
+</div>
+</div>
+<div class="cdi-resizer" id="cdi-resizer" title="Drag to resize"></div>
+<div class="questions-container" id="questions-container">
+
+<div class="section-title">Questions 27–32</div>
 <div class="instructions">Do the following statements agree with the information given in Reading Passage 3? Write <strong>TRUE</strong>, <strong>FALSE</strong>, or <strong>NOT GIVEN</strong>.</div>
 <div class="question" id="q27">
-  <div class="question-title"><div class="question-number">27</div><div class="question-text">Baby&#x27;s behavior after being abandoned is not surprising.</div></div>
-  <div class="yes-no-options">
-    <div class="yes-no-option"><input type="radio" name="q27" value="TRUE"><span class="option-label">TRUE</span></div>
-    <div class="yes-no-option"><input type="radio" name="q27" value="FALSE"><span class="option-label">FALSE</span></div>
-    <div class="yes-no-option"><input type="radio" name="q27" value="NOT GIVEN"><span class="option-label">NOT GIVEN</span></div>
-  </div>
+<div class="question-title"><div class="question-number">27</div><div class="question-text">Baby's behavior after being abandoned is not surprising.</div></div>
+<div class="yes-no-options">
+<div class="yes-no-option"><input name="q27" type="radio" value="TRUE"/><span class="option-label">TRUE</span></div>
+<div class="yes-no-option"><input name="q27" type="radio" value="FALSE"/><span class="option-label">FALSE</span></div>
+<div class="yes-no-option"><input name="q27" type="radio" value="NOT GIVEN"/><span class="option-label">NOT GIVEN</span></div>
+</div>
 </div>
 <div class="question" id="q28">
-  <div class="question-title"><div class="question-number">28</div><div class="question-text">Parents are over-estimating what babies know.</div></div>
-  <div class="yes-no-options">
-    <div class="yes-no-option"><input type="radio" name="q28" value="TRUE"><span class="option-label">TRUE</span></div>
-    <div class="yes-no-option"><input type="radio" name="q28" value="FALSE"><span class="option-label">FALSE</span></div>
-    <div class="yes-no-option"><input type="radio" name="q28" value="NOT GIVEN"><span class="option-label">NOT GIVEN</span></div>
-  </div>
+<div class="question-title"><div class="question-number">28</div><div class="question-text">Parents are over-estimating what babies know.</div></div>
+<div class="yes-no-options">
+<div class="yes-no-option"><input name="q28" type="radio" value="TRUE"/><span class="option-label">TRUE</span></div>
+<div class="yes-no-option"><input name="q28" type="radio" value="FALSE"/><span class="option-label">FALSE</span></div>
+<div class="yes-no-option"><input name="q28" type="radio" value="NOT GIVEN"/><span class="option-label">NOT GIVEN</span></div>
+</div>
 </div>
 <div class="question" id="q29">
-  <div class="question-title"><div class="question-number">29</div><div class="question-text">Only 100 experiments have been done but can prove the theories about what we know.</div></div>
-  <div class="yes-no-options">
-    <div class="yes-no-option"><input type="radio" name="q29" value="TRUE"><span class="option-label">TRUE</span></div>
-    <div class="yes-no-option"><input type="radio" name="q29" value="FALSE"><span class="option-label">FALSE</span></div>
-    <div class="yes-no-option"><input type="radio" name="q29" value="NOT GIVEN"><span class="option-label">NOT GIVEN</span></div>
-  </div>
+<div class="question-title"><div class="question-number">29</div><div class="question-text">Only 100 experiments have been done but can prove the theories about what we know.</div></div>
+<div class="yes-no-options">
+<div class="yes-no-option"><input name="q29" type="radio" value="TRUE"/><span class="option-label">TRUE</span></div>
+<div class="yes-no-option"><input name="q29" type="radio" value="FALSE"/><span class="option-label">FALSE</span></div>
+<div class="yes-no-option"><input name="q29" type="radio" value="NOT GIVEN"/><span class="option-label">NOT GIVEN</span></div>
+</div>
 </div>
 <div class="question" id="q30">
-  <div class="question-title"><div class="question-number">30</div><div class="question-text">Piaget&#x27;s theory was rejected by parents in 1920s.</div></div>
-  <div class="yes-no-options">
-    <div class="yes-no-option"><input type="radio" name="q30" value="TRUE"><span class="option-label">TRUE</span></div>
-    <div class="yes-no-option"><input type="radio" name="q30" value="FALSE"><span class="option-label">FALSE</span></div>
-    <div class="yes-no-option"><input type="radio" name="q30" value="NOT GIVEN"><span class="option-label">NOT GIVEN</span></div>
-  </div>
+<div class="question-title"><div class="question-number">30</div><div class="question-text">Piaget's theory was rejected by parents in 1920s.</div></div>
+<div class="yes-no-options">
+<div class="yes-no-option"><input name="q30" type="radio" value="TRUE"/><span class="option-label">TRUE</span></div>
+<div class="yes-no-option"><input name="q30" type="radio" value="FALSE"/><span class="option-label">FALSE</span></div>
+<div class="yes-no-option"><input name="q30" type="radio" value="NOT GIVEN"/><span class="option-label">NOT GIVEN</span></div>
+</div>
 </div>
 <div class="question" id="q31">
-  <div class="question-title"><div class="question-number">31</div><div class="question-text">Sylvain Sirois&#x27;s conclusion on infant&#x27;s cognition is similar to Piaget&#x27;s.</div></div>
-  <div class="yes-no-options">
-    <div class="yes-no-option"><input type="radio" name="q31" value="TRUE"><span class="option-label">TRUE</span></div>
-    <div class="yes-no-option"><input type="radio" name="q31" value="FALSE"><span class="option-label">FALSE</span></div>
-    <div class="yes-no-option"><input type="radio" name="q31" value="NOT GIVEN"><span class="option-label">NOT GIVEN</span></div>
-  </div>
+<div class="question-title"><div class="question-number">31</div><div class="question-text">Sylvain Sirois's conclusion on infant's cognition is similar to Piaget's.</div></div>
+<div class="yes-no-options">
+<div class="yes-no-option"><input name="q31" type="radio" value="TRUE"/><span class="option-label">TRUE</span></div>
+<div class="yes-no-option"><input name="q31" type="radio" value="FALSE"/><span class="option-label">FALSE</span></div>
+<div class="yes-no-option"><input name="q31" type="radio" value="NOT GIVEN"/><span class="option-label">NOT GIVEN</span></div>
+</div>
 </div>
 <div class="question" id="q32">
-  <div class="question-title"><div class="question-number">32</div><div class="question-text">Sylvain Sirois found serious flaws in the experimental designs by Baillargeon and Elizabeth Spelke.</div></div>
-  <div class="yes-no-options">
-    <div class="yes-no-option"><input type="radio" name="q32" value="TRUE"><span class="option-label">TRUE</span></div>
-    <div class="yes-no-option"><input type="radio" name="q32" value="FALSE"><span class="option-label">FALSE</span></div>
-    <div class="yes-no-option"><input type="radio" name="q32" value="NOT GIVEN"><span class="option-label">NOT GIVEN</span></div>
-  </div>
+<div class="question-title"><div class="question-number">32</div><div class="question-text">Sylvain Sirois found serious flaws in the experimental designs by Baillargeon and Elizabeth Spelke.</div></div>
+<div class="yes-no-options">
+<div class="yes-no-option"><input name="q32" type="radio" value="TRUE"/><span class="option-label">TRUE</span></div>
+<div class="yes-no-option"><input name="q32" type="radio" value="FALSE"/><span class="option-label">FALSE</span></div>
+<div class="yes-no-option"><input name="q32" type="radio" value="NOT GIVEN"/><span class="option-label">NOT GIVEN</span></div>
 </div>
-
+</div>
 <div class="section-title">Questions 33–37</div>
 <div class="instructions">Complete each sentence with the correct ending, A–E.</div>
 <div class="instructions"><b>Endings:</b><br/>A before they are born. ; B before they learn from experience. ; C when they had seen the same thing for a while. ; D when facing the possible and impossible events. ; E when the previous things appear again in their lives.</div>
 <div class="question" id="q33">
-  <div class="question-title">
-    <div class="question-number">33</div>
-    <div class="question-text">
-      Jean Piaget thinks infants younger than 9 months won&#x27;t know something existing
+<div class="question-title">
+<div class="question-number">33</div>
+<div class="question-text">
+      Jean Piaget thinks infants younger than 9 months won't know something existing
       <div style="margin-top:10px;">
-        <select class="select-input" name="q33">
-          <option value="">Select ending</option>
-          <option value="A">A before they are born.</option>
+<select class="select-input" name="q33">
+<option value="">Select ending</option>
+<option value="A">A before they are born.</option>
 <option value="B">B before they learn from experience.</option>
 <option value="C">C when they had seen the same thing for a while.</option>
 <option value="D">D when facing the possible and impossible events.</option>
 <option value="E">E when the previous things appear again in their lives.</option>
-        </select>
-      </div>
-    </div>
-  </div>
+</select>
+</div>
+</div>
+</div>
 </div>
 <div class="question" id="q34">
-  <div class="question-title">
-    <div class="question-number">34</div>
-    <div class="question-text">
+<div class="question-title">
+<div class="question-number">34</div>
+<div class="question-text">
       Jean Piaget thinks babies only get the knowledge
       <div style="margin-top:10px;">
-        <select class="select-input" name="q34">
-          <option value="">Select ending</option>
-          <option value="A">A before they are born.</option>
+<select class="select-input" name="q34">
+<option value="">Select ending</option>
+<option value="A">A before they are born.</option>
 <option value="B">B before they learn from experience.</option>
 <option value="C">C when they had seen the same thing for a while.</option>
 <option value="D">D when facing the possible and impossible events.</option>
 <option value="E">E when the previous things appear again in their lives.</option>
-        </select>
-      </div>
-    </div>
-  </div>
+</select>
+</div>
+</div>
+</div>
 </div>
 <div class="question" id="q35">
-  <div class="question-title">
-    <div class="question-number">35</div>
-    <div class="question-text">
+<div class="question-title">
+<div class="question-number">35</div>
+<div class="question-text">
       Some cognitive scientists think babies have the mechanism to learn a language
       <div style="margin-top:10px;">
-        <select class="select-input" name="q35">
-          <option value="">Select ending</option>
-          <option value="A">A before they are born.</option>
+<select class="select-input" name="q35">
+<option value="">Select ending</option>
+<option value="A">A before they are born.</option>
 <option value="B">B before they learn from experience.</option>
 <option value="C">C when they had seen the same thing for a while.</option>
 <option value="D">D when facing the possible and impossible events.</option>
 <option value="E">E when the previous things appear again in their lives.</option>
-        </select>
-      </div>
-    </div>
-  </div>
+</select>
+</div>
+</div>
+</div>
 </div>
 <div class="question" id="q36">
-  <div class="question-title">
-    <div class="question-number">36</div>
-    <div class="question-text">
+<div class="question-title">
+<div class="question-number">36</div>
+<div class="question-text">
       Sylvain Sirois thinks that babies can reflect a response to stimuli that are novel
       <div style="margin-top:10px;">
-        <select class="select-input" name="q36">
-          <option value="">Select ending</option>
-          <option value="A">A before they are born.</option>
+<select class="select-input" name="q36">
+<option value="">Select ending</option>
+<option value="A">A before they are born.</option>
 <option value="B">B before they learn from experience.</option>
 <option value="C">C when they had seen the same thing for a while.</option>
 <option value="D">D when facing the possible and impossible events.</option>
 <option value="E">E when the previous things appear again in their lives.</option>
-        </select>
-      </div>
-    </div>
-  </div>
+</select>
+</div>
+</div>
+</div>
 </div>
 <div class="question" id="q37">
-  <div class="question-title">
-    <div class="question-number">37</div>
-    <div class="question-text">
-      Sylvain Sirois thinks babies&#x27; attention level will drop
+<div class="question-title">
+<div class="question-number">37</div>
+<div class="question-text">
+      Sylvain Sirois thinks babies' attention level will drop
       <div style="margin-top:10px;">
-        <select class="select-input" name="q37">
-          <option value="">Select ending</option>
-          <option value="A">A before they are born.</option>
+<select class="select-input" name="q37">
+<option value="">Select ending</option>
+<option value="A">A before they are born.</option>
 <option value="B">B before they learn from experience.</option>
 <option value="C">C when they had seen the same thing for a while.</option>
 <option value="D">D when facing the possible and impossible events.</option>
 <option value="E">E when the previous things appear again in their lives.</option>
-        </select>
-      </div>
-    </div>
-  </div>
+</select>
 </div>
-
+</div>
+</div>
+</div>
 <div class="section-title">Questions 38–40</div>
 <div class="instructions">Choose the correct letter <strong>A, B, C</strong> or <strong>D</strong>.</div>
 <div class="question" id="q38">
-  <div class="question-title"><div class="question-number">38</div><div class="question-text">What can we know about Daniel in the third paragraph?</div></div>
-  <div class="yes-no-options">
-        <div class="yes-no-option">
-          <input type="radio" name="q38" value="A">
-          <span class="option-label"><b>A</b> Daniel&#x27;s attention level rose when he saw a blue train.</span>
-        </div>
-        <div class="yes-no-option">
-          <input type="radio" name="q38" value="B">
-          <span class="option-label"><b>B</b> Kid&#x27;s attention fell when he was accustomed to the changes.</span>
-        </div>
-        <div class="yes-no-option">
-          <input type="radio" name="q38" value="C">
-          <span class="option-label"><b>C</b> Child&#x27;s brain activity was monitored by special equipment.</span>
-        </div>
-        <div class="yes-no-option">
-          <input type="radio" name="q38" value="D">
-          <span class="option-label"><b>D</b> Size of the train changed when it came out of the tunnel.</span>
-        </div></div>
+<div class="question-title"><div class="question-number">38</div><div class="question-text">What can we know about Daniel in the third paragraph?</div></div>
+<div class="yes-no-options">
+<div class="yes-no-option">
+<input name="q38" type="radio" value="A"/>
+<span class="option-label"><b>A</b> Daniel's attention level rose when he saw a blue train.</span>
+</div>
+<div class="yes-no-option">
+<input name="q38" type="radio" value="B"/>
+<span class="option-label"><b>B</b> Kid's attention fell when he was accustomed to the changes.</span>
+</div>
+<div class="yes-no-option">
+<input name="q38" type="radio" value="C"/>
+<span class="option-label"><b>C</b> Child's brain activity was monitored by special equipment.</span>
+</div>
+<div class="yes-no-option">
+<input name="q38" type="radio" value="D"/>
+<span class="option-label"><b>D</b> Size of the train changed when it came out of the tunnel.</span>
+</div></div>
 </div>
 <div class="question" id="q39">
-  <div class="question-title"><div class="question-number">39</div><div class="question-text">What can we know from the writer in the fourth paragraph?</div></div>
-  <div class="yes-no-options">
-        <div class="yes-no-option">
-          <input type="radio" name="q39" value="A">
-          <span class="option-label"><b>A</b> The theories about what baby knows changed over time.</span>
-        </div>
-        <div class="yes-no-option">
-          <input type="radio" name="q39" value="B">
-          <span class="option-label"><b>B</b> Why the experiments that had been done before were rejected.</span>
-        </div>
-        <div class="yes-no-option">
-          <input type="radio" name="q39" value="C">
-          <span class="option-label"><b>C</b> Infants have innate knowledge to know the external environment.</span>
-        </div>
-        <div class="yes-no-option">
-          <input type="radio" name="q39" value="D">
-          <span class="option-label"><b>D</b> Piaget&#x27;s &#x27;constructivist&#x27; theories were massively influential on parents.</span>
-        </div></div>
+<div class="question-title"><div class="question-number">39</div><div class="question-text">What can we know from the writer in the fourth paragraph?</div></div>
+<div class="yes-no-options">
+<div class="yes-no-option">
+<input name="q39" type="radio" value="A"/>
+<span class="option-label"><b>A</b> The theories about what baby knows changed over time.</span>
+</div>
+<div class="yes-no-option">
+<input name="q39" type="radio" value="B"/>
+<span class="option-label"><b>B</b> Why the experiments that had been done before were rejected.</span>
+</div>
+<div class="yes-no-option">
+<input name="q39" type="radio" value="C"/>
+<span class="option-label"><b>C</b> Infants have innate knowledge to know the external environment.</span>
+</div>
+<div class="yes-no-option">
+<input name="q39" type="radio" value="D"/>
+<span class="option-label"><b>D</b> Piaget's 'constructivist' theories were massively influential on parents.</span>
+</div></div>
 </div>
 <div class="question" id="q40">
-  <div class="question-title"><div class="question-number">40</div><div class="question-text">What can we know from the argument of the experiment about the baby in the sixth paragraph?</div></div>
-  <div class="yes-no-options">
-        <div class="yes-no-option">
-          <input type="radio" name="q40" value="A">
-          <span class="option-label"><b>A</b> Infants are attracted by various colours of the trains all the time.</span>
-        </div>
-        <div class="yes-no-option">
-          <input type="radio" name="q40" value="B">
-          <span class="option-label"><b>B</b> Sylvain Sirois accuses misleading approaches of current experiments.</span>
-        </div>
-        <div class="yes-no-option">
-          <input type="radio" name="q40" value="C">
-          <span class="option-label"><b>C</b> Sylvain Sirois indicates that only impossible events make children interested.</span>
-        </div>
-        <div class="yes-no-option">
-          <input type="radio" name="q40" value="D">
-          <span class="option-label"><b>D</b> Sylvain Sirois suggests that novel things attract baby&#x27;s attention.</span>
-        </div></div>
+<div class="question-title"><div class="question-number">40</div><div class="question-text">What can we know from the argument of the experiment about the baby in the sixth paragraph?</div></div>
+<div class="yes-no-options">
+<div class="yes-no-option">
+<input name="q40" type="radio" value="A"/>
+<span class="option-label"><b>A</b> Infants are attracted by various colours of the trains all the time.</span>
 </div>
-
+<div class="yes-no-option">
+<input name="q40" type="radio" value="B"/>
+<span class="option-label"><b>B</b> Sylvain Sirois accuses misleading approaches of current experiments.</span>
+</div>
+<div class="yes-no-option">
+<input name="q40" type="radio" value="C"/>
+<span class="option-label"><b>C</b> Sylvain Sirois indicates that only impossible events make children interested.</span>
+</div>
+<div class="yes-no-option">
+<input name="q40" type="radio" value="D"/>
+<span class="option-label"><b>D</b> Sylvain Sirois suggests that novel things attract baby's attention.</span>
+</div></div>
+</div>
 <div style="height:30px"></div>
-  </div>
-</main>
 
-<footer>
-  <div class="progress-container" id="progress-container"></div>
-  <div class="action-buttons">
-    <button class="btn-secondary" id="reset-btn">Reset Answers</button>
-    <button class="btn-primary" id="submit-btn">Submit Answers</button>
-  </div>
-</footer>
-
-<div class="feedback-overlay" id="feedback-overlay">
-  <div class="feedback-container" id="feedback-container">
-    <div class="feedback-header">
-      <div class="feedback-title">
-        <i class="fas fa-chart-bar"></i> Your Results <span class="score-display" id="score-display">0/14</span>
-      </div>
-      <button id="close-feedback" title="Close"><i class="fas fa-times"></i></button>
-    </div>
-    <div class="feedback-body" id="feedback-body"></div>
-  </div>
 </div>
-
+</main>
+<footer>
+<div class="progress-container" id="progress-container"></div>
+<div class="action-buttons">
+<button class="btn-secondary" id="reset-btn">Reset Answers</button>
+<button class="btn-primary" id="submit-btn">Submit Answers</button>
+</div>
+</footer>
+<div class="feedback-overlay" id="feedback-overlay">
+<div class="feedback-container" id="feedback-container">
+<div class="feedback-header">
+<div class="feedback-title">
+<i class="fas fa-chart-bar"></i> Your Results <span class="score-display" id="score-display">0/14</span>
+</div>
+<button id="close-feedback" title="Close"><i class="fas fa-times"></i></button>
+</div>
+<div class="feedback-body" id="feedback-body"></div>
+</div>
+</div>
 <script>
+
 document.getElementById('night-mode-toggle').addEventListener('click', function(){
   document.body.classList.toggle('night-mode');
   const icon = this.querySelector('i');
-  if(document.body.classList.contains('night-mode')) { icon.classList.remove('fa-moon'); icon.classList.add('fa-sun'); }
-  else { icon.classList.remove('fa-sun'); icon.classList.add('fa-moon'); }
+  if(icon){
+    if(document.body.classList.contains('night-mode')) { icon.classList.remove('fa-moon'); icon.classList.add('fa-sun'); }
+    else { icon.classList.remove('fa-sun'); icon.classList.add('fa-moon'); }
+  }
 });
 
 function normalize(s){ return (s||'').toString().trim().toLowerCase().replace(/\s+/g,' '); }
@@ -1069,65 +1432,55 @@ const correctAnswers = {
   q40: 'D'
 };
 
-function getUserAnswer(qid){
-  const els = document.getElementsByName(qid);
-  if(!els || els.length===0) return {value:'', kind:'none'};
-  const el0 = els[0];
-  if(el0.tagName === 'SELECT') return {value: el0.value || '', kind:'select'};
-  if(el0.type === 'radio'){
-    const checked = Array.from(els).find(e=>e.checked);
-    return {value: checked ? checked.value : '', kind:'radio'};
-  }
-  return {value:'', kind:'unknown'};
-}
+const questionNumbers = Object.keys(correctAnswers).map(k=>Number(k.replace('q',''))).filter(n=>!Number.isNaN(n)).sort((a,b)=>a-b);
 
+function getRadioVal(name){
+  const els = document.getElementsByName(name);
+  const checked = Array.from(els).find(e=>e.checked);
+  return checked ? checked.value : '';
+}
+function getSelectVal(name){
+  const el = document.querySelector(`select[name="${name}"], select#${name}`);
+  return el ? (el.value || '') : '';
+}
+function getTextVal(name){
+  const el = document.querySelector(`input[type="text"][name="${name}"], input[type="text"]#${name}, textarea[name="${name}"], textarea#${name}`);
+  return el ? (el.value || '') : '';
+}
+function getAnswerVal(qid){
+  const radio = getRadioVal(qid);
+  if(radio) return radio;
+  const sel = getSelectVal(qid);
+  if(sel) return sel;
+  return getTextVal(qid);
+}
 function isCorrect(userVal, correctVal){
-  return normalize(userVal) === normalize(correctVal);
-}
-
-function prettyUser(qid, ansObj){
-  if(!ansObj.value) return '(no answer)';
-  if(ansObj.kind === 'select'){
-    const sel = document.querySelector(`select[name="${qid}"]`);
-    if(!sel || !sel.value) return '(no answer)';
-    const opt = sel.options[sel.selectedIndex];
-    return opt ? opt.text : sel.value;
-  }
-  return ansObj.value;
-}
-
-function prettyCorrect(qid, correctVal){
-  const sel = document.querySelector(`select[name="${qid}"]`);
-  if(sel){
-    const opt = Array.from(sel.options).find(o=>normalize(o.value)===normalize(correctVal));
-    if(opt) return opt.text;
-  }
-  return correctVal;
+  const accepted = Array.isArray(correctVal) ? correctVal : String(correctVal).split(/\s*\/\s*|\s*\|\s*/);
+  return accepted.some(v => normalize(userVal) === normalize(v));
 }
 
 document.getElementById('submit-btn').addEventListener('click', function(){
   let score = 0;
-  const total = Object.keys(correctAnswers).length;
+  const total = questionNumbers.length;
   let feedbackHTML = '';
 
-  for(const [qid, correct] of Object.entries(correctAnswers)){
-    const ansObj = getUserAnswer(qid);
-    const ok = isCorrect(ansObj.value, correct);
+  questionNumbers.forEach(qn=>{
+    const qid = `q${qn}`;
+    const user = getAnswerVal(qid);
+    const ok = isCorrect(user, correctAnswers[qid]);
     if(ok) score++;
-
     feedbackHTML += `<div class="feedback-item">
-      <div class="feedback-question">Q${qid.replace('q','')}</div>
+      <div class="feedback-question">Q${qn}</div>
       <div class="feedback-answer ${ok ? 'correct' : 'incorrect'}">
-        Your Answer: ${prettyUser(qid, ansObj)}<br/>
-        ${ok ? '✔ Correct' : `✘ Incorrect (Correct: ${prettyCorrect(qid, correct)})`}
+        Your Answer: ${user || '(no answer)'}<br/>
+        ${ok ? '✔ Correct' : `✘ Incorrect (Correct: ${correctAnswers[qid]})`}
       </div></div>`;
-  }
+  });
 
   document.getElementById('feedback-body').innerHTML = feedbackHTML;
   document.getElementById('score-display').textContent = `${score}/${total}`;
   document.getElementById('feedback-overlay').style.display = 'flex';
 });
-
 document.getElementById('close-feedback').addEventListener('click', function(){
   document.getElementById('feedback-overlay').style.display = 'none';
 });
@@ -1218,27 +1571,29 @@ document.addEventListener('mousedown', (e)=>{
 // Reset
 document.getElementById('reset-btn').addEventListener('click', function(){
   document.querySelectorAll('input[type=radio]').forEach(r=>r.checked=false);
+  document.querySelectorAll('input[type=text], textarea').forEach(t=>t.value='');
   document.querySelectorAll('select').forEach(s=>s.value='');
   document.querySelectorAll('.progress-item.completed').forEach(i=>i.classList.remove('completed'));
   document.querySelectorAll('.question').forEach(q=>q.classList.remove('answered'));
 });
 
-// Progress tracker 27..40
+// Progress tracker
 function initializeProgressTracker(){
   const pc = document.getElementById('progress-container');
-  const nums = Array.from({length:14}, (_,i)=>27+i);
-  nums.forEach(n=>{
+  pc.innerHTML = '';
+  questionNumbers.forEach(n=>{
     const item = document.createElement('div');
     item.className = 'progress-item';
     item.textContent = n;
     item.dataset.qid = `q${n}`;
     item.addEventListener('click', ()=>{
-      const el = document.getElementById(`q${n}`);
-      if(el) el.scrollIntoView({behavior:'smooth'});
+      const el = document.getElementById(`q${n}`) || document.querySelector(`[name="q${n}"]`);
+      if(el) el.scrollIntoView({behavior:'smooth', block:'center'});
     });
     pc.appendChild(item);
   });
 }
+
 function updateProgressStatus(){
   document.querySelectorAll('.progress-item').forEach(item=>{
     const qid = item.dataset.qid;
@@ -1247,9 +1602,11 @@ function updateProgressStatus(){
     const radios = document.querySelectorAll(`input[name="${qid}"]`);
     if(radios.length && radios[0].type==='radio') answered = Array.from(radios).some(r=>r.checked);
 
-    const sel = document.querySelector(`select[name="${qid}"]`);
-    
+    const sel = document.querySelector(`select[name="${qid}"], select#${qid}`);
     if(!answered && sel && sel.value!=='') answered = true;
+
+    const txt = document.querySelector(`input[type="text"][name="${qid}"], input[type="text"]#${qid}, textarea[name="${qid}"], textarea#${qid}`);
+    if(!answered && txt && txt.value.trim()!=='') answered = true;
 
     const qEl = document.getElementById(qid);
     if(answered){
@@ -1262,6 +1619,7 @@ function updateProgressStatus(){
   });
 }
 document.addEventListener('change', updateProgressStatus);
+document.addEventListener('input', updateProgressStatus);
 document.addEventListener('DOMContentLoaded', ()=>{ initializeProgressTracker(); updateProgressStatus(); });
 
 // Timer
@@ -1282,9 +1640,100 @@ document.getElementById('start-timer').addEventListener('click', ()=>{
 document.getElementById('pause-timer').addEventListener('click', ()=>{ clearInterval(timerInterval); timerInterval=null; });
 document.getElementById('reset-timer').addEventListener('click', ()=>{ clearInterval(timerInterval); timerInterval=null; timeRemaining=20*60; updateTimerDisplay(); });
 document.addEventListener('DOMContentLoaded', updateTimerDisplay);
-</script>
 
-<script src="/passages/reading-universal-layout.js?v=chatgpt3"></script>
-<script src="/passages/test-progress-bridge.js?v=chatgpt3"></script>
+</script>
+<script>
+
+(function(){
+  function onReady(fn){ if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', fn); else fn(); }
+  onReady(function(){
+    var passage = document.getElementById('passage-container');
+    var questions = document.getElementById('questions-container');
+    var resizer = document.getElementById('cdi-resizer');
+    if (passage && questions && resizer) {
+      passage.style.flex = '0 0 50%';
+      questions.style.flex = '1 1 auto';
+      var dragging = false;
+      function startDrag(e){
+        if (window.innerWidth <= 900) return;
+        dragging = true;
+        resizer.classList.add('dragging');
+        document.body.style.cursor = 'col-resize';
+        document.body.style.userSelect = 'none';
+        e.preventDefault();
+      }
+      function moveDrag(clientX){
+        if (!dragging) return;
+        var main = resizer.parentElement;
+        var rect = main.getBoundingClientRect();
+        var total = rect.width - resizer.offsetWidth;
+        var left = clientX - rect.left;
+        var min = Math.max(220, total * 0.22);
+        var max = total - min;
+        left = Math.min(Math.max(left, min), max);
+        passage.style.flex = '0 0 ' + left + 'px';
+        questions.style.flex = '1 1 auto';
+      }
+      function stopDrag(){
+        dragging = false;
+        resizer.classList.remove('dragging');
+        document.body.style.cursor = '';
+        document.body.style.userSelect = '';
+      }
+      resizer.addEventListener('mousedown', startDrag);
+      window.addEventListener('mousemove', function(e){ moveDrag(e.clientX); });
+      window.addEventListener('mouseup', stopDrag);
+      resizer.addEventListener('touchstart', function(e){ startDrag(e.touches[0]); }, {passive:false});
+      window.addEventListener('touchmove', function(e){ if(dragging){ moveDrag(e.touches[0].clientX); e.preventDefault(); } }, {passive:false});
+      window.addEventListener('touchend', stopDrag);
+    }
+
+    var panel = document.getElementById('display-panel');
+    var menuBtn = document.getElementById('display-menu-toggle');
+    if (panel && menuBtn) {
+      menuBtn.addEventListener('click', function(e){
+        e.stopPropagation();
+        panel.classList.toggle('open');
+      });
+      document.addEventListener('click', function(e){
+        if(panel.classList.contains('open') && !panel.contains(e.target) && !menuBtn.contains(e.target)) panel.classList.remove('open');
+      });
+    }
+
+    var fsBtn = document.getElementById('fullscreen-toggle');
+    if (fsBtn) {
+      fsBtn.addEventListener('click', function(){
+        if (!document.fullscreenElement) document.documentElement.requestFullscreen?.();
+        else document.exitFullscreen?.();
+      });
+      document.addEventListener('fullscreenchange', function(){
+        fsBtn.innerHTML = document.fullscreenElement ? '<i class="fas fa-compress"></i>' : '<i class="fas fa-expand"></i>';
+      });
+    }
+
+    var font = document.getElementById('font-size-range');
+    var line = document.getElementById('line-height-range');
+    function applyDisplay(){
+      var f = font ? font.value : 16;
+      var l = line ? (Number(line.value) / 100) : 1.6;
+      document.documentElement.style.setProperty('--cdi-font-size', f + 'px');
+      document.documentElement.style.setProperty('--cdi-line-height', l);
+    }
+    if(font) font.addEventListener('input', applyDisplay);
+    if(line) line.addEventListener('input', applyDisplay);
+    applyDisplay();
+
+    document.querySelectorAll('[data-theme-choice]').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var choice = btn.getAttribute('data-theme-choice');
+        if(choice === 'dark') document.body.classList.add('night-mode');
+        else document.body.classList.remove('night-mode');
+      });
+    });
+  });
+})();
+
+</script>
+<script src="/passages/test-progress-bridge.js"></script>
 </body>
 </html>

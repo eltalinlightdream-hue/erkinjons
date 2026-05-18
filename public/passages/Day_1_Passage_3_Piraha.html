@@ -1,1413 +1,1597 @@
-<script type="text/javascript">
-        var gk_isXlsx = false;
-        var gk_xlsxFileLookup = {};
-        var gk_fileData = {};
-        function filledCell(cell) {
-          return cell !== '' && cell != null;
-        }
-        function loadFileData(filename) {
-        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
-            try {
-                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
-                var firstSheetName = workbook.SheetNames[0];
-                var worksheet = workbook.Sheets[firstSheetName];
+<!DOCTYPE html>
 
-                // Convert sheet to JSON to filter blank rows
-                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
-                // Filter out blank rows (rows where all cells are empty, null, or undefined)
-                var filteredData = jsonData.filter(row => row.some(filledCell));
-
-                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
-                var headerRowIndex = filteredData.findIndex((row, index) =>
-                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
-                );
-                // Fallback
-                if (headerRowIndex === -1 || headerRowIndex > 25) {
-                  headerRowIndex = 0;
-                }
-
-                // Convert filtered JSON back to CSV
-                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
-                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
-                return csv;
-            } catch (e) {
-                console.error(e);
-                return "";
-            }
-        }
-        return gk_fileData[filename] || "";
-        }
-        </script><!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IELTS Reading Test - The Pirahã People of Brazil</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        body {
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>IELTS Reading Test - The Pirahã People of Brazil</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<style>
+
+
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #333333;
+            --passage-bg: #f8f9fa;
+            --questions-bg: #ffffff;
+            --border-color: #5770ff;
+            --highlight-color: springgreen;
+
+            --header-bg: #F8F8F8;
+            --header-text: #333333;
+            --telegram-blue: #0088CC;
+            --instagram-pink: #E4405F;
+            --youtube-red: #FF0000;
+
+            --button-bg: #28a745;
+            --button-hover: #218838;
+
+            --correct-color: #28a745;
+            --incorrect-color: #dc3545;
+            --progress-complete: #28a745;
+            --progress-incomplete: #bdbdbd;
+
+            --timer-bg: #0088CC;
+            --timer-text: #ffffff;
+
+            --footer-bg: #f5f5f5;
+        }
+
+        .night-mode {
+            --bg-color: #121212;
+            --text-color: #e0e0e0;
+            --passage-bg: #1e1e1e;
+            --questions-bg: #1e1e1e;
+            --border-color: #424242;
+            --highlight-color: #0084ff;
+
+            --header-bg: #1a1a1a;
+            --header-text: #ffffff;
+            --telegram-blue: #005f99;
+            --instagram-pink: #b2334b;
+            --youtube-red: #b20000;
+
+            --button-bg: #990000;
+            --button-hover: #7a0000;
+
+            --correct-color: #218838;
+            --incorrect-color: #c82333;
+            --progress-complete: #218838;
+            --progress-incomplete: #616161;
+
+            --timer-bg: #0088CC;
+            --timer-text: #ffcdd2;
+
+            --footer-bg: #121212;
+        }
+
+        * {
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Arial, sans-serif;
-            background: linear-gradient(135deg, #f3e7ff, #d4e4ff);
-            overflow: hidden;
-            color: #2c3e50;
+            box-sizing: border-box;
+            transition: background-color 0.3s, color 0.3s;
         }
-        .test-wrapper {
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            height: 100vh;
             display: flex;
             flex-direction: column;
-            height: 100vh;
-        }
-        .test-container {
-            display: flex;
-            flex: 1;
             overflow: hidden;
         }
-        .header {
-            background-color: #ffffff;
-            border-bottom: 1px solid #ccd6dd;
-            padding: 15px 30px;
+
+        header {
+            background-color: var(--header-bg);
+            color: var(--header-text);
+            padding: 12px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            z-index: 100;
         }
-        .header__logo img {
-            height: 45px;
-            transition: transform 0.3s ease;
-        }
-        .header__logo img:hover {
-            transform: scale(1.1);
-        }
-        .header__timer {
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: #3498db;
-            background-color: #e9f5ff;
-            padding: 8px 20px;
-            border-radius: 25px;
-            border: 1px solid #a4d4ff;
-            transition: all 0.3s ease;
-        }
-        .header__icons {
+
+        .logo-area {
             display: flex;
-            gap: 20px;
-        }
-        .header__icon {
-            font-size: 1.3rem;
-            color: #7f8c8d;
-            cursor: pointer;
-            transition: color 0.3s ease, transform 0.3s ease;
-        }
-        .header__icon:hover {
-            color: #3498db;
-            transform: scale(1.1);
-        }
-        .settings-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0,0,0,0.7);
-            z-index: 1000;
             justify-content: center;
             align-items: center;
+            gap: 15px;
         }
-        .settings-content {
-            background-color: #fff;
-            width: 90%;
-            max-width: 500px;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-            animation: fadeIn 0.4s ease-out;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.95); }
-            to { opacity: 1; transform: scale(1); }
-        }
-        .settings-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 25px;
-            background: linear-gradient(to right, #3498db, #2980b9);
-            color: #fff;
-        }
-        .settings-header h2 {
-            margin: 0;
-            font-size: 1.3rem;
-        }
-        .settings-close {
-            background: none;
-            border: none;
-            font-size: 1.8rem;
-            cursor: pointer;
-            color: #fff;
-            transition: color 0.3s ease;
-        }
-        .settings-close:hover {
-            color: #e74c3c;
-        }
-        .settings-body {
-            padding: 25px;
-            background: #f9f9f9;
-        }
-        .settings-option {
+
+        .social-link {
             display: flex;
             align-items: center;
-            padding: 12px 0;
-            border-bottom: 1px solid #e0e0e0;
-            cursor: pointer;
-            transition: background 0.2s ease;
+            gap: 8px;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
         }
-        .settings-option:hover {
-            background: #e9f5ff;
+
+        .social-link:hover {
+            transform: translateY(-1px);
         }
-        .settings-option:last-child {
-            border-bottom: none;
+
+        .social-link i {
+            font-size: 1.2em;
         }
-        .settings-option i {
-            margin-right: 15px;
-            width: 20px;
-            text-align: center;
-            color: #3498db;
+
+        .social-link.telegram {
+            background-color: var(--telegram-blue);
         }
-        .settings-option span {
-            flex: 1;
-            font-size: 1.1rem;
+
+        .social-link.telegram:hover {
+            background-color: #007bb5;
         }
-        .sectionRubric {
-            margin: 1.5em;
-            width: calc(100% - 3em);
-            border-radius: 8px;
-            padding: 1em;
-            background: #fff;
-            border: 1px solid #ccd6dd;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            position: relative;
+
+        .social-link.instagram {
+            background-color: var(--instagram-pink);
         }
-        .sectionRubric h2, .sectionRubric p {
-            margin: 0;
+
+        .social-link.instagram:hover {
+            background-color: #d62976;
         }
-        .sectionRubric h2 {
-            font-size: 1.2rem;
-            color: #3498db;
-            margin-bottom: 0.5em;
+
+        .social-link.youtube {
+            background-color: var(--youtube-red);
         }
-        .passage-container {
-            width: 45%;
-            height: 100%;
-            overflow-y: auto;
-            padding: 25px;
-            box-sizing: border-box;
-            background: linear-gradient(#ffffff, #f9f9f9);
-            border-right: 1px solid #ccd6dd;
-            position: relative;
-            user-select: text;
-            -webkit-user-select: text;
+
+        .social-link.youtube:hover {
+            background-color: #CC0000;
         }
-        .questions-container {
-            flex: 1;
-            overflow-y: auto;
-            padding: 25px;
-            box-sizing: border-box;
-            background: linear-gradient(#ffffff, #f9f9f9);
-            user-select: text;
-            -webkit-user-select: text;
+
+        .header-controls {
+            display: flex;
+            gap: 15px;
+            align-items: center;
         }
-        .highlight {
-            position: relative;
-            border-radius: 3px;
-            padding: 0 2px;
-            margin: 0 -2px;
+
+        .timer-container {
+            background-color: var(--timer-bg);
+            color: var(--timer-text);
+            padding: 8px 15px;
+            border-radius: 50px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
-        .highlight.yellow { background-color: rgba(241, 196, 15, 0.4); }
-        .highlight.green { background-color: rgba(39, 174, 96, 0.4); }
-        .highlight.pink { background-color: rgba(219, 112, 147, 0.4); }
-        .highlight.blue { background-color: rgba(52, 152, 219, 0.4); }
-        .highlight-toolbar {
-            position: fixed;
-            background: #fff;
-            border: 1px solid #ccd6dd;
-            border-radius: 6px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-            display: none;
-            z-index: 1000;
-            padding: 8px;
-            transform: translate(-50%, -100%);
-            margin-top: -8px;
+
+        .timer-controls {
+            display: flex;
+            gap: 8px;
         }
-        .highlight-toolbar button {
+
+        .timer-controls button {
             background: none;
             border: none;
+            color: var(--timer-text);
+            cursor: pointer;
+            font-size: 16px;
+            padding: 4px;
+            border-radius: 50%;
             width: 28px;
             height: 28px;
-            cursor: pointer;
-            margin: 0 3px;
-            border-radius: 4px;
-            transition: background 0.2s ease;
-        }
-        .highlight-toolbar button:hover {
-            background: #e9f5ff;
-        }
-        .highlight-toolbar button.remove {
-            color: #e74c3c;
-        }
-        .divider {
-            width: 12px;
-            background: #e0e0e0;
-            cursor: col-resize;
-            position: relative;
-            transition: background 0.3s ease;
-        }
-        .divider:hover {
-            background: #ccd6dd;
-        }
-        .divider-handle {
-            width: 5px;
-            height: 50px;
-            background: #95a5a6;
-            border-radius: 3px;
-            position: absolute;
-            top: 50%;
-            left: 3.5px;
-            transform: translateY(-50%);
-        }
-        .question {
-            margin-bottom: 35px;
-            background: #ffffff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-        .question:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-        .question-rubric {
-            margin-bottom: 20px;
-            font-weight: 600;
-            color: #34495e;
-        }
-        .question-options {
-            list-style-type: none;
-            padding: 0;
-        }
-        .question-options li {
-            margin: 12px 0;
-            display: flex;
-            align-items: center;
-        }
-        .question-options li input[type="radio"] {
-            margin-right: 12px;
-        }
-        .true-false-option {
-            display: flex;
-            align-items: center;
-            margin: 8px 0;
-        }
-        .true-false-option select {
-            min-width: 150px;
-            padding: 8px;
-            border: 1px solid #ccd6dd;
-            border-radius: 6px;
-            margin-left: 12px;
-            font-size: 1rem;
-            background: #fff;
-            transition: border-color 0.2s ease;
-        }
-        .true-false-option select:focus {
-            border-color: #3498db;
-            outline: none;
-        }
-        .summary-completion-container {
-            margin-top: 25px;
-        }
-        .summary-text p {
-            line-height: 1.8;
-            font-size: 1rem;
-        }
-        .summary-input {
-            width: 120px;
-            padding: 8px;
-            border: 2px dashed #95a5a6;
-            border-radius: 6px;
-            margin: 0 8px;
-            font-size: 1rem;
-            font-weight: 600;
-            background-color: #e9f5ff;
-            transition: border-color 0.2s ease;
-        }
-        .summary-input:focus {
-            border-color: #3498db;
-            outline: none;
-        }
-        .summary-input.correct {
-            border-color: #27ae60;
-            background-color: #e8f5e9;
-            border-style: solid;
-        }
-        .summary-input.incorrect {
-            border-color: #e74c3c;
-            background-color: #ffebee;
-            border-style: solid;
-        }
-        .summary-feedback {
-            display: inline-block;
-            margin-left: 12px;
-            font-size: 0.9rem;
-        }
-        .summary-feedback.correct {
-            color: #27ae60;
-        }
-        .summary-feedback.incorrect {
-            color: #e74c3c;
-        }
-        .footer {
-            background: #ffffff;
-            border-top: 1px solid #ccd6dd;
-            padding: 15px;
-            box-shadow: 0 -2px 5px rgba(0,0,0,0.05);
-        }
-        .nav-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        .footer__questionWrapper {
-            display: flex;
-            align-items: center;
-        }
-        .footer__subquestionWrapper {
-            display: flex;
-            flex-wrap: wrap;
-            margin-left: 15px;
-        }
-        .subQuestion {
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            border: 1px solid #ccd6dd;
-            background: #f9f9f9;
-            margin: 3px;
-            cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #7f8c8d;
-            font-weight: 600;
-            transition: all 0.3s ease;
         }
-        .subQuestion.active {
-            background: #3498db;
-            color: #fff;
-            border-color: #3498db;
+
+        .timer-controls button:hover {
+            background-color: rgba(0, 0, 0, 0.1);
         }
-        .subQuestion.attempted {
-            background: #5dade2;
-            color: #fff;
+
+        .night-mode .timer-controls button:hover {
+            background-color: rgba(255, 255, 255, 0.2);
         }
-        .footer__deliverButton {
-            background: #3498db;
-            color: #fff;
+
+        .mode-toggle {
+            background: none;
             border: none;
+            color: var(--header-text);
+            cursor: pointer;
+            font-size: 20px;
+            padding: 6px;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .mode-toggle:hover {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .night-mode .mode-toggle:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        main {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .passage-container,
+        .questions-container {
+            height: 100%;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .passage-container {
+            width: 50%;
+            background-color: var(--passage-bg);
+            border-right: 1px solid var(--border-color);
+            position: relative;
+        }
+
+        .questions-container {
+            width: 50%;
+            background-color: var(--questions-bg);
+        }
+
+        .passage-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .passage-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--text-color);
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .passage-text {
+            font-size: 17px;
+        }
+
+        .question-text {
+            font-size: 17px;
+            line-height: 1.8;
+        }
+
+        .passage-text p {
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+
+        .highlight {
+            background-color: var(--highlight-color);
+            cursor: pointer;
+        }
+
+        .highlight-tooltip {
+            position: absolute;
+            background-color: #333;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 14px;
+            z-index: 1000;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin: 25px 0 15px;
+            color: var(--text-color);
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .question-group {
+            margin-bottom: 30px;
+        }
+
+        .question {
+            margin-bottom: 25px;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: var(--passage-bg);
+            border-left: 4px solid var(--border-color);
+        }
+
+        .question-title {
+            font-weight: 600;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: baseline;
+        }
+
+        .question-number {
+            display: inline-block;
+            width: 28px;
+            height: 28px;
+            background-color: var(--progress-incomplete);
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 28px;
+            margin-right: 10px;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        .question.answered .question-number {
+            background-color: var(--progress-complete);
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 8px;
+        }
+
+        .option {
+            display: flex;
+            align-items: flex-start;
+            cursor: pointer;
+            padding: 8px 0;
+        }
+
+        .option input {
+            margin-top: 3px;
+            margin-right: 10px;
+            flex-shrink: 0;
+        }
+
+        .option-label {
+            font-size: 16px;
+            line-height: 1.5;
+        }
+
+        .instructions {
+            font-size: 14px;
+            color: #757575;
+            margin-top: 5px;
+            font-style: italic;
+        }
+
+        .sentence-completion {
+            margin-top: 15px;
+            padding: 15px;
+            background-color: rgba(0, 0, 0, 0.03);
+            border-radius: 8px;
+        }
+
+        .sentence-item {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .sentence-text {
+            margin-right: 10px;
+            font-size: 16px;
+        }
+
+        .sentence-select {
+            min-width: 300px;
+            padding: 8px 12px;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            background-color: var(--passage-bg);
+            color: var(--text-color);
+            font-size: 16px;
+        }
+
+        footer {
+            background-color: var(--footer-bg);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid var(--border-color);
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .progress-container {
+            display: flex;
+            gap: 8px;
+        }
+
+        .progress-item {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: var(--progress-incomplete);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .progress-item:hover {
+            transform: scale(1.1);
+        }
+
+        .progress-item.completed {
+            background-color: var(--progress-complete);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+        }
+
+        button {
             padding: 10px 20px;
-            border-radius: 6px;
+            border: none;
+            border-radius: 4px;
             cursor: pointer;
             font-weight: 600;
-            transition: background 0.3s ease, transform 0.3s ease;
+            transition: background-color 0.3s, border-color 0.3s, color 0.3s;
         }
-        .footer__deliverButton:hover {
-            background: #2980b9;
-            transform: translateY(-2px);
+
+        .btn-primary {
+            background-color: var(--button-bg);
+            color: white;
         }
-        .footer__deliverButton:disabled {
-            background: #bdc3c7;
-            cursor: not-allowed;
+
+        .btn-primary:hover {
+            background-color: var(--button-hover);
         }
-        .sr-only {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
-            overflow: hidden;
-            clip: rect(0, 0, 0, 0);
-            white-space: nowrap;
-            border-width: 0;
+
+        .btn-secondary {
+            background-color: transparent;
+            border: 1px solid var(--button-bg);
+            color: var(--button-bg);
         }
-        .highlight-color {
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            display: inline-block;
-            margin: 0 3px;
-            cursor: pointer;
-            border: 1px solid #ccd6dd;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+        .btn-secondary:hover {
+            background-color: rgba(204, 0, 0, 0.1);
         }
-        .highlight-color:hover {
-            transform: scale(1.2);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+
+        .night-mode .btn-secondary:hover {
+            background-color: rgba(153, 0, 0, 0.2);
         }
-        .highlight-color.yellow { background-color: #f1c40f; }
-        .highlight-color.green { background-color: #27ae60; }
-        .highlight-color.pink { background-color: #db7093; }
-        .highlight-color.blue { background-color: #3498db; }
-        .timer-warning {
-            color: #e74c3c;
-            animation: pulse 1s infinite;
-        }
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-        .submission-modal {
-            display: none;
+
+        .feedback-overlay {
             position: fixed;
             top: 0;
             left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0,0,0,0.8);
-            z-index: 2000;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            display: none;
             justify-content: center;
             align-items: center;
         }
-        .submission-content {
-            background-color: #fff;
-            width: 85%;
-            max-width: 900px;
-            border-radius: 12px;
-            padding: 35px;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
-            max-height: 85vh;
-            overflow-y: auto;
-            animation: fadeIn 0.4s ease-out;
-        }
-        .submission-content h2 {
-            margin-top: 0;
-            color: #3498db;
-            border-bottom: 2px solid #3498db;
-            padding-bottom: 12px;
-            font-size: 1.8rem;
-        }
-        .submission-content p {
-            margin-bottom: 25px;
-            color: #34495e;
-            font-size: 1.1rem;
-        }
-        .answers-section {
-            margin-top: 25px;
-        }
-        .answers-section h3 {
-            color: #3498db;
-            margin-bottom: 20px;
-            font-size: 1.4rem;
-        }
-        .answer-item {
-            padding: 12px;
-            margin-bottom: 10px;
-            border-radius: 6px;
-            border-left: 5px solid #ccd6dd;
-            background-color: #f9f9f9;
-            transition: box-shadow 0.2s ease;
-        }
-        .answer-item:hover {
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        }
-        .answer-item.correct {
-            border-left-color: #27ae60;
-            background-color: #e8f5e9;
-        }
-        .answer-item.incorrect {
-            border-left-color: #e74c3c;
-            background-color: #ffebee;
-        }
-        .answer-text {
-            font-weight: 600;
-        }
-        .correct-answer {
-            color: #27ae60;
-            margin-left: 12px;
-        }
-        .incorrect-answer {
-            color: #e74c3c;
-            margin-left: 12px;
-        }
-        .answer-status {
-            float: right;
-            margin-left: 15px;
-        }
-        .correct-status {
-            color: #27ae60;
-        }
-        .incorrect-status {
-            color: #e74c3c;
-        }
-        .submission-buttons {
-            margin-top: 30px;
-            text-align: right;
-            clear: both;
-        }
-        .submission-buttons button {
-            padding: 10px 20px;
-            margin-left: 15px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: background 0.3s ease, transform 0.3s ease;
-        }
-        .submission-buttons .confirm {
-            background: #3498db;
-            color: #fff;
-            border: none;
-        }
-        .submission-buttons .confirm:hover {
-            background: #2980b9;
-            transform: translateY(-2px);
-        }
-        input:disabled, select:disabled {
-            background-color: #e0e0e0;
-            cursor: not-allowed;
-        }
-        .score-display {
-            text-align: center;
-            margin-bottom: 25px;
-            padding: 20px;
-            background: #e9f5ff;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        }
-        .score-number {
-            font-size: 3.5rem;
-            font-weight: bold;
-            color: #3498db;
-            margin: 15px 0;
-        }
-        .score-total {
-            font-size: 1.6rem;
-            color: #7f8c8d;
-        }
-        .performance-rating {
-            font-size: 1.6rem;
-            font-weight: bold;
-            margin: 20px 0;
-            padding: 12px;
-            border-radius: 6px;
-        }
-        .excellent {
-            color: #27ae60;
-            background-color: #e8f5e9;
-        }
-        .very-good {
-            color: #16a085;
-            background-color: #e8f5e9;
-        }
-        .good {
-            color: #f39c12;
-            background-color: #fef5e7;
-        }
-        .fair {
-            color: #d35400;
-            background-color: #fff3e0;
-        }
-        .poor {
-            color: #c0392b;
-            background-color: #ffebee;
-        }
-        .band-score {
-            font-size: 2.2rem;
-            font-weight: bold;
-            color: #3498db;
-            margin: 15px 0;
-        }
-        .correct-highlight {
-            background-color: rgba(39, 174, 96, 0.3);
-            padding: 3px;
-            border-radius: 3px;
-        }
-        .incorrect-highlight {
-            background-color: rgba(231, 76, 60, 0.3);
-            padding: 3px;
-            border-radius: 3px;
-        }
-        .answer-comparison {
-            margin-top: 25px;
-            padding: 20px;
-            background-color: #f9f9f9;
-            border-radius: 8px;
-            display: none;
-        }
-        .answer-comparison h3 {
-            margin-top: 0;
-            color: #3498db;
-        }
-        .time-spent {
-            font-size: 1.1rem;
-            color: #7f8c8d;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-        .dropdown-answer {
-            display: inline-block;
-            margin-left: 12px;
-            font-weight: normal;
-        }
-        .dropdown-answer.correct {
-            color: #27ae60;
-        }
-        .dropdown-answer.incorrect {
-            color: #e74c3c;
-        }
-    </style>
 
-<link rel="stylesheet" href="/passages/reading-universal-layout.css?v=chatgpt3">
+        .feedback-container {
+            background-color: var(--passage-bg);
+            width: 90%;
+            max-width: 900px;
+            height: 90%;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .feedback-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .feedback-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        #close-feedback {
+            font-size: 24px;
+            background: none;
+            border: none;
+            color: var(--text-color);
+            cursor: pointer;
+        }
+
+        .score-display {
+            font-size: 24px;
+            font-weight: 700;
+            margin-left: 10px;
+        }
+
+        .feedback-body {
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .feedback-item {
+            margin-bottom: 25px;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: var(--questions-bg);
+        }
+
+        .feedback-question {
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .feedback-answer {
+            margin-bottom: 10px;
+            padding: 8px 12px;
+            border-radius: 4px;
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+
+        .correct {
+            color: var(--correct-color);
+        }
+
+        .incorrect {
+            color: var(--incorrect-color);
+        }
+
+        .feedback-explanation {
+            margin-top: 10px;
+            padding: 10px;
+            border-left: 3px solid var(--button-bg);
+            background-color: rgba(0, 0, 0, 0.03);
+        }
+
+        .feedback-passage {
+            margin-top: 8px;
+            font-style: italic;
+            color: #757575;
+        }
+
+        .yes-no-options {
+            display: flex;
+            gap: 20px;
+            margin-top: 10px;
+        }
+
+        .yes-no-option {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .yes-no-option input {
+            margin-right: 8px;
+        }
+
+        @media (max-width: 900px) {
+            main {
+                flex-direction: column;
+            }
+
+            .passage-container,
+            .questions-container {
+                width: 100%;
+                height: 50%;
+            }
+
+            .passage-container {
+                border-right: none;
+                border-bottom: 1px solid var(--border-color);
+            }
+
+            .progress-container {
+                flex-wrap: wrap;
+                max-width: 60%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .logo-area {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 8px;
+            }
+
+            .social-link {
+                padding: 6px 10px;
+                font-size: 13px;
+            }
+
+            .social-link i {
+                font-size: 1.1em;
+            }
+
+            .social-link span {
+                display: inline;
+            }
+
+            .sentence-select {
+                min-width: 250px;
+                width: 100%;
+                margin-top: 5px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            header {
+                flex-direction: column;
+                gap: 10px;
+                padding: 10px;
+            }
+
+            .header-controls {
+                width: 100%;
+                justify-content: space-around;
+            }
+
+            .progress-container {
+                max-width: 50%;
+            }
+
+            .progress-item {
+                width: 26px;
+                height: 26px;
+                font-size: 12px;
+            }
+
+            footer {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .action-buttons {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .sentence-select {
+                min-width: 200px;
+            }
+        }
+    
+
+.text-input{
+  min-width: 240px;
+  padding: 8px 12px;
+  border-radius: 4px;
+  border: 1px solid var(--border-color);
+  background-color: var(--questions-bg);
+  color: var(--text-color);
+  font-size: 16px;
+  outline: none;
+}
+.text-input:focus{
+  box-shadow: 0 0 0 2px rgba(87,112,255,0.25);
+}
+
+.text-input{
+  min-width: 320px;
+  padding: 8px 12px;
+  border-radius: 4px;
+  border: 1px solid var(--border-color);
+  background-color: var(--questions-bg);
+  color: var(--text-color);
+  font-size: 16px;
+  outline: none;
+}
+.text-input:focus{ box-shadow: 0 0 0 2px rgba(87,112,255,0.25); }
+.select-input{
+  min-width: 340px;
+  padding: 8px 12px;
+  border-radius: 4px;
+  border: 1px solid var(--border-color);
+  background-color: var(--questions-bg);
+  color: var(--text-color);
+  font-size: 16px;
+  outline: none;
+}
+.select-input:focus{ box-shadow: 0 0 0 2px rgba(87,112,255,0.25); }
+.mcq-options{ margin-top: 12px; display:flex; flex-direction:column; gap:8px; }
+.mcq-option{ display:flex; align-items:center; gap:10px; padding:10px 12px; border:1px solid var(--border-color); border-radius:8px; background:var(--questions-bg); cursor:pointer; }
+.mcq-option input{ transform: scale(1.1); }
+
+
+/* ===== CDI-style functional additions ===== */
+:root {
+  --cdi-font-size: 16px;
+  --cdi-line-height: 1.6;
+}
+html, body { height: 100%; overflow: hidden; }
+header { height: 56px; min-height: 56px; box-shadow: none !important; border-bottom: 1px solid #d5d5d5; }
+.logo-area .social-link.telegram {
+  background: transparent !important;
+  color: rgba(0,0,0,.55) !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  font-size: 13px !important;
+  letter-spacing: .02em;
+  box-shadow: none !important;
+}
+.logo-area .social-link.telegram:hover { color: rgba(0,0,0,.8) !important; text-decoration: underline; transform: none !important; }
+.logo-area .social-link.telegram i { color:#0088cc; }
+.header-controls { gap: 4px !important; }
+.timer-container { background: transparent !important; color: var(--text-color) !important; padding: 0 !important; border-radius: 0 !important; }
+#timer { font-size: 15px; font-weight: 700; min-width: 50px; text-align: right; }
+.timer-controls button, .mode-toggle {
+  width: 56px !important;
+  height: 56px !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  color: var(--text-color) !important;
+  padding: 0 !important;
+}
+.timer-controls button:hover, .mode-toggle:hover { background: #e4e4e4 !important; }
+main {
+  flex: 1;
+  min-height: 0;
+  display: flex !important;
+  overflow: hidden;
+}
+.passage-container, .questions-container {
+  width: auto !important;
+  flex: 1 1 0;
+  min-width: 220px;
+  padding: 24px 28px 90px !important;
+  background: #fff !important;
+}
+.passage-text, .passage-text p, .question-text, .questions-container, .questions-container *:not(i):not(svg):not(path), .passage-container {
+  font-size: var(--cdi-font-size) !important;
+  line-height: var(--cdi-line-height) !important;
+}
+.passage-title { font-size: 16px !important; border-bottom: none !important; padding-bottom: 0 !important; }
+.question { background: transparent !important; border-left: none !important; padding: 0 !important; }
+.question-number {
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  min-width:21px !important;
+  height:24px !important;
+  border:1.6px solid rgb(65,143,198) !important;
+  border-radius:3px !important;
+  background:transparent !important;
+  color:var(--text-color) !important;
+  font-weight:700 !important;
+  padding:0 4px !important;
+}
+footer { height: 53px !important; padding: 0 16px !important; box-shadow: none !important; }
+.progress-item { border-radius: 3px !important; background: transparent !important; color: var(--text-color) !important; border: 1.6px solid transparent !important; height: 36px !important; }
+.progress-item.completed { color: #2a6c96 !important; border-color: rgb(65,143,198) !important; }
+.cdi-resizer {
+  width: 16px;
+  flex: 0 0 16px;
+  cursor: col-resize;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  user-select: none;
+  z-index: 50;
+}
+.cdi-resizer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 1px;
+  background: #d5d5d5;
+  transform: translateX(-50%);
+}
+.cdi-resizer-handle {
+  width: 35px;
+  height: 35px;
+  background: #f9f9f9;
+  border: 1.6px solid #535353;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  color: #535353;
+  pointer-events: none;
+  z-index: 2;
+}
+.cdi-resizer.dragging::before, .cdi-resizer:hover::before { background:#2a6c96; }
+.cdi-resizer.dragging .cdi-resizer-handle, .cdi-resizer:hover .cdi-resizer-handle { border-color:#2a6c96; color:#2a6c96; }
+.display-panel {
+  position: fixed;
+  top: 56px;
+  right: 0;
+  width: min(320px, 100vw);
+  background: var(--questions-bg);
+  border-left: 1px solid var(--border-color);
+  box-shadow: -4px 0 16px rgba(0,0,0,.15);
+  padding: 16px;
+  z-index: 2000;
+  display: none;
+  color: var(--text-color);
+}
+.display-panel.open { display: block; }
+.display-panel h3 { font-size: 14px; text-transform: uppercase; letter-spacing: .04em; margin-bottom: 16px; }
+.display-panel label { display:block; font-size: 13px; font-weight: 700; margin: 12px 0 6px; }
+.display-panel input[type="range"] { width: 100%; accent-color: #2a6c96; }
+.theme-row { display:flex; gap:8px; margin-top: 14px; }
+.theme-row button { border:1px solid var(--border-color); background:var(--questions-bg); color:var(--text-color); padding:8px 12px; border-radius:4px; }
+.night-mode .display-panel { background:#1e1e1e; }
+.night-mode .logo-area .social-link.telegram { color: rgba(255,255,255,.65) !important; }
+.night-mode .timer-controls button:hover, .night-mode .mode-toggle:hover { background: rgba(255,255,255,.12) !important; }
+@media (max-width: 900px) {
+  main { flex-direction: column !important; }
+  .cdi-resizer { display: none; }
+  .passage-container, .questions-container { width: 100% !important; flex: none !important; height: 50% !important; }
+}
+
+
+
+/* ===== CDI reference visual match v5 ===== */
+:root{
+  --bg-color:#ffffff;
+  --text-color:#000000;
+  --passage-bg:#ffffff;
+  --questions-bg:#ffffff;
+  --border-color:#d5d5d5;
+  --header-bg:#ffffff;
+  --header-text:#000000;
+  --footer-bg:#ffffff;
+  --timer-bg:transparent;
+  --timer-text:#000000;
+  --button-bg:#efefef;
+  --button-hover:#e4e4e4;
+  --progress-complete:#21aa74;
+  --progress-incomplete:#ffffff;
+  --highlight-color:#fef08a;
+  --cdi-font-size:16px;
+  --cdi-line-height:1.5;
+}
+body.night-mode{
+  --bg-color:#1a1a2e;
+  --text-color:#e4e6eb;
+  --passage-bg:#16213e;
+  --questions-bg:#16213e;
+  --border-color:#3a3f4b;
+  --header-bg:#16213e;
+  --header-text:#e4e6eb;
+  --footer-bg:#16213e;
+  --timer-bg:transparent;
+  --timer-text:#e4e6eb;
+  --button-bg:#1f2b47;
+  --button-hover:#2a3550;
+  --progress-complete:#81c995;
+  --progress-incomplete:#16213e;
+  --highlight-color:#6b5c10;
+}
+html,body{height:100%;font-family:Arial,sans-serif;background:var(--bg-color);color:var(--text-color);}
+body{overflow:hidden;display:flex;flex-direction:column;line-height:1.5;font-size:16px;}
+header{
+  height:56px !important;
+  min-height:56px;
+  padding:0 14px !important;
+  background:var(--header-bg) !important;
+  border-bottom:1px solid var(--border-color) !important;
+  box-shadow:none !important;
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  flex-shrink:0;
+  z-index:50;
+}
+.cdi-left-brand{gap:12px;min-width:260px;}
+.ielts-logo{font-size:42px;font-weight:900;letter-spacing:-2px;color:#e31837;line-height:1;font-family:Arial Black,Arial,sans-serif;}
+.ielts-logo::after{content:'™';font-size:9px;vertical-align:top;margin-left:1px;color:#e31837;}
+.test-taker{font-size:16px;font-weight:700;color:var(--header-text);}
+.cdi-center-brand{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);}
+.social-link.telegram{background:#0088cc !important;color:#fff !important;border-radius:22px;padding:6px 18px;font-size:15px;font-weight:500;box-shadow:none;text-transform:none;}
+.social-link.telegram:hover{background:#007bb5 !important;transform:none;}
+.header-controls{margin-left:auto;display:flex;align-items:center;gap:18px;color:var(--header-text);}
+.timer-container{background:transparent !important;color:var(--timer-text) !important;padding:0 !important;border-radius:0 !important;font-size:16px;font-weight:700;min-width:70px;justify-content:flex-end;}
+.timer-container i{font-size:14px;opacity:.85;}
+.mode-toggle,#start-timer,#pause-timer,#reset-timer{
+  background:transparent !important;
+  border:0 !important;
+  color:var(--header-text) !important;
+  width:34px !important;
+  height:34px !important;
+  padding:0 !important;
+  border-radius:0 !important;
+  font-size:22px !important;
+  display:inline-flex;align-items:center;justify-content:center;
+}
+.mode-toggle:hover,#start-timer:hover,#pause-timer:hover,#reset-timer:hover{background:var(--button-hover) !important;transform:none !important;}
+.cdi-part-header{
+  margin:16px 14px 0;
+  padding:12px 20px;
+  background:rgb(241,242,236);
+  border:1px solid var(--border-color);
+  flex-shrink:0;
+}
+body.night-mode .cdi-part-header{background:#1f2b47;border-color:#3a3f4b;}
+.cdi-part-header p{margin:0;font-size:16px;line-height:1.45;color:var(--text-color);}
+.cdi-part-header p+p{margin-top:4px;}
+main{display:flex !important;flex:1;min-height:0;background:var(--questions-bg);overflow:hidden;border-top:0;margin-top:16px;}
+.passage-container,.questions-container{
+  height:100% !important;
+  overflow-y:auto !important;
+  padding:24px 28px 70px !important;
+  background:var(--passage-bg) !important;
+  color:var(--text-color) !important;
+  min-width:220px;
+  font-size:var(--cdi-font-size) !important;
+  line-height:var(--cdi-line-height) !important;
+}
+.questions-container{background:var(--questions-bg) !important;border-left:0 !important;}
+.passage-content{max-width:none;margin:0;}
+.passage-content h4{display:none;}
+.instructions{font-size:16px !important;color:var(--text-color) !important;font-style:normal !important;margin:0 0 16px 0 !important;}
+.passage-title{font-size:16px !important;font-weight:700 !important;margin:0 0 16px !important;border:0 !important;padding:0 !important;color:var(--text-color) !important;}
+.passage-text,.question-text,.passage-text p,.questions-container p,.questions-container li,.questions-container label{
+  font-family:Arial,sans-serif !important;
+  font-size:var(--cdi-font-size) !important;
+  line-height:var(--cdi-line-height) !important;
+  color:var(--text-color) !important;
+}
+.passage-text p{margin:0 0 16px !important;text-align:left !important;}
+.passage-text p strong{font-weight:700;margin-right:4px;}
+.section-title{font-size:16px !important;font-weight:700 !important;margin:0 0 12px !important;padding:0 !important;border:0 !important;color:var(--text-color) !important;}
+.question-group,.question{background:transparent !important;border:0 !important;border-radius:0 !important;padding:0 !important;margin:0 0 28px !important;}
+.question-title{font-size:16px !important;font-weight:700 !important;display:flex;align-items:flex-start;gap:8px;margin-bottom:8px;color:var(--text-color);}
+.question-number{
+  display:inline-flex !important;align-items:center;justify-content:center;
+  min-width:24px;width:auto;height:24px;padding:0 5px;
+  border:1.6px solid rgb(65,143,198) !important;border-radius:3px !important;
+  background:transparent !important;color:var(--text-color) !important;font-size:16px !important;font-weight:700 !important;line-height:1 !important;
+}
+.select-input,.text-input,select,input[type="text"]{
+  border:1px solid var(--border-color) !important;
+  border-radius:3px !important;
+  background:var(--questions-bg) !important;
+  color:var(--text-color) !important;
+  font-family:Arial,sans-serif !important;
+  font-size:16px !important;
+  min-height:28px;
+  padding:3px 8px !important;
+}
+select.select-input{min-width:300px;max-width:500px;height:43px;font-size:16px !important;}
+.cdi-resizer{
+  width:16px !important;flex:0 0 16px !important;background:transparent !important;cursor:col-resize !important;position:relative !important;display:flex !important;align-items:center !important;justify-content:center !important;z-index:5;
+}
+.cdi-resizer::before{content:'';position:absolute;left:50%;top:0;bottom:0;width:1px;background:var(--border-color);transform:translateX(-50%);}
+.cdi-resizer-handle{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:35px;height:35px;border:1.6px solid #535353;background:#f9f9f9;color:#535353;display:flex;align-items:center;justify-content:center;font-size:16px;pointer-events:none;}
+body.night-mode .cdi-resizer-handle{background:#1f2b47;color:#b0b3b8;border-color:#3a3f4b;}
+.cdi-resizer:hover::before,.cdi-resizer.dragging::before{background:#2a6c96;}
+.cdi-resizer:hover .cdi-resizer-handle,.cdi-resizer.dragging .cdi-resizer-handle{color:#2a6c96;border-color:#2a6c96;}
+footer{
+  height:60px !important;background:var(--footer-bg) !important;border-top:1px solid var(--border-color) !important;box-shadow:none !important;padding:0 !important;display:flex !important;align-items:stretch !important;flex-shrink:0;
+}
+.progress-container{display:flex;gap:0;align-items:stretch;overflow-x:auto;flex:1;padding:0 16px;}
+.progress-item{width:40px !important;height:100% !important;border-radius:3px !important;background:transparent !important;color:var(--text-color) !important;border:1.6px solid transparent !important;display:inline-flex;align-items:center;justify-content:center;font-size:16px;position:relative;margin:0;}
+.progress-item::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:#d7d7d7;}
+.progress-item.completed{color:#2a6c96 !important;background:transparent !important;}
+.progress-item.completed::before{background:#21aa74;}
+.action-buttons{display:flex;align-items:stretch;gap:0;margin-left:auto;}
+.btn-secondary,.btn-primary{height:100%;border-radius:0 !important;padding:0 28px !important;background:#efefef !important;color:#535353 !important;border:0 !important;border-left:1px solid var(--border-color) !important;font-size:16px !important;font-weight:400 !important;}
+.btn-primary{background:#efefef !important;color:#535353 !important;}
+.btn-secondary:hover,.btn-primary:hover{background:#e4e4e4 !important;}
+.display-panel{top:56px !important;right:0 !important;background:var(--questions-bg) !important;border-left:1px solid var(--border-color);box-shadow:-4px 0 16px rgba(0,0,0,.1);border-radius:0 !important;color:var(--text-color) !important;}
+.display-panel input[type="range"]{width:100%;accent-color:#2a6c96;}
+.theme-row button{border:1px solid var(--border-color) !important;background:var(--questions-bg) !important;color:var(--text-color) !important;border-radius:6px !important;padding:7px 10px !important;}
+@media(max-width:900px){
+  .cdi-left-brand{min-width:0}.test-taker{display:none}.ielts-logo{font-size:30px}.cdi-center-brand{position:static;transform:none;margin-left:8px}.social-link.telegram span{display:inline}.header-controls{gap:8px}.cdi-part-header{margin:8px}.passage-container,.questions-container{padding:16px 18px 70px !important}.cdi-resizer{display:none !important;}main{flex-direction:column}.passage-container,.questions-container{width:100% !important;flex:none !important;height:50% !important;}
+}
+
+/* Extra normalized question/input styling for converted source question blocks */
+.answer-input, .blank-input, input[type="text"], textarea, select {
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 6px 8px;
+  background: var(--questions-bg);
+  color: var(--text-color);
+  font: inherit;
+  max-width: 100%;
+}
+.answer-input.narrow { width: 80px; }
+.tf-question, .item-question, .summary-line, .question-line {
+  margin: 12px 0;
+}
+.question-block, .question {
+  margin-bottom: 28px;
+}
+.part-header, .question-prompt {
+  margin: 0 0 16px 0;
+}
+.options-container, .radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 8px 0 16px 0;
+}
+.option-box, .mcq-option, .tf-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background: var(--questions-bg);
+}
+table { border-collapse: collapse; width: 100%; margin: 12px 0; }
+td, th { border: 1px solid var(--border-color); padding: 8px; vertical-align: top; }
+
+
+/* Source-question compatibility while preserving CDI layout */
+.question-rubric h3, .section-title { font-size: 18px; font-weight: 700; margin: 18px 0 8px; color: var(--text-color); }
+.question-rubric p, .instructions { margin: 8px 0; }
+ul.question-options { list-style: none; padding-left: 0; margin: 10px 0 18px; }
+ul.question-options li { margin: 10px 0; line-height: var(--cdi-line-height, 1.6); }
+.true-false-option { margin: 16px 0; padding: 14px; border: 1px solid var(--border-color); border-radius: 8px; background: var(--questions-bg); }
+.true-false-option p { margin-bottom: 8px; }
+.summary-input, .blank { width: 120px; max-width: 100%; padding: 7px 9px; margin: 0 4px; border: 1px solid var(--border-color); border-radius: 4px; background: var(--questions-bg); color: var(--text-color); font-size: var(--cdi-font-size, 16px); }
+.question-options input[type=radio] { margin-right: 8px; }
+#passage-text, #questions-container { font-size: var(--cdi-font-size, 16px); line-height: var(--cdi-line-height, 1.6); }
+#passage-text p, #questions-container p, #questions-container li { line-height: var(--cdi-line-height, 1.6); }
+</style>
 </head>
 <body>
-    <div class="test-wrapper">
-        <header class="header">
-            <div class="header__logo">
-                <img src="https://d2snzxottmona5.cloudfront.net/releases/3.46.0/images/logo/ielts.svg" alt="IELTS Logo">
-            </div>
-            <div class="header__timer" id="testTimer">20:00</div>
-            <div class="header__icons">
-                <i class="fas fa-wifi header__icon"></i>
-                <i class="fas fa-bell header__icon"></i>
-                <i class="fas fa-cog header__icon" id="settingsButton"></i>
-            </div>
-        </header>
-        <div class="settings-modal" id="settingsModal">
-            <div class="settings-content">
-                <div class="settings-header">
-                    <h2>Options</h2>
-                    <button class="settings-close" id="settingsClose">&times;</button>
-                </div>
-                <div class="settings-body">
-                    <div class="settings-option">
-                        <i class="fas fa-paper-plane"></i>
-                        <span>Go to submission page</span>
-                    </div>
-                    <div class="settings-option" id="contrastOption">
-                        <i class="fas fa-adjust"></i>
-                        <span>Contrast</span>
-                    </div>
-                    <div class="settings-option" id="textSizeOption">
-                        <i class="fas fa-search-plus"></i>
-                        <span>Text size</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="test-container">
-            <div class="passage-container" id="passage-container">
-                <div class="sectionRubric" id="sectionRubric">
-                    <h2>Reading Passage 3</h2>
-                    <p>You should spend about 20 minutes on Questions 27-40, which are based on Reading Passage 3.</p>
-                </div>
-                <div class="highlight-toolbar" id="highlightToolbar">
-                    <button class="highlight-color yellow" data-color="yellow" title="Yellow highlight"></button>
-                    <button class="highlight-color green" data-color="green" title="Green highlight"></button>
-                    <button class="highlight-color pink" data-color="pink" title="Pink highlight"></button>
-                    <button class="highlight-color blue" data-color="blue" title="Blue highlight"></button>
-                    <button class="remove" title="Remove highlight"><i class="fas fa-times"></i></button>
-                </div>
-                <div id="passageContent">
-                    <h2 style="text-align: center;">The Pirahã people of Brazil</h2>
-                    <p style="text-align: center; font-style: italic;">The Pirahã language has stirred up debate among experts</p>
-                    <p>The Pirahã tribe live deep in Brazil’s Amazon forest, and their language is hotly debated by linguists. Since 1977, the ethnologist Daniel Everett has spent a total of seven years living with the Pirahã and has committed his career to studying their puzzling speech. Indeed, he was uncertain for so long about what he was actually hearing while living among the Pirahã that he waited nearly three decades before publishing his findings.</p>
-                    <p>The debate over the Pirahã language goes right to the core of the riddle regarding how Homo sapiens managed to develop vocal communication. Although bees dance, birds sing and whales even sing with syntax*, human language is unique, if only for the reason that it enables humans to piece together never-before-constructed thoughts, and be infinitely imaginative - think of Shakespeare’s plays or Einstein’s theory of relativity.</p>
-                    <p>Linguistics generally focuses on what features all human languages have in common, but the Pirahã language departs from what some academics have long maintained are essential and inalienable features of all human languages. Most of all, it may be unique for not employing subordinate clauses. Instead of saying, 'When I have finished eating, I will speak to you,' the Pirahã say, 'I finish eating, I speak with you.' Equally perplexing, the Pirahã appear not to use numbers. During the time he spent with them, Everett never heard words like 'all,' 'every' and 'more'. There is one word, 'hoi', that comes close to the numeral 1, but it can also mean 'small'. And they were never observed to count without language, on their fingers for example, in order to determine important tasks in village life like how many pieces of meat to grill.</p>
-                    <p>Everett’s findings among the Pirahã have brought new life to a controversial theory by the linguist Benjamin Whorf, who suggested that people are only capable of constructing thoughts for which they possess actual words. Or to put it another way, because they have no words for numbers, they cannot even begin to understand the concept of numbers or arithmetic.</p>
-                    <p>The Warlpiri language - spoken by a group of Australian Aborigines - like that of the Pirahã, features only the most rudimentary system of counting. However, the Warlpiri people had no difficulty counting farther than three in a foreign language, in this case English, but when Everett attempted to teach the Pirahã how to count in Portuguese like other Brazilians, not a single person could count to 10.</p>
-                    <p>Everett is at pains to point out that the Pirahã are not unintelligent, for their thinking is not any slower than that of the average university student. And although they reside in a remote part of the forest, they do not live in complete genetic isolation, but mix with people from the surrounding populations and share similar intellectual capacities with their neighbours whose languages do contain numbers.</p>
-                    <p>Eventually, after some 30 years of research, Everett has come up with a surprising explanation for the peculiarities of the Pirahã language. Language, he believes, is created by a people’s way of life, their belief system and values. In this way, variety in human language is almost limitless, a function of the human capacity to live in different ways, such as in the forest. What Everett’s research has revealed is that the central tenet of the Pirahã culture is to live in the here and now. The only thing of importance that is worth communicating to others is what is being experienced at that very moment, though this can often be described with great care and detail. In consequence, the language has no means to conjugate verbs in order to describe 'yesterday' or 'last week' or 'when I was a child'. Their very literal view of the world curtails abstract thought, and many features taken for granted among other peoples are absent among the Pirahã, such as a creation myth, story telling and painting. One manifestation of their beliefs is that by tradition the names they give their children are not particularly imaginative. Often they are named after other members of the tribe with whom they share similar character traits. Standing out or being different is not encouraged by the Pirahã, and this is reflected in their perhaps colourless choice of names.</p>
-                    <p>Everett anticipated that these findings would be controversial and the reaction came as expected. Until this point, many linguists had defended the theories of Noam Chomsky, according to which all human languages have a universal grammar. What exactly makes up this universal grammar is the subject of debate, but at its heart is the concept of 'recursion', which is defined as replication of a structure within its single parts. Without it, humans would not be able to view separate thoughts as subordinate parts of a complex whole. And, most pertinent to Everett’s work, there would not be subordinate clauses, which are responsible for translating the concept of recursion into grammar. But if the Pirahã do not form subordinate clauses, then recursion cannot explain the uniqueness of human language, and this would negate Chomsky’s theories.</p>
-                    <p>The logical way forward now would be to try to prove that the Pirahã can think in a recursive fashion. The only problem is, nobody can confirm or deny Everett’s observations since no other researcher can speak Pirahã as well as he does. Despite this, several researchers - including two of Chomsky’s colleagues - will soon travel to Brazil to check his claims. My concern is that soon the Pirahã will simply become one more scientific oddity with every aspect of their lives being exploited and analysed.</p>
-                </div>
-            </div>
-            <div class="divider" id="divider">
-                <div class="divider-handle"></div>
-            </div>
-            <div class="questions-container" id="questions-container">
-                <div class="question">
-                    <div class="question-rubric">
-                        <h3>Questions 27-32</h3>
-                        <p>Choose the correct letter, A, B, C or D.</p>
-                        <p>Write the correct letter in boxes 27-32 on your answer sheet.</p>
-                    </div>
-                    <div class="question-content">
-                        <div class="question-options">
-                            <p><strong>27</strong> What are we told about Daniel Everett in the first paragraph?</p>
-                            <ul class="question-options">
-                                <li><input type="radio" name="q27" value="A"> A. He has lived among the Pirahã since 1977.</li>
-                                <li><input type="radio" name="q27" value="B"> B. It took him seven years to learn the Pirahã language.</li>
-                                <li><input type="radio" name="q27" value="C"> C. No one would publish his research for three decades.</li>
-                                <li><input type="radio" name="q27" value="D"> D. Studying the Pirahã language is the focus of his work.</li>
-                            </ul>
-                        </div>
-                        <div class="question-options">
-                            <p><strong>28</strong> Which of the following is the best summary of the second paragraph?</p>
-                            <ul class="question-options">
-                                <li><input type="radio" name="q28" value="A"> A. Humans are the only species to be linguistically creative.</li>
-                                <li><input type="radio" name="q28" value="B"> B. Humans, bees, birds and whales share a characteristic.</li>
-                                <li><input type="radio" name="q28" value="C"> C. Human language is not fully understood by scientists.</li>
-                                <li><input type="radio" name="q28" value="D"> D. Humans are the only species to use syntax.</li>
-                            </ul>
-                        </div>
-                        <div class="question-options">
-                            <p><strong>29</strong> Why does the writer refer to subordinate clauses?</p>
-                            <ul class="question-options">
-                                <li><input type="radio" name="q29" value="A"> A. to criticise the general approach of linguistics</li>
-                                <li><input type="radio" name="q29" value="B"> B. to compare two features of the Pirahã language</li>
-                                <li><input type="radio" name="q29" value="C"> C. to explain why the Pirahã language is difficult to learn</li>
-                                <li><input type="radio" name="q29" value="D"> D. to exemplify an unusual feature of the Pirahã language</li>
-                            </ul>
-                        </div>
-                        <div class="question-options">
-                            <p><strong>30</strong> What point does the writer make about the work of Whorf?</p>
-                            <ul class="question-options">
-                                <li><input type="radio" name="q30" value="A"> A. He thought that numbers were common to all human languages.</li>
-                                <li><input type="radio" name="q30" value="B"> B. His theory might be supported by Everett's research.</li>
-                                <li><input type="radio" name="q30" value="C"> C. His research enabled him to find a new life among the Pirahã.</li>
-                                <li><input type="radio" name="q30" value="D"> D. He predicted that people like the Pirahã would never be found.</li>
-                            </ul>
-                        </div>
-                        <div class="question-options">
-                            <p><strong>31</strong> The writer refers to the Warlpiri people in order to</p>
-                            <ul class="question-options">
-                                <li><input type="radio" name="q31" value="A"> A. suggest that the Pirahã be taught to count in English.</li>
-                                <li><input type="radio" name="q31" value="B"> B. show how tribal peoples learn a foreign language.</li>
-                                <li><input type="radio" name="q31" value="C"> C. compare counting in English and Portuguese.</li>
-                                <li><input type="radio" name="q31" value="D"> D. illustrate the uniqueness of the Pirahã.</li>
-                            </ul>
-                        </div>
-                        <div class="question-options">
-                            <p><strong>32</strong> What is Everett's point about the Pirahã’s intellectual capacities?</p>
-                            <ul class="question-options">
-                                <li><input type="radio" name="q32" value="A"> A. Pirahã students have not graduated from universities.</li>
-                                <li><input type="radio" name="q32" value="B"> B. He does not want people to criticise their intelligence.</li>
-                                <li><input type="radio" name="q32" value="C"> C. Their isolation makes it difficult to evaluate their intelligence.</li>
-                                <li><input type="radio" name="q32" value="D"> D. He believes their language is more complex than their neighbours’.</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="question">
-                    <div class="question-rubric">
-                        <h3>Questions 33-36</h3>
-                        <p>Complete the summary using the list of words, A-I, below.</p>
-                        <p>Write the correct letter, A-I, in boxes 33-36 on your answer sheet.</p>
-                        <p><strong>Everett's explanation</strong></p>
-                        <p>Everett believes that a group’s language is a product of their <input type="text" name="q33" class="summary-input" maxlength="1" placeholder="33"> and thus language is infinitely varied. During the time he spent living among them, he observed that the Pirahã only place value on the <input type="text" name="q34" class="summary-input" maxlength="1" placeholder="34"> and have no <input type="text" name="q35" class="summary-input" maxlength="1" placeholder="35"> to describe completed events. Similarly, the types of names they use reflect the fact that they do not celebrate <input type="text" name="q36" class="summary-input" maxlength="1" placeholder="36">.</p>
-                        <p><strong>A</strong> present<br><strong>B</strong> past<br><strong>C</strong> time<br><strong>D</strong> future<br><strong>E</strong> culture<br><strong>F</strong> grammar<br><strong>G</strong> art<br><strong>H</strong> individuality<br><strong>I</strong> children</p>
-                    </div>
-                </div>
-                <div class="question">
-                    <div class="question-rubric">
-                        <h3>Questions 37-40</h3>
-                        <p>Do the following statements agree with the views of the writer in Reading Passage 3?</p>
-                        <p>In boxes 37-40 on your answer sheet, write:</p>
-                        <p><strong>YES</strong> if the statement agrees with the views of the writer</p>
-                        <p><strong>NO</strong> if the statement contradicts the views of the writer</p>
-                        <p><strong>NOT GIVEN</strong> if it is impossible to say what the writer thinks about this</p>
-                    </div>
-                    <div class="question-content">
-                        <div class="true-false-option">
-                            <p><span class="question-number">37</span> Everett was surprised by the way his research was greeted.</p>
-                            <select name="q37">
-                                <option value="">--</option>
-                                <option value="YES">YES</option>
-                                <option value="NO">NO</option>
-                                <option value="NOT GIVEN">NOT GIVEN</option>
-                            </select>
-                        </div>
-                        <div class="true-false-option">
-                            <p><span class="question-number">38</span> Chomsky has been critical of Everett’s research methodology.</p>
-                            <select name="q38">
-                                <option value="">--</option>
-                                <option value="YES">YES</option>
-                                <option value="NO">NO</option>
-                                <option value="NOT GIVEN">NOT GIVEN</option>
-                            </select>
-                        </div>
-                        <div class="true-false-option">
-                            <p><span class="question-number">39</span> If 'recursion' as a universal concept is disproved, Chomsky's ideas about language would be wrong.</p>
-                            <select name="q39">
-                                <option value="">--</option>
-                                <option value="YES">YES</option>
-                                <option value="NO">NO</option>
-                                <option value="NOT GIVEN">NOT GIVEN</option>
-                            </select>
-                        </div>
-                        <div class="true-false-option">
-                            <p><span class="question-number">40</span> The Pirahã will benefit from their new-found status among academics.</p>
-                            <select name="q40">
-                                <option value="">--</option>
-                                <option value="YES">YES</option>
-                                <option value="NO">NO</option>
-                                <option value="NOT GIVEN">NOT GIVEN</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <footer class="footer">
-            <nav class="nav-row">
-                <div class="footer__questionWrapper">
-                    <div class="footer__subquestionWrapper">
-                        <button class="subQuestion" data-ordernumber="27" tabindex="0">
-                            <span class="sr-only">Question 27</span>
-                            <span aria-hidden="true">27</span>
-                            <span class="sr-only">Not attempted</span>
-                        </button>
-                        <button class="subQuestion" data-ordernumber="28" tabindex="0">
-                            <span class="sr-only">Question 28</span>
-                            <span aria-hidden="true">28</span>
-                            <span class="sr-only">Not attempted</span>
-                        </button>
-                        <button class="subQuestion" data-ordernumber="29" tabindex="0">
-                            <span class="sr-only">Question 29</span>
-                            <span aria-hidden="true">29</span>
-                            <span class="sr-only">Not attempted</span>
-                        </button>
-                        <button class="subQuestion" data-ordernumber="30" tabindex="0">
-                            <span class="sr-only">Question 30</span>
-                            <span aria-hidden="true">30</span>
-                            <span class="sr-only">Not attempted</span>
-                        </button>
-                        <button class="subQuestion" data-ordernumber="31" tabindex="0">
-                            <span class="sr-only">Question 31</span>
-                            <span aria-hidden="true">31</span>
-                            <span class="sr-only">Not attempted</span>
-                        </button>
-                        <button class="subQuestion" data-ordernumber="32" tabindex="0">
-                            <span class="sr-only">Question 32</span>
-                            <span aria-hidden="true">32</span>
-                            <span class="sr-only">Not attempted</span>
-                        </button>
-                        <button class="subQuestion" data-ordernumber="33" tabindex="0">
-                            <span class="sr-only">Question 33</span>
-                            <span aria-hidden="true">33</span>
-                            <span class="sr-only">Not attempted</span>
-                        </button>
-                        <button class="subQuestion" data-ordernumber="34" tabindex="0">
-                            <span class="sr-only">Question 34</span>
-                            <span aria-hidden="true">34</span>
-                            <span class="sr-only">Not attempted</span>
-                        </button>
-                        <button class="subQuestion" data-ordernumber="35" tabindex="0">
-                            <span class="sr-only">Question 35</span>
-                            <span aria-hidden="true">35</span>
-                            <span class="sr-only">Not attempted</span>
-                        </button>
-                        <button class="subQuestion" data-ordernumber="36" tabindex="0">
-                            <span class="sr-only">Question 36</span>
-                            <span aria-hidden="true">36</span>
-                            <span class="sr-only">Not attempted</span>
-                        </button>
-                        <button class="subQuestion" data-ordernumber="37" tabindex="0">
-                            <span class="sr-only">Question 37</span>
-                            <span aria-hidden="true">37</span>
-                            <span class="sr-only">Not attempted</span>
-                        </button>
-                        <button class="subQuestion" data-ordernumber="38" tabindex="0">
-                            <span class="sr-only">Question 38</span>
-                            <span aria-hidden="true">38</span>
-                            <span class="sr-only">Not attempted</span>
-                        </button>
-                        <button class="subQuestion" data-ordernumber="39" tabindex="0">
-                            <span class="sr-only">Question 39</span>
-                            <span aria-hidden="true">39</span>
-                            <span class="sr-only">Not attempted</span>
-                        </button>
-                        <button class="subQuestion" data-ordernumber="40" tabindex="0">
-                            <span class="sr-only">Question 40</span>
-                            <span aria-hidden="true">40</span>
-                            <span class="sr-only">Not attempted</span>
-                        </button>
-                    </div>
-                </div>
-                <button id="deliver-button" aria-label="Review your answers" class="footer__deliverButton">
-                    <i class="fas fa-check"></i> Submit
-                </button>
-            </nav>
-        </footer>
-    </div>
-    <div class="submission-modal" id="submissionModal">
-        <div class="submission-content">
-            <h2 id="submissionTitle">Test Results</h2>
-            <div class="score-display">
-                <div>Your Score:</div>
-                <div class="score-number" id="userScore">0</div>
-                <div class="score-total">out of <span id="totalQuestions">14</span></div>
-                <div class="band-score" id="bandScore">Band: 0.0</div>
-                <div class="performance-rating" id="performanceRating">Poor - Needs Improvement</div>
-            </div>
-            <div class="time-spent" id="timeSpent"></div>
-            <p id="submissionMessage">Here are your answers with the correct solutions:</p>
-            <div class="answers-section">
-                <h3>Your Answers:</h3>
-                <div id="answersList"></div>
-            </div>
-            <div class="submission-buttons">
-                <button class="confirm" id="closeSubmission">Close</button>
-            </div>
-        </div>
-    </div>
-    <div class="answer-comparison" id="answerComparison">
-        <h3>Answer Comparison</h3>
-        <p>Your answers are highlighted below. Correct answers are marked in <span class="correct-highlight">green</span>, incorrect answers in <span class="incorrect-highlight">red</span>.</p>
-    </div>
-    <script>
-        const correctAnswers = {
-            27: "D",
-            28: "A",
-            29: "D",
-            30: "B",
-            31: "D",
-            32: "B",
-            33: "E",
-            34: "A",
-            35: "B",
-            36: "H",
-            37: "NO",
-            38: "NOT GIVEN",
-            39: "YES",
-            40: "NO"
-        };
+<header>
+<div class="logo-area cdi-left-brand">
+<span class="ielts-logo">IELTS</span>
+<span class="test-taker">Test taker ID</span>
+</div>
+<div class="cdi-center-brand">
+<a class="social-link telegram" href="https://t.me/augustus_flores" target="_blank" title="Telegram">
+<i class="fab fa-telegram-plane"></i>
+<span>Abduraimov Erkinjon</span>
+</a>
+</div>
+<div class="header-controls">
+<div class="timer-container">
+<i class="fas fa-clock"></i>
+<span id="timer">20:00</span>
+</div>
+<button class="mode-toggle" id="start-timer" title="Start"><i class="fas fa-play"></i></button>
+<button class="mode-toggle" id="pause-timer" title="Pause"><i class="fas fa-pause"></i></button>
+<button class="mode-toggle" id="reset-timer" title="Reset"><i class="fas fa-redo"></i></button>
+<button aria-label="Toggle fullscreen" class="mode-toggle" id="fullscreen-toggle" title="Fullscreen">
+<i class="fas fa-expand"></i>
+</button>
+<button class="mode-toggle" id="night-mode-toggle" title="Toggle Night Mode">
+<i class="fas fa-moon"></i>
+</button>
+<button aria-label="Display options" class="mode-toggle" id="display-menu-toggle" title="Display options">
+<i class="fas fa-bars"></i>
+</button>
+</div>
+</header>
+<div aria-label="Display options" class="display-panel" id="display-panel">
+<h3>Display options</h3>
+<label for="font-size-range">Text size</label>
+<input id="font-size-range" max="22" min="14" type="range" value="16"/>
+<label for="line-height-range">Line spacing</label>
+<input id="line-height-range" max="190" min="140" type="range" value="160"/>
+<div class="theme-row">
+<button data-theme-choice="light" type="button">Light</button>
+<button data-theme-choice="dark" type="button">Dark</button>
+</div>
+</div>
+<div class="cdi-part-header"><div>Reading Passage 3</div><p>You should spend about 20 minutes on Questions 27–40, which are based on Reading Passage 3.</p></div>
+<main>
+<div class="passage-container" id="passage-container">
+<div class="passage-content">
+<h4>READING PASSAGE</h4>
+<div class="instructions">You should spend about 20 minutes on Questions 14–26, which are based on the Reading Passage.</div>
+<div class="passage-title">The return of monkey life</div>
+<div class="passage-text" id="passage-text">
+<h2 style="text-align: center;">The Pirahã people of Brazil</h2>
+<p style="text-align: center; font-style: italic;">The Pirahã language has stirred up debate among experts</p>
+<p>The Pirahã tribe live deep in Brazil’s Amazon forest, and their language is hotly debated by linguists. Since 1977, the ethnologist Daniel Everett has spent a total of seven years living with the Pirahã and has committed his career to studying their puzzling speech. Indeed, he was uncertain for so long about what he was actually hearing while living among the Pirahã that he waited nearly three decades before publishing his findings.</p>
+<p>The debate over the Pirahã language goes right to the core of the riddle regarding how Homo sapiens managed to develop vocal communication. Although bees dance, birds sing and whales even sing with syntax*, human language is unique, if only for the reason that it enables humans to piece together never-before-constructed thoughts, and be infinitely imaginative - think of Shakespeare’s plays or Einstein’s theory of relativity.</p>
+<p>Linguistics generally focuses on what features all human languages have in common, but the Pirahã language departs from what some academics have long maintained are essential and inalienable features of all human languages. Most of all, it may be unique for not employing subordinate clauses. Instead of saying, 'When I have finished eating, I will speak to you,' the Pirahã say, 'I finish eating, I speak with you.' Equally perplexing, the Pirahã appear not to use numbers. During the time he spent with them, Everett never heard words like 'all,' 'every' and 'more'. There is one word, 'hoi', that comes close to the numeral 1, but it can also mean 'small'. And they were never observed to count without language, on their fingers for example, in order to determine important tasks in village life like how many pieces of meat to grill.</p>
+<p>Everett’s findings among the Pirahã have brought new life to a controversial theory by the linguist Benjamin Whorf, who suggested that people are only capable of constructing thoughts for which they possess actual words. Or to put it another way, because they have no words for numbers, they cannot even begin to understand the concept of numbers or arithmetic.</p>
+<p>The Warlpiri language - spoken by a group of Australian Aborigines - like that of the Pirahã, features only the most rudimentary system of counting. However, the Warlpiri people had no difficulty counting farther than three in a foreign language, in this case English, but when Everett attempted to teach the Pirahã how to count in Portuguese like other Brazilians, not a single person could count to 10.</p>
+<p>Everett is at pains to point out that the Pirahã are not unintelligent, for their thinking is not any slower than that of the average university student. And although they reside in a remote part of the forest, they do not live in complete genetic isolation, but mix with people from the surrounding populations and share similar intellectual capacities with their neighbours whose languages do contain numbers.</p>
+<p>Eventually, after some 30 years of research, Everett has come up with a surprising explanation for the peculiarities of the Pirahã language. Language, he believes, is created by a people’s way of life, their belief system and values. In this way, variety in human language is almost limitless, a function of the human capacity to live in different ways, such as in the forest. What Everett’s research has revealed is that the central tenet of the Pirahã culture is to live in the here and now. The only thing of importance that is worth communicating to others is what is being experienced at that very moment, though this can often be described with great care and detail. In consequence, the language has no means to conjugate verbs in order to describe 'yesterday' or 'last week' or 'when I was a child'. Their very literal view of the world curtails abstract thought, and many features taken for granted among other peoples are absent among the Pirahã, such as a creation myth, story telling and painting. One manifestation of their beliefs is that by tradition the names they give their children are not particularly imaginative. Often they are named after other members of the tribe with whom they share similar character traits. Standing out or being different is not encouraged by the Pirahã, and this is reflected in their perhaps colourless choice of names.</p>
+<p>Everett anticipated that these findings would be controversial and the reaction came as expected. Until this point, many linguists had defended the theories of Noam Chomsky, according to which all human languages have a universal grammar. What exactly makes up this universal grammar is the subject of debate, but at its heart is the concept of 'recursion', which is defined as replication of a structure within its single parts. Without it, humans would not be able to view separate thoughts as subordinate parts of a complex whole. And, most pertinent to Everett’s work, there would not be subordinate clauses, which are responsible for translating the concept of recursion into grammar. But if the Pirahã do not form subordinate clauses, then recursion cannot explain the uniqueness of human language, and this would negate Chomsky’s theories.</p>
+<p>The logical way forward now would be to try to prove that the Pirahã can think in a recursive fashion. The only problem is, nobody can confirm or deny Everett’s observations since no other researcher can speak Pirahã as well as he does. Despite this, several researchers - including two of Chomsky’s colleagues - will soon travel to Brazil to check his claims. My concern is that soon the Pirahã will simply become one more scientific oddity with every aspect of their lives being exploited and analysed.</p>
+</div>
+</div>
+</div>
+<div class="cdi-resizer" id="cdi-resizer" title="Drag to resize"></div>
+<div class="questions-container" id="questions-container">
+<div class="question">
+<div class="question-rubric">
+<h3>Questions 27-32</h3>
+<p>Choose the correct letter, A, B, C or D.</p>
+<p>Write the correct letter in boxes 27-32 on your answer sheet.</p>
+</div>
+<div class="question-content">
+<div class="question-options">
+<p><strong>27</strong> What are we told about Daniel Everett in the first paragraph?</p>
+<ul class="question-options">
+<li><input name="q27" type="radio" value="A"/> A. He has lived among the Pirahã since 1977.</li>
+<li><input name="q27" type="radio" value="B"/> B. It took him seven years to learn the Pirahã language.</li>
+<li><input name="q27" type="radio" value="C"/> C. No one would publish his research for three decades.</li>
+<li><input name="q27" type="radio" value="D"/> D. Studying the Pirahã language is the focus of his work.</li>
+</ul>
+</div>
+<div class="question-options">
+<p><strong>28</strong> Which of the following is the best summary of the second paragraph?</p>
+<ul class="question-options">
+<li><input name="q28" type="radio" value="A"/> A. Humans are the only species to be linguistically creative.</li>
+<li><input name="q28" type="radio" value="B"/> B. Humans, bees, birds and whales share a characteristic.</li>
+<li><input name="q28" type="radio" value="C"/> C. Human language is not fully understood by scientists.</li>
+<li><input name="q28" type="radio" value="D"/> D. Humans are the only species to use syntax.</li>
+</ul>
+</div>
+<div class="question-options">
+<p><strong>29</strong> Why does the writer refer to subordinate clauses?</p>
+<ul class="question-options">
+<li><input name="q29" type="radio" value="A"/> A. to criticise the general approach of linguistics</li>
+<li><input name="q29" type="radio" value="B"/> B. to compare two features of the Pirahã language</li>
+<li><input name="q29" type="radio" value="C"/> C. to explain why the Pirahã language is difficult to learn</li>
+<li><input name="q29" type="radio" value="D"/> D. to exemplify an unusual feature of the Pirahã language</li>
+</ul>
+</div>
+<div class="question-options">
+<p><strong>30</strong> What point does the writer make about the work of Whorf?</p>
+<ul class="question-options">
+<li><input name="q30" type="radio" value="A"/> A. He thought that numbers were common to all human languages.</li>
+<li><input name="q30" type="radio" value="B"/> B. His theory might be supported by Everett's research.</li>
+<li><input name="q30" type="radio" value="C"/> C. His research enabled him to find a new life among the Pirahã.</li>
+<li><input name="q30" type="radio" value="D"/> D. He predicted that people like the Pirahã would never be found.</li>
+</ul>
+</div>
+<div class="question-options">
+<p><strong>31</strong> The writer refers to the Warlpiri people in order to</p>
+<ul class="question-options">
+<li><input name="q31" type="radio" value="A"/> A. suggest that the Pirahã be taught to count in English.</li>
+<li><input name="q31" type="radio" value="B"/> B. show how tribal peoples learn a foreign language.</li>
+<li><input name="q31" type="radio" value="C"/> C. compare counting in English and Portuguese.</li>
+<li><input name="q31" type="radio" value="D"/> D. illustrate the uniqueness of the Pirahã.</li>
+</ul>
+</div>
+<div class="question-options">
+<p><strong>32</strong> What is Everett's point about the Pirahã’s intellectual capacities?</p>
+<ul class="question-options">
+<li><input name="q32" type="radio" value="A"/> A. Pirahã students have not graduated from universities.</li>
+<li><input name="q32" type="radio" value="B"/> B. He does not want people to criticise their intelligence.</li>
+<li><input name="q32" type="radio" value="C"/> C. Their isolation makes it difficult to evaluate their intelligence.</li>
+<li><input name="q32" type="radio" value="D"/> D. He believes their language is more complex than their neighbours’.</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="question">
+<div class="question-rubric">
+<h3>Questions 33-36</h3>
+<p>Complete the summary using the list of words, A-I, below.</p>
+<p>Write the correct letter, A-I, in boxes 33-36 on your answer sheet.</p>
+<p><strong>Everett's explanation</strong></p>
+<p>Everett believes that a group’s language is a product of their <input class="summary-input blank" id="q33" maxlength="1" name="q33" placeholder="33" type="text"/> and thus language is infinitely varied. During the time he spent living among them, he observed that the Pirahã only place value on the <input class="summary-input blank" id="q34" maxlength="1" name="q34" placeholder="34" type="text"/> and have no <input class="summary-input blank" id="q35" maxlength="1" name="q35" placeholder="35" type="text"/> to describe completed events. Similarly, the types of names they use reflect the fact that they do not celebrate <input class="summary-input blank" id="q36" maxlength="1" name="q36" placeholder="36" type="text"/>.</p>
+<p><strong>A</strong> present<br/><strong>B</strong> past<br/><strong>C</strong> time<br/><strong>D</strong> future<br/><strong>E</strong> culture<br/><strong>F</strong> grammar<br/><strong>G</strong> art<br/><strong>H</strong> individuality<br/><strong>I</strong> children</p>
+</div>
+</div>
+<div class="question">
+<div class="question-rubric">
+<h3>Questions 37-40</h3>
+<p>Do the following statements agree with the views of the writer in Reading Passage 3?</p>
+<p>In boxes 37-40 on your answer sheet, write:</p>
+<p><strong>YES</strong> if the statement agrees with the views of the writer</p>
+<p><strong>NO</strong> if the statement contradicts the views of the writer</p>
+<p><strong>NOT GIVEN</strong> if it is impossible to say what the writer thinks about this</p>
+</div>
+<div class="question-content">
+<div class="true-false-option">
+<p><span class="question-number">37</span> Everett was surprised by the way his research was greeted.</p>
+<select class="select" name="q37">
+<option value="">--</option>
+<option value="YES">YES</option>
+<option value="NO">NO</option>
+<option value="NOT GIVEN">NOT GIVEN</option>
+</select>
+</div>
+<div class="true-false-option">
+<p><span class="question-number">38</span> Chomsky has been critical of Everett’s research methodology.</p>
+<select class="select" name="q38">
+<option value="">--</option>
+<option value="YES">YES</option>
+<option value="NO">NO</option>
+<option value="NOT GIVEN">NOT GIVEN</option>
+</select>
+</div>
+<div class="true-false-option">
+<p><span class="question-number">39</span> If 'recursion' as a universal concept is disproved, Chomsky's ideas about language would be wrong.</p>
+<select class="select" name="q39">
+<option value="">--</option>
+<option value="YES">YES</option>
+<option value="NO">NO</option>
+<option value="NOT GIVEN">NOT GIVEN</option>
+</select>
+</div>
+<div class="true-false-option">
+<p><span class="question-number">40</span> The Pirahã will benefit from their new-found status among academics.</p>
+<select class="select" name="q40">
+<option value="">--</option>
+<option value="YES">YES</option>
+<option value="NO">NO</option>
+<option value="NOT GIVEN">NOT GIVEN</option>
+</select>
+</div>
+</div>
+</div>
+</div>
+</main>
+<footer>
+<div class="progress-container" id="progress-container"></div>
+<div class="action-buttons">
+<button class="btn-secondary" id="reset-btn">Reset Answers</button>
+<button class="btn-primary" id="submit-btn">Submit Answers</button>
+</div>
+</footer>
+<div class="feedback-overlay" id="feedback-overlay">
+<div class="feedback-container" id="feedback-container">
+<div class="feedback-header">
+<div class="feedback-title">
+<i class="fas fa-chart-bar"></i> Your Results <span class="score-display" id="score-display">0/14</span>
+</div>
+<button id="close-feedback" title="Close"><i class="fas fa-times"></i></button>
+</div>
+<div class="feedback-body" id="feedback-body"></div>
+</div>
+</div>
+<script>
 
-        let totalSeconds = 20 * 60;
-        const timerElement = document.getElementById('testTimer');
-        let testSubmitted = false;
-        let userAnswers = {};
-        let startTime = new Date();
-        let resultsShown = false;
+document.getElementById('night-mode-toggle').addEventListener('click', function(){
+  document.body.classList.toggle('night-mode');
+  const icon = this.querySelector('i');
+  if(icon){
+    if(document.body.classList.contains('night-mode')) { icon.classList.remove('fa-moon'); icon.classList.add('fa-sun'); }
+    else { icon.classList.remove('fa-sun'); icon.classList.add('fa-moon'); }
+  }
+});
 
-        function updateTimer() {
-            if (testSubmitted) return;
-            const minutes = Math.floor(totalSeconds / 60);
-            const seconds = totalSeconds % 60;
-            const formattedTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-            timerElement.textContent = formattedTime;
-            if (totalSeconds > 0) {
-                totalSeconds--;
-            } else {
-                clearInterval(timerInterval);
-                testSubmitted = true;
-            }
-        }
+function normalize(s){ return (s||'').toString().trim().toLowerCase().replace(/\s+/g,' '); }
 
-        function disableAllInputs() {
-            document.querySelectorAll('input[type="radio"], input[type="text"], select').forEach(input => {
-                input.disabled = true;
-            });
-            document.getElementById('deliver-button').disabled = true;
-            document.removeEventListener('mouseup', handleTextSelection);
-        }
+const correctAnswers = {
+  q27: "D",
+  q28: "A",
+  q29: "D",
+  q30: "B",
+  q31: "D",
+  q32: "B",
+  q33: "E",
+  q34: "A",
+  q35: "B",
+  q36: "H",
+  q37: "NO",
+  q38: "NOT GIVEN",
+  q39: "YES",
+  q40: "NO"
+};
 
-        function showSubmissionModal(title, message) {
-            const modal = document.getElementById('submissionModal');
-            document.getElementById('submissionTitle').textContent = title;
-            document.getElementById('submissionMessage').textContent = message;
+const questionNumbers = Object.keys(correctAnswers).map(k=>Number(k.replace('q',''))).filter(n=>!Number.isNaN(n)).sort((a,b)=>a-b);
 
-            const endTime = new Date();
-            const timeDiff = endTime - startTime;
-            const minutes = Math.floor(timeDiff / 60000);
-            const seconds = Math.floor((timeDiff % 60000) / 1000);
-            document.getElementById('timeSpent').textContent = `Time spent: ${minutes}m ${seconds}s`;
+function getRadioVal(name){
+  const els = document.getElementsByName(name);
+  const checked = Array.from(els).find(e=>e.checked);
+  return checked ? checked.value : '';
+}
+function getSelectVal(name){
+  const el = document.querySelector(`select[name="${name}"], select#${name}`);
+  return el ? (el.value || '') : '';
+}
+function getTextVal(name){
+  const el = document.querySelector(`input[type="text"][name="${name}"], input[type="text"]#${name}, textarea[name="${name}"], textarea#${name}`);
+  return el ? (el.value || '') : '';
+}
+function getAnswerVal(qid){
+  const radio = getRadioVal(qid);
+  if(radio) return radio;
+  const sel = getSelectVal(qid);
+  if(sel) return sel;
+  return getTextVal(qid);
+}
+function isCorrect(userVal, correctVal){
+  const accepted = Array.isArray(correctVal) ? correctVal : String(correctVal).split(/\s*\/\s*|\s*\|\s*/);
+  return accepted.some(v => normalize(userVal) === normalize(v));
+}
 
-            const answersList = document.getElementById('answersList');
-            answersList.innerHTML = '';
-            let score = 0;
-            userAnswers = {};
+document.getElementById('submit-btn').addEventListener('click', function(){
+  let score = 0;
+  const total = questionNumbers.length;
+  let feedbackHTML = '';
 
-            for (let i = 27; i <= 32; i++) {
-                const input = document.querySelector(`input[name="q${i}"]:checked`);
-                const userAnswer = input ? input.value : 'Not answered';
-                userAnswers[i] = userAnswer;
-                const correctAnswer = correctAnswers[i];
-                const isCorrect = userAnswer === correctAnswer;
-                if (isCorrect) score++;
-                const answerItem = document.createElement('div');
-                answerItem.className = `answer-item ${isCorrect ? 'correct' : 'incorrect'}`;
-                answerItem.innerHTML = `
-                    <div class="answer-text">Question ${i}: ${userAnswer}</div>
-                    <span class="${isCorrect ? 'correct-answer' : 'incorrect-answer'}">(Correct answer: ${correctAnswer})</span>
-                    <span class="answer-status ${isCorrect ? 'correct-status' : 'incorrect-status'}">
-                        ${isCorrect ? '✓' : '✗'}
-                    </span>
-                `;
-                answersList.appendChild(answerItem);
-            }
+  questionNumbers.forEach(qn=>{
+    const qid = `q${qn}`;
+    const user = getAnswerVal(qid);
+    const ok = isCorrect(user, correctAnswers[qid]);
+    if(ok) score++;
+    feedbackHTML += `<div class="feedback-item">
+      <div class="feedback-question">Q${qn}</div>
+      <div class="feedback-answer ${ok ? 'correct' : 'incorrect'}">
+        Your Answer: ${user || '(no answer)'}<br/>
+        ${ok ? '✔ Correct' : `✘ Incorrect (Correct: ${correctAnswers[qid]})`}
+      </div></div>`;
+  });
 
-            for (let i = 33; i <= 36; i++) {
-                const input = document.querySelector(`input[name="q${i}"]`);
-                const userAnswer = input.value.trim().toUpperCase() || 'Not answered';
-                userAnswers[i] = userAnswer;
-                const correctAnswer = correctAnswers[i];
-                const isCorrect = userAnswer === correctAnswer;
-                if (isCorrect) score++;
-                const answerItem = document.createElement('div');
-                answerItem.className = `answer-item ${isCorrect ? 'correct' : 'incorrect'}`;
-                answerItem.innerHTML = `
-                    <div class="answer-text">Question ${i}: ${userAnswer}</div>
-                    <span class="${isCorrect ? 'correct-answer' : 'incorrect-answer'}">(Correct answer: ${correctAnswer})</span>
-                    <span class="answer-status ${isCorrect ? 'correct-status' : 'incorrect-status'}">
-                        ${isCorrect ? '✓' : '✗'}
-                    </span>
-                `;
-                answersList.appendChild(answerItem);
-            }
+  document.getElementById('feedback-body').innerHTML = feedbackHTML;
+  document.getElementById('score-display').textContent = `${score}/${total}`;
+  document.getElementById('feedback-overlay').style.display = 'flex';
+});
+document.getElementById('close-feedback').addEventListener('click', function(){
+  document.getElementById('feedback-overlay').style.display = 'none';
+});
 
-            for (let i = 37; i <= 40; i++) {
-                const select = document.querySelector(`select[name="q${i}"]`);
-                const userAnswer = select.value || 'Not answered';
-                userAnswers[i] = userAnswer;
-                const correctAnswer = correctAnswers[i];
-                const isCorrect = userAnswer === correctAnswer;
-                if (isCorrect) score++;
-                const answerItem = document.createElement('div');
-                answerItem.className = `answer-item ${isCorrect ? 'correct' : 'incorrect'}`;
-                answerItem.innerHTML = `
-                    <div class="answer-text">Question ${i}: ${userAnswer}</div>
-                    <span class="${isCorrect ? 'correct-answer' : 'incorrect-answer'}">(Correct answer: ${correctAnswer})</span>
-                    <span class="answer-status ${isCorrect ? 'correct-status' : 'incorrect-status'}">
-                        ${isCorrect ? '✓' : '✗'}
-                    </span>
-                `;
-                answersList.appendChild(answerItem);
-            }
+// Highlighting
+let highlightTooltip = null;
+let selectedRange = null;
 
-            document.getElementById('userScore').textContent = score;
-            document.getElementById('totalQuestions').textContent = "14";
+function createColorPicker(x, y, applyColorCallback){
+  const colors = ["lightgreen","yellow","lightskyblue"];
+  const picker = document.createElement("div");
+  picker.className = "highlight-tooltip";
+  picker.style.top = `${y}px`;
+  picker.style.left = `${x}px`;
+  picker.style.position = "fixed";
+  picker.style.background = "#333";
+  picker.style.color = "white";
+  picker.style.padding = "5px 10px";
+  picker.style.borderRadius = "4px";
+  picker.style.zIndex = 1000;
+  picker.style.display = "flex";
+  colors.forEach(color=>{
+    const btn = document.createElement("button");
+    btn.style.backgroundColor = color;
+    btn.style.border = "none";
+    btn.style.width = "20px";
+    btn.style.height = "20px";
+    btn.style.margin = "0 4px";
+    btn.style.borderRadius = "50%";
+    btn.title = `Highlight with ${color}`;
+    btn.addEventListener("click", ()=>{ applyColorCallback(color); picker.remove(); });
+    picker.appendChild(btn);
+  });
+  document.body.appendChild(picker);
+  return picker;
+}
 
-            const bandScore = calculateBandScore(score);
-            document.getElementById('bandScore').textContent = `Band: ${bandScore.toFixed(1)}`;
+function applyHighlight(color){
+  if(!selectedRange) return;
+  const span = document.createElement("span");
+  span.className = "highlight";
+  span.style.backgroundColor = color;
+  span.setAttribute("data-color", color);
+  span.appendChild(selectedRange.extractContents());
+  selectedRange.insertNode(span);
+  selectedRange = null;
+  window.getSelection().removeAllRanges();
 
-            const percentage = (score / 14) * 100;
-            let rating, ratingClass;
-            if (score >= 13) {
-                rating = "Excellent!";
-                ratingClass = "excellent";
-            } else if (score >= 11) {
-                rating = "Very Good";
-                ratingClass = "very-good";
-            } else if (score >= 9) {
-                rating = "Good";
-                ratingClass = "good";
-            } else if (score >= 7) {
-                rating = "Fair";
-                ratingClass = "fair";
-            } else {
-                rating = "Poor - Needs Improvement";
-                ratingClass = "poor";
-            }
-            const ratingElement = document.getElementById('performanceRating');
-            ratingElement.textContent = rating;
-            ratingElement.className = `performance-rating ${ratingClass}`;
+  span.addEventListener("click", function(e){
+    e.stopPropagation();
+    if(highlightTooltip) highlightTooltip.remove();
+    highlightTooltip = document.createElement("div");
+    highlightTooltip.className = "highlight-tooltip";
+    highlightTooltip.style.top = `${e.clientY}px`;
+    highlightTooltip.style.left = `${e.clientX}px`;
+    highlightTooltip.innerHTML = `<button style="color:white;background:red;border:none;padding:5px 10px;border-radius:4px;cursor:pointer;">Remove Highlight</button>`;
+    highlightTooltip.querySelector("button").addEventListener("click", function(){
+      const parent = span.parentNode;
+      while(span.firstChild) parent.insertBefore(span.firstChild, span);
+      parent.removeChild(span); parent.normalize();
+      highlightTooltip.remove();
+    });
+    document.body.appendChild(highlightTooltip);
+  });
+}
 
-            if (testSubmitted) {
-                highlightAnswers(correctAnswers);
-            }
+function handleMouseUp(e){
+  const sel = window.getSelection();
+  if(sel.toString().trim()==='') return;
+  if(!e.currentTarget.contains(sel.anchorNode)) return;
+  selectedRange = sel.getRangeAt(0).cloneRange();
+  const rect = selectedRange.getBoundingClientRect();
+  if(highlightTooltip) highlightTooltip.remove();
+  highlightTooltip = createColorPicker(rect.left, rect.top - 40, applyHighlight);
+}
 
-            modal.style.display = 'flex';
-            resultsShown = true;
-            const submitButton = document.getElementById('deliver-button');
-            submitButton.innerHTML = '<i class="fas fa-eye"></i> Show My Results';
-            submitButton.disabled = false;
-        }
+document.getElementById('passage-text').addEventListener('mouseup', handleMouseUp);
+document.getElementById('questions-container').addEventListener('mouseup', handleMouseUp);
 
-        function calculateBandScore(score) {
-            if (score >= 13) return 9.0;
-            if (score >= 12) return 8.5;
-            if (score >= 11) return 8.0;
-            if (score >= 10) return 7.5;
-            if (score >= 9) return 7.0;
-            if (score >= 8) return 6.5;
-            if (score >= 7) return 6.0;
-            if (score >= 6) return 5.5;
-            if (score >= 5) return 5.0;
-            return 0.0;
-        }
+document.addEventListener('mousedown', (e)=>{
+  if(highlightTooltip && !highlightTooltip.contains(e.target)){
+    highlightTooltip.remove();
+    highlightTooltip = null;
+    window.getSelection().removeAllRanges();
+  }
+});
 
-        function highlightAnswers(correctAnswers) {
-            for (let i = 27; i <= 32; i++) {
-                const inputs = document.querySelectorAll(`input[name="q${i}"]`);
-                inputs.forEach(input => {
-                    input.classList.remove('correct', 'incorrect');
-                    if (input.checked) {
-                        input.classList.add(input.value === correctAnswers[i] ? 'correct' : 'incorrect');
-                        const feedback = document.createElement('span');
-                        feedback.className = `dropdown-answer ${input.value === correctAnswers[i] ? 'correct' : 'incorrect'}`;
-                        feedback.textContent = input.value === correctAnswers[i] ? '✓ Correct' : `✗ Correct: ${correctAnswers[i]}`;
-                        if (!input.parentNode.querySelector('.dropdown-answer')) {
-                            input.parentNode.appendChild(feedback);
-                        }
-                    }
-                });
-            }
+// Reset
+document.getElementById('reset-btn').addEventListener('click', function(){
+  document.querySelectorAll('input[type=radio]').forEach(r=>r.checked=false);
+  document.querySelectorAll('input[type=text], textarea').forEach(t=>t.value='');
+  document.querySelectorAll('select').forEach(s=>s.value='');
+  document.querySelectorAll('.progress-item.completed').forEach(i=>i.classList.remove('completed'));
+  document.querySelectorAll('.question').forEach(q=>q.classList.remove('answered'));
+});
 
-            for (let i = 33; i <= 36; i++) {
-                const input = document.querySelector(`input[name="q${i}"]`);
-                const userAnswer = userAnswers[i];
-                const correctAnswer = correctAnswers[i];
-                input.classList.remove('correct', 'incorrect');
-                if (userAnswer && userAnswer !== 'Not answered') {
-                    input.classList.add(userAnswer === correctAnswer ? 'correct' : 'incorrect');
-                    const feedback = document.createElement('span');
-                    feedback.className = `summary-feedback ${userAnswer === correctAnswer ? 'correct' : 'incorrect'}`;
-                    feedback.textContent = userAnswer === correctAnswer ? '✓ Correct' : `✗ Correct: ${correctAnswers[i]}`;
-                    if (!input.nextElementSibling || !input.nextElementSibling.classList.contains('summary-feedback')) {
-                        input.parentNode.insertBefore(feedback, input.nextSibling);
-                    }
-                }
-            }
+// Progress tracker
+function initializeProgressTracker(){
+  const pc = document.getElementById('progress-container');
+  pc.innerHTML = '';
+  questionNumbers.forEach(n=>{
+    const item = document.createElement('div');
+    item.className = 'progress-item';
+    item.textContent = n;
+    item.dataset.qid = `q${n}`;
+    item.addEventListener('click', ()=>{
+      const el = document.getElementById(`q${n}`) || document.querySelector(`[name="q${n}"]`);
+      if(el) el.scrollIntoView({behavior:'smooth', block:'center'});
+    });
+    pc.appendChild(item);
+  });
+}
 
-            for (let i = 37; i <= 40; i++) {
-                const select = document.querySelector(`select[name="q${i}"]`);
-                const userAnswer = userAnswers[i];
-                const correctAnswer = correctAnswers[i];
-                select.classList.remove('correct', 'incorrect');
-                if (userAnswer && userAnswer !== 'Not answered') {
-                    select.classList.add(userAnswer === correctAnswer ? 'correct' : 'incorrect');
-                    const feedback = document.createElement('span');
-                    feedback.className = `dropdown-answer ${userAnswer === correctAnswer ? 'correct' : 'incorrect'}`;
-                    feedback.textContent = userAnswer === correctAnswer ? '✓ Correct' : `✗ Correct: ${correctAnswer}`;
-                    if (!select.nextElementSibling || !select.nextElementSibling.classList.contains('dropdown-answer')) {
-                        select.parentNode.appendChild(feedback);
-                    }
-                }
-            }
+function updateProgressStatus(){
+  document.querySelectorAll('.progress-item').forEach(item=>{
+    const qid = item.dataset.qid;
+    let answered = false;
 
-            document.getElementById('answerComparison').style.display = 'block';
-        }
+    const radios = document.querySelectorAll(`input[name="${qid}"]`);
+    if(radios.length && radios[0].type==='radio') answered = Array.from(radios).some(r=>r.checked);
 
-        document.getElementById('deliver-button').addEventListener('click', function() {
-            if (resultsShown) {
-                document.getElementById('submissionModal').style.display = 'flex';
-                return;
-            }
-            if (testSubmitted) return;
-            if (confirm('Are you sure you want to submit your test? You won\'t be able to make changes after submission.')) {
-                clearInterval(timerInterval);
-                testSubmitted = true;
-                disableAllInputs();
-                showSubmissionModal('Test Submitted', 'Thank you for completing the test.');
-            }
-        });
+    const sel = document.querySelector(`select[name="${qid}"], select#${qid}`);
+    if(!answered && sel && sel.value!=='') answered = true;
 
-        document.getElementById('closeSubmission').addEventListener('click', function() {
-            document.getElementById('submissionModal').style.display = 'none';
-            highlightAnswers(correctAnswers);
-        });
+    const txt = document.querySelector(`input[type="text"][name="${qid}"], input[type="text"]#${qid}, textarea[name="${qid}"], textarea#${qid}`);
+    if(!answered && txt && txt.value.trim()!=='') answered = true;
 
-        updateTimer();
-        const timerInterval = setInterval(updateTimer, 1000);
+    const qEl = document.getElementById(qid);
+    if(answered){
+      item.classList.add('completed');
+      if(qEl) qEl.classList.add('answered');
+    } else {
+      item.classList.remove('completed');
+      if(qEl) qEl.classList.remove('answered');
+    }
+  });
+}
+document.addEventListener('change', updateProgressStatus);
+document.addEventListener('input', updateProgressStatus);
+document.addEventListener('DOMContentLoaded', ()=>{ initializeProgressTracker(); updateProgressStatus(); });
 
-        const settingsButton = document.getElementById('settingsButton');
-        const settingsModal = document.getElementById('settingsModal');
-        const settingsClose = document.getElementById('settingsClose');
+// Timer
+let timerInterval;
+let timeRemaining = 20*60;
+function updateTimerDisplay(){
+  const m = Math.floor(timeRemaining/60).toString().padStart(2,'0');
+  const s = (timeRemaining%60).toString().padStart(2,'0');
+  document.getElementById('timer').textContent = `${m}:${s}`;
+}
+document.getElementById('start-timer').addEventListener('click', ()=>{
+  if(timerInterval) return;
+  timerInterval = setInterval(()=>{
+    if(timeRemaining>0){ timeRemaining--; updateTimerDisplay(); }
+    else { clearInterval(timerInterval); timerInterval=null; alert('Time is up!'); }
+  }, 1000);
+});
+document.getElementById('pause-timer').addEventListener('click', ()=>{ clearInterval(timerInterval); timerInterval=null; });
+document.getElementById('reset-timer').addEventListener('click', ()=>{ clearInterval(timerInterval); timerInterval=null; timeRemaining=20*60; updateTimerDisplay(); });
+document.addEventListener('DOMContentLoaded', updateTimerDisplay);
 
-        settingsButton.addEventListener('click', function() {
-            settingsModal.style.display = 'flex';
-        });
+</script>
+<script>
 
-        settingsClose.addEventListener('click', function() {
-            settingsModal.style.display = 'none';
-        });
+(function(){
+  function onReady(fn){ if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', fn); else fn(); }
+  onReady(function(){
+    var passage = document.getElementById('passage-container');
+    var questions = document.getElementById('questions-container');
+    var resizer = document.getElementById('cdi-resizer');
+    if (passage && questions && resizer) {
+      passage.style.flex = '0 0 50%';
+      questions.style.flex = '1 1 auto';
+      var dragging = false;
+      function startDrag(e){
+        if (window.innerWidth <= 900) return;
+        dragging = true;
+        resizer.classList.add('dragging');
+        document.body.style.cursor = 'col-resize';
+        document.body.style.userSelect = 'none';
+        e.preventDefault();
+      }
+      function moveDrag(clientX){
+        if (!dragging) return;
+        var main = resizer.parentElement;
+        var rect = main.getBoundingClientRect();
+        var total = rect.width - resizer.offsetWidth;
+        var left = clientX - rect.left;
+        var min = Math.max(220, total * 0.22);
+        var max = total - min;
+        left = Math.min(Math.max(left, min), max);
+        passage.style.flex = '0 0 ' + left + 'px';
+        questions.style.flex = '1 1 auto';
+      }
+      function stopDrag(){
+        dragging = false;
+        resizer.classList.remove('dragging');
+        document.body.style.cursor = '';
+        document.body.style.userSelect = '';
+      }
+      resizer.addEventListener('mousedown', startDrag);
+      window.addEventListener('mousemove', function(e){ moveDrag(e.clientX); });
+      window.addEventListener('mouseup', stopDrag);
+      resizer.addEventListener('touchstart', function(e){ startDrag(e.touches[0]); }, {passive:false});
+      window.addEventListener('touchmove', function(e){ if(dragging){ moveDrag(e.touches[0].clientX); e.preventDefault(); } }, {passive:false});
+      window.addEventListener('touchend', stopDrag);
+    }
 
-        window.addEventListener('click', function(event) {
-            if (event.target === settingsModal) {
-                settingsModal.style.display = 'none';
-            }
-            if (event.target === document.getElementById('submissionModal')) {
-                document.getElementById('submissionModal').style.display = 'none';
-            }
-        });
+    var panel = document.getElementById('display-panel');
+    var menuBtn = document.getElementById('display-menu-toggle');
+    if (panel && menuBtn) {
+      menuBtn.addEventListener('click', function(e){
+        e.stopPropagation();
+        panel.classList.toggle('open');
+      });
+      document.addEventListener('click', function(e){
+        if(panel.classList.contains('open') && !panel.contains(e.target) && !menuBtn.contains(e.target)) panel.classList.remove('open');
+      });
+    }
 
-        const divider = document.getElementById('divider');
-        const passageContainer = document.getElementById('passage-container');
-        const questionsContainer = document.getElementById('questions-container');
-        let isDragging = false;
-        let startX, startPassageWidth;
+    var fsBtn = document.getElementById('fullscreen-toggle');
+    if (fsBtn) {
+      fsBtn.addEventListener('click', function(){
+        if (!document.fullscreenElement) document.documentElement.requestFullscreen?.();
+        else document.exitFullscreen?.();
+      });
+      document.addEventListener('fullscreenchange', function(){
+        fsBtn.innerHTML = document.fullscreenElement ? '<i class="fas fa-compress"></i>' : '<i class="fas fa-expand"></i>';
+      });
+    }
 
-        divider.addEventListener('mousedown', (e) => {
-            isDragging = true;
-            startX = e.clientX;
-            startPassageWidth = parseInt(document.defaultView.getComputedStyle(passageContainer).width, 10);
-            document.body.style.cursor = 'col-resize';
-            document.addEventListener('mousemove', onMouseMove);
-            document.addEventListener('mouseup', onMouseUp);
-            e.preventDefault();
-        });
+    var font = document.getElementById('font-size-range');
+    var line = document.getElementById('line-height-range');
+    function applyDisplay(){
+      var f = font ? font.value : 16;
+      var l = line ? (Number(line.value) / 100) : 1.6;
+      document.documentElement.style.setProperty('--cdi-font-size', f + 'px');
+      document.documentElement.style.setProperty('--cdi-line-height', l);
+    }
+    if(font) font.addEventListener('input', applyDisplay);
+    if(line) line.addEventListener('input', applyDisplay);
+    applyDisplay();
 
-        function onMouseMove(e) {
-            if (!isDragging) return;
-            const containerWidth = document.querySelector('.test-container').offsetWidth;
-            const newPassageWidth = startPassageWidth + e.clientX - startX;
-            const minWidth = containerWidth * 0.3;
-            const maxWidth = containerWidth * 0.7;
-            if (newPassageWidth >= minWidth && newPassageWidth <= maxWidth) {
-                passageContainer.style.width = `${newPassageWidth}px`;
-            }
-        }
+    document.querySelectorAll('[data-theme-choice]').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var choice = btn.getAttribute('data-theme-choice');
+        if(choice === 'dark') document.body.classList.add('night-mode');
+        else document.body.classList.remove('night-mode');
+      });
+    });
+  });
+})();
 
-        function onMouseUp() {
-            isDragging = false;
-            document.body.style.cursor = '';
-            document.removeEventListener('mousemove', onMouseMove);
-            document.removeEventListener('mouseup', onMouseUp);
-        }
+</script>
 
-        divider.addEventListener('selectstart', (e) => {
-            if (isDragging) e.preventDefault();
-        });
-
-        document.querySelectorAll('.subQuestion').forEach(button => {
-            button.addEventListener('click', function() {
-                document.querySelectorAll('.subQuestion').forEach(btn => {
-                    btn.classList.remove('active');
-                });
-                this.classList.add('active');
-                const questionNumber = parseInt(this.textContent.trim());
-                if (questionNumber >= 27 && questionNumber <= 32) {
-                    document.querySelector('.question:nth-of-type(1)').scrollIntoView({ behavior: 'smooth' });
-                } else if (questionNumber >= 33 && questionNumber <= 36) {
-                    document.querySelector('.question:nth-of-type(2)').scrollIntoView({ behavior: 'smooth' });
-                } else if (questionNumber >= 37 && questionNumber <= 40) {
-                    document.querySelector('.question:nth-of-type(3)').scrollIntoView({ behavior: 'smooth' });
-                }
-            });
-        });
-
-        const highlightToolbar = document.getElementById('highlightToolbar');
-        let selectedText = '';
-        let selectedRange = null;
-        let currentHighlightColor = null;
-
-        document.querySelectorAll('#passageContent, .questions-container').forEach(element => {
-            element.style.userSelect = 'text';
-            element.style.webkitUserSelect = 'text';
-        });
-
-        function handleTextSelection() {
-            const selection = window.getSelection();
-            selectedText = selection.toString().trim();
-            if (selectedText.length > 0 && isTextInContent(selection)) {
-                selectedRange = selection.getRangeAt(0);
-                const rangeRect = selectedRange.getBoundingClientRect();
-                highlightToolbar.style.display = 'block';
-                highlightToolbar.style.top = `${rangeRect.top + window.scrollY - 35}px`;
-                highlightToolbar.style.left = `${rangeRect.left + window.scrollX + (rangeRect.width / 2)}px`;
-            } else {
-                highlightToolbar.style.display = 'none';
-            }
-        }
-
-        function isTextInContent(selection) {
-            if (!selection.rangeCount) return false;
-            const range = selection.getRangeAt(0);
-            const contentAreas = document.querySelectorAll('#passageContent, .question-content');
-            return Array.from(contentAreas).some(area => area.contains(range.commonAncestorContainer));
-        }
-
-        document.addEventListener('mouseup', handleTextSelection);
-
-        document.addEventListener('mousedown', function(e) {
-            if (!highlightToolbar.contains(e.target)) {
-                highlightToolbar.style.display = 'none';
-            }
-        });
-
-        document.querySelectorAll('.highlight-color').forEach(button => {
-            button.addEventListener('click', function() {
-                currentHighlightColor = this.dataset.color;
-                applyHighlight();
-            });
-        });
-
-        function applyHighlight() {
-            if (selectedText.length > 0 && selectedRange) {
-                const hasHighlights = checkForHighlightsInRange(selectedRange);
-                if (hasHighlights) {
-                    removeHighlightsInRange(selectedRange);
-                } else if (currentHighlightColor) {
-                    const span = document.createElement('span');
-                    span.className = `highlight ${currentHighlightColor}`;
-                    selectedRange.surroundContents(span);
-                }
-                window.getSelection().removeAllRanges();
-                highlightToolbar.style.display = 'none';
-            }
-        }
-
-        function checkForHighlightsInRange(range) {
-            const documentFragment = range.cloneContents();
-            const tempDiv = document.createElement('div');
-            tempDiv.appendChild(documentFragment);
-            return tempDiv.querySelector('.highlight') !== null;
-        }
-
-        function removeHighlightsInRange(range) {
-            const documentFragment = range.cloneContents();
-            const tempDiv = document.createElement('div');
-            tempDiv.appendChild(documentFragment);
-            const highlights = tempDiv.querySelectorAll('.highlight');
-            if (highlights.length > 0) {
-                const newRange = range.cloneRange();
-                const fragment = newRange.extractContents();
-                const textFragment = document.createDocumentFragment();
-                extractTextNodes(fragment, textFragment);
-                newRange.insertNode(textFragment);
-            }
-        }
-
-        function extractTextNodes(source, destination) {
-            const walker = document.createTreeWalker(
-                source,
-                NodeFilter.SHOW_TEXT | NodeFilter.SHOW_ELEMENT,
-                null,
-                false
-            );
-            let node;
-            while (node = walker.nextNode()) {
-                if (node.nodeType === Node.TEXT_NODE) {
-                    destination.appendChild(document.createTextNode(node.nodeValue));
-                } else if (!node.classList.contains('highlight')) {
-                    const container = node.cloneNode(false);
-                    extractTextNodes(node, container);
-                    destination.appendChild(container);
-                }
-            }
-        }
-
-        document.querySelector('.highlight-toolbar .remove').addEventListener('click', function() {
-            if (selectedText.length > 0 && selectedRange) {
-                removeHighlightsInRange(selectedRange);
-                window.getSelection().removeAllRanges();
-                highlightToolbar.style.display = 'none';
-            }
-        });
-
-        document.querySelectorAll('input[type="radio"], input[type="text"], select').forEach(input => {
-            input.addEventListener('change', function() {
-                const questionNumber = this.name.startsWith('q') ? parseInt(this.name.replace('q', '')) : null;
-                const questionButton = document.querySelector(`.subQuestion[data-ordernumber="${questionNumber}"]`);
-                if (questionButton && (this.value || this.checked)) {
-                    questionButton.classList.add('attempted');
-                }
-            });
-        });
-    </script>
-
-<script src="/passages/reading-universal-layout.js?v=chatgpt3"></script>
-<script src="/passages/test-progress-bridge.js?v=chatgpt3"></script>
-</body>
+<script src="/passages/test-progress-bridge.js"></script></body>
 </html>
