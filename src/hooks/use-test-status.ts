@@ -37,12 +37,12 @@ export function useTestStatus(testIds: string[]) {
   // Merge Supabase completions into local state (logged-in users)
   useEffect(() => {
     if (!user) return;
-    supabase
+    (supabase as any)
       .from("test_completions")
       .select("test_id, score, total, completed_at")
       .eq("user_id", user.id)
       .in("test_id", testIds)
-      .then(({ data }) => {
+      .then(({ data }: { data: any[] | null }) => {
         if (!data) return;
         setStatuses((prev) => {
           const next = { ...prev };
@@ -84,7 +84,7 @@ export function useTestStatus(testIds: string[]) {
       setStatuses((prev) => ({ ...prev, [testId]: status }));
 
       if (user) {
-        await supabase.from("test_completions").upsert(
+        await (supabase as any).from("test_completions").upsert(
           {
             user_id: user.id,
             test_id: testId,
@@ -111,7 +111,7 @@ export function useTestStatus(testIds: string[]) {
       });
 
       if (user) {
-        await supabase
+        await (supabase as any)
           .from("test_completions")
           .delete()
           .eq("user_id", user.id)

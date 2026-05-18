@@ -29,7 +29,7 @@ export const Route = createFileRoute("/account")({
 });
 
 // ─── Types ────────────────────────────────────────────────────────────────────
-type TestResult = { id: string; passage_title: string; score: number; total: number; band: number; completed_at: string };
+type TestResult = { id: string; passage_title: string; score: number; total: number; band: number | null; completed_at: string };
 type BookmarkItem = { id: string; type: string; reference_id: string; title?: string; created_at: string };
 type LeaderboardEntry = { user_id: string; name: string; tests: number; avg_band: number };
 
@@ -215,7 +215,7 @@ function Account() {
   const tests15Days = results.filter(r => isInRange(r.completed_at, day15)).length;
   const testsThisMonth = results.filter(r => isInRange(r.completed_at, monthStart)).length;
 
-  const recentBands = results.slice(0, 5).map(r => r.band);
+  const recentBands = results.slice(0, 5).map(r => r.band ?? 0);
   const avgBand = recentBands.length ? (recentBands.reduce((a, b) => a + b, 0) / recentBands.length).toFixed(1) : "—";
 
   // Streak: consecutive days with at least 1 test
@@ -379,7 +379,7 @@ function Account() {
                         <span className="text-muted-foreground truncate max-w-[60%]">{r.passage_title}</span>
                         <div className="flex items-center gap-3">
                           <span>{r.score}/{r.total}</span>
-                          <span className={`font-bold ${bandColor(r.band)}`}>Band {r.band}</span>
+                          <span className={`font-bold ${bandColor(r.band ?? 0)}`}>Band {r.band ?? "—"}</span>
                           <span className="text-xs text-muted-foreground">{new Date(r.completed_at).toLocaleDateString()}</span>
                         </div>
                       </div>

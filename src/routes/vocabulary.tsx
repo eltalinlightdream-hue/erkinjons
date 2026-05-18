@@ -268,7 +268,7 @@ function FolderDetail({ folderId, onBack, onReview }: { folderId: string; onBack
           <h1 className="text-3xl font-bold">{folder?.name ?? "Folder"}</h1>
           <p className="text-sm text-muted-foreground">
             {words?.length ?? 0} words
-            {(folder?.due ?? 0) > 0 && <span className="ml-2 text-gold font-medium">{folder.due} due today</span>}
+            {(folder?.due ?? 0) > 0 && <span className="ml-2 text-gold font-medium">{folder!.due} due today</span>}
           </p>
         </div>
         <div className="flex gap-2 flex-wrap">
