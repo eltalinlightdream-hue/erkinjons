@@ -1,44 +1,69 @@
 (function () {
+  const LS_KEY = "ielts_test_completions";
+
   function getTestId() {
+    const params = new URLSearchParams(window.location.search);
+
     return (
+      params.get("testId") ||
       document.body.dataset.testId ||
       document.documentElement.dataset.testId ||
-      location.pathname.split("/").pop() ||
+      location.pathname.split("/").pop()?.replace(".html", "") ||
       document.title ||
       "reading-passage"
     );
   }
 
+  function readAllProgress() {
+    try {
+      return JSON.parse(localStorage.getItem(LS_KEY) || "{}");
+    } catch (_) {
+      return {};
+    }
+  }
+
+  function writeProgress(testId, data) {
+    const all = readAllProgress();
+    all[testId] = data;
+    localStorage.setItem(LS_KEY, JSON.stringify(all));
+  }
+
   function markFinished() {
     try {
       const testId = getTestId();
+      const now = new Date().toISOString();
 
       const progressData = {
-        testId: testId,
-        sectionType: "reading",
         status: "finished",
-        completed_at: new Date().toISOString()
+        score: null,
+        total: null,
+        completedAt: now,
+        completed_at: now,
+        updatedAt: now,
+        updated_at: now
       };
 
-      localStorage.setItem(
-        "reading-progress:" + testId,
-        JSON.stringify(progressData)
-      );
-
-      localStorage.setItem(
-        "test-progress:" + testId,
-        JSON.stringify(progressData)
-      );
+      writeProgress(testId, progressData);
 
       window.dispatchEvent(
-        new CustomEvent("reading-test-finished", {
-          detail: progressData
+        new CustomEvent("ielts-test-completed", {
+          detail: {
+            testId: testId,
+            sectionType: "reading",
+            status: "finished",
+            completed_at: now
+          }
         })
       );
 
       window.dispatchEvent(
-        new CustomEvent("ielts-test-completed", {
-          detail: progressData
+        new CustomEvent("reading-test-finished", {
+          detail: {
+            testId: testId,
+            sectionType: "reading",
+            status: "finished",
+            completed_at: now
+          }
         })
       );
 
@@ -46,13 +71,18 @@
         window.parent.postMessage(
           {
             type: "ielts-test-completed",
-            detail: progressData
+            detail: {
+              testId: testId,
+              sectionType: "reading",
+              status: "finished",
+              completed_at: now
+            }
           },
           "*"
         );
       }
 
-      console.log("Reading status saved as finished:", progressData);
+      console.log("Reading progress saved:", testId, progressData);
     } catch (error) {
       console.error("Could not save reading progress:", error);
     }
