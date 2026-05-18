@@ -579,6 +579,20 @@ function Reading() {
     return matchesPassage && matchesStatus;
   });
 
+  const passageCounts = {
+    all: PASSAGES.length,
+    "1": PASSAGES.filter((p) => p.passageNumber === 1).length,
+    "2": PASSAGES.filter((p) => p.passageNumber === 2).length,
+    "3": PASSAGES.filter((p) => p.passageNumber === 3).length,
+  } as const;
+
+  const statusCounts = {
+    all: PASSAGES.length,
+    not_done: PASSAGES.filter((p) => statusFor(p.id) === "not_done").length,
+    not_completed: PASSAGES.filter((p) => statusFor(p.id) === "not_completed").length,
+    finished: PASSAGES.filter((p) => statusFor(p.id) === "finished").length,
+  } as const;
+
   function handleOpen(p: Passage) {
     if (statusFor(p.id) === "not_done") {
       void setTestStatus(p.id, "not_completed");
@@ -611,7 +625,7 @@ function Reading() {
               size="sm"
               onClick={() => setFilter(f.v)}
             >
-              {f.label}
+              {f.label} ({passageCounts[f.v]})
             </Button>
           ))}
         </div>
@@ -622,7 +636,7 @@ function Reading() {
             size="sm"
             onClick={() => setStatusFilter("all")}
           >
-            All statuses
+            All statuses ({statusCounts.all})
           </Button>
           {TEST_PROGRESS_OPTIONS.map((option) => (
             <Button
@@ -631,7 +645,7 @@ function Reading() {
               size="sm"
               onClick={() => setStatusFilter(option.value)}
             >
-              {option.label}
+              {option.label} ({statusCounts[option.value]})
             </Button>
           ))}
         </div>
