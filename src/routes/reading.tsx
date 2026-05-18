@@ -99,10 +99,10 @@ const PASSAGES: Passage[] = [
     id: "p2-the-return-of-monkey-life",
     title: "The Return of Monkey life",
     passageNumber: 2,
-    isPremium: false,
+    isPremium: true,
     description:
       "The recovery and life of monkeys in Northern Costa Rica",
-    htmlFile: "/passages/IELTS_Passage2_Return_of_Monkey_life_Test.html",
+    htmlFile: "/passages/IELTS_Passage2_Return_of_Monkey_Life_Test.html",
   },
   {
     id: "p1-the-sound-of-dolphin",
