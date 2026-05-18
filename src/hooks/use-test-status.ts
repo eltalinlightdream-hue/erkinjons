@@ -42,7 +42,7 @@ export function useTestStatus(testIds: string[]) {
       .select("test_id, score, total, completed_at")
       .eq("user_id", user.id)
       .in("test_id", testIds)
-      .then(({ data }) => {
+      .then(({ data }: { data: any[] | null }) => {
         if (!data) return;
         setStatuses((prev) => {
           const next = { ...prev };
