@@ -388,6 +388,174 @@ const PASSAGES: Passage[] = [
       "A paradox lies close to the heart of scientific discovery. If you know just what you are looking for, finding it can hardly count as a discovery, since it was fully anticipated.",
     htmlFile: "/passages/IELTS_Accidental_Scientists_Test_CDI_Layout_v5.html",
   },
+  [
+  {
+    id: "p1-medicine",
+    title: "Traditional Maori Medicine",
+    passageNumber: 1,
+    isPremium: false,
+    description: "The Maori are the indigenous people of the islands of New Zealand.",
+    htmlFile: "/passages/Medicine_CDI_standalone.html",
+  },
+  {
+    id: "p3-teaching",
+    title: "Research into Teaching Styles",
+    passageNumber: 3,
+    isPremium: false,
+    description:
+      "Prior to 1960, most inquiries into pupils' learning skills explored the relationship between factors such as children's social background, personality or measured intelligence and their achievement in various school subjects.",
+    htmlFile: "/passages/Teaching_CDI_standalone.html",
+  },
+  {
+    id: "p1-reef-fish",
+    title: "Reef Fish Study",
+    passageNumber: 1,
+    isPremium: false,
+    description:
+      "Tom Holmes examines the relationship between size and survival in fish on Australia’s Great Barrier Reef.",
+    htmlFile: "/passages/reef_fish_2_CDI_standalone.html",
+  },
+  {
+    id: "p1-dolls",
+    title: "Dolls Through the Ages",
+    passageNumber: 1,
+    isPremium: false,
+    description: "What is today a simple children’s toy has a surprisingly rich history.",
+    htmlFile: "/passages/Dolls_2_CDI_standalone.html",
+  },
+  {
+    id: "p3-living-dunes",
+    title: "Living Dunes",
+    passageNumber: 3,
+    isPremium: false,
+    description:
+      "Things don’t come much stranger than heaps of sand that can move and sing of their own accord.",
+    htmlFile: "/passages/Living_dunes_CDI_standalone.html",
+  },
+  {
+    id: "p2-playing-with-science",
+    title: "Playing with Science",
+    passageNumber: 2,
+    isPremium: false,
+    description: "Is science always a serious matter?",
+    htmlFile: "/passages/Playing_with_science_2_CDI_standalone.html",
+  },
+  {
+    id: "p1-thomas-cole",
+    title: "Thomas Cole: American Nature Painter",
+    passageNumber: 1,
+    isPremium: false,
+    description: "Thomas Cole (1801–1848) was America’s first major landscape artist.",
+    htmlFile: "/passages/Thomas_cole_2_CDI_standalone.html",
+  },
+  {
+    id: "p2-attraction-of-video-games",
+    title: "The Attraction of Video Games",
+    passageNumber: 2,
+    isPremium: false,
+    description:
+      "The world's love of video games has much to do with people's desires and motives.",
+    htmlFile: "/passages/Attraction_of_video_games_CDI_standalone.html",
+  },
+  {
+    id: "p1-sleep-study-hunter-gatherers",
+    title: "Sleep Study on Modern-Day Hunter-Gatherers",
+    passageNumber: 1,
+    isPremium: false,
+    description:
+      "The sleep troubles common in modern life have long been blamed on our industrial society, from the city lights, long work hours and commutes, to caffeine and the Internet.",
+    htmlFile: "/passages/Sleep_Study_on_Modern_Day_Hunter_Gatherers_2_CDI_standalone.html",
+  },
+  {
+    id: "p3-tuatara",
+    title: "The Tuatara: Past and Future",
+    passageNumber: 3,
+    isPremium: false,
+    description:
+      "The New Zealand species of lizard, the tuatara, is firmly embedded in the national psyche.",
+    htmlFile: "/passages/Tuatura_CDI_standalone.html",
+  },
+  {
+    id: "p2-biophilic-design",
+    title: "Biophilic Design",
+    passageNumber: 2,
+    isPremium: false,
+    description:
+      "Biophilic design, a movement related to green architecture, has gained much momentum within the building community in recent years.",
+    htmlFile: "/passages/Biophilic_design_CDI_standalone.html",
+  },
+  {
+    id: "p1-humans-and-food",
+    title: "A Brief History of Humans and Food",
+    passageNumber: 1,
+    isPremium: false,
+    description:
+      "During the journey from our hunter-gatherer ancestors to the present day there have been three seismic changes that have had an impact on the food we eat.",
+    htmlFile: "/passages/Humans_and_Food_CDI_standalone.html",
+  },
+  {
+    id: "p2-arts",
+    title: "Why Do We Need the Arts?",
+    passageNumber: 2,
+    isPremium: false,
+    description:
+      "Imagine a world in which people spend hours working in offices or factories, and then go home in the evening to sit down to dinner.",
+    htmlFile: "/passages/ARTS_CDI_standalone.html",
+  },
+  {
+    id: "p3-mahy",
+    title: "The New Zealand Writer Margaret Mahy",
+    passageNumber: 3,
+    isPremium: false,
+    description:
+      "In a career spanning some fifty years, Margaret Mahy has come to occupy a unique place in New Zealand writing with innovative fiction and original characterisation.",
+    htmlFile: "/passages/Mahy_CDI_standalone.html",
+  },
+  {
+    id: "p3-headphones",
+    title: "Some Views on the Use of Headphones",
+    passageNumber: 3,
+    isPremium: false,
+    description:
+      "Whether wearing headphones at work, or in other areas of everyday life, is a good thing or a bad thing has generated a lot of research and opinion.",
+    htmlFile: "/passages/Headphones_CDI_standalone.html",
+  },
+  {
+    id: "p2-celebrities",
+    title: "A Study of Western Celebrity",
+    passageNumber: 2,
+    isPremium: false,
+    description:
+      "In our celebrity-obsessed culture, TV shows, internet blogs, and even newspapers are often full of the latest news, gossip and scandals about current celebrities.",
+    htmlFile: "/passages/Celebrities_CDI_standalone.html",
+  },
+  {
+    id: "p1-building-castle",
+    title: "Building a Castle",
+    passageNumber: 1,
+    isPremium: false,
+    description: "Guédelon is no ordinary building site.",
+    htmlFile: "/passages/Building_castle_CDI_standalone.html",
+  },
+  {
+    id: "p3-game-theory",
+    title: "Game Theory",
+    passageNumber: 3,
+    isPremium: false,
+    description:
+      "According to game theory, our chances of success in negotiations are based on the choices of others.",
+    htmlFile: "/passages/Game_theory_CDI_standalone.html",
+  },
+  {
+    id: "p2-ideal-homes",
+    title: "Ideal Homes",
+    passageNumber: 2,
+    isPremium: false,
+    description:
+      "The traditional kampung houses of Malaysia do not need air-conditioning.",
+    htmlFile: "/passages/Ideal_CDI_standalone.html",
+  },
+]
 ];
 
 const FILTERS = [
