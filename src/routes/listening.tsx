@@ -3,18 +3,24 @@ import { SiteLayout } from "@/components/site-layout";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Headphones, Lock, Crown, RotateCcw, CheckCircle2 } from "lucide-react";
+import { Headphones, Lock, Crown, RotateCcw } from "lucide-react";
 import { useState } from "react";
 import { useAuth } from "@/hooks/use-auth";
 import { Link } from "@tanstack/react-router";
 import { cn } from "@/lib/utils";
-import { useTestStatus } from "@/hooks/use-test-status";
+import {
+  getTestProgressMeta,
+  ProgressStatus,
+  TEST_PROGRESS_OPTIONS,
+  useTestStatus,
+} from "@/hooks/use-test-status";
+import { TestProgressBadge, TestProgressSelect } from "@/components/test-progress-controls";
 
 export const Route = createFileRoute("/listening")({
   head: () => ({
     meta: [
       { title: "IELTS Listening | Abduraimov Erkinjon" },
-      { name: "description", content: "IELTS Listening practice tests — Section 1 to Section 4." },
+      { name: "description", content: "IELTS Listening practice tests вЂ” Section 1 to Section 4." },
     ],
   }),
   component: Listening,
@@ -37,7 +43,7 @@ const TESTS: ListeningTest[] = [
     title: "Dormancy",
     section: 4,
     description:
-      "A lecture on animal dormancy — insects, the African lungfish, snails, and the Arctic ground squirrel.",
+      "A lecture on animal dormancy вЂ” insects, the African lungfish, snails, and the Arctic ground squirrel.",
     questions: 10,
     htmlFile: "/passages/Dormancy_Section_4.html",
     audioFile: "/audio/part 4 dormancy.mp3",
@@ -55,14 +61,25 @@ const FILTERS = [
 
 function Listening() {
   const [filter, setFilter] = useState<"all" | "1" | "2" | "3" | "4">("all");
+  const [statusFilter, setStatusFilter] = useState<"all" | ProgressStatus>("all");
   const { profile, deviceConflict, user } = useAuth();
   const isPremium = !!profile?.is_premium && !deviceConflict;
 
   const testIds = TESTS.map((t) => t.id);
-  const { statuses, resetTest } = useTestStatus(testIds);
+  const { statuses, statusFor, setTestStatus, resetTest } = useTestStatus(testIds);
 
-  const visible =
-    filter === "all" ? TESTS : TESTS.filter((t) => String(t.section) === filter);
+  const visible = TESTS.filter((t) => {
+    const matchesSection = filter === "all" || String(t.section) === filter;
+    const matchesStatus = statusFilter === "all" || statusFor(t.id) === statusFilter;
+    return matchesSection && matchesStatus;
+  });
+
+  function openTest(test: ListeningTest) {
+    if (statusFor(test.id) === "not_done") {
+      void setTestStatus(test.id, "not_completed");
+    }
+    window.open(test.htmlFile, "_blank");
+  }
 
   return (
     <SiteLayout>
@@ -72,11 +89,10 @@ function Listening() {
           Full listening tests with built-in audio player, timer, and answer checker.
         </p>
         <p className="text-sm text-muted-foreground italic mb-8">
-          ⏱ Recommended time: Sections 1–4 — 30 min total &nbsp;|&nbsp; Each section approx. 7–8 min
+          вЏ± Recommended time: Sections 1вЂ“4 вЂ” 30 min total &nbsp;|&nbsp; Each section approx. 7вЂ“8 min
         </p>
 
-        {/* Filters */}
-        <div className="flex flex-wrap gap-2 mb-8">
+        <div className="flex flex-wrap gap-2 mb-4">
           {FILTERS.map((f) => (
             <Button
               key={f.v}
@@ -89,6 +105,26 @@ function Listening() {
           ))}
         </div>
 
+        <div className="flex flex-wrap gap-2 mb-8">
+          <Button
+            variant={statusFilter === "all" ? "default" : "outline"}
+            size="sm"
+            onClick={() => setStatusFilter("all")}
+          >
+            All statuses
+          </Button>
+          {TEST_PROGRESS_OPTIONS.map((option) => (
+            <Button
+              key={option.value}
+              variant={statusFilter === option.value ? "default" : "outline"}
+              size="sm"
+              onClick={() => setStatusFilter(option.value)}
+            >
+              {option.label}
+            </Button>
+          ))}
+        </div>
+
         {visible.length === 0 ? (
           <p className="text-muted-foreground py-12 text-center">No tests in this section yet.</p>
         ) : (
@@ -96,28 +132,24 @@ function Listening() {
             {visible.map((t) => {
               const locked = t.isPremium && !isPremium;
               const status = statuses[t.id];
-              const completed = !!status?.completed;
+              const progressStatus = statusFor(t.id);
+              const isFinished = progressStatus === "finished";
+              const progressMeta = getTestProgressMeta(progressStatus);
 
               return (
                 <Card
                   key={t.id}
                   className={cn(
                     "p-6 flex flex-col relative overflow-hidden transition-colors",
-                    completed && "border-green-500/40 bg-green-500/5"
+                    progressMeta.cardClassName,
                   )}
                 >
-                  {/* Top row */}
                   <div className="flex items-center justify-between mb-3">
                     <div className="flex items-center gap-2">
                       <Badge variant="secondary" className="bg-accent text-foreground">
                         Section {t.section}
                       </Badge>
-                      {completed && (
-                        <Badge className="bg-green-600 text-white text-xs gap-1 flex items-center">
-                          <CheckCircle2 className="w-3 h-3" />
-                          {status.score}/{status.total}
-                        </Badge>
-                      )}
+                      <TestProgressBadge status={progressStatus} detail={status} />
                     </div>
                     <div className="flex items-center gap-2">
                       <span className="text-xs text-muted-foreground">{t.questions} questions</span>
@@ -125,48 +157,48 @@ function Listening() {
                     </div>
                   </div>
 
-                  {/* Title */}
                   <h3
                     className={cn(
                       "font-serif text-xl font-semibold mb-2 leading-snug",
-                      locked && "blur-sm select-none"
+                      locked && "blur-sm select-none",
                     )}
                   >
                     {t.title}
                   </h3>
 
-                  {/* Description */}
                   <p
                     className={cn(
                       "text-sm text-muted-foreground mb-5 flex-1",
-                      locked && "blur-sm select-none"
+                      locked && "blur-sm select-none",
                     )}
                   >
                     {t.description}
                   </p>
 
-                  {/* Last completed date */}
-                  {completed && (
+                  {status?.completedAt && (
                     <p className="text-xs text-muted-foreground mb-3">
                       Completed {new Date(status.completedAt).toLocaleDateString()}
                     </p>
                   )}
 
-                  {/* Action buttons */}
+                  {!locked && (
+                    <div className="mb-3">
+                      <TestProgressSelect
+                        value={progressStatus}
+                        onChange={(next) => setTestStatus(t.id, next)}
+                      />
+                    </div>
+                  )}
+
                   {locked ? (
                     <Link to={user ? "/premium" : "/auth"}>
                       <Button size="sm" className="w-full bg-gradient-gold text-primary-foreground">
                         <Crown className="w-4 h-4 mr-1" /> Unlock with Premium
                       </Button>
                     </Link>
-                  ) : completed ? (
+                  ) : isFinished ? (
                     <div className="flex gap-2">
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        className="flex-1"
-                        onClick={() => window.open(t.htmlFile, "_blank")}
-                      >
+                      <Button size="sm" variant="outline" className="flex-1" onClick={() => openTest(t)}>
                         <Headphones className="w-4 h-4 mr-1" /> Review
                       </Button>
                       <Button
@@ -179,13 +211,9 @@ function Listening() {
                       </Button>
                     </div>
                   ) : (
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      className="w-full"
-                      onClick={() => window.open(t.htmlFile, "_blank")}
-                    >
-                      <Headphones className="w-4 h-4 mr-1" /> Start Test
+                    <Button size="sm" variant="outline" className="w-full" onClick={() => openTest(t)}>
+                      <Headphones className="w-4 h-4 mr-1" />
+                      {progressStatus === "not_completed" ? "Continue Test" : "Start Test"}
                     </Button>
                   )}
                 </Card>
