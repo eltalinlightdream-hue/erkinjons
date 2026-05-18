@@ -215,7 +215,7 @@ function Account() {
   const tests15Days = results.filter(r => isInRange(r.completed_at, day15)).length;
   const testsThisMonth = results.filter(r => isInRange(r.completed_at, monthStart)).length;
 
-  const recentBands = results.slice(0, 5).map(r => r.band);
+  const recentBands = results.slice(0, 5).map(r => r.band ?? 0);
   const avgBand = recentBands.length ? (recentBands.reduce((a, b) => a + b, 0) / recentBands.length).toFixed(1) : "—";
 
   // Streak: consecutive days with at least 1 test
