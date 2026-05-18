@@ -379,7 +379,7 @@ function Account() {
                         <span className="text-muted-foreground truncate max-w-[60%]">{r.passage_title}</span>
                         <div className="flex items-center gap-3">
                           <span>{r.score}/{r.total}</span>
-                          <span className={`font-bold ${bandColor(r.band)}`}>Band {r.band}</span>
+                          <span className={`font-bold ${bandColor(r.band ?? 0)}`}>Band {r.band ?? "—"}</span>
                           <span className="text-xs text-muted-foreground">{new Date(r.completed_at).toLocaleDateString()}</span>
                         </div>
                       </div>
