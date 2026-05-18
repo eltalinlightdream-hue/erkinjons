@@ -32,7 +32,6 @@ export function getTestProgressMeta(status: ProgressStatus) {
       cardClassName: "border-green-500/40 bg-green-500/5",
     };
   }
-
   if (status === "not_completed") {
     return {
       label: "Not completed",
@@ -40,7 +39,6 @@ export function getTestProgressMeta(status: ProgressStatus) {
       cardClassName: "border-amber-500/40 bg-amber-500/5",
     };
   }
-
   return {
     label: "Not done",
     className: "bg-muted text-muted-foreground border-border",
@@ -52,20 +50,16 @@ function normalizeStatus(value: unknown): ProgressStatus {
   if (value === "finished" || value === "not_completed" || value === "not_done") {
     return value;
   }
-
   return "not_done";
 }
 
 function readLocalAll(): StatusMap {
   if (typeof window === "undefined") return {};
-
   try {
     const raw = JSON.parse(localStorage.getItem(LS_KEY) ?? "{}") as Record<string, any>;
-
     return Object.fromEntries(
       Object.entries(raw).map(([testId, value]) => {
         const legacyFinished = value?.completed === true;
-
         return [
           testId,
           {
@@ -73,11 +67,7 @@ function readLocalAll(): StatusMap {
             score: value?.score ?? null,
             total: value?.total ?? null,
             completedAt: value?.completedAt ?? value?.completed_at ?? null,
-            updatedAt:
-              value?.updatedAt ??
-              value?.updated_at ??
-              value?.completedAt ??
-              new Date().toISOString(),
+            updatedAt: value?.updatedAt ?? value?.updated_at ?? value?.completedAt ?? new Date().toISOString(),
           } satisfies TestStatus,
         ];
       }),
@@ -89,10 +79,24 @@ function readLocalAll(): StatusMap {
 
 function writeLocal(testId: string, status: TestStatus) {
   if (typeof window === "undefined") return;
-
   const all = readLocalAll();
   all[testId] = status;
   localStorage.setItem(LS_KEY, JSON.stringify(all));
+}
+
+// ─── Hook ────────────────────────────────────────────────────────────────────
+
+function shouldKeepCurrentStatus(current: TestStatus | undefined, incoming: TestStatus) {
+  if (!current) return false;
+
+  if (current.status === "finished" && incoming.status !== "finished") {
+    return true;
+  }
+
+  const currentTime = Date.parse(current.updatedAt ?? current.completedAt ?? "");
+  const incomingTime = Date.parse(incoming.updatedAt ?? incoming.completedAt ?? "");
+
+  return Number.isFinite(currentTime) && Number.isFinite(incomingTime) && currentTime > incomingTime;
 }
 
 export function useTestStatus(testIds: string[]) {
@@ -112,10 +116,8 @@ export function useTestStatus(testIds: string[]) {
       .in("test_id", activeTestIds)
       .then(({ data }: { data: any[] | null }) => {
         if (!data) return;
-
         setStatuses((prev) => {
           const next = { ...prev };
-
           for (const row of data) {
             const s: TestStatus = {
               status: normalizeStatus(row.status),
@@ -125,26 +127,34 @@ export function useTestStatus(testIds: string[]) {
               updatedAt: row.updated_at ?? row.completed_at ?? new Date().toISOString(),
             };
 
+            const localStatus = readLocalAll()[row.test_id];
+            const currentStatus = next[row.test_id] ?? localStatus;
+
+            if (shouldKeepCurrentStatus(currentStatus, s)) {
+              if (currentStatus) {
+                next[row.test_id] = currentStatus;
+                writeLocal(row.test_id, currentStatus);
+              }
+              continue;
+            }
+
             next[row.test_id] = s;
             writeLocal(row.test_id, s);
           }
-
           return next;
         });
       });
   }, [userId, testIdKey]);
 
+  // Merge Supabase progress into local state (logged-in users)
   useEffect(() => {
     fetchRemoteProgress();
   }, [fetchRemoteProgress]);
 
+  // Upgrade legacy local completion rows into Supabase when a user signs in.
   useEffect(() => {
     if (!userId) return;
-
-    const localRows = Object.entries(readLocalAll()).filter(
-      ([, status]) => status.status !== "not_done",
-    );
-
+    const localRows = Object.entries(readLocalAll()).filter(([, status]) => status.status !== "not_done");
     if (localRows.length === 0) return;
 
     void (supabase as any).from("test_progress").upsert(
@@ -154,24 +164,20 @@ export function useTestStatus(testIds: string[]) {
         status: status.status,
         score: status.score ?? null,
         total: status.total ?? null,
-        completed_at:
-          status.status === "finished" ? (status.completedAt ?? new Date().toISOString()) : null,
+        completed_at: status.status === "finished" ? (status.completedAt ?? new Date().toISOString()) : null,
         updated_at: status.updatedAt,
       })),
       { onConflict: "user_id,test_id" },
     );
   }, [userId]);
 
+  // Re-check localStorage when user returns to tab (after closing test)
   const syncFromLocal = useCallback(() => {
     const localStatuses = readLocalAll();
     setStatuses((prev) => ({ ...prev, ...localStatuses }));
 
     if (!userId) return;
-
-    const localRows = Object.entries(localStatuses).filter(
-      ([, status]) => status.status !== "not_done",
-    );
-
+    const localRows = Object.entries(localStatuses).filter(([, status]) => status.status !== "not_done");
     if (localRows.length === 0) return;
 
     void (supabase as any).from("test_progress").upsert(
@@ -181,8 +187,7 @@ export function useTestStatus(testIds: string[]) {
         status: status.status,
         score: status.score ?? null,
         total: status.total ?? null,
-        completed_at:
-          status.status === "finished" ? (status.completedAt ?? new Date().toISOString()) : null,
+        completed_at: status.status === "finished" ? (status.completedAt ?? new Date().toISOString()) : null,
         updated_at: status.updatedAt,
       })),
       { onConflict: "user_id,test_id" },
@@ -191,12 +196,10 @@ export function useTestStatus(testIds: string[]) {
 
   useEffect(() => {
     if (typeof window === "undefined") return;
-
     const reloadProgress = () => {
       syncFromLocal();
       fetchRemoteProgress();
     };
-
     const onVisibilityChange = () => {
       if (!document.hidden) reloadProgress();
     };
@@ -204,7 +207,6 @@ export function useTestStatus(testIds: string[]) {
     window.addEventListener("focus", reloadProgress);
     window.addEventListener("pageshow", reloadProgress);
     document.addEventListener("visibilitychange", onVisibilityChange);
-
     return () => {
       window.removeEventListener("focus", reloadProgress);
       window.removeEventListener("pageshow", reloadProgress);
@@ -213,14 +215,8 @@ export function useTestStatus(testIds: string[]) {
   }, [syncFromLocal, fetchRemoteProgress]);
 
   const setTestStatus = useCallback(
-    async (
-      testId: string,
-      nextStatus: ProgressStatus,
-      score?: number | null,
-      total?: number | null,
-    ) => {
+    async (testId: string, nextStatus: ProgressStatus, score?: number | null, total?: number | null) => {
       const now = new Date().toISOString();
-
       const status: TestStatus = {
         status: nextStatus,
         score: score ?? null,
@@ -228,7 +224,6 @@ export function useTestStatus(testIds: string[]) {
         completedAt: nextStatus === "finished" ? now : null,
         updatedAt: now,
       };
-
       writeLocal(testId, status);
       setStatuses((prev) => ({ ...prev, [testId]: status }));
 
@@ -253,7 +248,6 @@ export function useTestStatus(testIds: string[]) {
   const markComplete = useCallback(
     async (testId: string, score: number, total: number) => {
       const now = new Date().toISOString();
-
       const status: TestStatus = {
         status: "finished",
         score,
@@ -261,7 +255,6 @@ export function useTestStatus(testIds: string[]) {
         completedAt: now,
         updatedAt: now,
       };
-
       writeLocal(testId, status);
       setStatuses((prev) => ({ ...prev, [testId]: status }));
 
@@ -287,11 +280,9 @@ export function useTestStatus(testIds: string[]) {
     async (testId: string) => {
       const all = readLocalAll();
       delete all[testId];
-
       if (typeof window !== "undefined") {
         localStorage.setItem(LS_KEY, JSON.stringify(all));
       }
-
       setStatuses((prev) => {
         const next = { ...prev };
         delete next[testId];
@@ -309,22 +300,13 @@ export function useTestStatus(testIds: string[]) {
     [userId],
   );
 
-  const statusFor = useCallback(
-    (testId: string): ProgressStatus => statuses[testId]?.status ?? "not_done",
-    [statuses],
-  );
+  const statusFor = useCallback((testId: string): ProgressStatus => {
+    return statuses[testId]?.status ?? "not_done";
+  }, [statuses]);
 
-  const badgeClassFor = useCallback(
-    (testId: string) => cn("text-xs", getTestProgressMeta(statusFor(testId)).className),
-    [statusFor],
-  );
+  const badgeClassFor = useCallback((testId: string) => {
+    return cn("text-xs", getTestProgressMeta(statusFor(testId)).className);
+  }, [statusFor]);
 
-  return {
-    statuses,
-    statusFor,
-    badgeClassFor,
-    setTestStatus,
-    markComplete,
-    resetTest,
-  };
+  return { statuses, statusFor, badgeClassFor, setTestStatus, markComplete, resetTest };
 }
