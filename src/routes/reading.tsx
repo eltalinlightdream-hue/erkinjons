@@ -182,6 +182,177 @@ const PASSAGES: Passage[] = [
     htmlFile: "/passages/IELTS_Passage3_Mite_Harvestmen_Test.html",
   },
   {
+    id: "p3-verbal-and-non-verbal",
+    title: "Verbal and Non-verbal Messages",
+    passageNumber: 3,
+    isPremium: false,
+    description:
+      "A study of non-verbal communication carried out in 1967 continues to be widely quoted today.",
+    htmlFile: "/passages/verbal_and_non-verbal_CDI_standalone.html",
+  },
+  {
+    id: "p1-guitar",
+    title: "The History of the Guitar",
+    passageNumber: 1,
+    isPremium: false,
+    description:
+      "An overview of the origins of the modern guitar.",
+    htmlFile: "/passages/Guitar_CDI_standalone.html",
+  },
+  {
+    id: "p2-intelligence",
+    title: "Intelligent Behavior in Birds",
+    passageNumber: 2,
+    isPremium: false,
+    description:
+      "Many people are aware of the intelligence of chimpanzees and other mammals.",
+    htmlFile: "/passages/Intelligence_CDI_standalone.html",
+  },
+  {
+    id: "p2-urban",
+    title: "Urban Regeneration",
+    passageNumber: 2,
+    isPremium: false,
+    description:
+      "Just over a kilometre south of Berlin's Potsdamer Platz, near the left bank of the Landwehr Canal, an extensive, triangular-shaped area of waste ground once separated the neighbourhoods of Kreuzberg to the east and Schöneberg to the west.",
+    htmlFile: "/passages/Urban_CDI_standalone.html",
+  },
+  {
+    id: "p1-burgess-shale",
+    title: "The Burgess Shale Fossils",
+    passageNumber: 1,
+    isPremium: false,
+    description:
+      "Fauna vanished with a whimper, not a bang.",
+    htmlFile: "/passages/Burgess_shale_CDI_standalone.html",
+  },
+  {
+    id: "p3-conformity",
+    title: "Conformity",
+    passageNumber: 3,
+    isPremium: false,
+    description:
+      "A review of conformity and some of the studies that have been done on it.",
+    htmlFile: "/passages/Conformity_CDI_standalone.html",
+  },
+  {
+    id: "p1-survivor-story",
+    title: "A Survivor's Story",
+    passageNumber: 1,
+    isPremium: false,
+    description:
+      "One native bird in New Zealand that has managed to survive the introduction of non-native species.",
+    htmlFile: "/passages/Survivor_story_CDI_standalone.html",
+  },
+  {
+    id: "p1-feeding-the-world",
+    title: "Feeding the World",
+    passageNumber: 1,
+    isPremium: false,
+    description:
+      "Feeding the world while nurturing the planet doesn’t necessarily mean going back to nature, Andy Coghlan reports.",
+    htmlFile: "/passages/Feeding_the_world_CDI_standalone.html",
+  },
+  {
+    id: "p2-music",
+    title: "Classical Music Over the Centuries",
+    passageNumber: 2,
+    isPremium: false,
+    description:
+      "The production of any great art form, and classical music is no exception, does not usually occur in a society dominated by the basic material demands of food and shelter.",
+    htmlFile: "/passages/Music_CDI_standalone.html",
+  },
+  {
+    id: "p3-map",
+    title: "Mapping the Mind",
+    passageNumber: 3,
+    isPremium: false,
+    description:
+      "Dr Simon Hanson reviews Rita Carter’s book Mapping the Mind.",
+    htmlFile: "/passages/Map_CDI_standalone.html",
+  },
+  {
+    id: "p2-species",
+    title: "The Impact of Invasive Species",
+    passageNumber: 2,
+    isPremium: false,
+    description:
+      "Invasive species are among the leading threats to the native wildlife of most countries, with approximately 42 percent of endangered species at risk from them.",
+    htmlFile: "/passages/Species_CDI_standalone.html",
+  },
+  {
+    id: "p1-chocolate",
+    title: "Chocolate for the Masses",
+    passageNumber: 1,
+    isPremium: false,
+    description:
+      "For almost three thousand years, chocolate was a drink of the elite and the wealthy, originally in South America and later on in Europe.",
+    htmlFile: "/passages/Chocalate_CDI_standalone.html",
+  },
+  {
+    id: "p3-asian-space",
+    title: "Asian Space",
+    passageNumber: 3,
+    isPremium: false,
+    description:
+      "Planet Earth is today circled by scores of satellites, orbiting like tiny moons after being sent aloft by rockets to perform a variety of useful tasks.",
+    htmlFile: "/passages/Asian_space_CDI_standalone.html",
+  },
+  {
+    id: "p2-how-to-be-happy",
+    title: "How to Be Happy",
+    passageNumber: 2,
+    isPremium: false,
+    description:
+      "Psychiatrist Tony Fernando was walking down the street when he saw a group of young homeless men sitting on the footpath.",
+    htmlFile: "/passages/How_to_be_happy_CDI_standalone.html",
+  },
+  {
+    id: "p1-frozen-food",
+    title: "Clarence Birdseye and Frozen Food",
+    passageNumber: 1,
+    isPremium: false,
+    description:
+      "Born in 1886 in New York, the American naturalist Clarence Birdseye had an instinctive curiosity, a love of food, and a strong entrepreneurial streak.",
+    htmlFile: "/passages/Frozen_food_CDI_standalone.html",
+  },
+  {
+    id: "p3-lost-animals",
+    title: "The Lost Animals of Australia",
+    passageNumber: 3,
+    isPremium: false,
+    description:
+      "The history of Australia's animals over the past 50,000 years has been largely one of extinction.",
+    htmlFile: "/passages/Lost_animals_CDI_standalone.html",
+  },
+  {
+    id: "p1-antarctic",
+    title: "Antarctica Exploration and Research",
+    passageNumber: 1,
+    isPremium: false,
+    description:
+      "The modern scientific age in Antarctica really began with the introduction of aircraft in the 1920s.",
+    htmlFile: "/passages/Antarctic_CDI_standalone.html",
+  },
+  {
+    id: "p2-population",
+    title: "Effects of Changes in World Population",
+    passageNumber: 2,
+    isPremium: false,
+    description:
+      "Human fertility rates around the world are dropping for a variety of complex reasons.",
+    htmlFile: "/passages/Population_CDI_standalone.html",
+  },
+  {
+    id: "p1-carnivorous-plants",
+    title: "Carnivorous Plants",
+    passageNumber: 1,
+    isPremium: false,
+    description:
+      "They attract insects and then eat their flesh.",
+    htmlFile: "/passages/CarnCarnivorous_Plants_CDI_standalone.html",
+  },
+  {
     id: "p2-bird-migration",
     title: "Bird Migration",
     passageNumber: 2,
