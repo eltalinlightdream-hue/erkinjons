@@ -666,6 +666,7 @@
             color: #e74c3c;
         }
     </style>
+    <link rel="stylesheet" href="/passages/reading-universal-layout.css">
 </head>
 <body>
     <div class="test-wrapper">
@@ -673,7 +674,7 @@
             <div class="header__logo">
                 <img src="https://d2snzxottmona5.cloudfront.net/releases/3.46.0/images/logo/ielts.svg" alt="IELTS Logo">
             </div>
-            <div class="header__timer" id="testTimer">00:00</div>
+            <div class="header__timer" id="testTimer">20:00</div>
             <div class="header__icons">
                 <i class="fas fa-wifi header__icon"></i>
                 <i class="fas fa-bell header__icon"></i>
@@ -981,7 +982,7 @@
             40: "NO"
         };
 
-        let totalSeconds = 0;
+        let totalSeconds = 20 * 60;
         const timerElement = document.getElementById('testTimer');
         let testSubmitted = false;
         let userAnswers = {};
@@ -994,7 +995,12 @@
             const seconds = totalSeconds % 60;
             const formattedTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
             timerElement.textContent = formattedTime;
-            totalSeconds++;
+            if (totalSeconds > 0) {
+                totalSeconds--;
+            } else {
+                clearInterval(timerInterval);
+                testSubmitted = true;
+            }
         }
 
         function disableAllInputs() {
@@ -1201,6 +1207,7 @@
             highlightAnswers(correctAnswers);
         });
 
+        updateTimer();
         const timerInterval = setInterval(updateTimer, 1000);
 
         const settingsButton = document.getElementById('settingsButton');
@@ -1398,6 +1405,7 @@
             });
         });
     </script>
-        <script src="/passages/test-progress-bridge.js"></script>
+    <script src="/passages/reading-universal-layout.js"></script>
+    <script src="/passages/test-progress-bridge.js"></script>
 </body>
 </html>

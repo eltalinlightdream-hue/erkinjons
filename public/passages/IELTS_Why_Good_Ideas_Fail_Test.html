@@ -697,6 +697,7 @@
 }
 .text-input:focus{ box-shadow: 0 0 0 2px rgba(87,112,255,0.25); }
 </style>
+    <link rel="stylesheet" href="/passages/reading-universal-layout.css">
 </head>
 <body>
 <header>
@@ -1132,7 +1133,7 @@ document.getElementById('pause-timer').addEventListener('click', ()=>{ clearInte
 document.getElementById('reset-timer').addEventListener('click', ()=>{ clearInterval(timerInterval); timerInterval=null; timeRemaining=20*60; updateTimerDisplay(); });
 document.addEventListener('DOMContentLoaded', updateTimerDisplay);
 </script>
-        <script src="/passages/test-progress-bridge.js"></script>
-</body>
+    <script src="/passages/reading-universal-layout.js"></script>
+    <script src="/passages/test-progress-bridge.js"></script>
 </body>
 </html>
