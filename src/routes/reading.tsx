@@ -238,10 +238,12 @@ function Reading() {
       void setTestStatus(p.id, "not_completed");
     }
     if (p.htmlFile) {
-      window.open(p.htmlFile, "_blank");
-    } else {
-      setActive(p);
-    }
+  const url = new URL(p.htmlFile, window.location.origin);
+  url.searchParams.set("testId", p.id);
+  window.open(url.toString(), "_blank");
+} else {
+  setActive(p);
+}
   }
 
   return (
