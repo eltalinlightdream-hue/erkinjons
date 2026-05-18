@@ -388,7 +388,6 @@ const PASSAGES: Passage[] = [
       "A paradox lies close to the heart of scientific discovery. If you know just what you are looking for, finding it can hardly count as a discovery, since it was fully anticipated.",
     htmlFile: "/passages/IELTS_Accidental_Scientists_Test_CDI_Layout_v5.html",
   },
-  [
   {
     id: "p1-medicine",
     title: "Traditional Maori Medicine",
@@ -555,7 +554,6 @@ const PASSAGES: Passage[] = [
       "The traditional kampung houses of Malaysia do not need air-conditioning.",
     htmlFile: "/passages/Ideal_CDI_standalone.html",
   },
-]
 ];
 
 const FILTERS = [
