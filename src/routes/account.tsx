@@ -29,7 +29,7 @@ export const Route = createFileRoute("/account")({
 });
 
 // ─── Types ────────────────────────────────────────────────────────────────────
-type TestResult = { id: string; passage_title: string; score: number; total: number; band: number; completed_at: string };
+type TestResult = { id: string; passage_title: string; score: number; total: number; band: number | null; completed_at: string };
 type BookmarkItem = { id: string; type: string; reference_id: string; title?: string; created_at: string };
 type LeaderboardEntry = { user_id: string; name: string; tests: number; avg_band: number };
 
