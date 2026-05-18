@@ -22,9 +22,16 @@ export function SiteLayout({ children }: { children: ReactNode }) {
   const fetchDue = useServerFn(dueCount);
   const { data: due } = useQuery({
     queryKey: ["due-count"],
-    queryFn: () => fetchDue(),
+    queryFn: async () => {
+      try {
+        return await fetchDue();
+      } catch {
+        return { count: 0 } as any;
+      }
+    },
     enabled: !!user,
     refetchInterval: 60_000,
+    retry: false,
   });
   const isActive = (p: string) => loc.pathname === p;
   const practiceActive = PRACTICE_LINKS.some((l) => isActive(l.to)) || isActive("/practice");
