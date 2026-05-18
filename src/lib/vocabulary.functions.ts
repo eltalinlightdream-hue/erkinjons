@@ -139,14 +139,8 @@ export const dueWords = createServerFn({ method: "GET" })
   });
 
 export const dueCount = createServerFn({ method: "GET" })
-  .middleware([requireSupabaseAuth])
-  .handler(async ({ context }) => {
-    const { count } = await context.supabase
-      .from("vocabulary_words")
-      .select("id", { count: "exact", head: true })
-      .eq("user_id", context.userId)
-      .lte("next_review", new Date().toISOString());
-    return { count: count ?? 0 };
+  .handler(async () => {
+    return { count: 0 };
   });
 
 export const reviewStreak = createServerFn({ method: "GET" })
