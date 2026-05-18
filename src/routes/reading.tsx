@@ -208,6 +208,15 @@ const PASSAGES: Passage[] = [
       "Designing computer games for young children is a daunting task for game producers, who, for a long time, have concentrated on more hard core game fans.",
     htmlFile: "/passages/IELTS_Passage1_Nintendo_Preschoolers_Test.html",
   },
+  {
+    id: "p3-accidental-scientists",
+    title: "Accidental Scientists",
+    passageNumber: 3,
+    isPremium: false,
+    description:
+      "A paradox lies close to the heart of scientific discovery. If you know just what you are looking for, finding it can hardly count as a discovery, since it was fully anticipated.",
+    htmlFile: "/passages/IELTS_Accidental_Scientists_Test_CDI_Layout_v5.html",
+  },
 ];
 
 const FILTERS = [
