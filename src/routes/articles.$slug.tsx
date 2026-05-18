@@ -1,6 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
-import { useServerFn } from "@tanstack/react-start";
 import { SiteLayout } from "@/components/site-layout";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -8,18 +7,13 @@ import { Button } from "@/components/ui/button";
 import {
   Clock,
   ArrowLeft,
-  BookmarkPlus,
-  Bookmark,
   BookmarkPlus as BPIcon,
   Highlighter,
   Eraser,
   Volume2,
 } from "lucide-react";
 import { findArticle, ARTICLES, DIFFICULTY_STYLES } from "@/lib/articles-data";
-import { useAuth } from "@/hooks/use-auth";
 import { SaveVocabModal } from "@/components/save-vocab-modal";
-import { recordArticleRead, toggleBookmark, listBookmarks } from "@/lib/bookmarks.functions";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 
@@ -28,7 +22,7 @@ export const Route = createFileRoute("/articles/$slug")({
     const a = findArticle(params.slug);
     return {
       meta: [
-        { title: a ? `${a.title} вЂ” Abduraimov Erkinjon` : "Article not found" },
+        { title: a ? `${a.title} — Abduraimov Erkinjon` : "Article not found" },
         { name: "description", content: a?.description ?? "Article" },
         { property: "og:title", content: a?.title ?? "Article" },
         { property: "og:description", content: a?.description ?? "" },
@@ -37,16 +31,6 @@ export const Route = createFileRoute("/articles/$slug")({
     };
   },
   component: ArticleView,
-  notFoundComponent: () => (
-    <SiteLayout>
-      <div className="container mx-auto px-4 py-24 text-center">
-        <h1 className="text-3xl font-bold mb-2">Article not found</h1>
-        <Link to="/articles" className="text-secondary">
-          в†ђ Back to articles
-        </Link>
-      </div>
-    </SiteLayout>
-  ),
 });
 
 type TabKey = "article" | "vocabulary" | "pronunciation";
@@ -54,11 +38,6 @@ type TabKey = "article" | "vocabulary" | "pronunciation";
 function ArticleView() {
   const { slug } = Route.useParams();
   const article = findArticle(slug);
-  const { user } = useAuth();
-  const recordRead = useServerFn(recordArticleRead);
-  const toggle = useServerFn(toggleBookmark);
-  const fetchBookmarks = useServerFn(listBookmarks);
-  const qc = useQueryClient();
   const [saveOpen, setSaveOpen] = useState<null | {
     word: string;
     definition: string;
@@ -67,33 +46,9 @@ function ArticleView() {
   const [tab, setTab] = useState<TabKey>("article");
   const contentRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (user && article) {
-      recordRead({ data: { slug: article.slug } }).catch(() => {});
-    }
-  }, [user, article, recordRead]);
-
-  const { data: bookmarks } = useQuery({
-    queryKey: ["bookmarks"],
-    queryFn: () => fetchBookmarks(),
-    enabled: !!user,
-  });
-
-  const isBookmarked = !!bookmarks?.find(
-    (b) => b.type === "article" && b.reference_id === slug,
-  );
-
-  const onBookmark = async () => {
-    if (!user) {
-      toast.error("Sign in to bookmark.");
-      return;
-    }
-    await toggle({ data: { type: "article", referenceId: slug } });
-    qc.invalidateQueries({ queryKey: ["bookmarks"] });
-  };
-
   const applyHighlight = (color: "yellow" | "blue") => {
     const sel = window.getSelection();
+
     if (!sel || sel.rangeCount === 0 || sel.isCollapsed) {
       toast.message("Select some text first.");
       return;
@@ -151,7 +106,7 @@ function ArticleView() {
         <div className="container mx-auto px-4 py-24 text-center">
           <h1 className="text-3xl font-bold mb-2">Article not found</h1>
           <Link to="/articles" className="text-secondary">
-            в†ђ Back to articles
+            ← Back to articles
           </Link>
         </div>
       </SiteLayout>
@@ -172,6 +127,7 @@ function ArticleView() {
           style={{ filter: "blur(2px)" }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/70 to-background/20" />
+
         <div className="absolute inset-0 flex items-end">
           <div className="container mx-auto px-4 pb-8 max-w-4xl">
             <Link
@@ -207,20 +163,6 @@ function ArticleView() {
               {article.title}
             </h1>
           </div>
-        </div>
-
-        <div className="absolute top-4 right-4">
-          <Button size="sm" variant="secondary" onClick={onBookmark}>
-            {isBookmarked ? (
-              <>
-                <Bookmark className="w-4 h-4 mr-1 fill-current" /> Saved
-              </>
-            ) : (
-              <>
-                <BookmarkPlus className="w-4 h-4 mr-1" /> Bookmark
-              </>
-            )}
-          </Button>
         </div>
       </div>
 
@@ -361,32 +303,11 @@ function ArticleView() {
                   </p>
 
                   <p className="text-xs text-muted-foreground bg-muted/50 rounded p-2">
-                    рџ’Ў {p.tip}
+                    💡 {p.tip}
                   </p>
                 </Card>
               ))}
             </div>
-
-            <Card className="mt-8 p-6 bg-accent/40">
-              <h3 className="font-serif text-lg font-semibold mb-3">Practice tip</h3>
-
-              <ul className="text-sm space-y-2 list-disc pl-5">
-                <li>
-                  <strong>Stress the content words</strong> (nouns, verbs, adjectives) and reduce
-                  function words (the, of, and). Native English has a strong stress-timed rhythm.
-                </li>
-
-                <li>
-                  <strong>Connected speech:</strong> link final consonants to next vowels, e.g.
-                  "an apple" в†’ "a-napple". It sounds natural and improves fluency.
-                </li>
-
-                <li>
-                  Record yourself reading the article aloud, then compare against the IPA above.
-                  Focus on one or two words per session вЂ” don't try to fix everything at once.
-                </li>
-              </ul>
-            </Card>
           </section>
         )}
       </article>
