@@ -131,6 +131,24 @@ const PASSAGES: Passage[] = [
       "Hypothetical case study: As part of a marketing course, two marketing experts comment on a hypothetical case study involving TF, a fictional retail giant specializing home furnishing. The experts give concrete solutions and advice to assist students.",
     htmlFile: "/passages/IELTS_Why_Good_Ideas_Fail_Test.html",
   },
+  {
+    id: "p1-thomas-young-the-last-true-know-it-all",
+    title: "Thomas Young: The last true know-it-all",
+    passageNumber: 1,
+    isPremium: false,
+    description:
+      "Thomas Young (1773-1829) contributed 63 articles to the Encyclopedia Britannica, including 46 biographical entries (mostly on scientists and classicists) and substantial essays on “Bridge,” “Chromatics,” “Egypt,” “Languages” and “Tides”.",
+    htmlFile: "/passages/IELTS_Passage1_Thomas_Young_Test.html",
+  },
+   {
+    id: "p3-what-do-babies-know",
+    title: "What do Babies know?",
+    passageNumber: 3,
+    isPremium: true,
+    description:
+      "As Daniel Haworth is settled into a high chair and wheeled behind a black screen, a sudden look of worry furrows his 9-month-old brow.",
+    htmlFile: "/passages/IELTS_Passage3_What_Do_Babies_Know_Test.html",
+  },
 ];
 
 const FILTERS = [
