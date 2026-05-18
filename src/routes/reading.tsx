@@ -113,6 +113,24 @@ const PASSAGES: Passage[] = [
       "Each and every dolphin has a different sound just like you and me, a sound that other dolphins recognize as a particular individual.",
     htmlFile: "/passages/IELTS_The_Sound_of_Dolphin_Test.html",
   },
+   {
+    id: "p1-morse-code",
+    title: "Morse code",
+    passageNumber: 1,
+    isPremium: false,
+    description:
+      "Morse code is being replaced by a new satellite-based system for sending distress calls at sea. Its dots and dashes have had a good run for their money.",
+    htmlFile: "/passages/IELTS_Passage1_Morse_Code_Test.html",
+  },
+  {
+    id: "p1-why-good-ideas-fail",
+    title: "Why Good ideas fail?",
+    passageNumber: 1,
+    isPremium: false,
+    description:
+      "Hypothetical case study: As part of a marketing course, two marketing experts comment on a hypothetical case study involving TF, a fictional retail giant specializing home furnishing. The experts give concrete solutions and advice to assist students.",
+    htmlFile: "/passages/IELTS_Why_Good_Ideas_Fail_Test.html",
+  },
 ];
 
 const FILTERS = [
