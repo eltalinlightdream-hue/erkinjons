@@ -80,7 +80,7 @@ export const addWord = createServerFn({ method: "POST" })
   .inputValidator(z.object({
     folderId: z.string().uuid(),
     word: z.string().trim().min(1).max(120),
-    definition: z.string().trim().min(1).max(1000),
+    definition: z.string().trim().max(1000).optional().default(""),
     example: z.string().trim().max(1000).optional().default(""),
   }).parse)
   .handler(async ({ data, context }) => {
