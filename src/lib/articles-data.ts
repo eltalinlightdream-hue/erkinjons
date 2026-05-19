@@ -116,7 +116,202 @@ export const ARTICLES: Article[] = [
     ],
   },
 ];
+{
+  id: "a4",
+  slug: "understanding-planned-obsolescence",
+  title: "Understanding Planned Obsolescence: Impact on Consumers and Industries",
+  category: "Reading",
+  topic: "Business",
+  difficulty: "Advanced",
+  coverImage:
+    "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1600&q=80",
+  date: "2026-05-19",
+  description:
+    "Planned obsolescence is a business strategy where products are intentionally designed to become outdated or useless after a certain period.",
+  readingTime: 6,
+  content: `
+    <p><strong>Planned obsolescence is a strategy to make a product outdated or useless after a set period, boosting future consumer demand for replacements.</strong></p>
 
+    <h2>What Is Planned Obsolescence?</h2>
+    <p>Planned obsolescence is a strategy to make a product outdated or useless after a set period, boosting future consumer demand for replacements. Obsolescence happens by releasing a better model or designing a product to fail after a certain period, prompting consumers to prefer newer versions.</p>
+
+    <p>Planned obsolescence is common in tech and fashion, often viewed negatively by consumers, especially if new versions have minor changes. Apple offers a plan for iPhone users to annually swap hardware for a fee, seen as a demand-boosting tactic, though Apple denies this.</p>
+
+    <h2>Key Takeaways</h2>
+    <ul>
+      <li>Planned obsolescence is a strategy where products are intentionally designed to have a limited lifespan to drive future consumer demand.</li>
+      <li>This practice is common in the tech and fashion industries, where new models replace outdated ones regularly.</li>
+      <li>Consumers often respond negatively if new versions offer minimal improvements, impacting brand reputation.</li>
+      <li>While controversial, planned obsolescence can stimulate technological progress by encouraging frequent upgrades.</li>
+      <li>Critics argue this strategy prioritizes profit over satisfaction, but it remains prevalent across various sectors.</li>
+    </ul>
+
+    <h2>Industry-Specific Approaches to Planned Obsolescence</h2>
+    <p>Some industries are more associated with planned obsolescence. In fashion, nylon stockings run easily, requiring frequent replacements.</p>
+
+    <p>In technology, smartphones typically need replacing every two to three years as hardware wears out and new software becomes incompatible. Software often includes new features and file types that do not work with older versions.</p>
+
+    <p>Computer hardware also sees planned obsolescence as microprocessors follow Moore's Law, doubling transistor count and halving processing cost every two years.</p>
+
+    <p>Finally, planned obsolescence also affects automobile manufacturers, who annually roll out new versions of their models.</p>
+
+    <h2>How Planned Obsolescence Affects Consumer Choices</h2>
+    <p>Consumers often dislike planned obsolescence, particularly if new products show little improvement. This strategy can hurt brands' reputations and drive customers away.</p>
+
+    <p>Sometimes, planned obsolescence is not seen negatively, as companies may use it to cut costs, like choosing parts that last five years instead of twenty.</p>
+
+    <h2>Examining Apple's Approach to Planned Obsolescence</h2>
+    <p>Apple Inc. has often been at the center of skeptical consumer discourse. The company announced a plan for iPhone users to make direct payments to exchange hardware annually.</p>
+
+    <p>Observers viewed the shorter replacement cycle as a way to boost demand. Skeptics questioned Apple's ability to make significant improvements quickly, a common two- or three-year issue for phone makers.</p>
+
+    <p>Apple denies planned obsolescence, though a Harvard study found iOS upgrades slowed older iPhone processors, not to push new sales. Apple recently settled a 2017 class-action lawsuit over the issue, agreeing to issue payouts to customers and state governments over what has been referred to as "batterygate."</p>
+
+    <p>Although Apple is notorious for this practice, it has not been proved unequivocally. Some economists believe planned obsolescence can drive technological progress, even if it occurs. Besides, other manufacturers, such as the makers of Android phones and tablets, also release new versions of their products annually.</p>
+
+    <h2>The Bottom Line</h2>
+    <p>Planned obsolescence is a business strategy where products are designed to have limited lifespans to drive consumer demand for newer models. It is especially prevalent in industries such as technology, fashion, and automotive, often resulting in negative consumer perceptions.</p>
+
+    <p>Although this strategy may control costs and stimulate technological advancement, it also risks damaging brand reputations if improvements are minimal. Apple is a company frequently accused of planned obsolescence, including the "batterygate" incident as a notable case study.</p>
+
+    <p>Planned obsolescence can drive innovation but also attract consumer backlash. It is important for companies to balance these outcomes. Consumers should be aware of planned obsolescence practices to make informed purchasing decisions.</p>
+  `,
+  vocabulary: [
+    {
+      word: "planned obsolescence",
+      wordType: "noun phrase",
+      definition:
+        "a business strategy where products are deliberately designed to become outdated or unusable after a certain time",
+      example:
+        "Planned obsolescence encourages consumers to replace products more frequently.",
+    },
+    {
+      word: "limited lifespan",
+      wordType: "noun phrase",
+      definition: "a short or fixed period during which something can be used",
+      example:
+        "Some products are intentionally designed to have a limited lifespan.",
+    },
+    {
+      word: "boost consumer demand",
+      wordType: "verb phrase",
+      definition: "to increase people’s desire to buy products",
+      example:
+        "New product releases can boost consumer demand for updated models.",
+    },
+    {
+      word: "demand-boosting tactic",
+      wordType: "noun phrase",
+      definition: "a method used to increase sales or purchasing behavior",
+      example:
+        "Annual hardware exchange plans may be seen as a demand-boosting tactic.",
+    },
+    {
+      word: "technological progress",
+      wordType: "noun phrase",
+      definition: "the development or improvement of technology",
+      example:
+        "Some economists argue that planned obsolescence can stimulate technological progress.",
+    },
+    {
+      word: "software incompatibility",
+      wordType: "noun phrase",
+      definition: "a situation where new software does not work with older devices or systems",
+      example:
+        "Software incompatibility can force consumers to replace old devices.",
+    },
+    {
+      word: "replacement cycle",
+      wordType: "noun phrase",
+      definition: "the usual period before a product is replaced",
+      example:
+        "Smartphones often have a two- or three-year replacement cycle.",
+    },
+    {
+      word: "brand reputation",
+      wordType: "noun phrase",
+      definition: "the way a company is viewed by the public",
+      example:
+        "Minimal improvements in new products can hurt brand reputation.",
+    },
+    {
+      word: "class-action lawsuit",
+      wordType: "noun phrase",
+      definition: "a legal case brought by a group of people with the same complaint",
+      example:
+        "Apple settled a class-action lawsuit related to older iPhone performance.",
+    },
+    {
+      word: "consumer backlash",
+      wordType: "noun phrase",
+      definition: "a strong negative reaction from customers",
+      example:
+        "Planned obsolescence can attract consumer backlash.",
+    },
+  ],
+  pronunciation: [
+    {
+      word: "obsolescence",
+      ipa: "/ob-suh-LES-ens/",
+      syllables: "ob-so-les-cence",
+      tip: "Stress the third syllable: LES.",
+    },
+    {
+      word: "intentionally",
+      ipa: "/in-TEN-shuh-nuh-lee/",
+      syllables: "in-ten-tion-al-ly",
+      tip: "Stress TEN. The middle sounds like 'shuh'.",
+    },
+    {
+      word: "consumer",
+      ipa: "/kuhn-SOO-mer/",
+      syllables: "con-su-mer",
+      tip: "Stress SOO.",
+    },
+    {
+      word: "incompatible",
+      ipa: "/in-kuhm-PAT-uh-bul/",
+      syllables: "in-com-pat-i-ble",
+      tip: "Stress PAT.",
+    },
+    {
+      word: "microprocessors",
+      ipa: "/my-kroh-PROH-ses-erz/",
+      syllables: "mi-cro-pro-cess-ors",
+      tip: "Stress PROH.",
+    },
+    {
+      word: "automobile",
+      ipa: "/AW-tuh-moh-beel/",
+      syllables: "au-to-mo-bile",
+      tip: "Stress AW. The ending sounds like 'beel'.",
+    },
+    {
+      word: "reputation",
+      ipa: "/rep-yuh-TAY-shun/",
+      syllables: "rep-u-ta-tion",
+      tip: "Stress TAY.",
+    },
+    {
+      word: "skeptical",
+      ipa: "/SKEP-ti-kul/",
+      syllables: "skep-ti-cal",
+      tip: "Stress SKEP.",
+    },
+    {
+      word: "unequivocally",
+      ipa: "/un-i-KWIV-uh-kuh-lee/",
+      syllables: "un-e-quiv-o-cal-ly",
+      tip: "Stress KWIV.",
+    },
+    {
+      word: "prevalent",
+      ipa: "/PREV-uh-lent/",
+      syllables: "prev-a-lent",
+      tip: "Stress PREV.",
+    },
+  ],
+}
 export function findArticle(slug: string): Article | undefined {
   return ARTICLES.find((a) => a.slug === slug);
 }
