@@ -23,7 +23,6 @@ import { Route as ArticlesRouteImport } from './routes/articles'
 import { Route as AccountRouteImport } from './routes/account'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ArticlesSlugRouteImport } from './routes/articles_.$slug'
-import { Route as ArticlesRouteImport } from './routes/articles_.'
 
 const WritingRoute = WritingRouteImport.update({
   id: '/writing',
@@ -95,11 +94,6 @@ const ArticlesSlugRoute = ArticlesSlugRouteImport.update({
   path: '/articles/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ArticlesRoute = ArticlesRouteImport.update({
-  id: '/articles_/',
-  path: '/articles/',
-  getParentRoute: () => rootRouteImport,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -115,7 +109,6 @@ export interface FileRoutesByFullPath {
   '/videos': typeof VideosRoute
   '/vocabulary': typeof VocabularyRoute
   '/writing': typeof WritingRoute
-  '/articles/': typeof ArticlesRoute
   '/articles/$slug': typeof ArticlesSlugRoute
 }
 export interface FileRoutesByTo {
@@ -149,7 +142,6 @@ export interface FileRoutesById {
   '/videos': typeof VideosRoute
   '/vocabulary': typeof VocabularyRoute
   '/writing': typeof WritingRoute
-  '/articles_/': typeof ArticlesRoute
   '/articles_/$slug': typeof ArticlesSlugRoute
 }
 export interface FileRouteTypes {
@@ -168,7 +160,6 @@ export interface FileRouteTypes {
     | '/videos'
     | '/vocabulary'
     | '/writing'
-    | '/articles/'
     | '/articles/$slug'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -201,7 +192,6 @@ export interface FileRouteTypes {
     | '/videos'
     | '/vocabulary'
     | '/writing'
-    | '/articles_/'
     | '/articles_/$slug'
   fileRoutesById: FileRoutesById
 }
@@ -219,7 +209,6 @@ export interface RootRouteChildren {
   VideosRoute: typeof VideosRoute
   VocabularyRoute: typeof VocabularyRoute
   WritingRoute: typeof WritingRoute
-  ArticlesRoute: typeof ArticlesRoute
   ArticlesSlugRoute: typeof ArticlesSlugRoute
 }
 
@@ -323,13 +312,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ArticlesSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/articles_/': {
-      id: '/articles_/'
-      path: '/articles'
-      fullPath: '/articles/'
-      preLoaderRoute: typeof ArticlesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
   }
 }
 
@@ -347,7 +329,6 @@ const rootRouteChildren: RootRouteChildren = {
   VideosRoute: VideosRoute,
   VocabularyRoute: VocabularyRoute,
   WritingRoute: WritingRoute,
-  ArticlesRoute: ArticlesRoute,
   ArticlesSlugRoute: ArticlesSlugRoute,
 }
 export const routeTree = rootRouteImport
