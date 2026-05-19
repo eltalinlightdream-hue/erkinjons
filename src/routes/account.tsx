@@ -16,6 +16,7 @@ import { toast } from "sonner";
 import { useAuth } from "@/hooks/use-auth";
 import { getDeviceFingerprint } from "@/lib/fingerprint";
 import { resetDevice } from "@/lib/premium.functions";
+import { ensureUserProfile } from "@/lib/auth.functions";
 import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/account")({
@@ -100,6 +101,7 @@ function Account() {
   const { user, profile, loading, signOut, refreshProfile, deviceConflict } = useAuth();
   const navigate = useNavigate();
   const resetFn = useServerFn(resetDevice);
+  const ensureProfile = useServerFn(ensureUserProfile);
   const [busy, setBusy] = useState(false);
 
   // Password change
@@ -124,6 +126,11 @@ function Account() {
 
   useEffect(() => {
     if (!user) return;
+    void ensureProfile({
+      data: {
+        fullName: String(user.user_metadata?.full_name ?? user.user_metadata?.name ?? ""),
+      },
+    }).then(() => refreshProfile()).catch(() => undefined);
     loadStats();
   }, [user]);
 
