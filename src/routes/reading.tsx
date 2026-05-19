@@ -129,6 +129,78 @@ const PASSAGES: Passage[] = [
     htmlFile: "/passages/IELTS_Passage1_Morse_Code_Test.html",
   },
   {
+  id: "p2-agribots",
+  title: "The Rise of Agribots",
+  passageNumber: 2,
+  isPremium: false,
+  description:
+    "A passage about the use of robots and automation in farming, showing how agribots may change modern agriculture.",
+  htmlFile: "/passages/agribots_part2.html",
+},
+{
+  id: "p2-being-bored",
+  title: "Why Being Bored Is Stimulating – and Useful, Too",
+  passageNumber: 2,
+  isPremium: false,
+  description:
+    "A passage exploring boredom as an emotion and explaining how it may be connected to creativity, attention, and human behaviour.",
+  htmlFile: "/passages/being_bored_part2.html",
+},
+{
+  id: "p2-big-cats",
+  title: "Bring Back the Big Cats",
+  passageNumber: 2,
+  isPremium: false,
+  description:
+    "A passage about rewilding in Britain and the possible return of vanished native animals such as the lynx.",
+  htmlFile: "/passages/big_cats_part2.html",
+},
+{
+  id: "p2-human-laughter",
+  title: "The Science of Human Laughter",
+  passageNumber: 2,
+  isPremium: false,
+  description:
+    "A passage examining why humans laugh, how laughter affects relationships, and what science reveals about humour.",
+  htmlFile: "/passages/human_laught_part2.html",
+},
+{
+  id: "p2-lost-city",
+  title: "The Lost City",
+  passageNumber: 2,
+  isPremium: false,
+  description:
+    "A passage about Hiram Bingham’s encounter with Machu Picchu and the history behind the famous Inca site.",
+  htmlFile: "/passages/lost_city_part2.html",
+},
+{
+  id: "p2-mapping",
+  title: "Revolutions in Mapping",
+  passageNumber: 2,
+  isPremium: false,
+  description:
+    "A passage about the development of mapmaking, from early scientific cartography to modern digital and satellite mapping.",
+  htmlFile: "/passages/mapping_part2.html",
+},
+{
+  id: "p2-robots",
+  title: "Dawn of the Robots",
+  passageNumber: 2,
+  isPremium: false,
+  description:
+    "A passage discussing recent progress in robotics and artificial intelligence, including driverless cars and future robot applications.",
+  htmlFile: "/passages/robots_part2.html",
+},
+{
+  id: "p2-whales",
+  title: "Whale Strandings",
+  passageNumber: 2,
+  isPremium: false,
+  description:
+    "A passage investigating why whales become stranded on beaches and the possible causes behind mass strandings.",
+  htmlFile: "/passages/whales_part2.html",
+},
+  {
     id: "p1-why-good-ideas-fail",
     title: "Why Good ideas fail?",
     passageNumber: 1,
