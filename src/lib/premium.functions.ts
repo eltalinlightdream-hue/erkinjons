@@ -31,6 +31,12 @@ export const redeemActivationCode = createServerFn({ method: "POST" })
 
     const now = new Date().toISOString();
 
+    const { error: ensureProfileErr } = await supabaseAdmin.from("profiles").upsert(
+      { id: userId },
+      { onConflict: "id" },
+    );
+    if (ensureProfileErr) throw new Error("Could not prepare your profile. Please try again.");
+
     const { error: codeErr } = await supabaseAdmin
       .from("activation_codes")
       .update({ used_by: userId, used_at: now })
@@ -43,7 +49,6 @@ export const redeemActivationCode = createServerFn({ method: "POST" })
         is_premium: true,
         activated_at: now,
         device_fingerprint: data.deviceFingerprint,
-        device_last_seen: now,
       })
       .eq("id", userId);
     if (profErr) throw new Error("Premium activated, but profile update failed.");
@@ -59,12 +64,10 @@ export const resetDevice = createServerFn({ method: "POST" })
   .handler(async ({ data, context }) => {
     // Allow a user to rebind to their CURRENT device (clears the stored fingerprint
     // and sets it to the device that's making this request).
-    const now = new Date().toISOString();
     const { error } = await supabaseAdmin
       .from("profiles")
       .update({
         device_fingerprint: data.deviceFingerprint,
-        device_last_seen: now,
       })
       .eq("id", context.userId);
     if (error) throw new Error("Could not reset device binding.");
