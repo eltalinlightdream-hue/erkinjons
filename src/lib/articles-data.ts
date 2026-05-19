@@ -508,8 +508,8 @@ export const ARTICLES: Article[] = [
       tip: "Stress KWID.",
     },
   ],
-}
-    {
+},
+  {
   id: "a6",
   slug: "latin-america-worlds-most-violent-place",
   title: "400 Murders a Day: Why Latin America Is the World's Most Violent Place",
