@@ -94,6 +94,69 @@ const PASSAGES: Passage[] = [
     htmlFile: "/passages/gemini-code-1778995279738.html",
   },
   {
+  id: "p1-our-vanishing-night",
+  title: "Our Vanishing Night",
+  passageNumber: 1,
+  isPremium: false,
+  description:
+    "A passage about light pollution, its effects on the night sky, wildlife, and human understanding of darkness.",
+  htmlFile: "/passages/our_vanishing_night_passage1.html",
+},
+{
+  id: "p1-isle-of-eigg",
+  title: "Reducing Electricity Consumption on the Isle of Eigg",
+  passageNumber: 1,
+  isPremium: false,
+  description:
+    "A passage explaining how the Isle of Eigg reduced electricity use through renewable energy, demand control, and community action.",
+  htmlFile: "/passages/reducing_electricity_consumption_isle_of_eigg_passage1.html",
+},
+{
+  id: "p1-forgotten-forest",
+  title: "The Forgotten Forest",
+  passageNumber: 1,
+  isPremium: false,
+  description:
+    "A passage about the longleaf pine forest in the southern United States and efforts to restore this endangered ecosystem.",
+  htmlFile: "/passages/the_forgotten_forest_passage1.html",
+},
+{
+  id: "p1-communicating-in-colour",
+  title: "Communicating In Colour",
+  passageNumber: 1,
+  isPremium: false,
+  description:
+    "A passage examining how chameleons use colour for communication, camouflage, rivalry, and attracting mates.",
+  htmlFile: "/passages/communicating_in_colour_passage1.html",
+},
+{
+  id: "p1-rufous-hare-wallaby",
+  title: "The Rufous Hare-Wallaby",
+  passageNumber: 1,
+  isPremium: false,
+  description:
+    "A passage about the decline, captive breeding, and conservation efforts to save the Australian rufous hare-wallaby.",
+  htmlFile: "/passages/the_rufous_hare_wallaby_passage1.html",
+},
+{
+  id: "p1-secrets-of-the-swarm",
+  title: "Secrets of the Swarm",
+  passageNumber: 1,
+  isPremium: false,
+  description:
+    "A passage exploring how ants, bees, termites, and other swarms make collective decisions and what humans can learn from them.",
+  htmlFile: "/passages/secrets_of_the_swarm_passage1.html",
+},
+{
+  id: "p1-story-of-silk",
+  title: "The Story of Silk",
+  passageNumber: 1,
+  isPremium: false,
+  description:
+    "A passage tracing the history of silk from ancient China to the Silk Road and the development of global silk production.",
+  htmlFile: "/passages/the_story_of_silk_passage1.html",
+},
+  {
     id: "p1-radiocarbon-dating",
     title: "Radiocarbon Dating вЂ” The Profile of Nancy Athfield",
     passageNumber: 1,
