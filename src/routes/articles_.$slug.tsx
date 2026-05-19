@@ -17,7 +17,7 @@ import { SaveVocabModal } from "@/components/save-vocab-modal";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 
-export const Route = createFileRoute("/articles/$slug")({
+export const Route = createFileRoute("/articles_/$slug")({
   head: ({ params }) => {
     const a = findArticle(params.slug);
     return {
