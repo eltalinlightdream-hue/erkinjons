@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>IELTS Writing Task 1 – Residential Water Use</title>
+  <style>
+    :root{
+      --bg1:#f6fbff;
+      --bg2:#ffffff;
+      --card:#ffffff;
+      --ink:#0f172a;
+      --muted:#64748b;
+      --line:rgba(15,23,42,0.12);
+      --shadow: 0 10px 24px rgba(15,23,42,0.08);
+      --shadow-sm: 0 4px 12px rgba(15,23,42,0.07);
+      --accent:#2563eb;
+      --accent2:#22c55e;
+      --danger:#ef4444;
+    }
+    *{ box-sizing:border-box; font-family: Arial, Helvetica, sans-serif; }
+    body{
+      margin:0;
+      height:100vh;
+      color:var(--ink);
+      background: radial-gradient(1200px 600px at 20% 0%, #e7f3ff 0%, rgba(231,243,255,0) 60%),
+                  radial-gradient(900px 500px at 90% 20%, #eafff1 0%, rgba(234,255,241,0) 55%),
+                  linear-gradient(180deg, var(--bg1), #f8fafc);
+      padding-top:64px;
+    }
+
+    /* ── Top bar ── */
+    .topbar{
+      position:fixed;
+      top:0; left:0; right:0;
+      height:64px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:12px 20px;
+      background:rgba(255,255,255,0.78);
+      backdrop-filter: blur(10px);
+      border-bottom:1px solid var(--line);
+      z-index:2000;
+      gap:12px;
+    }
+    .brand{ display:flex; flex-direction:column; gap:2px; line-height:1.1; }
+    .brand .title{ font-weight:800; font-size:15px; letter-spacing:0.2px; }
+    .brand .subtitle{ font-size:11px; color:var(--muted); }
+
+    .timer-wrap{ display:flex; align-items:center; gap:10px; }
+    .timer{
+      min-width:88px; text-align:center;
+      padding:8px 12px; border-radius:12px;
+      background:var(--card); border:1px solid var(--line);
+      box-shadow: var(--shadow-sm);
+      font-weight:800; font-size:18px; letter-spacing:0.6px;
+      font-variant-numeric: tabular-nums;
+    }
+    .timer.warning{ color:#ef4444; border-color:rgba(239,68,68,0.4); }
+
+    .btn{
+      border:1px solid var(--line); background:var(--card); color:var(--ink);
+      padding:8px 14px; border-radius:12px; cursor:pointer;
+      box-shadow: 0 2px 0 rgba(15,23,42,0.06);
+      transition: transform 120ms ease, box-shadow 120ms ease;
+      font-weight:700; font-size:13px;
+    }
+    .btn:hover{ transform:translateY(-1px); box-shadow:0 6px 18px rgba(15,23,42,0.12); }
+    .btn.primary{ background:linear-gradient(180deg,#3b82f6,var(--accent)); border-color:rgba(37,99,235,0.35); color:#fff; }
+    .btn.danger{ background:linear-gradient(180deg,#fb7185,var(--danger)); border-color:rgba(239,68,68,0.35); color:#fff; }
+    .btn.success{ background:linear-gradient(180deg,#4ade80,#16a34a); border-color:rgba(22,163,74,0.35); color:#fff; }
+
+    .telegram-link{
+      color:#0ea5e9; text-decoration:none; font-weight:700; font-size:13px;
+      padding:6px 10px; border-radius:10px; border:1px dashed rgba(14,165,233,0.4);
+      background:rgba(14,165,233,0.07); white-space:nowrap;
+      transition: background 120ms ease;
+    }
+    .telegram-link:hover{ background:rgba(14,165,233,0.14); }
+
+    /* ── Layout ── */
+    .layout{
+      height:calc(100vh - 64px);
+      display:flex;
+      gap:14px;
+      padding:14px;
+    }
+    .panel{
+      background:rgba(255,255,255,0.85);
+      border:1px solid var(--line);
+      border-radius:18px;
+      box-shadow:var(--shadow);
+      overflow:hidden;
+      display:flex;
+      flex-direction:column;
+      min-width:300px;
+    }
+    .panel-header{
+      padding:14px 16px;
+      border-bottom:1px solid var(--line);
+      background:linear-gradient(180deg,rgba(255,255,255,0.9),rgba(255,255,255,0.6));
+      display:flex; align-items:flex-end; justify-content:space-between; gap:12px;
+    }
+    .panel-header h2{ margin:0; font-size:17px; letter-spacing:0.2px; }
+    .panel-header p{ margin:0; color:var(--muted); font-size:12px; }
+    .panel-body{ padding:16px; overflow:auto; flex:1; }
+
+    .question-section{ width:50%; }
+    .writing-section{ width:50%; position:relative; }
+
+    /* ── Question box (read-only) ── */
+    .question-content{
+      min-height:480px;
+      padding:14px;
+      border-radius:16px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,0.95);
+      box-shadow:inset 0 1px 0 rgba(15,23,42,0.04);
+      font-size:14px;
+      line-height:1.6;
+      user-select:text;
+    }
+    .question-content .task-label{
+      display:inline-block;
+      background:#1e40af; color:#fff;
+      font-size:11px; font-weight:700; letter-spacing:0.5px;
+      padding:3px 10px; border-radius:20px; margin-bottom:10px;
+    }
+    .question-content .instruction{
+      font-size:13px; color:var(--muted);
+      font-style:italic; margin-bottom:12px;
+    }
+    .question-content .prompt{
+      font-size:14px; font-weight:600; margin-bottom:14px; line-height:1.5;
+    }
+    .question-content .chart-img{
+      width:100%; max-width:100%; height:auto;
+      border-radius:12px; border:1px solid var(--line);
+      background:#fff; box-shadow:var(--shadow-sm);
+      display:block; margin:0 auto;
+    }
+    .question-content .write-note{
+      margin-top:14px; font-size:12px; color:var(--muted);
+      border-top:1px solid var(--line); padding-top:10px;
+    }
+
+    /* ── Writing area ── */
+    .write-area{ height:100%; display:flex; flex-direction:column; gap:10px; }
+    textarea{
+      flex:1; width:100%;
+      padding:14px 14px 48px 14px;
+      border-radius:16px; border:1px solid var(--line); resize:none; outline:none;
+      background:rgba(255,255,255,0.95);
+      box-shadow:inset 0 1px 0 rgba(15,23,42,0.04);
+      font-size:14px; line-height:1.6;
+      transition: border-color 120ms ease, box-shadow 120ms ease;
+    }
+    textarea:focus{
+      border-color:rgba(37,99,235,0.45);
+      box-shadow:0 0 0 4px rgba(37,99,235,0.10), inset 0 1px 0 rgba(15,23,42,0.04);
+    }
+    .actions{
+      display:flex; align-items:center; justify-content:space-between;
+      gap:10px; padding-bottom:2px;
+    }
+    #word-counter{
+      position:absolute; right:30px; bottom:72px;
+      font-size:12px; color:rgba(15,23,42,0.5);
+      pointer-events:none; user-select:none;
+      text-shadow:0 1px 0 rgba(255,255,255,0.9);
+    }
+    #word-counter.reached{ color:#16a34a; font-weight:700; }
+
+    /* Responsive */
+    @media(max-width:900px){
+      body{ height:auto; min-height:100vh; }
+      .layout{ flex-direction:column; height:auto; }
+      .question-section, .writing-section{ width:100%; }
+      #word-counter{ bottom:76px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top bar -->
+  <div class="topbar">
+    <div class="brand">
+      <div class="title">Augustus IELTS</div>
+      <div class="subtitle">Task 1 Writing Practice</div>
+    </div>
+
+    <div class="timer-wrap">
+      <div id="exam-timer" class="timer">20:00</div>
+      <button id="start-timer" class="btn primary">▶ Start</button>
+      <button id="stop-timer" class="btn danger">⏸ Pause</button>
+    </div>
+
+    <a href="https://t.me/augustus_flores" target="_blank" rel="noopener" class="telegram-link">
+      Telegram Channel
+    </a>
+  </div>
+
+  <!-- Main layout -->
+  <div class="layout">
+
+    <!-- Left: Question -->
+    <section class="panel question-section">
+      <div class="panel-header">
+        <div>
+          <h2>Task 1 Question</h2>
+          <p>Read carefully before writing.</p>
+        </div>
+        <span style="font-size:12px;color:var(--muted);font-weight:600;">Line Graph</span>
+      </div>
+      <div class="panel-body">
+        <div class="question-content">
+          <span class="task-label">TASK 1</span>
+          <p class="instruction">You should spend about 20 minutes on this task. Write at least 150 words.</p>
+          <p class="prompt">The line graphs illustrate the alterations in the total demand,the production and import rates for the UK steel industry from 1970 to 2000.</p>
+          <!-- ↓ CHART IMAGE — replace the src with your hosted image URL if needed -->
+          <img
+            class="chart-img"
+            src="/writing-images/task1_3.jpg"
+            alt="The steel industry"
+            id="chart-image"
+          >
+          <!-- NOTE TO TEACHER: To replace with the real image, change the src above to:
+               src="/writing-images/water-use-chart.png"
+               Then upload your image to public/writing-images/ in GitHub -->
+          <p class="write-note">✏️ Write at least <strong>150 words</strong> in the writing area on the right.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Right: Writing -->
+    <section class="panel writing-section">
+      <div class="panel-header">
+        <div>
+          <h2>Writing Area</h2>
+          <p>Type your answer below. Word count updates live.</p>
+        </div>
+        <span id="word-status" style="font-size:12px;color:var(--muted);font-weight:600;">0 / 150 words</span>
+      </div>
+      <div class="panel-body write-area">
+        <textarea id="essay-text" placeholder="Start writing your Task 1 response here...&#10;&#10;Summarise the main features and make comparisons where relevant."></textarea>
+        <div class="actions">
+          <button id="clear-btn" class="btn" style="font-size:12px;">🗑 Clear</button>
+          <button id="save-btn" class="btn success">⬇ Save as Word</button>
+        </div>
+        <div id="word-counter">Words: 0</div>
+      </div>
+    </section>
+
+  </div>
+
+  <script>
+  (function(){
+
+    // ── Timer ──
+    var totalSeconds = 20 * 60;
+    var remaining = totalSeconds;
+    var timerEl = document.getElementById('exam-timer');
+    var interval = null;
+
+    function renderTimer(){
+      var m = Math.floor(remaining/60).toString().padStart(2,'0');
+      var s = (remaining%60).toString().padStart(2,'0');
+      timerEl.textContent = m+':'+s;
+      timerEl.classList.toggle('warning', remaining <= 120);
+    }
+
+    function tick(){
+      if(remaining <= 0){
+        clearInterval(interval); interval = null;
+        remaining = 0; renderTimer();
+        alert('Time is up! Your essay has been saved.');
+        saveDoc(true);
+        return;
+      }
+      remaining--; renderTimer();
+    }
+
+    document.getElementById('start-timer').addEventListener('click', function(){
+      if(interval) return;
+      if(remaining <= 0) remaining = totalSeconds;
+      renderTimer();
+      interval = setInterval(tick, 1000);
+      document.getElementById('essay-text').focus();
+    });
+
+    document.getElementById('stop-timer').addEventListener('click', function(){
+      clearInterval(interval); interval = null;
+    });
+
+    // ── Word counter ──
+    var textarea = document.getElementById('essay-text');
+    var counterEl = document.getElementById('word-counter');
+    var statusEl = document.getElementById('word-status');
+    var MIN_WORDS = 150;
+
+    function countWords(t){
+      t = (t||'').trim();
+      return t ? t.split(/\s+/).filter(function(w){return w.length>0;}).length : 0;
+    }
+
+    function updateWordCount(){
+      var n = countWords(textarea.value);
+      var left = Math.max(0, MIN_WORDS - n);
+      counterEl.textContent = 'Words: ' + n;
+      counterEl.classList.toggle('reached', n >= MIN_WORDS);
+      statusEl.textContent = n + ' / ' + MIN_WORDS + ' words';
+      statusEl.style.color = n >= MIN_WORDS ? '#16a34a' : 'var(--muted)';
+    }
+
+    textarea.addEventListener('input', updateWordCount);
+    textarea.addEventListener('paste', function(){ setTimeout(updateWordCount, 50); });
+    updateWordCount();
+
+    // ── Clear ──
+    document.getElementById('clear-btn').addEventListener('click', function(){
+      if(confirm('Clear your essay? This cannot be undone.')) {
+        textarea.value = '';
+        updateWordCount();
+        textarea.focus();
+      }
+    });
+
+    // ── Save as Word ──
+    function saveDoc(auto){
+      var essay = textarea.value || '';
+      var defaultName = 'task1-water-use-' + new Date().toISOString().slice(0,10);
+      var fname = auto ? defaultName : (prompt('Filename (no extension):', defaultName) || defaultName);
+      fname = fname.trim() || defaultName;
+      var html = '<html><head><meta charset="utf-8"><style>body{font-family:Arial,sans-serif;font-size:14px;line-height:1.6;max-width:700px;margin:40px auto;padding:0 20px;}h2{font-size:16px;}pre{white-space:pre-wrap;}</style></head><body>'
+        + '<h2>IELTS Writing Task 1 — Residential Water Use</h2>'
+        + '<p><em>The charts below show information on residential water use in 1988 and 2008.</em></p>'
+        + '<hr>'
+        + '<pre>' + essay.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') + '</pre>'
+        + '</body></html>';
+      var blob = new Blob([html], {type:'application/msword'});
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url; a.download = fname + '.doc';
+      document.body.appendChild(a); a.click();
+      setTimeout(function(){ URL.revokeObjectURL(url); a.remove(); }, 1500);
+    }
+
+    document.getElementById('save-btn').addEventListener('click', function(){ saveDoc(false); });
+
+    renderTimer();
+
+  })();
+  </script>
+</body>
+</html>
