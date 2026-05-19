@@ -115,8 +115,7 @@ export const ARTICLES: Article[] = [
       { word: "existential", ipa: "/eg-zi-STEN-shul/", syllables: "ex-is-ten-tial", tip: "Stress 'sten'. The ending sounds like 'shul'." },
     ],
   },
-];
-{
+  {
   id: "a4",
   slug: "understanding-planned-obsolescence",
   title: "Understanding Planned Obsolescence: Impact on Consumers and Industries",
@@ -311,7 +310,8 @@ export const ARTICLES: Article[] = [
       tip: "Stress PREV.",
     },
   ],
-}
+  },
+];
 export function findArticle(slug: string): Article | undefined {
   return ARTICLES.find((a) => a.slug === slug);
 }
