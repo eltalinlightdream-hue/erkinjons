@@ -24,6 +24,7 @@ import { Route as AccountRouteImport } from './routes/account'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as WritingTaskIdRouteImport } from './routes/writing.$taskId'
 import { Route as ArticlesSlugRouteImport } from './routes/articles_.$slug'
+import { Route as WritingTaskIdPracticeRouteImport } from './routes/writing.$taskId.practice'
 
 const WritingRoute = WritingRouteImport.update({
   id: '/writing',
@@ -100,6 +101,11 @@ const ArticlesSlugRoute = ArticlesSlugRouteImport.update({
   path: '/articles/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const WritingTaskIdPracticeRoute = WritingTaskIdPracticeRouteImport.update({
+  id: '/practice',
+  path: '/practice',
+  getParentRoute: () => WritingTaskIdRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -116,7 +122,8 @@ export interface FileRoutesByFullPath {
   '/vocabulary': typeof VocabularyRoute
   '/writing': typeof WritingRouteWithChildren
   '/articles/$slug': typeof ArticlesSlugRoute
-  '/writing/$taskId': typeof WritingTaskIdRoute
+  '/writing/$taskId': typeof WritingTaskIdRouteWithChildren
+  '/writing/$taskId/practice': typeof WritingTaskIdPracticeRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -133,7 +140,8 @@ export interface FileRoutesByTo {
   '/vocabulary': typeof VocabularyRoute
   '/writing': typeof WritingRouteWithChildren
   '/articles/$slug': typeof ArticlesSlugRoute
-  '/writing/$taskId': typeof WritingTaskIdRoute
+  '/writing/$taskId': typeof WritingTaskIdRouteWithChildren
+  '/writing/$taskId/practice': typeof WritingTaskIdPracticeRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -151,7 +159,8 @@ export interface FileRoutesById {
   '/vocabulary': typeof VocabularyRoute
   '/writing': typeof WritingRouteWithChildren
   '/articles_/$slug': typeof ArticlesSlugRoute
-  '/writing/$taskId': typeof WritingTaskIdRoute
+  '/writing/$taskId': typeof WritingTaskIdRouteWithChildren
+  '/writing/$taskId/practice': typeof WritingTaskIdPracticeRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -171,6 +180,7 @@ export interface FileRouteTypes {
     | '/writing'
     | '/articles/$slug'
     | '/writing/$taskId'
+    | '/writing/$taskId/practice'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -188,6 +198,7 @@ export interface FileRouteTypes {
     | '/writing'
     | '/articles/$slug'
     | '/writing/$taskId'
+    | '/writing/$taskId/practice'
   id:
     | '__root__'
     | '/'
@@ -205,6 +216,7 @@ export interface FileRouteTypes {
     | '/writing'
     | '/articles_/$slug'
     | '/writing/$taskId'
+    | '/writing/$taskId/practice'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -331,15 +343,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ArticlesSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/writing/$taskId/practice': {
+      id: '/writing/$taskId/practice'
+      path: '/practice'
+      fullPath: '/writing/$taskId/practice'
+      preLoaderRoute: typeof WritingTaskIdPracticeRouteImport
+      parentRoute: typeof WritingTaskIdRoute
+    }
   }
 }
 
+interface WritingTaskIdRouteChildren {
+  WritingTaskIdPracticeRoute: typeof WritingTaskIdPracticeRoute
+}
+
+const WritingTaskIdRouteChildren: WritingTaskIdRouteChildren = {
+  WritingTaskIdPracticeRoute: WritingTaskIdPracticeRoute,
+}
+
+const WritingTaskIdRouteWithChildren = WritingTaskIdRoute._addFileChildren(
+  WritingTaskIdRouteChildren,
+)
+
 interface WritingRouteChildren {
-  WritingTaskIdRoute: typeof WritingTaskIdRoute
+  WritingTaskIdRoute: typeof WritingTaskIdRouteWithChildren
 }
 
 const WritingRouteChildren: WritingRouteChildren = {
-  WritingTaskIdRoute: WritingTaskIdRoute,
+  WritingTaskIdRoute: WritingTaskIdRouteWithChildren,
 }
 
 const WritingRouteWithChildren =
