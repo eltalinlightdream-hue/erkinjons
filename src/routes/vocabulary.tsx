@@ -78,6 +78,8 @@ function Folders({ onOpen, onReview }: { onOpen: (id: string) => void; onReview:
       setNewName("");
       qc.invalidateQueries({ queryKey: ["folders"] });
       toast.success("Folder created!");
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Could not create folder.");
     } finally { setAdding(false); }
   };
 
@@ -150,17 +152,25 @@ function FolderCard({ folder, onOpen, onReview }: { folder: any; onOpen: () => v
 
   const save = async () => {
     if (!name.trim()) return;
-    await renameFn({ data: { id: folder.id, name: name.trim() } });
-    setEditing(false);
-    qc.invalidateQueries({ queryKey: ["folders"] });
-    toast.success("Folder renamed.");
+    try {
+      await renameFn({ data: { id: folder.id, name: name.trim() } });
+      setEditing(false);
+      qc.invalidateQueries({ queryKey: ["folders"] });
+      toast.success("Folder renamed.");
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Could not rename folder.");
+    }
   };
 
   const remove = async () => {
     if (!confirm(`Delete folder "${folder.name}" and all its words?`)) return;
-    await deleteFn({ data: { id: folder.id } });
-    qc.invalidateQueries({ queryKey: ["folders"] });
-    toast.success("Folder deleted.");
+    try {
+      await deleteFn({ data: { id: folder.id } });
+      qc.invalidateQueries({ queryKey: ["folders"] });
+      toast.success("Folder deleted.");
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Could not delete folder.");
+    }
   };
 
   return (
