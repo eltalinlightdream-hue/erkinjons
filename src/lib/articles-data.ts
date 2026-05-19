@@ -29,7 +29,7 @@ export interface VocabItem {
   word: string;
   definition: string;
   example: string;
-  wordType?: "noun" | "verb" | "adjective" | "adverb" | "phrase";
+  wordType?: "noun" | "verb" | "adjective" | "adverb" | "phrase" | "noun phrase" | "verb phrase";
 }
 
 export interface PronunciationItem {
