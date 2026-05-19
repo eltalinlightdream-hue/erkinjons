@@ -74,12 +74,26 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setDeviceConflict(false);
       }
     });
-    supabase.auth.getSession().then(({ data }) => {
-      setSession(data.session);
-      setUser(data.session?.user ?? null);
-      if (data.session?.user) loadProfile(data.session.user.id);
+    (async () => {
+      const { data: sessionData } = await supabase.auth.getSession();
+      if (sessionData.session) {
+        // Validate the cached token with the server. If invalid/expired and
+        // refresh fails, clear the bad session so we don't attach a dead
+        // bearer token to every protected serverFn call.
+        const { data: userData, error } = await supabase.auth.getUser();
+        if (error || !userData.user) {
+          await supabase.auth.signOut();
+          setSession(null);
+          setUser(null);
+          setProfile(null);
+        } else {
+          setSession(sessionData.session);
+          setUser(userData.user);
+          loadProfile(userData.user.id);
+        }
+      }
       setLoading(false);
-    });
+    })();
     return () => sub.subscription.unsubscribe();
   }, []);
 
