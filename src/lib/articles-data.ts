@@ -309,7 +309,9 @@ export const ARTICLES: Article[] = [
       syllables: "prev-a-lent",
       tip: "Stress PREV.",
     },
-    {
+  ],
+},
+  {
   id: "a5",
   slug: "understanding-purchasing-power-and-cpi",
   title: "Understanding Purchasing Power and the Consumer Price Index",
@@ -1062,9 +1064,7 @@ export const ARTICLES: Article[] = [
       tip: "Stress SES.",
     },
   ],
-}
-  ],
-  },
+},
 ];
 export function findArticle(slug: string): Article | undefined {
   return ARTICLES.find((a) => a.slug === slug);
