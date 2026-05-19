@@ -769,8 +769,8 @@ export const ARTICLES: Article[] = [
       tip: "Stress LOO.",
     },
   ],
-}
-    {
+},
+  {
   id: "a7",
   slug: "why-every-year-feels-like-the-worst-ever",
   title: "Why Every Year Feels Like the Worst Ever",
