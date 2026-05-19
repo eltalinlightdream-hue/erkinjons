@@ -309,7 +309,9 @@ export const ARTICLES: Article[] = [
       syllables: "prev-a-lent",
       tip: "Stress PREV.",
     },
-    {
+  ],
+},
+  {
   id: "a5",
   slug: "understanding-purchasing-power-and-cpi",
   title: "Understanding Purchasing Power and the Consumer Price Index",
@@ -508,8 +510,8 @@ export const ARTICLES: Article[] = [
       tip: "Stress KWID.",
     },
   ],
-}
-    {
+},
+  {
   id: "a6",
   slug: "latin-america-worlds-most-violent-place",
   title: "400 Murders a Day: Why Latin America Is the World's Most Violent Place",
@@ -769,8 +771,8 @@ export const ARTICLES: Article[] = [
       tip: "Stress LOO.",
     },
   ],
-}
-    {
+},
+  {
   id: "a7",
   slug: "why-every-year-feels-like-the-worst-ever",
   title: "Why Every Year Feels Like the Worst Ever",
@@ -1062,9 +1064,7 @@ export const ARTICLES: Article[] = [
       tip: "Stress SES.",
     },
   ],
-}
-  ],
-  },
+},
 ];
 export function findArticle(slug: string): Article | undefined {
   return ARTICLES.find((a) => a.slug === slug);
