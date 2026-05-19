@@ -4,8 +4,9 @@ import { SiteLayout } from "@/components/site-layout";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Lock, Crown, BookOpen, RotateCcw } from "lucide-react";
+import { Lock, Crown, BookOpen, RotateCcw, Search } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { useAuth } from "@/hooks/use-auth";
 import { cn } from "@/lib/utils";
@@ -566,14 +567,27 @@ const FILTERS = [
 function Reading() {
   const [filter, setFilter] = useState<(typeof FILTERS)[number]["v"]>("all");
   const [statusFilter, setStatusFilter] = useState<"all" | ProgressStatus>("all");
+  const [search, setSearch] = useState("");
   const [active, setActive] = useState<Passage | null>(null);
+
   const { profile, deviceConflict, user } = useAuth();
   const isPremium = !!profile?.is_premium && !deviceConflict;
 
   const passageIds = PASSAGES.map((p) => p.id);
   const { statuses, statusFor, setTestStatus, resetTest } = useTestStatus(passageIds);
 
-  const visible = PASSAGES.filter((p) => {
+  const searchedPassages = PASSAGES.filter((p) => {
+    const query = search.trim().toLowerCase();
+    if (!query) return true;
+
+    return (
+      p.title.toLowerCase().includes(query) ||
+      p.description?.toLowerCase().includes(query) ||
+      p.id.toLowerCase().includes(query)
+    );
+  });
+
+  const visible = searchedPassages.filter((p) => {
     const matchesPassage = filter === "all" || String(p.passageNumber) === filter;
     const matchesStatus = statusFilter === "all" || statusFor(p.id) === statusFilter;
     return matchesPassage && matchesStatus;
@@ -587,23 +601,24 @@ function Reading() {
   } as const;
 
   const statusCounts = {
-    all: PASSAGES.length,
-    not_done: PASSAGES.filter((p) => statusFor(p.id) === "not_done").length,
-    not_completed: PASSAGES.filter((p) => statusFor(p.id) === "not_completed").length,
-    finished: PASSAGES.filter((p) => statusFor(p.id) === "finished").length,
+    all: searchedPassages.length,
+    not_done: searchedPassages.filter((p) => statusFor(p.id) === "not_done").length,
+    not_completed: searchedPassages.filter((p) => statusFor(p.id) === "not_completed").length,
+    finished: searchedPassages.filter((p) => statusFor(p.id) === "finished").length,
   } as const;
 
   function handleOpen(p: Passage) {
     if (statusFor(p.id) === "not_done") {
       void setTestStatus(p.id, "not_completed");
     }
+
     if (p.htmlFile) {
-  const url = new URL(p.htmlFile, window.location.origin);
-  url.searchParams.set("testId", p.id);
-  window.open(url.toString(), "_blank");
-} else {
-  setActive(p);
-}
+      const url = new URL(p.htmlFile, window.location.origin);
+      url.searchParams.set("testId", p.id);
+      window.open(url.toString(), "_blank");
+    } else {
+      setActive(p);
+    }
   }
 
   return (
@@ -614,10 +629,10 @@ function Reading() {
           Filter by passage type and open any passage in a clean reader view.
         </p>
         <p className="text-sm text-muted-foreground mb-8 italic">
-          вЏ± Recommended time: Passage 1 &amp; 2 вЂ” 20 min &nbsp;|&nbsp; Passage 3 вЂ” 22 min
+          ⏱ Recommended time: Passage 1 &amp; 2 — 20 min &nbsp;|&nbsp; Passage 3 — 22 min
         </p>
 
-        <div className="flex flex-wrap gap-2 mb-4">
+        <div className="flex flex-wrap gap-2 mb-5">
           {FILTERS.map((f) => (
             <Button
               key={f.v}
@@ -628,6 +643,16 @@ function Reading() {
               {f.label} ({passageCounts[f.v]})
             </Button>
           ))}
+        </div>
+
+        <div className="relative mb-6 w-full max-w-md">
+          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+          <Input
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Search reading passages..."
+            className="h-10 pl-9"
+          />
         </div>
 
         <div className="flex flex-wrap gap-2 mb-8">
@@ -651,7 +676,9 @@ function Reading() {
         </div>
 
         {visible.length === 0 ? (
-          <p className="text-muted-foreground py-12 text-center">No passages in this category yet.</p>
+          <p className="text-muted-foreground py-12 text-center">
+            No passages match your filters.
+          </p>
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
             {visible.map((p) => {
