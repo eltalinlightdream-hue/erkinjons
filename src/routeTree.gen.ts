@@ -22,6 +22,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ArticlesRouteImport } from './routes/articles'
 import { Route as AccountRouteImport } from './routes/account'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as WritingTaskIdRouteImport } from './routes/writing.$taskId'
 import { Route as ArticlesSlugRouteImport } from './routes/articles_.$slug'
 
 const WritingRoute = WritingRouteImport.update({
@@ -89,6 +90,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const WritingTaskIdRoute = WritingTaskIdRouteImport.update({
+  id: '/$taskId',
+  path: '/$taskId',
+  getParentRoute: () => WritingRoute,
+} as any)
 const ArticlesSlugRoute = ArticlesSlugRouteImport.update({
   id: '/articles_/$slug',
   path: '/articles/$slug',
@@ -108,8 +114,9 @@ export interface FileRoutesByFullPath {
   '/speaking': typeof SpeakingRoute
   '/videos': typeof VideosRoute
   '/vocabulary': typeof VocabularyRoute
-  '/writing': typeof WritingRoute
+  '/writing': typeof WritingRouteWithChildren
   '/articles/$slug': typeof ArticlesSlugRoute
+  '/writing/$taskId': typeof WritingTaskIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -124,8 +131,9 @@ export interface FileRoutesByTo {
   '/speaking': typeof SpeakingRoute
   '/videos': typeof VideosRoute
   '/vocabulary': typeof VocabularyRoute
-  '/writing': typeof WritingRoute
+  '/writing': typeof WritingRouteWithChildren
   '/articles/$slug': typeof ArticlesSlugRoute
+  '/writing/$taskId': typeof WritingTaskIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -141,8 +149,9 @@ export interface FileRoutesById {
   '/speaking': typeof SpeakingRoute
   '/videos': typeof VideosRoute
   '/vocabulary': typeof VocabularyRoute
-  '/writing': typeof WritingRoute
+  '/writing': typeof WritingRouteWithChildren
   '/articles_/$slug': typeof ArticlesSlugRoute
+  '/writing/$taskId': typeof WritingTaskIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -161,6 +170,7 @@ export interface FileRouteTypes {
     | '/vocabulary'
     | '/writing'
     | '/articles/$slug'
+    | '/writing/$taskId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -177,6 +187,7 @@ export interface FileRouteTypes {
     | '/vocabulary'
     | '/writing'
     | '/articles/$slug'
+    | '/writing/$taskId'
   id:
     | '__root__'
     | '/'
@@ -193,6 +204,7 @@ export interface FileRouteTypes {
     | '/vocabulary'
     | '/writing'
     | '/articles_/$slug'
+    | '/writing/$taskId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -208,7 +220,7 @@ export interface RootRouteChildren {
   SpeakingRoute: typeof SpeakingRoute
   VideosRoute: typeof VideosRoute
   VocabularyRoute: typeof VocabularyRoute
-  WritingRoute: typeof WritingRoute
+  WritingRoute: typeof WritingRouteWithChildren
   ArticlesSlugRoute: typeof ArticlesSlugRoute
 }
 
@@ -305,6 +317,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/writing/$taskId': {
+      id: '/writing/$taskId'
+      path: '/$taskId'
+      fullPath: '/writing/$taskId'
+      preLoaderRoute: typeof WritingTaskIdRouteImport
+      parentRoute: typeof WritingRoute
+    }
     '/articles_/$slug': {
       id: '/articles_/$slug'
       path: '/articles/$slug'
@@ -314,6 +333,17 @@ declare module '@tanstack/react-router' {
     }
   }
 }
+
+interface WritingRouteChildren {
+  WritingTaskIdRoute: typeof WritingTaskIdRoute
+}
+
+const WritingRouteChildren: WritingRouteChildren = {
+  WritingTaskIdRoute: WritingTaskIdRoute,
+}
+
+const WritingRouteWithChildren =
+  WritingRoute._addFileChildren(WritingRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
@@ -328,9 +358,19 @@ const rootRouteChildren: RootRouteChildren = {
   SpeakingRoute: SpeakingRoute,
   VideosRoute: VideosRoute,
   VocabularyRoute: VocabularyRoute,
-  WritingRoute: WritingRoute,
+  WritingRoute: WritingRouteWithChildren,
   ArticlesSlugRoute: ArticlesSlugRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
