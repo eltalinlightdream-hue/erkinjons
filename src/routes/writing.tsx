@@ -47,7 +47,7 @@ const HTML_TASKS: HtmlTask[] = [
     title: "Residential Water Use",
     description: "The charts below show information on residential water use in 1988 and 2008.",
     image: "https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=600&q=80",
-    htmlFile: "/passages/Task1_Water_Use_Writing_Practice.html",
+    htmlFile: "/passages/task1_1.html",
   },
   // ── Add more HTML tasks here in the same format ──
   // {
