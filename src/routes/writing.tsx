@@ -3,7 +3,7 @@ import { SiteLayout } from "@/components/site-layout";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
-import { Youtube } from "lucide-react";
+import { Youtube, ExternalLink } from "lucide-react";
 import { useEffect, useState } from "react";
 import {
   WRITING_TASKS,
@@ -24,9 +24,42 @@ export const Route = createFileRoute("/writing")({
 
 const STATUS_META: Record<WritingStatus, { label: string; className: string }> = {
   not_started: { label: "Not started", className: "bg-muted text-muted-foreground border-border" },
-  in_progress: { label: "In Progress", className: "bg-amber-100 text-amber-900 border-amber-300" },
-  completed: { label: "Completed", className: "bg-emerald-100 text-emerald-900 border-emerald-300" },
+  in_progress:  { label: "In Progress", className: "bg-amber-100 text-amber-900 border-amber-300" },
+  completed:    { label: "Completed",   className: "bg-emerald-100 text-emerald-900 border-emerald-300" },
 };
+
+// ── HTML-based practice tasks (open in new tab, no routing needed) ──────────
+type HtmlTask = {
+  id: string;
+  task: 1 | 2;
+  type: string;
+  title: string;
+  description: string;
+  image: string;
+  htmlFile: string;
+};
+
+const HTML_TASKS: HtmlTask[] = [
+  {
+    id: "html-t1-water-use",
+    task: 1,
+    type: "Pie Chart",
+    title: "Residential Water Use",
+    description: "The charts below show information on residential water use in 1988 and 2008.",
+    image: "https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=600&q=80",
+    htmlFile: "/passages/Task1_Water_Use_Writing_Practice.html",
+  },
+  // ── Add more HTML tasks here in the same format ──
+  // {
+  //   id: "html-t2-plastic-waste",
+  //   task: 2,
+  //   type: "Opinion",
+  //   title: "Plastic Waste",
+  //   description: "Some people believe governments should ban single-use plastics completely.",
+  //   image: "https://images.unsplash.com/photo-1583779457094-ab6f77f7bf57?w=600&q=80",
+  //   htmlFile: "/passages/Task2_Plastic_Waste_Writing_Practice.html",
+  // },
+];
 
 function Writing() {
   const [tab, setTab] = useState<1 | 2>(1);
@@ -43,13 +76,15 @@ function Writing() {
     };
   }, []);
 
-  const visible = WRITING_TASKS.filter((t) => t.task === tab);
+  const visibleTasks = WRITING_TASKS.filter((t) => t.task === tab);
+  const visibleHtml  = HTML_TASKS.filter((t) => t.task === tab);
 
   return (
     <SiteLayout>
       <section className="container mx-auto px-4 py-12 max-w-6xl">
         <h1 className="text-4xl md:text-5xl font-bold mb-4">IELTS Writing</h1>
 
+        {/* Video banner */}
         <div className="flex items-center justify-between bg-accent rounded-2xl px-6 py-4 mb-8 gap-4 flex-wrap">
           <div>
             <p className="font-semibold text-base">Want to watch Writing lessons?</p>
@@ -64,6 +99,7 @@ function Writing() {
           </Link>
         </div>
 
+        {/* Tab switcher */}
         <div className="inline-flex rounded-xl bg-muted p-1 mb-8">
           {[1, 2].map((n) => (
             <button
@@ -82,7 +118,47 @@ function Writing() {
         </div>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {visible.map((task) => {
+
+          {/* ── HTML practice tasks (open in new tab) ── */}
+          {visibleHtml.map((task) => (
+            <button
+              key={task.id}
+              onClick={() => window.open(task.htmlFile, "_blank")}
+              className="block text-left"
+            >
+              <Card className="overflow-hidden h-full flex flex-col hover:shadow-lg transition-shadow cursor-pointer">
+                <div className="relative aspect-[16/10] bg-muted">
+                  <img
+                    src={task.image}
+                    alt={task.title}
+                    className="w-full h-full object-cover"
+                    loading="lazy"
+                  />
+                  <span className="absolute top-3 left-3 text-xs font-semibold px-2.5 py-1 rounded-full border bg-muted text-muted-foreground border-border">
+                    Not started
+                  </span>
+                  <span className="absolute top-3 right-3 bg-black/50 text-white rounded-full p-1">
+                    <ExternalLink className="w-3 h-3" />
+                  </span>
+                </div>
+                <div className="p-5 flex flex-col flex-1">
+                  <Badge variant="secondary" className="self-start mb-2 bg-accent text-foreground">
+                    {task.type}
+                  </Badge>
+                  <h3 className="font-serif text-lg font-semibold leading-snug mb-2">
+                    {task.title}
+                  </h3>
+                  <p className="text-sm text-muted-foreground flex-1">{task.description}</p>
+                  <p className="text-xs text-muted-foreground mt-3 inline-flex items-center gap-1">
+                    <ExternalLink className="w-3 h-3" /> Opens full practice simulator
+                  </p>
+                </div>
+              </Card>
+            </button>
+          ))}
+
+          {/* ── Lovable route-based tasks ── */}
+          {visibleTasks.map((task) => {
             const status = progress[task.id]?.status ?? "not_started";
             const meta = STATUS_META[status];
             return (
@@ -124,6 +200,7 @@ function Writing() {
               </Link>
             );
           })}
+
         </div>
       </section>
     </SiteLayout>
