@@ -129,6 +129,96 @@ const PASSAGES: Passage[] = [
     "A passage examining how chameleons use colour for communication, camouflage, rivalry, and attracting mates.",
   htmlFile: "/passages/communicating_in_colour_passage1.html",
 },
+  {
+  id: "p1-sleep-hunter-gatherers",
+  title: "Sleep Study on Modern-Day Hunter-Gatherers Dispels Popular Notions",
+  passageNumber: 1,
+  isPremium: false,
+  description:
+    "A passage about research into the sleep patterns of modern hunter-gatherer societies and what they reveal about human sleep.",
+  htmlFile: "/passages/sleep_hunter_gatherers_passage1.html",
+},
+{
+  id: "p1-traffic-jams",
+  title: "Traffic Jams",
+  passageNumber: 1,
+  isPremium: false,
+  description:
+    "A passage explaining why traffic jams happen, how traffic-flow theory studies them, and why congestion is difficult to solve.",
+  htmlFile: "/passages/traffic_passage1.html",
+},
+{
+  id: "p1-gold-rush",
+  title: "Historical Impact of the California Gold Rush",
+  passageNumber: 1,
+  isPremium: false,
+  description:
+    "A passage about how the California Gold Rush transformed migration, transport, industry, agriculture, and the environment.",
+  htmlFile: "/passages/gold_rush_passage1.html",
+},
+{
+  id: "p1-mungo-lady-man",
+  title: "Mungo Lady and Mungo Man",
+  passageNumber: 1,
+  isPremium: false,
+  description:
+    "A passage about archaeological discoveries at Lake Mungo and debates about early Australian history and human origins.",
+  htmlFile: "/passages/mungo_lady_passage1.html",
+},
+{
+  id: "p1-business-cards",
+  title: "The Importance of Business Cards",
+  passageNumber: 1,
+  isPremium: false,
+  description:
+    "A passage discussing the history, cultural role, and continuing importance of business cards in modern professional life.",
+  htmlFile: "/passages/business_cards_passage1.html",
+},
+{
+  id: "p1-english-canal-system",
+  title: "The English Canal System",
+  passageNumber: 1,
+  isPremium: false,
+  description:
+    "A passage about the development of England’s inland canal network and its importance during the Industrial Revolution.",
+  htmlFile: "/passages/canal_passage1.html",
+},
+{
+  id: "p1-ice-cream-history",
+  title: "The History of Ice Cream",
+  passageNumber: 1,
+  isPremium: false,
+  description:
+    "A passage tracing the origins and development of ice cream from ancient frozen desserts to modern industrial production.",
+  htmlFile: "/passages/ice_cream_passage1.html",
+},
+{
+  id: "p1-thomas-cole",
+  title: "Thomas Cole: American Nature Painter",
+  passageNumber: 1,
+  isPremium: false,
+  description:
+    "A passage about Thomas Cole, America’s first major landscape artist, and his role in painting and protecting nature.",
+  htmlFile: "/passages/thomas_cole_passage1.html",
+},
+{
+  id: "p1-computer-games-preschoolers",
+  title: "Computer Games for Preschoolers: Nintendo's Research and Design Process",
+  passageNumber: 1,
+  isPremium: false,
+  description:
+    "A passage about Nintendo’s research and design process for creating computer games suitable for preschool children.",
+  htmlFile: "/passages/game_research_passage1.html",
+},
+{
+  id: "p1-media-literacy",
+  title: "The Media Literacy of Children: A Review of Research Literature",
+  passageNumber: 1,
+  isPremium: false,
+  description:
+    "A passage reviewing research on children’s media literacy, including access, understanding, creativity, barriers, and support.",
+  htmlFile: "/passages/media_literacy_passage1.html",
+},
 {
   id: "p1-rufous-hare-wallaby",
   title: "The Rufous Hare-Wallaby",
