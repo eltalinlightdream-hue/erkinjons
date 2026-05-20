@@ -1242,19 +1242,19 @@ document.getElementById('night-mode-toggle').addEventListener('click', function(
 function normalize(s){ return (s||'').toString().trim().toLowerCase().replace(/\s+/g,' '); }
 
 const correctAnswers = {
-        '14': 'C',
-        '15': 'D',
-        '16': 'G',
-        '17': 'D',
-        '18': 'E',
-        '19': 'D',
-        '20': 'C',
-        '21': 'B',
-        '22': 'F',
-        '23': 'scene',
-        '24': 'separators',
-        '25': 'host-selling',
-        '26': 'funnier'
+        q14: 'C',
+        q15: 'D',
+        q16: 'G',
+        q17: 'D',
+        q18: 'E',
+        q19: 'D',
+        q20: 'C',
+        q21: 'B',
+        q22: 'F',
+        q23: 'scene',
+        q24: 'separators',
+        q25: 'host-selling',
+        q26: 'funnier'
     };
 
 const questionNumbers = Object.keys(correctAnswers).map(k=>Number(k.replace('q',''))).filter(n=>!Number.isNaN(n)).sort((a,b)=>a-b);
