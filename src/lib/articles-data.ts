@@ -57,6 +57,314 @@ export interface Article {
 
 export const ARTICLES: Article[] = [
   {
+  id: "a14",
+  slug: "the-big-bang",
+  title: "The Big Bang",
+  category: "Reading",
+  topic: "Science",
+  difficulty: "Advanced",
+  coverImage:
+    "https://images.unsplash.com/photo-1462331940025-496dfbfc7564?auto=format&fit=crop&w=1600&q=80",
+  date: "2024-08-24",
+  description:
+    "George Gamow created the first serious scientific explanation of how the universe began from an extremely dense point of matter.",
+  readingTime: 5,
+  content: `
+    <p><strong>The Big Bang theory explains that the universe began with the giant explosion of an infinitely dense, atom-sized point of matter.</strong></p>
+
+    <p>The study of our history and origins is important for understanding who we are. This includes the history of humans, life on Earth, our planet itself, and the universe as a whole. However, studying events that happened billions of years ago is extremely difficult because no one directly observed them.</p>
+
+    <p>George Gamow’s work was the first serious attempt to create a scientific and rational description of the beginning of the universe. He named the moment of explosive birth the “Big Bang,” a name that is still used today.</p>
+
+    <h2>How the idea developed</h2>
+    <p>In 1926, Edwin Hubble discovered that the universe is expanding. This discovery made scientists wonder what the universe had looked like in the past. If the universe is growing larger now, it may once have been much smaller.</p>
+
+    <p>In 1927, Georges Lemaitre suggested that the entire universe had once been compressed into a single, infinitely dense atom of matter. He called this idea the “cosmic egg.” However, early explanations of this idea lacked enough scientific data and mathematical support.</p>
+
+    <h2>Gamow’s scientific model</h2>
+    <p>George Gamow decided to use physics, mathematics, and quantum theory to test whether the universe could have started as a cosmic egg. He began with Einstein’s equations on general relativity.</p>
+
+    <p>In the 1940s, Gamow used his knowledge of nuclear reactions to describe what would happen inside a primordial fireball. He studied how hydrogen nuclei could be converted into helium and used research on high-energy radiation to understand the conditions of the early universe.</p>
+
+    <p>Gamow slowly built a model of the explosion and the chemical reactions that followed it. He showed mathematically that the early universe was mainly composed of densely packed neutrons. Under extreme heat and pressure, these neutrons could combine into larger nuclei or separate into protons and electrons, forming hydrogen and helium.</p>
+
+    <h2>The afterglow of the universe</h2>
+    <p>Gamow also predicted that the Big Bang would have created a huge wave of energy. As the universe expanded, this energy would spread and cool, but it would still remain detectable as a faint afterglow of the original explosion.</p>
+
+    <p>This cosmic background radiation was later detected by radio astronomers, helping to confirm Gamow’s Big Bang theory. Through physics, chemistry, and mathematics, Gamow helped scientists understand the birth of the universe billions of years ago.</p>
+
+    <h2>Fun fact</h2>
+    <p>Gamow was known not only for his scientific work but also for his sense of humor and practical jokes. A reporter once described him as one of the few scientists in America with a real sense of humor.</p>
+  `,
+  vocabulary: [
+    {
+      word: "giant explosion",
+      wordType: "noun phrase",
+      definition: "a very large and powerful burst or blast",
+      example: "The Big Bang describes the universe beginning with a giant explosion.",
+    },
+    {
+      word: "infinitely dense",
+      wordType: "phrase",
+      definition: "having unlimited or extremely great density",
+      example: "The universe may once have been compressed into an infinitely dense point.",
+    },
+    {
+      word: "scientific explanation",
+      wordType: "noun phrase",
+      definition: "an explanation based on evidence, logic, and science",
+      example: "Gamow created a scientific explanation of the universe’s beginning.",
+    },
+    {
+      word: "rational description",
+      wordType: "noun phrase",
+      definition: "a logical and reasonable explanation of something",
+      example: "His work gave a rational description of the early universe.",
+    },
+    {
+      word: "explosive birth",
+      wordType: "noun phrase",
+      definition: "a sudden and powerful beginning",
+      example: "Gamow called the universe’s explosive birth the Big Bang.",
+    },
+    {
+      word: "ongoing expansion",
+      wordType: "noun phrase",
+      definition: "continuous growth or spreading",
+      example: "Hubble’s discovery showed the universe’s ongoing expansion.",
+    },
+    {
+      word: "cosmic egg",
+      wordType: "noun phrase",
+      definition: "an early idea that the universe began as a tiny dense object",
+      example: "Lemaitre called the original dense universe the cosmic egg.",
+    },
+    {
+      word: "mathematical support",
+      wordType: "noun phrase",
+      definition: "proof or explanation based on mathematics",
+      example: "Early Big Bang ideas needed stronger mathematical support.",
+    },
+    {
+      word: "general relativity",
+      wordType: "noun phrase",
+      definition: "Einstein’s theory explaining gravity, space, and time",
+      example: "Gamow used equations from general relativity.",
+    },
+    {
+      word: "primordial fireball",
+      wordType: "noun phrase",
+      definition: "the extremely hot early state of the universe",
+      example: "Gamow studied reactions inside the primordial fireball.",
+    },
+    {
+      word: "extreme heat and pressure",
+      wordType: "noun phrase",
+      definition: "very high temperature and force",
+      example: "Neutrons changed under extreme heat and pressure.",
+    },
+    {
+      word: "cosmic background radiation",
+      wordType: "noun phrase",
+      definition: "faint energy left over from the early universe",
+      example: "Cosmic background radiation helped confirm the Big Bang theory.",
+    },
+  ],
+  pronunciation: [
+    {
+      word: "universe",
+      ipa: "/YOO-nuh-vurs/",
+      syllables: "u-ni-verse",
+      tip: "Stress the first syllable: YOO.",
+    },
+    {
+      word: "explosion",
+      ipa: "/ik-SPLOH-zhun/",
+      syllables: "ex-plo-sion",
+      tip: "Stress SPLOH.",
+    },
+    {
+      word: "infinitely",
+      ipa: "/IN-fuh-nit-lee/",
+      syllables: "in-fi-nite-ly",
+      tip: "Stress IN.",
+    },
+    {
+      word: "astronomy",
+      ipa: "/uh-STRON-uh-mee/",
+      syllables: "as-tron-o-my",
+      tip: "Stress STRON.",
+    },
+    {
+      word: "relativity",
+      ipa: "/rel-uh-TIV-uh-tee/",
+      syllables: "rel-a-tiv-i-ty",
+      tip: "Stress TIV.",
+    },
+    {
+      word: "radiation",
+      ipa: "/ray-dee-AY-shun/",
+      syllables: "ra-di-a-tion",
+      tip: "Stress AY.",
+    },
+  ],
+},
+{
+  id: "a15",
+  slug: "adolescence-is-a-new-birth",
+  title: "Adolescence is a New Birth",
+  category: "Reading",
+  topic: "Society",
+  difficulty: "Advanced",
+  coverImage:
+    "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=1600&q=80",
+  date: "2024-08-24",
+  description:
+    "G. Stanley Hall viewed adolescence as a powerful stage of human development marked by emotional change, self-consciousness, and growth into adulthood.",
+  readingTime: 5,
+  content: `
+    <p><strong>G. Stanley Hall believed that adolescence is a new birth: a stage when young people experience emotional struggle, sensitivity, and major personal change.</strong></p>
+
+    <p>The word “adolescence” literally means “growing up.” It describes the stage between childhood and adulthood, although in everyday use it often refers to the teenage years. In many Western societies, adolescence was not widely recognized as a separate stage of life until the 20th century.</p>
+
+    <h2>Hall’s view of adolescence</h2>
+    <p>G. Stanley Hall was a pioneering psychologist and educator. In his 1904 book <em>Adolescence</em>, he became one of the first academics to study this stage seriously.</p>
+
+    <p>Hall was influenced by Darwin’s theory of evolution. He believed that human development is determined by nature and that childhood reflects earlier stages of evolutionary change. According to Hall, children pass through several growth stages before becoming adults.</p>
+
+    <p>At adolescence, Hall believed that evolutionary momentum slows down and individual change becomes more important. This period is marked by strong emotions, self-consciousness, risk-taking, and sensitivity.</p>
+
+    <h2>Storm and stress</h2>
+    <p>Hall connected adolescence with the German idea of <em>Sturm und Drang</em>, meaning “Storm and Stress.” He described adolescence as a period of emotional turmoil and rebellion.</p>
+
+    <p>Teenagers, according to Hall, crave strong feelings and new sensations. They may find routine and monotony intolerable. Their awareness of themselves and the world becomes sharper, so experiences are felt more intensely.</p>
+
+    <h2>Modern echoes</h2>
+    <p>Many of Hall’s ideas are still reflected in modern research. He believed that adolescents are especially susceptible to depression and described a pattern of sadness that begins around age 11, peaks at 15, and falls steadily until early adulthood.</p>
+
+    <p>Modern studies have also found that teenagers can become highly sensitive to social situations. Their advanced reasoning skills allow them to “read between the lines,” but this can also increase self-criticism and anxiety.</p>
+
+    <p>Hall also claimed that criminal activity is more common during the teenage years and often peaks around age 18, an idea that still has support today.</p>
+
+    <h2>A necessary beginning</h2>
+    <p>Although Hall described adolescence as difficult, he did not see it only negatively. He believed it was a necessary beginning of something better. For him, adolescence was the stage when higher and more fully human traits are born.</p>
+
+    <p>In this sense, adolescence is not simply a problem period. It is also a time of growth, identity formation, and preparation for adult life.</p>
+  `,
+  vocabulary: [
+    {
+      word: "human development",
+      wordType: "noun phrase",
+      definition: "the process of physical, emotional, and mental growth in people",
+      example: "Hall studied adolescence as part of human development.",
+    },
+    {
+      word: "distinct stage",
+      wordType: "noun phrase",
+      definition: "a separate and clearly different period",
+      example: "Adolescence is a distinct stage between childhood and adulthood.",
+    },
+    {
+      word: "pioneering psychologist",
+      wordType: "noun phrase",
+      definition: "an early psychologist who introduces important new ideas",
+      example: "G. Stanley Hall was a pioneering psychologist.",
+    },
+    {
+      word: "theory of evolution",
+      wordType: "noun phrase",
+      definition: "the scientific idea that living things change over time",
+      example: "Hall was influenced by Darwin’s theory of evolution.",
+    },
+    {
+      word: "ancestral record",
+      wordType: "noun phrase",
+      definition: "the inherited history of human development",
+      example: "Hall believed children develop according to an ancestral record.",
+    },
+    {
+      word: "growth stages",
+      wordType: "noun phrase",
+      definition: "periods of development that people pass through",
+      example: "Children go through several growth stages.",
+    },
+    {
+      word: "individual change",
+      wordType: "noun phrase",
+      definition: "personal development or transformation",
+      example: "Hall saw adolescence as a time of individual change.",
+    },
+    {
+      word: "emotional turmoil",
+      wordType: "noun phrase",
+      definition: "a state of strong and confused emotions",
+      example: "Adolescence may involve emotional turmoil.",
+    },
+    {
+      word: "risk-taking behaviour",
+      wordType: "noun phrase",
+      definition: "actions that involve danger or possible harm",
+      example: "Teenagers may show more risk-taking behaviour.",
+    },
+    {
+      word: "strong sensations",
+      wordType: "noun phrase",
+      definition: "powerful feelings or experiences",
+      example: "Hall believed adolescents crave strong sensations.",
+    },
+    {
+      word: "advanced reasoning skills",
+      wordType: "noun phrase",
+      definition: "developed ability to think deeply and logically",
+      example: "Advanced reasoning skills can make teenagers more sensitive.",
+    },
+    {
+      word: "identity formation",
+      wordType: "noun phrase",
+      definition: "the process of developing a clear sense of who one is",
+      example: "Adolescence is an important period of identity formation.",
+    },
+  ],
+  pronunciation: [
+    {
+      word: "adolescence",
+      ipa: "/ad-uh-LES-ens/",
+      syllables: "ad-o-les-cence",
+      tip: "Stress LES.",
+    },
+    {
+      word: "psychologist",
+      ipa: "/sy-KOL-uh-jist/",
+      syllables: "psy-chol-o-gist",
+      tip: "The 'p' is silent. Stress KOL.",
+    },
+    {
+      word: "evolution",
+      ipa: "/ev-uh-LOO-shun/",
+      syllables: "ev-o-lu-tion",
+      tip: "Stress LOO.",
+    },
+    {
+      word: "emotional",
+      ipa: "/i-MOH-shuh-nul/",
+      syllables: "e-mo-tion-al",
+      tip: "Stress MOH.",
+    },
+    {
+      word: "rebellion",
+      ipa: "/ri-BEL-yun/",
+      syllables: "re-bel-lion",
+      tip: "Stress BEL.",
+    },
+    {
+      word: "identity",
+      ipa: "/eye-DEN-tuh-tee/",
+      syllables: "i-den-ti-ty",
+      tip: "Stress DEN.",
+    },
+  ],
+},
+  {
     id: "a3",
     slug: "young-peoples-mental-health-worse-today",
     title: "Is young people’s mental health really worse today than it was decades ago?",
