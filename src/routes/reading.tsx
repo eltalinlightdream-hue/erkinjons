@@ -67,6 +67,213 @@ const PASSAGES: Passage[] = [
     htmlFile: "/passages/Tunnelling_under_the_Thames.html",
   },
   {
+  id: "p1-trans-atlantic-telegraph-cable",
+  title: "How the First Trans-Atlantic Telegraph Cable Was Laid",
+  passageNumber: 1,
+  isPremium: false,
+  description:
+    "A passage about the challenges, materials, funding and impact of laying the first trans-Atlantic telegraph cable.",
+  htmlFile: "/passages/how_the_first_trans_atlantic_telegraph_cable_was_laid_passage1.html",
+},
+{
+  id: "p2-bird-migration",
+  title: "Bird Migration",
+  passageNumber: 2,
+  isPremium: false,
+  description:
+    "A passage explaining how birds migrate, navigate long distances and use natural signals during migration.",
+  htmlFile: "/passages/bird_migration_passage2.html",
+},
+{
+  id: "p2-removing-unwanted-noise",
+  title: "Removing Unwanted Noise",
+  passageNumber: 2,
+  isPremium: false,
+  description:
+    "A passage about methods and technologies used to reduce unwanted noise and improve sound quality.",
+  htmlFile: "/passages/removing_unwanted_noise_passage2.html",
+},
+{
+  id: "p3-decisions-decisions",
+  title: "Decisions, Decisions",
+  passageNumber: 3,
+  isPremium: false,
+  description:
+    "A passage about how people make decisions and the psychological factors that influence choices.",
+  htmlFile: "/passages/decisions_decisions_passage3.html",
+},
+{
+  id: "p1-discovering-purple",
+  title: "Discovering Purple",
+  passageNumber: 1,
+  isPremium: false,
+  description:
+    "A passage about the history and scientific discovery of purple dye and its importance in industry.",
+  htmlFile: "/passages/discovering_purple_passage1.html",
+},
+{
+  id: "p2-beachcombing-early-humans-africa",
+  title: "Beachcombing for Early Humans in Africa",
+  passageNumber: 2,
+  isPremium: false,
+  description:
+    "A passage about archaeological evidence of early humans in Africa and what coastal discoveries reveal about their lives.",
+  htmlFile: "/passages/beachcombing_for_early_humans_in_africa_passage2.html",
+},
+{
+  id: "p3-rewards-scientific-achievement",
+  title: "Rewards for Scientific Achievement",
+  passageNumber: 3,
+  isPremium: false,
+  description:
+    "A passage about prizes and recognition given for scientific discoveries and achievements.",
+  htmlFile: "/passages/the_bug_picture_passage3.html",
+},
+{
+  id: "p1-bug-picture",
+  title: "The Bug Picture",
+  passageNumber: 1,
+  isPremium: false,
+  description:
+    "A passage about insects, colours, and scientific observation of small natural details.",
+  htmlFile: "/passages/the_bug_picture_passage3.html",
+},
+{
+  id: "p2-remarkable-power-placebos",
+  title: "The Remarkable Power of Placebos",
+  passageNumber: 2,
+  isPremium: false,
+  description:
+    "A passage about placebo effects and how expectations can influence symptoms and treatment outcomes.",
+  htmlFile: "/passages/the_remarkable_power_of_placebos_passage2.html",
+},
+{
+  id: "p2-dingo-debate",
+  title: "The Dingo Debate",
+  passageNumber: 2,
+  isPremium: false,
+  description:
+    "A passage discussing the ecological role of dingoes in Australia and the debate over controlling their numbers.",
+  htmlFile: "/passages/the_dingo_debate_passage2.html",
+},
+{
+  id: "p3-pacific-navigation-voyaging",
+  title: "Pacific Navigation and Voyaging",
+  passageNumber: 3,
+  isPremium: false,
+  description:
+    "A passage about how Pacific islanders navigated across vast ocean distances using traditional knowledge and canoe voyaging.",
+  htmlFile: "/passages/pacific_navigation_and_voyaging_passage3.html",
+},
+{
+  id: "p2-insect-decision-making",
+  title: "Insect Decision-Making",
+  passageNumber: 2,
+  isPremium: false,
+  description:
+    "A passage about how insects such as bees and ants make collective decisions and organise group behaviour.",
+  htmlFile: "/passages/insect_decision_making_passage2.html",
+},
+{
+  id: "p3-learning-to-walk",
+  title: "Learning to Walk",
+  passageNumber: 3,
+  isPremium: false,
+  description:
+    "A passage about the effects of walking surfaces on the body and how uneven ground may benefit health.",
+  htmlFile: "/passages/learning_to_walk_passage3.html",
+},
+{
+  id: "p3-hidden-lives-solitary-bees",
+  title: "The Hidden Lives of Solitary Bees",
+  passageNumber: 3,
+  isPremium: false,
+  description:
+    "A passage about solitary bees, their nesting habits, pollination role and threats from pesticides.",
+  htmlFile: "/passages/the_hidden_lives_of_solitary_bees_passage3.html",
+},
+{
+  id: "p2-undoing-our-emotions",
+  title: "Undoing Our Emotions",
+  passageNumber: 2,
+  isPremium: false,
+  description:
+    "A passage about positive emotions, stress recovery and the psychological effects of emotional states.",
+  htmlFile: "/passages/undoing_our_emotions_passage2.html",
+},
+{
+  id: "p2-chinstrap-penguin-population",
+  title: "Chinstrap Penguin Population in the Last 50 Years",
+  passageNumber: 2,
+  isPremium: false,
+  description:
+    "A passage about the decline of chinstrap penguins in Antarctica and the role of climate change in changing ecosystems.",
+  htmlFile: "/passages/chinstrap_penguin_population_in_the_last_50_years_passage2.html",
+},
+{
+  id: "p2-developmental-tasks-adolescence",
+  title: "Developmental Tasks of Normal Adolescence",
+  passageNumber: 2,
+  isPremium: false,
+  description:
+    "A passage about the physical, intellectual, social and emotional changes adolescents experience while growing into adulthood.",
+  htmlFile: "/passages/developmental_tasks_of_normal_adolescence_passage2.html",
+},
+{
+  id: "p3-fluoridation-controversy",
+  title: "The Fluoridation Controversy",
+  passageNumber: 3,
+  isPremium: false,
+  description:
+    "A passage about the debate over adding fluoride to public water supplies and the scientific and social arguments involved.",
+  htmlFile: "/passages/the_fluoridation_controversy_passage3.html",
+},
+{
+  id: "p1-father-of-english-geology",
+  title: "The Father of English Geology",
+  passageNumber: 1,
+  isPremium: false,
+  description:
+    "A passage about a key figure in the development of English geology and the study of Earth’s history.",
+  htmlFile: "/passages/the_father_of_english_geology_passage1.html",
+},
+{
+  id: "p2-whats-happening-to-our-food",
+  title: "What's Happening to Our Food?",
+  passageNumber: 2,
+  isPremium: false,
+  description:
+    "A passage about changes in food production, food quality and concerns about modern diets.",
+  htmlFile: "/passages/what_s_happening_to_our_food_passage2.html",
+},
+{
+  id: "p3-rewilding",
+  title: "Rewilding",
+  passageNumber: 3,
+  isPremium: false,
+  description:
+    "A passage about restoring natural ecosystems and bringing back missing species to improve biodiversity.",
+  htmlFile: "/passages/rewilding_passage3.html",
+},
+{
+  id: "p1-early-photographic-processes",
+  title: "Early Photographic Processes",
+  passageNumber: 1,
+  isPremium: false,
+  description:
+    "A passage about the development of early photography and the scientific processes behind photographic images.",
+  htmlFile: "/passages/early_photographic_processes_passage1.html",
+},
+{
+  id: "p3-planet-earths-blue-heart",
+  title: "Planet Earth's Blue Heart",
+  passageNumber: 3,
+  isPremium: false,
+  description:
+    "A passage about oceans, water systems and their importance to life on Earth.",
+  htmlFile: "/passages/planet_earth_s_blue_heart_passage3.html",
+},
+  {
     id: "p3-business-innovation",
     title: "Business Innovation",
     passageNumber: 3,
