@@ -37,6 +37,9 @@ type HtmlTask = {
   description: string;
   image?: string;
   htmlFile: string;
+  prompt?: string;
+  minWords?: number;
+  timeMinutes?: number;
 };
 
 const HTML_TASKS: HtmlTask[] = [
