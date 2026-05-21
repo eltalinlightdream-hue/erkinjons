@@ -999,16 +999,28 @@ function Reading() {
   const passageIds = PASSAGES.map((p) => p.id);
   const { statuses, statusFor, setTestStatus, resetTest } = useTestStatus(passageIds);
 
-  const searchedPassages = PASSAGES.filter((p) => {
+  // BUG FIX: the PASSAGES list contains entries that share the same title /
+  // htmlFile (e.g. "The Bug Picture" appears twice), which made the search
+  // results show duplicates. Deduplicate by a normalised title + htmlFile key
+  // before returning the filtered list.
+  const searchedPassages = (() => {
     const query = search.trim().toLowerCase();
-    if (!query) return true;
-
-    return (
-      p.title.toLowerCase().includes(query) ||
-      p.description?.toLowerCase().includes(query) ||
-      p.id.toLowerCase().includes(query)
-    );
-  });
+    const matched = PASSAGES.filter((p) => {
+      if (!query) return true;
+      return (
+        p.title.toLowerCase().includes(query) ||
+        p.description?.toLowerCase().includes(query) ||
+        p.id.toLowerCase().includes(query)
+      );
+    });
+    const seen = new Set<string>();
+    return matched.filter((p) => {
+      const key = `${p.title.trim().toLowerCase()}|${p.htmlFile ?? ""}`;
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+  })();
 
   const visible = searchedPassages.filter((p) => {
     const matchesPassage = filter === "all" || String(p.passageNumber) === filter;
