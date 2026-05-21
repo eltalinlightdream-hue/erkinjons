@@ -76,15 +76,6 @@ const PASSAGES: Passage[] = [
   htmlFile: "/passages/how_the_first_trans_atlantic_telegraph_cable_was_laid_passage1.html",
 },
 {
-  id: "p2-bird-migration",
-  title: "Bird Migration",
-  passageNumber: 2,
-  isPremium: false,
-  description:
-    "A passage explaining how birds migrate, navigate long distances and use natural signals during migration.",
-  htmlFile: "/passages/bird_migration_passage2.html",
-},
-{
   id: "p2-removing-unwanted-noise",
   title: "Removing Unwanted Noise",
   passageNumber: 2,
