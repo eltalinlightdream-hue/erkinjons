@@ -457,7 +457,7 @@ const PASSAGES: Passage[] = [
     id: "p2-the-return-of-monkey-life",
     title: "The Return of Monkey life",
     passageNumber: 2,
-    isPremium: true,
+    isPremium: false,
     description: "The recovery and life of monkeys in Northern Costa Rica",
     htmlFile: "/passages/IELTS_Passage2_Return_of_Monkey_Life_Test.html",
   },
@@ -573,7 +573,7 @@ const PASSAGES: Passage[] = [
     id: "p3-what-do-babies-know",
     title: "What do Babies know?",
     passageNumber: 3,
-    isPremium: true,
+    isPremium: false,
     description:
       "As Daniel Haworth is settled into a high chair and wheeled behind a black screen, a sudden look of worry furrows his 9-month-old brow.",
     htmlFile: "/passages/IELTS_Passage3_What_Do_Babies_Know_Test.html",
@@ -582,7 +582,7 @@ const PASSAGES: Passage[] = [
     id: "p1-malaria-italy",
     title: "Malaria Italy",
     passageNumber: 1,
-    isPremium: true,
+    isPremium: false,
     description:
       "Mal-aria. Bad air. Even the world is Italian, and this horrible disease marked the life of those in the peninsula for thousands of years. ",
     htmlFile: "/passages/IELTS_Malaria_Italy_Test.html",
@@ -600,7 +600,7 @@ const PASSAGES: Passage[] = [
     id: "p3-mite-harvestmen",
     title: "Mite Harvestmen",
     passageNumber: 3,
-    isPremium: true,
+    isPremium: false,
     description:
       "Few people have heard of the mite harvestman, and fewer still would recognize it at close range.",
     htmlFile: "/passages/IELTS_Passage3_Mite_Harvestmen_Test.html",
