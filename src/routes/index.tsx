@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/site-layout";
 import { Button } from "@/components/ui/button";
-import { BookOpen, Mic, Headphones, PenLine, Youtube, Crown, Star, ArrowRight, Newspaper } from "lucide-react";
+import { BookOpen, PenLine, Youtube, Crown, Star, ArrowRight, Newspaper } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -62,19 +62,6 @@ function Index() {
               <p className="text-sm text-muted-foreground leading-relaxed">{f.desc}</p>
             </div>
           ))}
-        </div>
-      </section>
-
-      {/* CTA strip */}
-      <section className="container mx-auto px-4 py-16">
-        <div className="bg-gradient-gold rounded-3xl p-10 md:p-14 text-center text-primary-foreground shadow-warm">
-          <Mic className="w-10 h-10 mx-auto mb-4 opacity-90" />
-          <h2 className="text-3xl md:text-4xl font-bold mb-3">Ready to start practicing?</h2>
-          <p className="opacity-90 max-w-xl mx-auto mb-6">Join free, try the practice tools, and watch your first lesson — no card required.</p>
-          <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <Link to="/auth"><Button size="lg" variant="secondary" className="bg-background text-foreground h-12 px-7">Create Free Account</Button></Link>
-            <Link to="/videos"><Button size="lg" variant="outline" className="h-12 px-7 border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10"><Headphones className="w-4 h-4 mr-2" />Watch a Lesson</Button></Link>
-          </div>
         </div>
       </section>
     </SiteLayout>
