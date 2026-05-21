@@ -52,10 +52,7 @@ function Admin() {
 
   async function loadStudents() {
     setStudentsLoading(true);
-    const { data, error } = await supabase
-      .from("profiles")
-      .select("id, email, full_name, is_premium, activated_at, created_at")
-      .order("created_at", { ascending: false });
+    const { data, error } = await (supabase as any).rpc("get_all_students");
 
     if (error) {
       toast.error(error.message);
