@@ -1286,28 +1286,54 @@ function isCorrect(userVal, correctVal){
   return accepted.some(v => normalize(userVal) === normalize(v));
 }
 
+let testSubmitted = false;
+
 document.getElementById('submit-btn').addEventListener('click', function(){
+  if(testSubmitted) return;
+  testSubmitted = true;
+
   let score = 0;
   const total = questionNumbers.length;
   let feedbackHTML = '';
 
   questionNumbers.forEach(qn=>{
     const qid = `q${qn}`;
+    const correctKey = String(qn);
     const user = getAnswerVal(qid);
-    const ok = isCorrect(user, correctAnswers[qid]);
+    const correctVal = correctAnswers[correctKey];
+    const ok = isCorrect(user, correctVal);
     if(ok) score++;
     feedbackHTML += `<div class="feedback-item">
       <div class="feedback-question">Q${qn}</div>
       <div class="feedback-answer ${ok ? 'correct' : 'incorrect'}">
         Your Answer: ${user || '(no answer)'}<br/>
-        ${ok ? '✔ Correct' : `✘ Incorrect (Correct: ${correctAnswers[qid]})`}
+        ${ok ? '✔ Correct' : `✘ Incorrect — Correct answer: <strong>${correctVal}</strong>`}
       </div></div>`;
   });
 
   document.getElementById('feedback-body').innerHTML = feedbackHTML;
   document.getElementById('score-display').textContent = `${score}/${total}`;
   document.getElementById('feedback-overlay').style.display = 'flex';
+
+  // Lock all inputs so the test cannot be changed after submission
+  document.querySelectorAll('input[type="radio"], input[type="text"], textarea, select').forEach(el => {
+    el.disabled = true;
+  });
+
+  // Disable and relabel the submit button
+  const submitBtn = document.getElementById('submit-btn');
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Submitted';
+  submitBtn.style.opacity = '0.5';
+  submitBtn.style.cursor = 'not-allowed';
+
+  // Disable the reset button too (no point resetting a graded test)
+  const resetBtn = document.getElementById('reset-btn');
+  resetBtn.disabled = true;
+  resetBtn.style.opacity = '0.5';
+  resetBtn.style.cursor = 'not-allowed';
 });
+
 document.getElementById('close-feedback').addEventListener('click', function(){
   document.getElementById('feedback-overlay').style.display = 'none';
 });
