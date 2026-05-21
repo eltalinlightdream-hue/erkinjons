@@ -252,7 +252,21 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      admin_set_student_premium: {
+        Args: { premium: boolean; target_user_id: string }
+        Returns: undefined
+      }
+      get_all_students: {
+        Args: never
+        Returns: {
+          activated_at: string
+          created_at: string
+          email: string
+          full_name: string
+          id: string
+          is_premium: boolean
+        }[]
+      }
     }
     Enums: {
       [_ in never]: never
