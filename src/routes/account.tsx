@@ -10,7 +10,7 @@ import { Label } from "@/components/ui/label";
 import {
   Crown, LogOut, User as UserIcon, Smartphone, AlertTriangle,
   Calendar, Loader2, BookOpen, BarChart2, Flame, Trophy,
-  Bookmark, Lock, Send, Eye, EyeOff, CheckCircle2
+  Lock, Send, Eye, EyeOff, CheckCircle2
 } from "lucide-react";
 import { toast } from "sonner";
 import { useAuth } from "@/hooks/use-auth";
@@ -31,7 +31,6 @@ export const Route = createFileRoute("/account")({
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 type TestResult = { id: string; passage_title: string; score: number; total: number; band: number | null; completed_at: string };
-type BookmarkItem = { id: string; type: string; reference_id: string; title?: string; created_at: string };
 type LeaderboardEntry = { user_id: string; name: string; tests: number; avg_band: number };
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -114,10 +113,8 @@ function Account() {
 
   // Stats
   const [results, setResults] = useState<TestResult[]>([]);
-  const [bookmarks, setBookmarks] = useState<BookmarkItem[]>([]);
   const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
   const [vocabCount, setVocabCount] = useState(0);
-  const [articlesRead, setArticlesRead] = useState(0);
   const [statsLoading, setStatsLoading] = useState(true);
 
   useEffect(() => {
@@ -137,42 +134,22 @@ function Account() {
   async function loadStats() {
     setStatsLoading(true);
     try {
-      const [resR, bkmR, vocR, artR, lbR] = await Promise.all([
+      const [resR, vocR, lbR] = await Promise.all([
         supabase.from("test_results").select("*").eq("user_id", user!.id).order("completed_at", { ascending: false }),
-        supabase.from("bookmarks").select("*").eq("user_id", user!.id).order("created_at", { ascending: false }),
         supabase.from("vocabulary_words").select("id", { count: "exact" }).eq("user_id", user!.id),
-        supabase.from("articles_read").select("id", { count: "exact" }).eq("user_id", user!.id),
-        // BUG FIX: test_results has no FK to profiles, so the embedded
-        // `profiles(full_name)` join failed and returned null — leaving the
-        // leaderboard empty. Fetch the raw rows here and resolve names with
-        // a separate profiles query below.
-        supabase.from("test_results").select("user_id, band").gte("completed_at", getWeekStart()),
+        supabase.from("test_results").select("user_id, band, profiles(full_name)").gte("completed_at", getWeekStart()),
       ]);
       if (resR.data) setResults(resR.data);
-      if (bkmR.data) setBookmarks(bkmR.data);
       if (vocR.count !== null) setVocabCount(vocR.count);
-      if (artR.count !== null) setArticlesRead(artR.count);
 
       // Build leaderboard
       if (lbR.data) {
-        // BUG FIX: previously pushed `r.band` even when it was null, which
-        // produced NaN averages. Skip rows without a band and look up the
-        // display names in a separate query (see note above).
-        const uniqueIds = Array.from(new Set(lbR.data.map((r: any) => r.user_id)));
-        const { data: profs } = await supabase
-          .from("profiles")
-          .select("id, full_name")
-          .in("id", uniqueIds);
-        const nameById: Record<string, string> = {};
-        (profs ?? []).forEach((p: any) => {
-          nameById[p.id] = (p.full_name || "").split(" ")[0] || "Student";
-        });
         const map: Record<string, { name: string; bands: number[] }> = {};
         lbR.data.forEach((r: any) => {
-          if (r.band == null) return;
           const uid = r.user_id;
-          if (!map[uid]) map[uid] = { name: nameById[uid] || "Student", bands: [] };
-          map[uid].bands.push(Number(r.band));
+          const name = r.profiles?.full_name?.split(" ")[0] || "Student";
+          if (!map[uid]) map[uid] = { name, bands: [] };
+          map[uid].bands.push(r.band);
         });
         const lb: LeaderboardEntry[] = Object.entries(map).map(([uid, v]) => ({
           user_id: uid,
@@ -238,12 +215,7 @@ function Account() {
   const tests15Days = results.filter(r => isInRange(r.completed_at, day15)).length;
   const testsThisMonth = results.filter(r => isInRange(r.completed_at, monthStart)).length;
 
-  // BUG FIX: previously coerced null bands to 0, which dragged the average
-  // down. Only average bands that actually have a value.
-  const recentBands = results
-    .filter(r => r.band != null)
-    .slice(0, 5)
-    .map(r => Number(r.band));
+  const recentBands = results.slice(0, 5).map(r => r.band ?? 0);
   const avgBand = recentBands.length ? (recentBands.reduce((a, b) => a + b, 0) / recentBands.length).toFixed(1) : "—";
 
   // Streak: consecutive days with at least 1 test
@@ -386,9 +358,7 @@ function Account() {
                 <StatCard icon={<BarChart2 className="w-5 h-5 text-secondary" />} label="Tests this month" value={String(testsThisMonth)} />
                 <StatCard icon={<Trophy className="w-5 h-5 text-gold" />} label="Avg Band" value={String(avgBand)} />
                 <StatCard icon={<Flame className="w-5 h-5 text-orange-500" />} label="Day streak" value={`${streak} day${streak !== 1 ? "s" : ""}`} />
-                <StatCard icon={<BookOpen className="w-5 h-5 text-secondary" />} label="Articles read" value={String(articlesRead)} />
                 <StatCard icon={<BookOpen className="w-5 h-5 text-secondary" />} label="Vocab words" value={String(vocabCount)} />
-                <StatCard icon={<Bookmark className="w-5 h-5 text-secondary" />} label="Bookmarks" value={String(bookmarks.length)} />
               </div>
 
               {/* Activity heatmap */}
@@ -443,25 +413,6 @@ function Account() {
             </div>
           )}
         </Card>
-
-        {/* Bookmarks */}
-        {bookmarks.length > 0 && (
-          <Card className="p-6">
-            <div className="flex items-center gap-2 mb-4">
-              <Bookmark className="w-5 h-5 text-secondary" />
-              <h2 className="font-serif text-xl font-semibold">Bookmarks</h2>
-            </div>
-            <div className="space-y-2">
-              {bookmarks.map(b => (
-                <div key={b.id} className="flex items-center justify-between py-2 border-b border-border last:border-0 text-sm">
-                  <span className="text-muted-foreground capitalize">{b.type}</span>
-                  <span className="font-medium">{b.title || b.reference_id}</span>
-                  <span className="text-xs text-muted-foreground">{new Date(b.created_at).toLocaleDateString()}</span>
-                </div>
-              ))}
-            </div>
-          </Card>
-        )}
 
       </section>
     </SiteLayout>
