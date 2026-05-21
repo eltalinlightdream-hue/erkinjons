@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IELTS Listening Practice - Test 24 Part 3</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg-color: #ffffff; --text-color: #333333; --border-color: #e0e0e0;
+      --primary-color: #1e6de6; --secondary-bg: #f8f9fa;
+      --correct-color: #28a745; --incorrect-color: #dc3545;
+      --highlight-color: #ffe066; --highlight-text: #333333;
+      --input-bg: #ffffff; --input-text: #333333;
+      --audio-bg: #f1f2ec; --nav-bg: #ffffff;
+    }
+    [data-theme="dark"] {
+      --bg-color: #1a1a1a; --text-color: #f0f0f0; --border-color: #444444;
+      --primary-color: #4a90e2; --secondary-bg: #2d2d2d;
+      --correct-color: #2ecc71; --incorrect-color: #e74c3c;
+      --highlight-color: #ffd700; --highlight-text: #000000;
+      --input-bg: #2d2d2d; --input-text: #ffffff;
+      --audio-bg: #2d2d2d; --nav-bg: #2d2d2d;
+    }
+    .font-small { --font-size: 14px; }
+    .font-medium { --font-size: 16px; }
+    .font-large { --font-size: 18px; }
+    .font-xlarge { --font-size: 20px; }
+    body {
+      font-family: Arial, sans-serif; background: var(--bg-color); color: var(--text-color);
+      line-height: 1.6; font-size: var(--font-size, 16px); padding-bottom: 90px;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    body::after {
+      content: "Augustus IELTS"; position: fixed; left: 50%; top: 50%;
+      transform: translate(-50%, -50%) rotate(-20deg); font-size: 64px; font-weight: 800;
+      letter-spacing: 2px; color: var(--text-color); opacity: 0.04; pointer-events: none;
+      z-index: 0; white-space: nowrap;
+    }
+    .header {
+      background: var(--bg-color); padding: 0 20px; border-bottom: 1px solid var(--border-color);
+      display: flex; justify-content: space-between; align-items: center; position: fixed;
+      top: 0; left: 0; right: 0; z-index: 100; height: 60px; transition: background-color 0.3s, border-color 0.3s;
+    }
+    .header-left { display: flex; align-items: center; gap: 16px; }
+    .site-title { font-size: 17px; font-weight: 700; color: var(--text-color); text-decoration: none; }
+    .telegram-link { color: var(--primary-color) !important; text-decoration: none; font-weight: 600; font-size: 14px; display: flex; align-items: center; gap: 6px; }
+    .telegram-link:hover { opacity: 0.8; }
+    .header-icons { display: flex; gap: 8px; align-items: center; }
+    .icon-btn {
+      width: 32px; height: 32px; border-radius: 4px; border: 1px solid var(--border-color);
+      background: var(--bg-color); color: var(--text-color); cursor: pointer; display: flex;
+      align-items: center; justify-content: center; transition: background-color 0.2s; position: relative;
+    }
+    .icon-btn:hover { background: var(--secondary-bg); }
+    .font-size-container { position: relative; }
+    .font-size-options {
+      position: absolute; top: 110%; right: 0; background: var(--bg-color); border: 1px solid var(--border-color);
+      border-radius: 6px; padding: 6px 0; min-width: 130px; display: none; z-index: 200; box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+    }
+    .font-size-options.show { display: block; }
+    .font-size-options div { padding: 8px 16px; cursor: pointer; font-size: 14px; }
+    .font-size-options div:hover { background: var(--secondary-bg); }
+    .sun-icon, .moon-icon, .expand-icon, .compress-icon { position: absolute; transition: opacity 0.3s, transform 0.3s; }
+    .sun-icon, .expand-icon { opacity: 1; transform: scale(1); }
+    .moon-icon, .compress-icon { opacity: 0; transform: scale(0.5); }
+    [data-theme="dark"] .sun-icon { opacity: 0; transform: scale(0.5); }
+    [data-theme="dark"] .moon-icon { opacity: 1; transform: scale(1); }
+    .is-fullscreen .expand-icon { opacity: 0; transform: scale(0.5); }
+    .is-fullscreen .compress-icon { opacity: 1; transform: scale(1); }
+    .audio-wrapper {
+      margin-top: 60px; background: var(--audio-bg); border-bottom: 1px solid var(--border-color);
+      padding: 14px 20px; display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+      position: sticky; top: 60px; z-index: 90; transition: background-color 0.3s;
+    }
+    .audio-label { font-size: 13px; font-weight: 600; color: var(--text-color); white-space: nowrap; }
+    .audio-label span { font-weight: 400; opacity: 0.7; }
+    .custom-audio { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 260px; }
+    .play-btn {
+      width: 40px; height: 40px; border-radius: 50%; background: var(--primary-color); border: none;
+      cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: opacity 0.2s;
+    }
+    .play-btn:hover { opacity: 0.85; }
+    .play-btn svg { fill: white; }
+    .audio-progress-wrap { flex: 1; display: flex; flex-direction: column; gap: 4px; }
+    .audio-time { display: flex; justify-content: space-between; font-size: 12px; color: var(--text-color); opacity: 0.7; }
+    .progress-bar-track { width: 100%; height: 6px; background: var(--border-color); border-radius: 3px; cursor: pointer; position: relative; }
+    .progress-bar-fill { height: 100%; background: var(--primary-color); border-radius: 3px; width: 0%; transition: width 0.1s linear; pointer-events: none; }
+    .volume-wrap { display: flex; align-items: center; gap: 6px; }
+    .volume-icon { opacity: 0.7; }
+    input[type="range"].volume-slider { width: 80px; height: 4px; cursor: pointer; accent-color: var(--primary-color); }
+    .main-container { padding: 20px; transition: margin-right 0.25s ease; }
+    body.script-open .main-container { margin-right: 400px; }
+    .part-header { background: var(--secondary-bg); padding: 14px 16px; border-radius: 6px; margin-bottom: 20px; border: 1px solid var(--border-color); }
+    .part-header p { margin: 0; }
+    .questions-container { max-width: 700px; }
+    .question-prompt { margin: 22px 0 16px; }
+    .question-prompt p { margin-bottom: 6px; }
+    .section-title { text-align: center; font-size: 20px; font-weight: bold; margin-bottom: 18px; }
+    .table-wrap { overflow-x: auto; margin-bottom: 22px; }
+    .ielts-table { width: 100%; border-collapse: collapse; background: var(--bg-color); }
+    .ielts-table th, .ielts-table td { border: 1px solid var(--border-color); padding: 10px; text-align: left; vertical-align: middle; }
+    .ielts-table th { background: var(--secondary-bg); font-weight: 700; }
+    .short-answer-list p, .select-question { margin-bottom: 14px; }
+    .options-box { border: 1px solid var(--border-color); border-radius: 6px; background: var(--secondary-bg); padding: 14px 18px; margin: 10px 0 18px; max-width: 560px; }
+    .options-box p { margin-bottom: 5px; }
+    .note-section { margin-bottom: 28px; }
+    .note-section p { margin-bottom: 8px; font-weight: 600; }
+    .note-section ul { list-style: none; padding: 0; }
+    .note-section li { margin-bottom: 10px; display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px; }
+    .answer-input, .answer-select {
+      border: 1px solid #9aa3ad; border-radius: 4px; background: var(--input-bg); color: var(--input-text);
+      padding: 3px 8px; font-size: 15px; height: 28px; vertical-align: middle; transition: border-color 0.15s;
+    }
+    .answer-input { width: 140px; }
+    .answer-input.wide-input { width: 220px; }
+    .answer-select { min-width: 72px; margin-left: 10px; }
+    .answer-input:focus, .answer-select:focus { outline: none; border-color: var(--primary-color); box-shadow: 0 0 0 2px rgba(30,109,230,0.15); }
+    [data-theme="dark"] .answer-input, [data-theme="dark"] .answer-select { border-color: #666; }
+    .answer-input.correct, .answer-select.correct { border-color: var(--correct-color) !important; background: rgba(40,167,69,0.08) !important; }
+    .answer-input.incorrect, .answer-select.incorrect { border-color: var(--incorrect-color) !important; background: rgba(220,53,69,0.08) !important; }
+    .correct-inline { color: var(--correct-color); font-weight: bold; font-size: 13px; margin-left: 6px; }
+    .mcq-question { margin-bottom: 18px; }
+    .mcq-question > p { margin-bottom: 8px; }
+    .mcq-options { display: grid; gap: 7px; }
+    .mcq-option {
+      display: flex; align-items: flex-start; gap: 8px; border: 1px solid var(--border-color); border-radius: 6px;
+      padding: 8px 10px; cursor: pointer; background: var(--input-bg); transition: background-color 0.15s, border-color 0.15s;
+    }
+    .mcq-option:hover { background: var(--secondary-bg); border-color: var(--primary-color); }
+    .mcq-option input { margin-top: 5px; accent-color: var(--primary-color); }
+    .mcq-question.correct .mcq-option:has(input:checked) { border-color: var(--correct-color); background: rgba(40,167,69,0.08); }
+    .mcq-question.incorrect .mcq-option:has(input:checked) { border-color: var(--incorrect-color); background: rgba(220,53,69,0.08); }
+    .highlight { background: var(--highlight-color); color: var(--highlight-text) !important; padding: 1px 3px; border-radius: 2px; font-weight: 600; }
+    .comment-highlight { background: #90ee90; color: #000 !important; position: relative; cursor: help; padding: 1px 3px; border-radius: 2px; }
+    .comment-tooltip { position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); background: #333; color: #fff; padding: 6px 10px; border-radius: 4px; font-size: 13px; white-space: nowrap; z-index: 1000; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+    .comment-highlight:hover .comment-tooltip { opacity: 1; }
+    .context-menu { position: absolute; background: var(--bg-color); border: 1px solid var(--border-color); border-radius: 6px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); z-index: 1000; display: none; min-width: 140px; }
+    .context-menu-item { padding: 10px 14px; cursor: pointer; font-size: 15px; border-bottom: 1px solid var(--border-color); display: flex; align-items: center; gap: 8px; color: var(--text-color); }
+    .context-menu-item:last-child { border-bottom: none; }
+    .context-menu-item:hover { background: var(--secondary-bg); }
+    .context-menu-icon { width: 16px; height: 16px; display: flex; align-items: center; }
+    .context-menu-icon svg { width: 16px; height: 16px; fill: var(--text-color); }
+    .nav-arrows { position: fixed; bottom: 100px; right: 20px; display: flex; gap: 6px; z-index: 101; }
+    .nav-arrow {
+      width: 44px; height: 44px; border-radius: 50%; border: none; cursor: pointer; background: #000; color: #fff;
+      font-size: 22px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 6px rgba(0,0,0,0.2); transition: transform 0.1s;
+    }
+    .nav-arrow:hover { transform: scale(1.05); }
+    .nav-arrow:disabled { opacity: 0.35; cursor: not-allowed; transform: none; }
+    .nav-row {
+      position: fixed; bottom: 0; left: 0; right: 0; background: var(--nav-bg); border-top: 1px solid var(--border-color);
+      display: flex; align-items: center; min-height: 80px; z-index: 100; padding: 10px 12px; gap: 8px; transition: background-color 0.3s;
+    }
+    .footer__questionWrapper__1tZ46 { display: flex; align-items: center; min-width: 0; }
+    .footer__questionNo__3WNct { background: none; border: none; padding: 10px 12px; font-size: 15px; font-weight: 600; color: var(--text-color); cursor: pointer; display: flex; align-items: center; gap: 4px; white-space: nowrap; }
+    .sectionNr { font-size: 15px; font-weight: bold; color: var(--text-color); }
+    .attemptedCount { font-size: 13px; color: var(--text-color); opacity: 0.65; margin-left: 4px; }
+    .footer__subquestionWrapper__9GgoP { display: flex; gap: 2px; flex-wrap: wrap; }
+    .subQuestion {
+      width: 32px; height: 32px; border: 1px solid var(--border-color); background: var(--input-bg); color: var(--text-color);
+      font-size: 13px; font-weight: 500; cursor: pointer; display: flex; align-items: center; justify-content: center; border-radius: 2px; transition: all 0.15s;
+    }
+    .subQuestion:hover { background: var(--secondary-bg); border-color: var(--primary-color); }
+    .subQuestion.answered { background: var(--secondary-bg); }
+    .subQuestion.active { background: var(--primary-color); color: #fff; border-color: var(--primary-color); }
+    .subQuestion.correct { background: var(--correct-color); color: #fff; border-color: var(--correct-color); }
+    .subQuestion.incorrect { background: var(--incorrect-color); color: #fff; border-color: var(--incorrect-color); }
+    .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
+    .footer__deliverButton__3FM07, .script-button, .script-close-bottom {
+      background: var(--secondary-bg); color: var(--text-color); border: 1px solid var(--border-color); padding: 10px 18px;
+      font-size: 15px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; border-radius: 4px; transition: background-color 0.2s;
+    }
+    .footer__deliverButton__3FM07 { margin-left: auto; }
+    .footer__deliverButton__3FM07:hover, .script-button:hover, .script-close-bottom:hover { background: var(--border-color); }
+    .footer__deliverButton__3FM07.success { background: var(--correct-color); color: #fff; border-color: var(--correct-color); }
+    .script-button { display: none; white-space: nowrap; }
+    .script-button.show { display: inline-flex; }
+    .script-side-panel {
+      position: fixed; top: 122px; right: 12px; bottom: 92px; width: 370px; background: var(--bg-color);
+      border: 1px solid var(--border-color); border-radius: 8px; z-index: 80; display: none; overflow: hidden;
+      box-shadow: 0 10px 28px rgba(0,0,0,0.12);
+    }
+    .script-side-panel.show { display: flex; flex-direction: column; }
+    .script-side-header { padding: 14px 16px; border-bottom: 1px solid var(--border-color); background: var(--secondary-bg); display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+    .script-side-header h2 { font-size: 16px; }
+    .script-side-body, .script-body { padding: 16px; overflow-y: auto; }
+    .script-side-body p, .script-body p { margin-bottom: 12px; }
+    .script-close { background: none; border: none; color: var(--text-color); font-size: 24px; cursor: pointer; line-height: 1; }
+    .modal-overlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.55);
+      z-index: 2000; display: flex; justify-content: center; align-items: center; backdrop-filter: blur(3px);
+    }
+    .modal-content {
+      background: var(--bg-color); border-radius: 12px; width: 92%; max-width: 680px; max-height: 80vh;
+      display: flex; flex-direction: column; box-shadow: 0 20px 60px rgba(0,0,0,0.25); overflow: hidden;
+    }
+    .modal-content.script-modal-content { max-width: 760px; }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; padding: 18px 22px; border-bottom: 1px solid var(--border-color); }
+    .modal-header h2 { font-size: 20px; }
+    .modal-close-btn { background: none; border: none; font-size: 26px; cursor: pointer; color: var(--text-color); line-height: 1; }
+    .modal-body { padding: 20px 22px; overflow-y: auto; }
+    #score-summary { font-size: 18px; font-weight: 600; margin-bottom: 16px; }
+    #result-details table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    #result-details th, #result-details td { border: 1px solid var(--border-color); padding: 9px 12px; text-align: left; }
+    #result-details th { background: var(--secondary-bg); font-weight: 600; }
+    #result-details td:first-child { font-weight: bold; text-align: center; }
+    .result-correct { color: var(--correct-color); font-weight: bold; }
+    .result-incorrect { color: var(--incorrect-color); font-weight: bold; }
+    @media (max-width: 1000px) {
+      body.script-open .main-container { margin-right: 0; }
+      .script-side-panel { left: 12px; width: auto; }
+    }
+    @media (max-width: 768px) {
+      .header { padding: 0 12px; }
+      .telegram-link { display: none; }
+      .audio-wrapper { padding: 10px 14px; gap: 10px; }
+      input[type="range"].volume-slider { width: 60px; }
+      .questions-container { max-width: 100%; }
+      .answer-input { width: 110px; }
+      .answer-input.wide-input { width: 180px; }
+      .nav-row { align-items: flex-start; flex-wrap: wrap; height: auto; }
+      .footer__deliverButton__3FM07 { margin-left: 0; }
+      .script-side-panel { top: 118px; bottom: 120px; }
+    }
+  </style>
+</head>
+<body>
+<div class="header">
+  <div class="header-left">
+    <span class="site-title">Augustus IELTS</span>
+    <a href="https://t.me/augustus_flores" target="_blank" class="telegram-link">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 0 0-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-.38.24-1.07.7-.96.66-1.89 1.28-1.89 1.28s-.17.11-.49.03c-.32-.08-.72-.26-1.16-.47-.54-.26-1.17-.53-1.17-.53s-.87-.55.62-1.14z" fill="currentColor"/></svg>
+      @augustus_flores
+    </a>
+  </div>
+  <div class="header-icons">
+    <div class="font-size-container">
+      <button class="icon-btn" id="font-size-toggle" title="Font size" style="font-weight:bold;font-size:14px;">A</button>
+      <div id="font-size-options" class="font-size-options">
+        <div data-size="small">Small</div>
+        <div data-size="medium">Medium</div>
+        <div data-size="large">Large</div>
+        <div data-size="xlarge">Extra Large</div>
+      </div>
+    </div>
+    <button class="icon-btn" id="dark-mode-toggle" title="Toggle dark mode">
+      <svg class="sun-icon" width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10zM12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <svg class="moon-icon" width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <button class="icon-btn" id="fullscreen-toggle" title="Toggle fullscreen">
+      <svg class="expand-icon" width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M8 3H5a2 2 0 0 0-2 2v3M21 8V5a2 2 0 0 0-2-2h-3M16 21h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <svg class="compress-icon" width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M8 3v3a2 2 0 0 1-2 2H3M21 8h-3a2 2 0 0 1-2-2V3M16 21v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+  </div>
+</div>
+
+<div class="audio-wrapper">
+  <div class="audio-label">Section 3 <span>- Nursing Course Feedback</span></div>
+  <div class="custom-audio">
+    <button class="play-btn" id="play-btn" title="Play / Pause">
+      <svg width="16" height="16" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+    </button>
+    <div class="audio-progress-wrap">
+      <div class="audio-time"><span id="time-current">0:00</span><span id="time-total">0:00</span></div>
+      <div class="progress-bar-track" id="progress-track"><div class="progress-bar-fill" id="progress-fill"></div></div>
+    </div>
+    <div class="volume-wrap">
+      <svg class="volume-icon" width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M11 5L6 9H2v6h4l5 4V5zM19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <input type="range" class="volume-slider" id="volume-slider" min="0" max="1" step="0.05" value="1">
+    </div>
+  </div>
+  <audio id="audio" src="/passages/audio/test24-part3.mp3" preload="metadata"></audio>
+</div>
+
+<div class="main-container">
+  <div class="part-header">
+    <p><strong>Section 3 - Nursing Course Feedback</strong></p>
+    <p>Listen and answer questions 21-30.</p>
+  </div>
+  <div class="questions-container">
+    
+      <div class="question-prompt">
+        <p><strong>Questions 21-24</strong> | Choose the correct letter <strong>A, B or C</strong>.</p>
+      </div>
+      <div class="mcq-question" id="question-21">
+          <p><strong>21.</strong> How old are the students of the nursing program?</p>
+          <div class="mcq-options">
+            <label class="mcq-option"><input type="radio" name="q21" value="A"> <span><strong>A</strong> They are teenagers.</span></label>
+            <label class="mcq-option"><input type="radio" name="q21" value="B"> <span><strong>B</strong> They are in their twenties.</span></label>
+            <label class="mcq-option"><input type="radio" name="q21" value="C"> <span><strong>C</strong> They belong to different age groups.</span></label>
+          </div>
+        </div>
+      <div class="mcq-question" id="question-22">
+          <p><strong>22.</strong> What do the speakers say about the group project?</p>
+          <div class="mcq-options">
+            <label class="mcq-option"><input type="radio" name="q22" value="A"> <span><strong>A</strong> It helps to improve relationships among different classmates.</span></label>
+            <label class="mcq-option"><input type="radio" name="q22" value="B"> <span><strong>B</strong> It helps to develop problem-solving skills.</span></label>
+            <label class="mcq-option"><input type="radio" name="q22" value="C"> <span><strong>C</strong> It provides a supportive learning environment.</span></label>
+          </div>
+        </div>
+      <div class="mcq-question" id="question-23">
+          <p><strong>23.</strong> Which part of the program surprised Paul?</p>
+          <div class="mcq-options">
+            <label class="mcq-option"><input type="radio" name="q23" value="A"> <span><strong>A</strong> There are a number of essays to write.</span></label>
+            <label class="mcq-option"><input type="radio" name="q23" value="B"> <span><strong>B</strong> There is a lot of practical work.</span></label>
+            <label class="mcq-option"><input type="radio" name="q23" value="C"> <span><strong>C</strong> There is an internship provided.</span></label>
+          </div>
+        </div>
+      <div class="mcq-question" id="question-24">
+          <p><strong>24.</strong> What do they feel about learning law?</p>
+          <div class="mcq-options">
+            <label class="mcq-option"><input type="radio" name="q24" value="A"> <span><strong>A</strong> It is essential training.</span></label>
+            <label class="mcq-option"><input type="radio" name="q24" value="B"> <span><strong>B</strong> It is too theoretical.</span></label>
+            <label class="mcq-option"><input type="radio" name="q24" value="C"> <span><strong>C</strong> It takes up too much time.</span></label>
+          </div>
+        </div>
+      <div class="question-prompt">
+        <p><strong>Questions 25-30</strong> | What are the suggestions offered by the speakers?</p>
+        <p>Choose <strong>SIX</strong> answers from the box and write the correct letter <strong>A-H</strong> next to questions 25-30.</p>
+      </div>
+      <div class="options-box">
+        <p><strong>A</strong> get feedback from teaching staff</p>
+        <p><strong>B</strong> do more reading</p>
+        <p><strong>C</strong> get help from school supporting staff</p>
+        <p><strong>D</strong> get help for nursing problems</p>
+        <p><strong>E</strong> manage time properly</p>
+        <p><strong>F</strong> be well prepared</p>
+        <p><strong>G</strong> review the notes regularly</p>
+        <p><strong>H</strong> don't set unrealistic goals</p>
+      </div>
+      <div class="select-list">
+        <div class="select-question" id="question-25">
+          <label><strong>25.</strong> Essays
+            <select id="q25" class="answer-select" data-q="25">
+              <option value=""></option>
+              <option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option><option value="F">F</option><option value="G">G</option><option value="H">H</option>
+            </select>
+          </label>
+        </div>
+        <div class="select-question" id="question-26">
+          <label><strong>26.</strong> Lectures
+            <select id="q26" class="answer-select" data-q="26">
+              <option value=""></option>
+              <option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option><option value="F">F</option><option value="G">G</option><option value="H">H</option>
+            </select>
+          </label>
+        </div>
+        <div class="select-question" id="question-27">
+          <label><strong>27.</strong> Research
+            <select id="q27" class="answer-select" data-q="27">
+              <option value=""></option>
+              <option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option><option value="F">F</option><option value="G">G</option><option value="H">H</option>
+            </select>
+          </label>
+        </div>
+        <div class="select-question" id="question-28">
+          <label><strong>28.</strong> Online forum
+            <select id="q28" class="answer-select" data-q="28">
+              <option value=""></option>
+              <option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option><option value="F">F</option><option value="G">G</option><option value="H">H</option>
+            </select>
+          </label>
+        </div>
+        <div class="select-question" id="question-29">
+          <label><strong>29.</strong> Placement tests
+            <select id="q29" class="answer-select" data-q="29">
+              <option value=""></option>
+              <option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option><option value="F">F</option><option value="G">G</option><option value="H">H</option>
+            </select>
+          </label>
+        </div>
+        <div class="select-question" id="question-30">
+          <label><strong>30.</strong> Freshmen
+            <select id="q30" class="answer-select" data-q="30">
+              <option value=""></option>
+              <option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option><option value="F">F</option><option value="G">G</option><option value="H">H</option>
+            </select>
+          </label>
+        </div>
+      </div>
+  </div>
+</div>
+
+<aside id="script-side-panel" class="script-side-panel" aria-label="Listening script">
+  <div class="script-side-header">
+    <h2>Listening Script - Section 3</h2>
+    <button id="script-side-close" class="script-close" title="Close script">&times;</button>
+  </div>
+  <div class="script-side-body"><p>PART 3 - SECTION 3</p>
+<p><strong>Tutor:</strong> Helen and Paul, congratulations to you both for doing so well this past semester. You two have exhibited an impeccable performance during your first year in the nursing program. I&#39;d like to get some feedback from the two of you to better improve the program and to provide guidance for our prospective students.</p>
+<p>I&#39;d like to start with you, Helen. So first of all, which aspect of the program impressed you?</p>
+<p><strong>Helen:</strong> Well, to be honest, when I was enrolled into the course, I was expecting a group of classmates my age. But as I stepped into the classroom for the first time, I was surprised by the diversity. Most were in their twenties, but there were also those in their thirties or even forties. As it turns out, the intergenerational communication has sparked intense debate and new thinking, and I think that&#39;s something special about the program that I appreciate very much.</p>
+<p><strong>Tutor:</strong> What about you, Paul? What do you think of the program?</p>
+<p><strong>Paul:</strong> For me, the group project we carried out last semester is another key feature of the program. The whole class was divided into eight different groups working on eight prospective cases. Team building sessions were conducted in a collaborative way, most of the time comprised of five members. Our group studied acute pancreatitis. During the process, we broke the task into different parts and assigned them to each member. We were then able to tackle the complex problem by pooling our knowledge and skills. More importantly, stronger links were established between the group members. Because of the project, we&#39;ve all become good friends.</p>
+<p><strong>Tutor:</strong> That&#39;s true. According to graduates, group projects prepare them for the work world in which teamwork and collaboration are increasingly the norm. So tell me, Paul, what else do you like about the program?</p>
+<p><strong>Paul:</strong> I want to be a registered nurse working in a public hospital after graduation. So the internship provided is a valuable opportunity for clinical practice in a supportive learning atmosphere. However, I was amazed by the amount of written assignments since I thought the course should have focused more on practice-oriented learning.</p>
+<p><strong>Helen:</strong> Well, I have to disagree with you, Paul. The essays demonstrate your understanding of the course. For me, writing essays is a process that involves critical thinking, which challenges me to develop my points more thoroughly. I&#39;ve thus managed to gain a diversity of perspectives. The program is designed to deliver basic and advanced theoretical knowledge of core concepts, including healthcare systems, together with practicum or clinical practice experience to bridge the classroom content to the practice setting. So written work is unavoidable. Also, this year we&#39;ve added a module of law.</p>
+<p><strong>Tutor:</strong> How do you feel about that?</p>
+<p><strong>Paul:</strong> At first, we felt that learning law is kind of redundant and too time-consuming. After a few sessions, we realised that it is necessary in dealing with future medical disputes.</p>
+<p><strong>Tutor:</strong> Do you have any suggestions for prospective students?</p>
+<p><strong>Paul:</strong> What bothers me most is handing in essays on time. I almost missed the deadline once because there were three essays due within the same week. So managing your time is critical.</p>
+<p><strong>Helen:</strong> The lectures deliver so much useful information. I have poor memory, so I kept making notes and revisiting them on a regular basis. To my surprise, at the end of the semester, I had learned the key concepts by heart.</p>
+<p><strong>Tutor:</strong> How was the research? I heard that it was quite challenging. How did you manage to overcome the difficulties?</p>
+<p><strong>Paul:</strong> The majority of us had no clue how to carry out the research at first. Fortunately, when I was digging up reference materials at the library, I sought help from the librarian. She taught me about finding the appropriate resources and choosing the proper research methods.</p>
+<p><strong>Tutor:</strong> Have you checked out the online forum?</p>
+<p><strong>Helen:</strong> Yes. It has become a habit for me to visit the forum regularly. In a sense, it extends classroom learning. It is where the students post academic problems that they come across and get support from the faculty members.</p>
+<p><strong>Paul:</strong> Some of my classmates didn&#39;t do so well during the placement tests. I feel that background reading is necessary.</p>
+<p><strong>Tutor:</strong> Lastly, do you have anything to say to the freshmen?</p>
+<p><strong>Helen:</strong> I was really ambitious at first, trying to get straight A&#39;s on my transcript. I made tons of notes and worked hard even on the optional assignments to get extra credit. I stressed myself out before having an emotional breakdown. After consulting my advisor, I found it important to set realistic goals. Don&#39;t push yourself too hard. It is wise to sort out your priorities.</p>
+<p><strong>Tutor:</strong> Thank you for coming here today and providing valuable feedback on the program. Have a great summer break.</p></div>
+</aside>
+
+<div id="contextMenu" class="context-menu">
+  <div class="context-menu-item" id="highlight-item" onclick="highlightText()">
+    <span class="context-menu-icon"><svg viewBox="0 0 24 24"><path d="M17.75 7.1l-10.6 10.6-3.55.7.7-3.55L14.9 4.25a2.02 2.02 0 0 1 2.85 2.85z"/></svg></span>
+    Highlight
+  </div>
+  <div class="context-menu-item" id="comment-item" onclick="addComment()">
+    <span class="context-menu-icon"><svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 12H5.17L4 15.17V4h16v10z"/></svg></span>
+    Comment
+  </div>
+  <div class="context-menu-item" id="clear-item" onclick="clearHighlight()" style="display:none;">
+    <span class="context-menu-icon"><svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg></span>
+    Clear
+  </div>
+</div>
+
+<div class="nav-arrows">
+  <button class="nav-arrow" id="prevBtn" onclick="previousQ()">&#8249;</button>
+  <button class="nav-arrow" id="nextBtn" onclick="nextQ()">&#8250;</button>
+</div>
+
+<nav class="nav-row">
+  <div class="footer__questionWrapper__1tZ46">
+    <button class="footer__questionNo__3WNct">
+      <span class="sectionNr">Section 3</span>
+      <span class="attemptedCount" id="attempted-count">0 of 10 answered</span>
+    </button>
+    <div class="footer__subquestionWrapper__9GgoP">
+      <button class="subQuestion" onclick="goToQuestion(21)"><span class="sr-only">Q21</span>21</button>
+      <button class="subQuestion" onclick="goToQuestion(22)"><span class="sr-only">Q22</span>22</button>
+      <button class="subQuestion" onclick="goToQuestion(23)"><span class="sr-only">Q23</span>23</button>
+      <button class="subQuestion" onclick="goToQuestion(24)"><span class="sr-only">Q24</span>24</button>
+      <button class="subQuestion" onclick="goToQuestion(25)"><span class="sr-only">Q25</span>25</button>
+      <button class="subQuestion" onclick="goToQuestion(26)"><span class="sr-only">Q26</span>26</button>
+      <button class="subQuestion" onclick="goToQuestion(27)"><span class="sr-only">Q27</span>27</button>
+      <button class="subQuestion" onclick="goToQuestion(28)"><span class="sr-only">Q28</span>28</button>
+      <button class="subQuestion" onclick="goToQuestion(29)"><span class="sr-only">Q29</span>29</button>
+      <button class="subQuestion" onclick="goToQuestion(30)"><span class="sr-only">Q30</span>30</button>
+    </div>
+  </div>
+  <button id="deliver-button" class="footer__deliverButton__3FM07">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" fill="currentColor"/></svg>
+    Check Answers
+  </button>
+  <button id="show-script-button" class="script-button">📄 Show Script</button>
+</nav>
+
+<div id="result-modal" class="modal-overlay" style="display:none;">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>Your Results</h2>
+      <button id="modal-close-button" class="modal-close-btn">&times;</button>
+    </div>
+    <div class="modal-body">
+      <p id="score-summary"></p>
+      <div id="result-details"></div>
+    </div>
+  </div>
+</div>
+
+<div id="script-modal" class="modal-overlay" style="display:none;">
+  <div class="modal-content script-modal-content">
+    <div class="modal-header">
+      <h2>Listening Script - Section 3</h2>
+      <button id="script-modal-close-button" class="modal-close-btn">&times;</button>
+    </div>
+    <div class="script-body"><p>PART 3 - SECTION 3</p>
+<p><strong>Tutor:</strong> Helen and Paul, congratulations to you both for doing so well this past semester. You two have exhibited an impeccable performance during your first year in the nursing program. I&#39;d like to get some feedback from the two of you to better improve the program and to provide guidance for our prospective students.</p>
+<p>I&#39;d like to start with you, Helen. So first of all, which aspect of the program impressed you?</p>
+<p><strong>Helen:</strong> Well, to be honest, when I was enrolled into the course, I was expecting a group of classmates my age. But as I stepped into the classroom for the first time, I was surprised by the diversity. Most were in their twenties, but there were also those in their thirties or even forties. As it turns out, the intergenerational communication has sparked intense debate and new thinking, and I think that&#39;s something special about the program that I appreciate very much.</p>
+<p><strong>Tutor:</strong> What about you, Paul? What do you think of the program?</p>
+<p><strong>Paul:</strong> For me, the group project we carried out last semester is another key feature of the program. The whole class was divided into eight different groups working on eight prospective cases. Team building sessions were conducted in a collaborative way, most of the time comprised of five members. Our group studied acute pancreatitis. During the process, we broke the task into different parts and assigned them to each member. We were then able to tackle the complex problem by pooling our knowledge and skills. More importantly, stronger links were established between the group members. Because of the project, we&#39;ve all become good friends.</p>
+<p><strong>Tutor:</strong> That&#39;s true. According to graduates, group projects prepare them for the work world in which teamwork and collaboration are increasingly the norm. So tell me, Paul, what else do you like about the program?</p>
+<p><strong>Paul:</strong> I want to be a registered nurse working in a public hospital after graduation. So the internship provided is a valuable opportunity for clinical practice in a supportive learning atmosphere. However, I was amazed by the amount of written assignments since I thought the course should have focused more on practice-oriented learning.</p>
+<p><strong>Helen:</strong> Well, I have to disagree with you, Paul. The essays demonstrate your understanding of the course. For me, writing essays is a process that involves critical thinking, which challenges me to develop my points more thoroughly. I&#39;ve thus managed to gain a diversity of perspectives. The program is designed to deliver basic and advanced theoretical knowledge of core concepts, including healthcare systems, together with practicum or clinical practice experience to bridge the classroom content to the practice setting. So written work is unavoidable. Also, this year we&#39;ve added a module of law.</p>
+<p><strong>Tutor:</strong> How do you feel about that?</p>
+<p><strong>Paul:</strong> At first, we felt that learning law is kind of redundant and too time-consuming. After a few sessions, we realised that it is necessary in dealing with future medical disputes.</p>
+<p><strong>Tutor:</strong> Do you have any suggestions for prospective students?</p>
+<p><strong>Paul:</strong> What bothers me most is handing in essays on time. I almost missed the deadline once because there were three essays due within the same week. So managing your time is critical.</p>
+<p><strong>Helen:</strong> The lectures deliver so much useful information. I have poor memory, so I kept making notes and revisiting them on a regular basis. To my surprise, at the end of the semester, I had learned the key concepts by heart.</p>
+<p><strong>Tutor:</strong> How was the research? I heard that it was quite challenging. How did you manage to overcome the difficulties?</p>
+<p><strong>Paul:</strong> The majority of us had no clue how to carry out the research at first. Fortunately, when I was digging up reference materials at the library, I sought help from the librarian. She taught me about finding the appropriate resources and choosing the proper research methods.</p>
+<p><strong>Tutor:</strong> Have you checked out the online forum?</p>
+<p><strong>Helen:</strong> Yes. It has become a habit for me to visit the forum regularly. In a sense, it extends classroom learning. It is where the students post academic problems that they come across and get support from the faculty members.</p>
+<p><strong>Paul:</strong> Some of my classmates didn&#39;t do so well during the placement tests. I feel that background reading is necessary.</p>
+<p><strong>Tutor:</strong> Lastly, do you have anything to say to the freshmen?</p>
+<p><strong>Helen:</strong> I was really ambitious at first, trying to get straight A&#39;s on my transcript. I made tons of notes and worked hard even on the optional assignments to get extra credit. I stressed myself out before having an emotional breakdown. After consulting my advisor, I found it important to set realistic goals. Don&#39;t push yourself too hard. It is wise to sort out your priorities.</p>
+<p><strong>Tutor:</strong> Thank you for coming here today and providing valuable feedback on the program. Have a great summer break.</p></div>
+    <div class="modal-body" style="padding-top:0;"><button id="script-modal-bottom-close" class="script-close-bottom">Close</button></div>
+  </div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  const TEST_ID = 't24-part3';
+  const TOTAL_QUESTIONS = 10;
+  const START_Q = 21;
+  const END_Q = 30;
+  const correctAnswers = {
+    "q21": "C",
+    "q22": "A",
+    "q23": "A",
+    "q24": "A",
+    "q25": "E",
+    "q26": "G",
+    "q27": "C",
+    "q28": "A",
+    "q29": "B",
+    "q30": "H"
+};
+  const alternateAnswers = {};
+  let currentQuestion = START_Q;
+  let selectedRange = null;
+  let contextElement = null;
+  let submitted = false;
+
+  function saveScoreToLocalStorage(score, total) {
+    try {
+      const all = JSON.parse(localStorage.getItem('ielts_test_completions') || '{}');
+      all[TEST_ID] = { completed: true, score, total, completedAt: new Date().toISOString() };
+      localStorage.setItem('ielts_test_completions', JSON.stringify(all));
+    } catch (e) {
+      console.error('Could not save score:', e);
+    }
+  }
+
+  const body = document.body;
+  const darkBtn = document.getElementById('dark-mode-toggle');
+  const saved = localStorage.getItem('theme') || 'light';
+  body.setAttribute('data-theme', saved);
+  darkBtn.addEventListener('click', () => {
+    const isDark = body.getAttribute('data-theme') === 'dark';
+    body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+    localStorage.setItem('theme', isDark ? 'light' : 'dark');
+  });
+
+  const fontToggle = document.getElementById('font-size-toggle');
+  const fontOptions = document.getElementById('font-size-options');
+  const savedFont = localStorage.getItem('fontSize') || 'medium';
+  body.classList.add('font-' + savedFont);
+  fontToggle.addEventListener('click', () => fontOptions.classList.toggle('show'));
+  document.addEventListener('click', e => { if (!e.target.closest('.font-size-container')) fontOptions.classList.remove('show'); });
+  fontOptions.querySelectorAll('div').forEach(d => {
+    d.addEventListener('click', () => {
+      body.classList.remove('font-small','font-medium','font-large','font-xlarge');
+      body.classList.add('font-' + d.dataset.size);
+      localStorage.setItem('fontSize', d.dataset.size);
+      fontOptions.classList.remove('show');
+    });
+  });
+
+  const fullscreenBtn = document.getElementById('fullscreen-toggle');
+  function updateFullscreenIcon() {
+    fullscreenBtn.classList.toggle('is-fullscreen', !!document.fullscreenElement);
+  }
+  fullscreenBtn.addEventListener('click', async () => {
+    try {
+      if (!document.fullscreenElement) await document.documentElement.requestFullscreen();
+      else await document.exitFullscreen();
+    } catch (e) {
+      console.error('Fullscreen request failed:', e);
+    }
+  });
+  document.addEventListener('fullscreenchange', updateFullscreenIcon);
+  updateFullscreenIcon();
+
+  const audio = document.getElementById('audio');
+  const playBtn = document.getElementById('play-btn');
+  const progressFill = document.getElementById('progress-fill');
+  const progressTrack = document.getElementById('progress-track');
+  const timeCurrent = document.getElementById('time-current');
+  const timeTotal = document.getElementById('time-total');
+  const volumeSlider = document.getElementById('volume-slider');
+  const pauseSVG = '<svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
+  const playSVG = '<svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg>';
+  function fmt(s) {
+    if (!isFinite(s)) return '0:00';
+    const m = Math.floor(s / 60), sec = Math.floor(s % 60);
+    return m + ':' + (sec < 10 ? '0' : '') + sec;
+  }
+  audio.addEventListener('loadedmetadata', () => { timeTotal.textContent = fmt(audio.duration); });
+  audio.addEventListener('timeupdate', () => {
+    const pct = audio.duration ? (audio.currentTime / audio.duration) * 100 : 0;
+    progressFill.style.width = pct + '%';
+    timeCurrent.textContent = fmt(audio.currentTime);
+  });
+  audio.addEventListener('ended', () => { playBtn.innerHTML = playSVG; });
+  playBtn.addEventListener('click', async () => {
+    try {
+      if (audio.paused) {
+        await audio.play();
+        playBtn.innerHTML = pauseSVG;
+      } else {
+        audio.pause();
+        playBtn.innerHTML = playSVG;
+      }
+    } catch (error) {
+      console.error('Audio could not play:', error);
+      alert('Audio could not play. Please check that the audio file exists.');
+      playBtn.innerHTML = playSVG;
+    }
+  });
+  progressTrack.addEventListener('click', e => {
+    if (!audio.duration) return;
+    const rect = progressTrack.getBoundingClientRect();
+    audio.currentTime = ((e.clientX - rect.left) / rect.width) * audio.duration;
+  });
+  volumeSlider.addEventListener('input', () => { audio.volume = volumeSlider.value; });
+
+  function getQuestionElement(q) {
+    return document.getElementById('q' + q) || document.querySelector('[name="q' + q + '"]') || document.getElementById('question-' + q);
+  }
+  function getAnswer(q) {
+    const text = document.getElementById('q' + q);
+    if (text) return text.value.trim();
+    const checked = document.querySelector('input[name="q' + q + '"]:checked');
+    return checked ? checked.value.trim() : '';
+  }
+  function isCorrectAnswer(q, answer) {
+    const key = 'q' + q;
+    const normalized = answer.trim().toLowerCase();
+    const acceptable = [correctAnswers[key]].concat(alternateAnswers[key] || []);
+    return acceptable.some(item => normalized === String(item).trim().toLowerCase());
+  }
+  function setDisabled(q, disabled) {
+    document.querySelectorAll('#q' + q + ', input[name="q' + q + '"]').forEach(el => { el.disabled = disabled; });
+  }
+  function markQuestion(q, ok) {
+    const selectOrInput = document.getElementById('q' + q);
+    const wrapper = document.getElementById('question-' + q);
+    if (selectOrInput) selectOrInput.classList.add(ok ? 'correct' : 'incorrect');
+    if (wrapper) wrapper.classList.add(ok ? 'correct' : 'incorrect');
+  }
+  function insertCorrection(q) {
+    const existing = document.querySelector('.correct-inline[data-for="q' + q + '"]');
+    if (existing) existing.remove();
+    const hint = document.createElement('span');
+    hint.className = 'correct-inline';
+    hint.dataset.for = 'q' + q;
+    hint.textContent = 'Correct: ' + correctAnswers['q' + q];
+    const text = document.getElementById('q' + q);
+    const wrapper = document.getElementById('question-' + q);
+    if (text) text.insertAdjacentElement('afterend', hint);
+    else if (wrapper) wrapper.appendChild(hint);
+  }
+  function goToQuestion(n) {
+    currentQuestion = Math.min(END_Q, Math.max(START_Q, n));
+    document.querySelectorAll('.subQuestion').forEach((b, i) => {
+      b.classList.toggle('active', START_Q + i === currentQuestion && !submitted);
+    });
+    const el = getQuestionElement(currentQuestion);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      if (typeof el.focus === 'function' && ['INPUT','SELECT'].includes(el.tagName)) el.focus();
+    }
+    document.getElementById('prevBtn').disabled = currentQuestion === START_Q;
+    document.getElementById('nextBtn').disabled = currentQuestion === END_Q;
+  }
+  function previousQ() { goToQuestion(currentQuestion - 1); }
+  function nextQ() { goToQuestion(currentQuestion + 1); }
+  window.goToQuestion = goToQuestion;
+  window.previousQ = previousQ;
+  window.nextQ = nextQ;
+
+  function updateIndicators() {
+    let count = 0;
+    for (let q = START_Q; q <= END_Q; q++) {
+      const answered = getAnswer(q) !== '';
+      const btn = document.querySelector('.subQuestion[onclick="goToQuestion(' + q + ')"]');
+      if (btn && !btn.classList.contains('correct') && !btn.classList.contains('incorrect')) {
+        btn.classList.toggle('answered', answered);
+      }
+      if (answered) count++;
+    }
+    document.getElementById('attempted-count').textContent = count + ' of 10 answered';
+  }
+  document.querySelectorAll('.answer-input, .answer-select, input[type="radio"]').forEach(inp => {
+    inp.addEventListener('input', updateIndicators);
+    inp.addEventListener('change', updateIndicators);
+    inp.addEventListener('focus', () => {
+      const n = parseInt((inp.id || inp.name).replace('q',''), 10);
+      if (!isNaN(n)) currentQuestion = n;
+    });
+  });
+
+  function estimateBand(score) {
+    return score >= 9 ? 9 : score >= 8 ? 8.5 : score >= 7 ? 7.5 : score >= 6 ? 7 : score >= 5 ? 6.5 : score >= 4 ? 6 : score >= 3 ? 5.5 : score >= 2 ? 5 : score >= 1 ? 4.5 : 4;
+  }
+  function showScriptSidePanel() {
+    document.getElementById('script-side-panel').classList.add('show');
+    document.body.classList.add('script-open');
+  }
+  function checkAnswers() {
+    audio.pause();
+    playBtn.innerHTML = playSVG;
+    let score = 0;
+    const resultsData = [];
+    document.querySelectorAll('.correct-inline').forEach(el => el.remove());
+    for (let q = START_Q; q <= END_Q; q++) {
+      const answer = getAnswer(q);
+      const ok = isCorrectAnswer(q, answer);
+      const btn = document.querySelector('.subQuestion[onclick="goToQuestion(' + q + ')"]');
+      setDisabled(q, true);
+      markQuestion(q, ok);
+      if (!ok) insertCorrection(q);
+      if (btn) {
+        btn.classList.remove('answered','active');
+        btn.classList.add(ok ? 'correct' : 'incorrect');
+      }
+      if (ok) score++;
+      resultsData.push({ question: q, userAnswer: answer || '-', correctAnswer: correctAnswers['q' + q], isCorrect: ok });
+    }
+    submitted = true;
+    saveScoreToLocalStorage(score, TOTAL_QUESTIONS);
+    document.getElementById('score-summary').textContent = 'You scored ' + score + ' out of 10 - estimated Band ' + estimateBand(score);
+    let table = '<table><thead><tr><th>Q</th><th>Your Answer</th><th>Correct Answer</th><th>Result</th></tr></thead><tbody>';
+    resultsData.forEach(r => {
+      table += '<tr><td>' + r.question + '</td><td>' + escapeCell(r.userAnswer) + '</td><td>' + escapeCell(r.correctAnswer) + '</td><td class="' + (r.isCorrect ? 'result-correct' : 'result-incorrect') + '">' + (r.isCorrect ? 'Correct' : 'Incorrect') + '</td></tr>';
+    });
+    table += '</tbody></table>';
+    document.getElementById('result-details').innerHTML = table;
+    document.getElementById('result-modal').style.display = 'flex';
+    const btn = document.getElementById('deliver-button');
+    btn.classList.add('success');
+    btn.innerHTML = '<span>My Results</span>';
+    btn.removeEventListener('click', checkAnswers);
+    btn.addEventListener('click', showResults);
+    document.getElementById('show-script-button').classList.add('show');
+    showScriptSidePanel();
+  }
+  function escapeCell(value) {
+    return String(value).replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+  }
+  function showResults() { document.getElementById('result-modal').style.display = 'flex'; }
+  document.getElementById('deliver-button').addEventListener('click', checkAnswers);
+  document.getElementById('modal-close-button').addEventListener('click', () => { document.getElementById('result-modal').style.display = 'none'; });
+  document.getElementById('show-script-button').addEventListener('click', () => { document.getElementById('script-modal').style.display = 'flex'; });
+  document.getElementById('script-modal-close-button').addEventListener('click', () => { document.getElementById('script-modal').style.display = 'none'; });
+  document.getElementById('script-modal-bottom-close').addEventListener('click', () => { document.getElementById('script-modal').style.display = 'none'; });
+  document.getElementById('script-side-close').addEventListener('click', () => {
+    document.getElementById('script-side-panel').classList.remove('show');
+    document.body.classList.remove('script-open');
+  });
+
+  const contextMenu = document.getElementById('contextMenu');
+  document.body.addEventListener('contextmenu', e => {
+    const sel = window.getSelection();
+    contextElement = e.target.closest('.highlight,.comment-highlight');
+    if (!sel.toString() && !contextElement) return;
+    e.preventDefault();
+    document.getElementById('clear-item').style.display = contextElement ? 'block' : 'none';
+    contextMenu.style.left = e.pageX + 'px';
+    contextMenu.style.top = Math.max(4, e.pageY - 8) + 'px';
+    contextMenu.style.display = 'block';
+    if (sel.rangeCount > 0 && !sel.isCollapsed) selectedRange = sel.getRangeAt(0).cloneRange();
+  });
+  document.addEventListener('click', e => { if (!e.target.closest('.context-menu')) contextMenu.style.display = 'none'; });
+  document.addEventListener('selectionchange', () => {
+    const sel = window.getSelection();
+    if (sel && sel.rangeCount > 0 && !sel.isCollapsed) selectedRange = sel.getRangeAt(0).cloneRange();
+  });
+  function wrapSelection(className, note) {
+    if (!selectedRange || selectedRange.collapsed) return;
+    const contents = selectedRange.extractContents();
+    const span = document.createElement('span');
+    span.className = className;
+    span.appendChild(contents);
+    if (note) {
+      const tooltip = document.createElement('span');
+      tooltip.className = 'comment-tooltip';
+      tooltip.textContent = note;
+      span.appendChild(tooltip);
+    }
+    selectedRange.insertNode(span);
+    window.getSelection().removeAllRanges();
+  }
+  window.highlightText = () => {
+    wrapSelection('highlight');
+    contextMenu.style.display = 'none';
+  };
+  window.addComment = () => {
+    const note = prompt('Enter your comment:');
+    if (note) wrapSelection('comment-highlight', note);
+    contextMenu.style.display = 'none';
+  };
+  window.clearHighlight = () => {
+    if (!contextElement) { contextMenu.style.display = 'none'; return; }
+    const parent = contextElement.parentNode;
+    Array.from(contextElement.childNodes).forEach(node => {
+      if (!(node.nodeType === 1 && node.classList.contains('comment-tooltip'))) {
+        parent.insertBefore(node, contextElement);
+      }
+    });
+    parent.removeChild(contextElement);
+    parent.normalize();
+    contextMenu.style.display = 'none';
+  };
+  goToQuestion(START_Q);
+  updateIndicators();
+})();
+</script>
+</body>
+</html>
