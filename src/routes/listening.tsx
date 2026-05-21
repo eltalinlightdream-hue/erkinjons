@@ -29,7 +29,7 @@ export const Route = createFileRoute("/listening")({
 type ListeningTest = {
   id: string;
   title: string;
-  section: 1 | 2 | 3 | 4;
+  section: 0 | 1 | 2 | 3 | 4;
   description: string;
   questions: number;
   htmlFile: string;
@@ -376,6 +376,7 @@ const TESTS: ListeningTest[] = [
 
 const FILTERS = [
   { v: "all", label: "All" },
+  { v: "full", label: "Full tests" },
   { v: "1", label: "Section 1" },
   { v: "2", label: "Section 2" },
   { v: "3", label: "Section 3" },
@@ -383,7 +384,7 @@ const FILTERS = [
 ] as const;
 
 function Listening() {
-  const [filter, setFilter] = useState<"all" | "1" | "2" | "3" | "4">("all");
+  const [filter, setFilter] = useState<"all" | "full" | "1" | "2" | "3" | "4">("all");
   const [statusFilter, setStatusFilter] = useState<"all" | ProgressStatus>("all");
   const { profile, deviceConflict, user } = useAuth();
   const isPremium = !!profile?.is_premium && !deviceConflict;
@@ -391,8 +392,18 @@ function Listening() {
   const testIds = TESTS.map((t) => t.id);
   const { statuses, statusFor, setTestStatus, resetTest } = useTestStatus(testIds);
 
+  const sectionCounts = {
+    all: TESTS.length,
+    full: TESTS.filter((t) => t.section === 0).length,
+    "1": TESTS.filter((t) => t.section === 1).length,
+    "2": TESTS.filter((t) => t.section === 2).length,
+    "3": TESTS.filter((t) => t.section === 3).length,
+    "4": TESTS.filter((t) => t.section === 4).length,
+  };
+
   const visible = TESTS.filter((t) => {
-    const matchesSection = filter === "all" || String(t.section) === filter;
+    const matchesSection =
+      filter === "all" || (filter === "full" ? t.section === 0 : String(t.section) === filter);
     const matchesStatus = statusFilter === "all" || statusFor(t.id) === statusFilter;
     return matchesSection && matchesStatus;
   });
@@ -423,7 +434,7 @@ function Listening() {
               size="sm"
               onClick={() => setFilter(f.v)}
             >
-              {f.label}
+              {f.label} ({sectionCounts[f.v]})
             </Button>
           ))}
         </div>
@@ -470,7 +481,7 @@ function Listening() {
                   <div className="flex items-center justify-between mb-3">
                     <div className="flex items-center gap-2">
                       <Badge variant="secondary" className="bg-accent text-foreground">
-                        Section {t.section}
+                        {t.section === 0 ? "Full test" : `Section ${t.section}`}
                       </Badge>
                       <TestProgressBadge status={progressStatus} detail={status} />
                     </div>
