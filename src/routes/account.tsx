@@ -142,7 +142,11 @@ function Account() {
         supabase.from("bookmarks").select("*").eq("user_id", user!.id).order("created_at", { ascending: false }),
         supabase.from("vocabulary_words").select("id", { count: "exact" }).eq("user_id", user!.id),
         supabase.from("articles_read").select("id", { count: "exact" }).eq("user_id", user!.id),
-        supabase.from("test_results").select("user_id, band, profiles(full_name)").gte("completed_at", getWeekStart()),
+        // BUG FIX: test_results has no FK to profiles, so the embedded
+        // `profiles(full_name)` join failed and returned null — leaving the
+        // leaderboard empty. Fetch the raw rows here and resolve names with
+        // a separate profiles query below.
+        supabase.from("test_results").select("user_id, band").gte("completed_at", getWeekStart()),
       ]);
       if (resR.data) setResults(resR.data);
       if (bkmR.data) setBookmarks(bkmR.data);
@@ -151,12 +155,24 @@ function Account() {
 
       // Build leaderboard
       if (lbR.data) {
+        // BUG FIX: previously pushed `r.band` even when it was null, which
+        // produced NaN averages. Skip rows without a band and look up the
+        // display names in a separate query (see note above).
+        const uniqueIds = Array.from(new Set(lbR.data.map((r: any) => r.user_id)));
+        const { data: profs } = await supabase
+          .from("profiles")
+          .select("id, full_name")
+          .in("id", uniqueIds);
+        const nameById: Record<string, string> = {};
+        (profs ?? []).forEach((p: any) => {
+          nameById[p.id] = (p.full_name || "").split(" ")[0] || "Student";
+        });
         const map: Record<string, { name: string; bands: number[] }> = {};
         lbR.data.forEach((r: any) => {
+          if (r.band == null) return;
           const uid = r.user_id;
-          const name = r.profiles?.full_name?.split(" ")[0] || "Student";
-          if (!map[uid]) map[uid] = { name, bands: [] };
-          map[uid].bands.push(r.band);
+          if (!map[uid]) map[uid] = { name: nameById[uid] || "Student", bands: [] };
+          map[uid].bands.push(Number(r.band));
         });
         const lb: LeaderboardEntry[] = Object.entries(map).map(([uid, v]) => ({
           user_id: uid,
@@ -222,7 +238,12 @@ function Account() {
   const tests15Days = results.filter(r => isInRange(r.completed_at, day15)).length;
   const testsThisMonth = results.filter(r => isInRange(r.completed_at, monthStart)).length;
 
-  const recentBands = results.slice(0, 5).map(r => r.band ?? 0);
+  // BUG FIX: previously coerced null bands to 0, which dragged the average
+  // down. Only average bands that actually have a value.
+  const recentBands = results
+    .filter(r => r.band != null)
+    .slice(0, 5)
+    .map(r => Number(r.band));
   const avgBand = recentBands.length ? (recentBands.reduce((a, b) => a + b, 0) / recentBands.length).toFixed(1) : "—";
 
   // Streak: consecutive days with at least 1 test
