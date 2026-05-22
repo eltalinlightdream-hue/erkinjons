@@ -61,7 +61,7 @@ export const ARTICLES: Article[] = [
   slug: "how-fast-food-ruins-traditional-food-culture",
   title: "How Fast Food Ruins Traditional Food Culture",
   category: "Reading",
-  topic: "Food & Culture",
+  topic: "Culture",
   difficulty: "Advanced",
   coverImage:
     "https://images.unsplash.com/photo-1561758033-d89a9ad46330?auto=format&fit=crop&w=1600&q=80",
