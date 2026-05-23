@@ -213,6 +213,282 @@ export const ARTICLES: Article[] = [
   ],
 },
   {
+  id: "a17",
+  slug: "why-we-waste-so-much-food-and-how-to-stop",
+  title: "Why We Waste So Much Food and How We Can Stop",
+  category: "Reading",
+  topic: "Environment",
+  difficulty: "Advanced",
+  coverImage:
+    "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=1600&q=80",
+  date: "2025-02-07",
+  description:
+    "Food waste harms the climate, wastes water and money, and leaves edible food unused, but smarter labels, smaller portions, food donation, and composting can help solve the problem.",
+  readingTime: 6,
+  content: `
+    <p><strong>Food waste is a serious environmental, economic, and social problem, but it can be reduced through better systems and smarter everyday habits.</strong></p>
+
+    <p>Every year, a huge amount of food is wasted in the United States. Much of this food ends up in landfills, where it breaks down under piles of rubbish and releases methane, a powerful greenhouse gas. This means food waste is not only about throwing away meals; it also contributes to climate damage.</p>
+
+    <p>The problem becomes even more serious when we remember how many resources are used to produce food. Agriculture needs water, land, energy, workers, transport, packaging, and money. When edible food is thrown away, all of those resources are wasted too. At the same time, many people still struggle with food insecurity and do not always have enough nutritious food to eat.</p>
+
+    <h2>Confusing food labels</h2>
+    <p>One major reason food is wasted is confusion about date labels. Shoppers often see phrases such as “sell by,” “best by,” “use by,” or “best before,” but these labels do not always mean the same thing. Many people believe food is unsafe immediately after the printed date, so they throw it away too early.</p>
+
+    <p>A useful solution is to make food labels clearer and more standardized. If companies used simple labels that clearly explained when food is no longer safe, consumers would make better decisions and waste less food at home.</p>
+
+    <h2>Oversized portions and containers</h2>
+    <p>Another cause of food waste is the growth of large servings and big food packages. Restaurants, cinemas, fast-food businesses, and supermarkets often encourage people to buy more than they need. Bigger portions may seem like better value, but they often create leftovers that are never eaten.</p>
+
+    <p>To solve this problem, food businesses can offer smaller portions, flexible serving sizes, and better packaging options. At home, people can also start with smaller servings and take more only if they are still hungry. This simple habit can reduce waste and save money.</p>
+
+    <h2>The demand for perfect produce</h2>
+    <p>Many fruits and vegetables are wasted because they do not look perfect. A carrot may be crooked, a tomato may be bumpy, or a banana may have spots, but these foods can still be safe, healthy, and delicious. Unfortunately, shoppers often avoid imperfect produce, so farmers and stores may throw it away or leave it unused.</p>
+
+    <p>Consumers can help by buying “ugly” but edible produce. Stores can also create special sections for imperfect fruits and vegetables and sell them at lower prices. This changes the idea that food must look perfect before it is considered valuable.</p>
+
+    <h2>Poor waste tracking in food businesses</h2>
+    <p>Many food retailers do not carefully track how much food they throw away. Without good data, they may keep ordering too much of the same product and repeat the same wasteful pattern. This is especially common with perishable foods such as bread, meat, fresh produce, and ready-made meals.</p>
+
+    <p>Waste tracking technology can help businesses understand what they are over-buying and what customers actually purchase. With better inventory management, stores can reduce waste, save money, and plan their stock more responsibly.</p>
+
+    <h2>Overstocked stores</h2>
+    <p>Supermarkets often want their shelves to look full because customers connect full shelves with freshness and quality. However, keeping too much food on display can lead to waste, especially when products spoil before they are sold.</p>
+
+    <p>Retailers can reduce this problem by using historical sales data, improving product management, and changing the shopping environment so that customers do not expect endless quantities of perfect-looking food at all times.</p>
+
+    <h2>Lack of food rescue and recycling services</h2>
+    <p>Sometimes people and businesses want to donate or recycle extra food but do not have an easy way to do it. If there is no nearby food bank, donation center, community fridge, composting service, or food recycling program, edible food and food scraps often end up in the trash.</p>
+
+    <p>Communities can respond by strengthening food rescue systems and making composting more accessible. Safe, unused food should be donated to people who need it. Scraps that cannot be eaten or donated should be composted or processed through other recycling systems, such as anaerobic digestion.</p>
+
+    <h2>What people can do at home</h2>
+    <p>Ordinary people can also make a difference. They can serve smaller portions, buy imperfect produce, store food properly, plan meals, use leftovers, donate safe unused food, and compost scraps. These actions may seem small, but together they reduce waste and show respect for the food, labor, water, and energy behind every meal.</p>
+
+    <p>Food waste is not impossible to solve. With clearer labels, better business practices, stronger donation systems, and responsible habits at home, society can save money, protect resources, reduce methane emissions, and make more food available to people who need it.</p>
+  `,
+  vocabulary: [
+    {
+      word: "food waste",
+      wordType: "noun phrase",
+      definition: "food that is thrown away even though it could often be eaten or used",
+      example: "Reducing food waste can save money and protect the environment.",
+    },
+    {
+      word: "landfill",
+      wordType: "noun",
+      definition: "a place where rubbish is buried under the ground",
+      example: "Food in a landfill can release harmful gases.",
+    },
+    {
+      word: "methane",
+      wordType: "noun",
+      definition: "a powerful gas that contributes to climate change",
+      example: "Rotting food can produce methane in landfills.",
+    },
+    {
+      word: "greenhouse gas",
+      wordType: "noun phrase",
+      definition: "a gas that traps heat in the atmosphere and warms the planet",
+      example: "Methane is a strong greenhouse gas.",
+    },
+    {
+      word: "deplete",
+      wordType: "verb",
+      definition: "to use up or greatly reduce something valuable",
+      example: "Wasting food can deplete water, land, and energy resources.",
+    },
+    {
+      word: "precious resources",
+      wordType: "noun phrase",
+      definition: "valuable natural or human resources that should not be wasted",
+      example: "Agriculture depends on precious resources such as water and soil.",
+    },
+    {
+      word: "edible",
+      wordType: "adjective",
+      definition: "safe and suitable to eat",
+      example: "Odd-looking fruits can still be edible.",
+    },
+    {
+      word: "squandered",
+      wordType: "verb",
+      definition: "wasted in a careless way",
+      example: "When crops are thrown away, the resources used to grow them are squandered.",
+    },
+    {
+      word: "date labels",
+      wordType: "noun phrase",
+      definition: "printed dates on food packages that guide selling, quality, or safety",
+      example: "Confusing date labels can make people throw food away too early.",
+    },
+    {
+      word: "standardized",
+      wordType: "adjective",
+      definition: "made clear and consistent according to one system",
+      example: "Standardized labels would help consumers understand food safety better.",
+    },
+    {
+      word: "portion control",
+      wordType: "noun phrase",
+      definition: "the practice of serving only a reasonable amount of food",
+      example: "Portion control helps families avoid unnecessary leftovers.",
+    },
+    {
+      word: "leftovers",
+      wordType: "noun",
+      definition: "food that remains after a meal",
+      example: "Leftovers should be stored properly and eaten later.",
+    },
+    {
+      word: "flawless produce",
+      wordType: "noun phrase",
+      definition: "fruits and vegetables that look perfect in shape, size, and color",
+      example: "The demand for flawless produce causes many imperfect vegetables to be wasted.",
+    },
+    {
+      word: "food insecure",
+      wordType: "adjective phrase",
+      definition: "not having reliable access to enough healthy food",
+      example: "Food donation can support food insecure families.",
+    },
+    {
+      word: "inventory",
+      wordType: "noun",
+      definition: "the goods or products a business has available",
+      example: "Tracking inventory helps stores avoid buying too much food.",
+    },
+    {
+      word: "over-purchasing",
+      wordType: "noun",
+      definition: "buying more than is needed",
+      example: "Over-purchasing often leads to spoiled food and wasted money.",
+    },
+    {
+      word: "perishable",
+      wordType: "adjective",
+      definition: "likely to spoil quickly if not stored correctly",
+      example: "Milk, meat, and fresh berries are perishable foods.",
+    },
+    {
+      word: "food rescue",
+      wordType: "noun phrase",
+      definition: "collecting safe unused food and giving it to people who need it",
+      example: "Food rescue programs keep edible food out of landfills.",
+    },
+    {
+      word: "composting",
+      wordType: "noun",
+      definition: "turning food scraps and organic waste into useful soil material",
+      example: "Composting fruit peels gives food scraps a second purpose.",
+    },
+    {
+      word: "anaerobic digestion",
+      wordType: "noun phrase",
+      definition: "a process that breaks down organic waste without oxygen and can produce energy",
+      example: "Anaerobic digestion can recycle food scraps that cannot be donated.",
+    },
+  ],
+  pronunciation: [
+    {
+      word: "waste",
+      ipa: "/weyst/",
+      syllables: "waste",
+      tip: "Do not pronounce it like 'west'; use the long AY sound.",
+    },
+    {
+      word: "landfill",
+      ipa: "/LAND-fil/",
+      syllables: "land-fill",
+      tip: "Stress LAND.",
+    },
+    {
+      word: "methane",
+      ipa: "/METH-ayn/",
+      syllables: "meth-ane",
+      tip: "Stress METH; the second part sounds like 'ayn'.",
+    },
+    {
+      word: "emissions",
+      ipa: "/ih-MISH-unz/",
+      syllables: "e-mis-sions",
+      tip: "Stress MISH; do not pronounce the final -sion as 'see-on'.",
+    },
+    {
+      word: "agriculture",
+      ipa: "/AG-ri-kul-cher/",
+      syllables: "ag-ri-cul-ture",
+      tip: "Stress AG.",
+    },
+    {
+      word: "consumption",
+      ipa: "/kun-SUMP-shun/",
+      syllables: "con-sump-tion",
+      tip: "Stress SUMP.",
+    },
+    {
+      word: "edible",
+      ipa: "/ED-uh-bul/",
+      syllables: "ed-i-ble",
+      tip: "Stress ED; do not say 'ee-DYE-bul'.",
+    },
+    {
+      word: "squandered",
+      ipa: "/SKWON-derd/",
+      syllables: "squan-dered",
+      tip: "Stress SKWON.",
+    },
+    {
+      word: "prematurely",
+      ipa: "/pree-muh-CHOOR-lee/",
+      syllables: "pre-ma-ture-ly",
+      tip: "Stress CHOOR.",
+    },
+    {
+      word: "standardized",
+      ipa: "/STAN-der-dyzd/",
+      syllables: "stand-ard-ized",
+      tip: "Stress STAN.",
+    },
+    {
+      word: "produce",
+      ipa: "/PROH-doos/",
+      syllables: "pro-duce",
+      tip: "As a noun meaning fruits and vegetables, stress PROH.",
+    },
+    {
+      word: "flawless",
+      ipa: "/FLAW-lis/",
+      syllables: "flaw-less",
+      tip: "Stress FLAW.",
+    },
+    {
+      word: "inventory",
+      ipa: "/IN-vun-tor-ee/",
+      syllables: "in-ven-to-ry",
+      tip: "Stress IN.",
+    },
+    {
+      word: "perishable",
+      ipa: "/PER-ish-uh-bul/",
+      syllables: "per-ish-a-ble",
+      tip: "Stress PER.",
+    },
+    {
+      word: "composting",
+      ipa: "/KOM-poh-sting/",
+      syllables: "com-post-ing",
+      tip: "Stress KOM.",
+    },
+    {
+      word: "anaerobic digestion",
+      ipa: "/an-air-OH-bik dye-JES-chun/",
+      syllables: "an-aer-o-bic di-ges-tion",
+      tip: "Stress OH in anaerobic and JES in digestion.",
+    },
+  ],
+},
+  {
   id: "a14",
   slug: "the-big-bang",
   title: "The Big Bang",
