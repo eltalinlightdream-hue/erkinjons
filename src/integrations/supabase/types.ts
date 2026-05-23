@@ -267,6 +267,7 @@ export type Database = {
           is_premium: boolean
         }[]
       }
+      is_admin: { Args: never; Returns: boolean }
     }
     Enums: {
       [_ in never]: never
