@@ -418,6 +418,105 @@ const PASSAGES: Passage[] = [
   htmlFile: "/passages/media_literacy_passage1.html",
 },
 {
+  id: "p1-australias-airborne-dentists",
+  title: "Australia's Airborne Dentists",
+  passageNumber: 1,
+  isPremium: false,
+  description:
+    "A passage about how the Royal Flying Doctor Service provides dental care to people living in remote areas of Australia.",
+  htmlFile: "/passages/australias_airborne_dentists.html",
+},
+{
+  id: "p1-english-canal-system",
+  title: "The English Canal System",
+  passageNumber: 1,
+  isPremium: false,
+  description:
+    "A historical passage about the development, engineering challenges, and decline of England’s canal transport system.",
+  htmlFile: "/passages/english_canal_system.html",
+},
+{
+  id: "p1-rubber",
+  title: "Rubber",
+  passageNumber: 1,
+  isPremium: false,
+  description:
+    "A passage discussing the origins, early uses, and development of rubber as an important commercial material.",
+  htmlFile: "/passages/rubber.html",
+},
+{
+  id: "p2-a-great-leap-forward",
+  title: "A Great Leap Forward",
+  passageNumber: 2,
+  isPremium: false,
+  description:
+    "A passage about New Zealand’s rare Maud Island frogs and conservation efforts to protect them from extinction.",
+  htmlFile: "/passages/a_great_leap_forward.html",
+},
+{
+  id: "p2-the-myth-of-the-eight-hour-sleep",
+  title: "The Myth of the Eight-hour Sleep",
+  passageNumber: 2,
+  isPremium: false,
+  description:
+    "A passage exploring scientific and historical evidence about segmented sleep and the idea of sleeping in two periods.",
+  htmlFile: "/passages/the_myth_of_the_eight_hour_sleep.html",
+},
+{
+  id: "p2-decision-fatigue",
+  title: "Decision Fatigue",
+  passageNumber: 2,
+  isPremium: false,
+  description:
+    "A passage explaining how repeated decision-making can reduce self-control and affect the quality of later choices.",
+  htmlFile: "/passages/decision_fatigue.html",
+},
+{
+  id: "p2-keeping-the-water-away",
+  title: "Keeping the Water Away",
+  passageNumber: 2,
+  isPremium: false,
+  description:
+    "A passage about new approaches to flood control, including restoring flood plains and using natural water-management methods.",
+  htmlFile: "/passages/keeping_the_water_away.html",
+},
+{
+  id: "p2-will-eating-less-make-you-live-longer",
+  title: "Will Eating Less Make You Live Longer?",
+  passageNumber: 2,
+  isPremium: false,
+  description:
+    "A passage about research into calorie restriction, ageing, and conflicting findings from long-term studies on monkeys.",
+  htmlFile: "/passages/will_eating_less_make_you_live_longer.html",
+},
+{
+  id: "p2-the-purpose-of-facial-expressions",
+  title: "The Purpose of Facial Expressions",
+  passageNumber: 2,
+  isPremium: false,
+  description:
+    "A passage examining whether facial expressions show inner emotions or function mainly as social signals.",
+  htmlFile: "/passages/the_purpose_of_facial_expressions.html",
+},
+{
+  id: "p3-music-soothes-and-awes",
+  title: "Music Soothes and Awes – and May Help Us Heal",
+  passageNumber: 3,
+  isPremium: false,
+  description:
+    "A passage about how music affects the brain and how researchers use music therapy to support healing and communication.",
+  htmlFile: "/passages/music_soothes_and_awes.html",
+},
+{
+  id: "p3-how-should-reading-be-taught",
+  title: "How Should Reading Be Taught?",
+  passageNumber: 3,
+  isPremium: false,
+  description:
+    "An academic passage discussing different methods of teaching reading, including phonics, whole-word instruction, and whole-language approaches.",
+  htmlFile: "/passages/how_should_reading_be_taught.html",
+},
+  {
   id: "p1-rufous-hare-wallaby",
   title: "The Rufous Hare-Wallaby",
   passageNumber: 1,
