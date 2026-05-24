@@ -498,7 +498,31 @@ const HTML_TASKS: HtmlTask[] = [
     htmlFile: "/writing/task2_29.html",
     minWords: 250,
     timeMinutes: 40,
-  }
+  },
+  {
+  id: "task2_30",
+  task: 2,
+  type: "Problem/Solution",
+  title: "Food Waste Around the World",
+  description: "A Task 2 essay about why millions of tons of food are wasted globally and how this problem can be solved.",
+  prompt: "Every day, millions of tons of food are wasted all over the world.\nWhy do you think this is happening?\nAnd how can we solve this problem?",
+  image: "",
+  htmlFile: "/writing/task2_30.html",
+  minWords: 250,
+  timeMinutes: 40,
+    },
+{
+  id: "task2_31",
+  task: 2,
+  type: "Agree/Disagree",
+  title: "Traditional Food and Fast Food",
+  description: "A Task 2 essay about whether replacing traditional food with international fast food negatively affects families and society.",
+  prompt: "In many countries, traditional food is being replaced by international fast food. Some people claim that this has negative effects on both families and society.\nTo what extent do you agree or disagree?",
+  image: "",
+  htmlFile: "/writing/task2_31.html",
+  minWords: 250,
+  timeMinutes: 40,
+}
 ];
 
 function Writing() {
