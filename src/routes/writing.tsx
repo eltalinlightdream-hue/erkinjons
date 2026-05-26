@@ -52,6 +52,15 @@ const HTML_TASKS: HtmlTask[] = [
     image: "https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=600&q=80",
     htmlFile: "/passages/task1_1.html",
   },
+   {
+    id: "html-t1-water-use-purposes",
+    task: 1,
+    type: "Table",
+    title: "Water use purposes",
+    description: "The table below shows water use for different purposes in four countries.",
+    image: "/writing-images/task1_12.jpg",
+    htmlFile: "/passages/task1_12.html",
+  },
   {
     id: "html-t1-tourist-numbers-to-ausralia",
     task: 1,
