@@ -43,11 +43,65 @@ const PASSAGES: Passage[] = [
     id: "p3-piraha",
     title: "The PirahГЈ People of Brazil",
     passageNumber: 3,
-    isPremium: true,
+    isPremium: false,
     description:
       "An academic passage about the remarkable linguistic and cultural uniqueness of the PirahГЈ tribe in the Amazon rainforest.",
     htmlFile: "/passages/Day_1_Passage_3_Piraha.html",
   },
+  {
+  id: "p1-dolls",
+  title: "Dolls Through the Ages",
+  passageNumber: 1,
+  isPremium: false,
+  description:
+    "An academic passage about the history and evolution of dolls from ancient civilisations to modern manufacturing.",
+  htmlFile: "/passages/dolls.html",
+},
+{
+  id: "p3-dunes",
+  title: "Living Dunes",
+  passageNumber: 3,
+  isPremium: false,
+  description:
+    "An academic passage about the behaviour, movement and mysterious singing phenomenon of sand dunes in the world's deserts.",
+  htmlFile: "/passages/dunes.html",
+},
+{
+  id: "p3-mirrors",
+  title: "Mirrors",
+  passageNumber: 3,
+  isPremium: false,
+  description:
+    "An academic passage exploring the psychological and scientific significance of mirrors, including how they affect human behaviour and self-perception.",
+  htmlFile: "/passages/mirrors.html",
+},
+{
+  id: "p1-nintendo",
+  title: "Computer Games for Preschoolers: Nintendo's Research and Design Process",
+  passageNumber: 1,
+  isPremium: false,
+  description:
+    "An academic passage about the research and design process Nintendo used to develop video games for preschool-aged children.",
+  htmlFile: "/passages/nintendo.html",
+},
+{
+  id: "p1-plastics",
+  title: "The Development of Plastics",
+  passageNumber: 1,
+  isPremium: false,
+  description:
+    "An academic passage tracing the invention and development of synthetic plastics from Bakelite in 1907 to modern biodegradable materials.",
+  htmlFile: "/passages/plastics.html",
+},
+{
+  id: "p3-stevenson",
+  title: "Robert Louis Stevenson",
+  passageNumber: 3,
+  isPremium: false,
+  description:
+    "An academic passage reassessing the literary legacy and lasting influence of the Scottish writer Robert Louis Stevenson.",
+  htmlFile: "/passages/stevenson.html",
+},
   {
     id: "p2-tv-advertising",
     title: "Children's Comprehension of Television Advertising",
