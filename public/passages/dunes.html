@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/><meta content="width=device-width,initial-scale=1.0" name="viewport"/>
+<title>Living Dunes – IELTS</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<style>
+:root{--bg-color:#fff;--text-color:#000;--passage-bg:#fff;--questions-bg:#fff;--border-color:#d5d5d5;--highlight-color:#fef08a;--header-bg:#fff;--header-text:#000;--button-hover:#e4e4e4;--progress-complete:#21aa74;--timer-text:#000;--footer-bg:#fff;--cdi-font-size:16px;--cdi-line-height:1.5;}
+body.night-mode{--bg-color:#1a1a2e;--text-color:#e4e6eb;--passage-bg:#16213e;--questions-bg:#16213e;--border-color:#3a3f4b;--highlight-color:#6b5c10;--header-bg:#16213e;--header-text:#e4e6eb;--footer-bg:#16213e;--timer-text:#e4e6eb;--button-hover:#2a3550;--progress-complete:#81c995;}
+*{margin:0;padding:0;box-sizing:border-box;transition:background-color .3s,color .3s;}
+html,body{height:100%;font-family:Arial,sans-serif;background:var(--bg-color);color:var(--text-color);overflow:hidden;display:flex;flex-direction:column;font-size:16px;}
+header{height:56px;min-height:56px;padding:0 14px;background:var(--header-bg);border-bottom:1px solid var(--border-color);position:relative;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;z-index:50;}
+.cdi-left-brand{display:flex;align-items:center;gap:12px;min-width:220px;}
+.ielts-logo{font-size:40px;font-weight:900;letter-spacing:-2px;color:#e31837;line-height:1;font-family:Arial Black,Arial,sans-serif;}
+.ielts-logo::after{content:'™';font-size:9px;vertical-align:top;color:#e31837;}
+.test-taker{font-size:15px;font-weight:700;color:var(--header-text);}
+.cdi-center-brand{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);}
+.social-link.telegram{background:#0088cc;color:#fff;border-radius:22px;padding:6px 18px;font-size:15px;font-weight:500;text-decoration:none;display:flex;align-items:center;gap:8px;}
+.social-link.telegram:hover{background:#007bb5;}
+.header-controls{margin-left:auto;display:flex;align-items:center;gap:14px;}
+.timer-container{color:var(--timer-text);font-size:16px;font-weight:700;display:flex;align-items:center;gap:6px;}
+.hbtn{background:transparent;border:0;color:var(--header-text);width:34px;height:34px;padding:0;font-size:20px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;border-radius:3px;}
+.hbtn:hover{background:var(--button-hover);}
+.display-panel{position:fixed;top:56px;right:0;width:min(300px,100vw);background:var(--questions-bg);border-left:1px solid var(--border-color);box-shadow:-4px 0 16px rgba(0,0,0,.15);padding:16px;z-index:2000;display:none;color:var(--text-color);}
+.display-panel.open{display:block;}
+.display-panel h3{font-size:13px;text-transform:uppercase;margin-bottom:14px;}
+.display-panel label{display:block;font-size:13px;font-weight:700;margin:10px 0 5px;}
+.display-panel input[type=range]{width:100%;accent-color:#2a6c96;}
+.theme-row{display:flex;gap:8px;margin-top:12px;}
+.theme-row button{border:1px solid var(--border-color);background:var(--questions-bg);color:var(--text-color);border-radius:6px;padding:6px 10px;cursor:pointer;}
+.cdi-part-header{margin:14px 14px 0;padding:10px 18px;background:rgb(241,242,236);border:1px solid var(--border-color);flex-shrink:0;}
+body.night-mode .cdi-part-header{background:#1f2b47;border-color:#3a3f4b;}
+.cdi-part-header p{margin:0;font-size:15px;line-height:1.4;color:var(--text-color);}
+main{display:flex;flex:1;min-height:0;margin-top:14px;overflow:hidden;}
+.passage-container,.questions-container{height:100%;overflow-y:auto;padding:22px 26px 70px;background:var(--passage-bg);color:var(--text-color);min-width:200px;font-size:var(--cdi-font-size);line-height:var(--cdi-line-height);}
+.questions-container{background:var(--questions-bg);}
+.passage-title{font-size:18px;font-weight:700;margin:0 0 6px;text-align:center;color:var(--text-color);}
+.passage-subtitle{font-style:italic;font-size:15px;text-align:center;margin:0 0 16px;color:var(--text-color);}
+.passage-text p{margin:0 0 14px;color:var(--text-color);font-size:var(--cdi-font-size);line-height:var(--cdi-line-height);}
+.passage-text p strong{font-weight:700;}
+.sec-title{font-size:16px;font-weight:700;margin:0 0 10px;color:var(--text-color);}
+.instructions{font-size:15px;margin:0 0 14px;color:var(--text-color);}
+.question{margin:0 0 22px;}
+.q-title{display:flex;align-items:flex-start;gap:8px;margin-bottom:8px;}
+.q-num{display:inline-flex;align-items:center;justify-content:center;min-width:24px;height:24px;padding:0 5px;border:1.6px solid rgb(65,143,198);border-radius:3px;background:transparent;color:var(--text-color);font-size:15px;font-weight:700;flex-shrink:0;}
+.question.answered .q-num{background:rgba(33,170,116,0.12);}
+.q-text{font-size:var(--cdi-font-size);line-height:var(--cdi-line-height);color:var(--text-color);}
+.mcq-options{display:flex;flex-direction:column;gap:7px;margin-top:10px;}
+.mcq-option{display:flex;align-items:center;gap:10px;padding:9px 12px;border:1px solid var(--border-color);border-radius:7px;background:var(--questions-bg);cursor:pointer;font-size:var(--cdi-font-size);color:var(--text-color);}
+.mcq-option input{transform:scale(1.1);flex-shrink:0;}
+.text-input{border:1px solid var(--border-color);border-radius:3px;background:var(--questions-bg);color:var(--text-color);font-size:var(--cdi-font-size);min-height:28px;padding:3px 8px;font-family:Arial,sans-serif;}
+.summary-box{border:1px solid var(--border-color);border-radius:6px;padding:14px 18px;margin-bottom:16px;background:var(--questions-bg);}
+.summary-box p{font-size:var(--cdi-font-size);line-height:var(--cdi-line-height);color:var(--text-color);margin-bottom:8px;}
+.cdi-resizer{width:16px;flex:0 0 16px;background:transparent;cursor:col-resize;position:relative;display:flex;align-items:center;justify-content:center;z-index:5;}
+.cdi-resizer::before{content:'';position:absolute;left:50%;top:0;bottom:0;width:1px;background:var(--border-color);transform:translateX(-50%);}
+.cdi-resizer-handle{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:34px;height:34px;border:1.6px solid #535353;background:#f9f9f9;color:#535353;display:flex;align-items:center;justify-content:center;font-size:15px;pointer-events:none;}
+body.night-mode .cdi-resizer-handle{background:#1f2b47;color:#b0b3b8;border-color:#3a3f4b;}
+.cdi-resizer:hover::before,.cdi-resizer.dragging::before{background:#2a6c96;}
+.cdi-resizer:hover .cdi-resizer-handle,.cdi-resizer.dragging .cdi-resizer-handle{color:#2a6c96;border-color:#2a6c96;}
+footer{height:60px;background:var(--footer-bg);border-top:1px solid var(--border-color);padding:0;display:flex;align-items:stretch;flex-shrink:0;}
+.progress-container{display:flex;align-items:stretch;overflow-x:auto;flex:1;padding:0 14px;}
+.progress-item{width:38px;height:100%;background:transparent;color:var(--text-color);border:1.6px solid transparent;display:inline-flex;align-items:center;justify-content:center;font-size:15px;position:relative;cursor:pointer;}
+.progress-item::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:#d7d7d7;}
+.progress-item.completed{color:#2a6c96;}.progress-item.completed::before{background:#21aa74;}
+.action-buttons{display:flex;align-items:stretch;}
+.btn-secondary,.btn-primary{height:100%;border-radius:0;padding:0 24px;background:#efefef;color:#535353;border:0;border-left:1px solid var(--border-color);font-size:15px;cursor:pointer;}
+.btn-secondary:hover,.btn-primary:hover{background:#e4e4e4;}
+.feedback-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.7);z-index:3000;display:none;justify-content:center;align-items:center;}
+.feedback-container{background:var(--passage-bg);width:90%;max-width:880px;height:88%;border-radius:10px;box-shadow:0 5px 15px rgba(0,0,0,.3);display:flex;flex-direction:column;}
+.feedback-header{padding:18px 20px;border-bottom:1px solid var(--border-color);display:flex;justify-content:space-between;align-items:center;}
+.feedback-title{font-size:20px;font-weight:700;color:var(--text-color);display:flex;align-items:center;gap:10px;}
+.score-display{font-size:22px;font-weight:700;margin-left:8px;}
+#close-feedback{font-size:22px;background:none;border:none;color:var(--text-color);cursor:pointer;}
+.feedback-body{padding:18px;overflow-y:auto;}
+.feedback-item{margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid var(--border-color);}
+.feedback-question{font-weight:700;margin-bottom:5px;font-size:15px;color:var(--text-color);}
+.feedback-answer{font-size:14px;padding:7px 11px;border-radius:4px;}
+.feedback-answer.correct{background:rgba(40,167,69,.1);color:#155724;}
+.feedback-answer.incorrect{background:rgba(220,53,69,.1);color:#721c24;}
+body.night-mode .feedback-answer.correct{color:#81c995;background:rgba(40,167,69,.15);}
+body.night-mode .feedback-answer.incorrect{color:#f5a0a8;background:rgba(220,53,69,.15);}
+.select-input{border:1px solid var(--border-color);border-radius:3px;background:var(--questions-bg);color:var(--text-color);font-size:var(--cdi-font-size);min-height:32px;padding:3px 8px;font-family:Arial,sans-serif;min-width:200px;}
+.highlight{background-color:var(--highlight-color);cursor:pointer;}
+.highlight-tooltip{position:fixed;background:#333;color:#fff;padding:5px 10px;border-radius:4px;font-size:13px;z-index:9999;display:flex;align-items:center;gap:5px;}
+.inline-correct{color:#28a745;font-weight:700;margin-left:8px;font-size:14px;}
+.inline-wrong{color:#dc3545;font-weight:600;margin-left:8px;font-size:13px;}
+.test-locked input,.test-locked select{pointer-events:none;opacity:.85;}
+.test-locked .mcq-option{cursor:default;}
+@media(max-width:900px){.test-taker{display:none;}.cdi-center-brand{position:static;transform:none;margin-left:6px;}.cdi-resizer{display:none!important;}main{flex-direction:column;}.passage-container,.questions-container{width:100%!important;flex:none!important;height:50%!important;}}
+</style>
+</head>
+<body>
+<header>
+  <div class="cdi-left-brand"><span class="ielts-logo">IELTS</span><span class="test-taker">Test taker ID</span></div>
+  <div class="cdi-center-brand"><a class="social-link telegram" href="https://t.me/augustus_flores" target="_blank"><i class="fab fa-telegram-plane"></i><span>Abduraimov Erkinjon</span></a></div>
+  <div class="header-controls">
+    <div class="timer-container"><i class="fas fa-clock"></i><span id="timer">20:00</span></div>
+    <button class="hbtn" id="start-timer"><i class="fas fa-play"></i></button>
+    <button class="hbtn" id="pause-timer"><i class="fas fa-pause"></i></button>
+    <button class="hbtn" id="reset-timer"><i class="fas fa-redo"></i></button>
+    <button class="hbtn" id="fullscreen-toggle"><i class="fas fa-expand"></i></button>
+    <button class="hbtn" id="night-mode-toggle"><i class="fas fa-moon"></i></button>
+    <button class="hbtn" id="display-menu-toggle"><i class="fas fa-bars"></i></button>
+  </div>
+</header>
+<div class="display-panel" id="display-panel">
+  <h3>Display options</h3>
+  <label>Text size</label><input id="font-size-range" type="range" min="14" max="22" value="16"/>
+  <label>Line spacing</label><input id="line-height-range" type="range" min="140" max="190" value="150"/>
+  <div class="theme-row"><button data-theme-choice="light">Light</button><button data-theme-choice="dark">Dark</button></div>
+</div>
+<div class="cdi-part-header"><p><strong>Part 3</strong></p><p>Read the text and answer questions 27–40.</p></div>
+<main>
+  <div class="passage-container" id="passage-container">
+    <div class="passage-title">Living Dunes</div>
+    <div class="passage-subtitle">Things don't come much stranger than heaps of sand that can move and sing of their own accord. Sally Palmer investigates.</div>
+    <div class="passage-text" id="passage-text">
+      <p><strong>A</strong> &nbsp;Armies of giant sand dunes are advancing across the world's deserts, engulfing anything that crosses their path. They are tens of metres tall and hundreds of metres long. Fortunately, they aren't going very fast. Even the smallest, speediest dunes only travel about 100 metres over the course of a year, while the bigger ones, which weigh something in the order of 10,000 tonnes, barely move one metre in that time. However, their insidious creep can have serious consequences if there is an oil installation or a railway line in their path.</p>
+      <p><strong>B</strong> &nbsp;About 47% of the world's land mass, including Antarctica, most of Australia and large areas of Africa, is classified as arid or semi-arid desert. Only around 20% of that is sand-covered, however, and over half of that is classified as 'linear' sand dunes. These form in a long curving wave, as a result of wind blowing strongly from several quarters, flipping them from side to side. Although linear dunes are static, sand blowing off them can cause problems for desert villages, burying crops and buildings.</p>
+      <p><strong>C</strong> &nbsp;Moving dunes make up just a small percentage of the rest, but they are of the most interest to scientists. They are known as 'barchans': heavy, crescent-shaped sand piles with a ridged crest and two elongated arms, one curving away to either side. 'Barchan dunes only tend to form where you have one-directional winds on the edge of sandy deserts near coastal areas,' says Giles Wiggs, a geomorphologist at Oxford University, who has been studying the formation and movement of sand dunes for more than a decade.</p>
+      <p><strong>D</strong> &nbsp;But even with strong winds, how can entire barchans move while retaining their form? That question was first answered in the mid-20th century by British explorer Ralph Alger Bagnold, and his answer hinges on the fact that dunes aren't solid, but granular. Bagnold figured out how barchan dunes are able to move grain by grain. Imagine a single grain of sand being blown up the back of a dune by the wind and deposited on the top. More grains follow the same pattern, until the accumulated weight of piled-up sand finally pushes the top down the dune face. The grain tumbles, then stops on the face until subsequent mini-avalanches bury it. Eventually, it reappears at the back of the dune; the whole thin creeps in the direction of the prevailing wind.</p>
+      <p><strong>E</strong> &nbsp;The relationship between the wind and barchan dunes is complex. As a dune grows, it modifies the speed and course of the wind, which in turn alters how that dune and its neighbours evolve. 'Interestingly the dune can regulate its own shape, and maintain it as it moves,' says Dr Stéphane Douady, a physicist at Ecole Normale Supérieure (ENS) in France. 'Even when two dunes collide, they quickly take on their distinctive shapes again. It's like a living organism.'</p>
+      <p><strong>F</strong> &nbsp;Douady and his colleagues have also been studying an even odder phenomenon than moving dunes: some barchans actually sing. Local legends attributed the sounds to dangerous spirits which were trying to trap unwary travellers. Douady is more pragmatic. 'It's a strong booming noise with a low frequency,' he explains, making a noise like a foghorn to demonstrate. 'It can last for a long time – up to several minutes. It's a very loud sound and you don't understand where it's coming from when you first hear it.' There are about 50 dunes distributed across 35 deserts round the world that are known to sing. Douady says the sound is caused by the way sand avalanches down the faces of particular dunes. Rather than tumbling randomly, the sand grains flow in synchrony and set each other vibrating like the membrane on a gigantic loudspeaker. The synchronisation causes the air to move in and out between the grains, creating a powerful sound wave.</p>
+      <p><strong>G</strong> &nbsp;What really surprised the scientists, however, was that they were able to take samples of the singing sand back to France and replicate the sound at ENS, proving that it's the sand, not the dune shape, well-rounded from years of striking each other, and that the variations in size affect the tone. Crucially, the grains are coated with a special veneer, which Douady calls 'desert glaze,' made from a precise combination of minerals from surrounding rocks including iron, aluminium, manganese, silicon and calcium. The team found that after a month or so, the veneer wore off and the grains lost their 'voice'. 'We managed to reproduce the desert glaze and then the grains started to ding again,' says Douady. 'We tried putting the coating onto different grains, but they weren't round enough and it didn't work. But some American colleagues made some artificial grains and managed to make them sing, after covering them in desert glaze.' Douady has now made recordings of dunesong from all over the world which is to be made into a CD.</p>
+    </div>
+  </div>
+  <div class="cdi-resizer" id="cdi-resizer"><div class="cdi-resizer-handle">↔</div></div>
+  <div class="questions-container" id="questions-container">
+
+    <div class="sec-title">Questions 27–33</div>
+    <div class="instructions">Choose the correct heading for each paragraph from the list below. Write the correct number, i–ix.</div>
+    <div class="summary-box">
+      <p style="font-weight:700;margin-bottom:6px;">List of Headings</p>
+      <p>i – Moving rapidly across the desert<br/>ii – Recreating the process in a laboratory<br/>iii – Strange music created by human movement<br/>iv – A potential threat to industry and communications<br/>v – Dunes coming together and re-forming<br/>vi – Needing a specific combination of conditions<br/>vii – A continuous cycle<br/>viii – The commonest type of dune<br/>ix – Old superstitions demystified</p>
+    </div>
+    <div class="question" id="q27"><div class="q-title"><div class="q-num">27</div><div class="q-text">Paragraph A<div style="margin-top:8px;"><select class="select-input" name="q27"><option value="">Select i–ix</option><option value="i">i</option><option value="ii">ii</option><option value="iii">iii</option><option value="iv">iv</option><option value="v">v</option><option value="vi">vi</option><option value="vii">vii</option><option value="viii">viii</option><option value="ix">ix</option></select></div></div></div></div>
+    <div class="question" id="q28"><div class="q-title"><div class="q-num">28</div><div class="q-text">Paragraph B<div style="margin-top:8px;"><select class="select-input" name="q28"><option value="">Select i–ix</option><option value="i">i</option><option value="ii">ii</option><option value="iii">iii</option><option value="iv">iv</option><option value="v">v</option><option value="vi">vi</option><option value="vii">vii</option><option value="viii">viii</option><option value="ix">ix</option></select></div></div></div></div>
+    <div class="question" id="q29"><div class="q-title"><div class="q-num">29</div><div class="q-text">Paragraph C<div style="margin-top:8px;"><select class="select-input" name="q29"><option value="">Select i–ix</option><option value="i">i</option><option value="ii">ii</option><option value="iii">iii</option><option value="iv">iv</option><option value="v">v</option><option value="vi">vi</option><option value="vii">vii</option><option value="viii">viii</option><option value="ix">ix</option></select></div></div></div></div>
+    <div class="question" id="q30"><div class="q-title"><div class="q-num">30</div><div class="q-text">Paragraph D<div style="margin-top:8px;"><select class="select-input" name="q30"><option value="">Select i–ix</option><option value="i">i</option><option value="ii">ii</option><option value="iii">iii</option><option value="iv">iv</option><option value="v">v</option><option value="vi">vi</option><option value="vii">vii</option><option value="viii">viii</option><option value="ix">ix</option></select></div></div></div></div>
+    <div class="question" id="q31"><div class="q-title"><div class="q-num">31</div><div class="q-text">Paragraph E<div style="margin-top:8px;"><select class="select-input" name="q31"><option value="">Select i–ix</option><option value="i">i</option><option value="ii">ii</option><option value="iii">iii</option><option value="iv">iv</option><option value="v">v</option><option value="vi">vi</option><option value="vii">vii</option><option value="viii">viii</option><option value="ix">ix</option></select></div></div></div></div>
+    <div class="question" id="q32"><div class="q-title"><div class="q-num">32</div><div class="q-text">Paragraph F<div style="margin-top:8px;"><select class="select-input" name="q32"><option value="">Select i–ix</option><option value="i">i</option><option value="ii">ii</option><option value="iii">iii</option><option value="iv">iv</option><option value="v">v</option><option value="vi">vi</option><option value="vii">vii</option><option value="viii">viii</option><option value="ix">ix</option></select></div></div></div></div>
+    <div class="question" id="q33"><div class="q-title"><div class="q-num">33</div><div class="q-text">Paragraph G<div style="margin-top:8px;"><select class="select-input" name="q33"><option value="">Select i–ix</option><option value="i">i</option><option value="ii">ii</option><option value="iii">iii</option><option value="iv">iv</option><option value="v">v</option><option value="vi">vi</option><option value="vii">vii</option><option value="viii">viii</option><option value="ix">ix</option></select></div></div></div></div>
+
+    <div class="sec-title">Questions 34–36</div>
+    <div class="instructions">Choose the correct letter, A, B, C or D.</div>
+    <div class="question" id="q34">
+      <div class="q-title"><div class="q-num">34</div><div class="q-text">What are we told about linear dunes?</div></div>
+      <div class="mcq-options">
+        <label class="mcq-option"><input type="radio" name="q34" value="A"/> A &nbsp; They are formed by strong winds blowing from one direction.</label>
+        <label class="mcq-option"><input type="radio" name="q34" value="B"/> B &nbsp; They can move up to 100 metres in a twelve-month period.</label>
+        <label class="mcq-option"><input type="radio" name="q34" value="C"/> C &nbsp; They develop in a recognisable shape.</label>
+        <label class="mcq-option"><input type="radio" name="q34" value="D"/> D &nbsp; They make up about 20% of the world's deserts.</label>
+      </div>
+    </div>
+    <div class="question" id="q35">
+      <div class="q-title"><div class="q-num">35</div><div class="q-text">Bagnold discovered that movement in barchans was caused by</div></div>
+      <div class="mcq-options">
+        <label class="mcq-option"><input type="radio" name="q35" value="A"/> A &nbsp; the long straight shape of the dunes.</label>
+        <label class="mcq-option"><input type="radio" name="q35" value="B"/> B &nbsp; the particular composition of the dunes.</label>
+        <label class="mcq-option"><input type="radio" name="q35" value="C"/> C &nbsp; the exceptionally heavy nature of the sand grains.</label>
+        <label class="mcq-option"><input type="radio" name="q35" value="D"/> D &nbsp; the unusual strength of the wind in certain seasons.</label>
+      </div>
+    </div>
+    <div class="question" id="q36">
+      <div class="q-title"><div class="q-num">36</div><div class="q-text">Why does Dr Douady compare a barchan dune to a living organism?</div></div>
+      <div class="mcq-options">
+        <label class="mcq-option"><input type="radio" name="q36" value="A"/> A &nbsp; It starts small and then increases in size.</label>
+        <label class="mcq-option"><input type="radio" name="q36" value="B"/> B &nbsp; It has an effect on its immediate surroundings.</label>
+        <label class="mcq-option"><input type="radio" name="q36" value="C"/> C &nbsp; Its relations with desert organisms are quite developed.</label>
+        <label class="mcq-option"><input type="radio" name="q36" value="D"/> D &nbsp; Its outline stays the same even after a period of movement.</label>
+      </div>
+    </div>
+
+    <div class="sec-title">Questions 37–40</div>
+    <div class="instructions">Complete the summary below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.</div>
+    <div class="summary-box">
+      <p style="font-weight:700;margin-bottom:10px;">Singing dunes</p>
+      <p>Singing dunes, which belong to the type of dunes known as <strong>37</strong> <input class="text-input" name="q37" type="text" placeholder="max 2 words" style="min-width:120px;"/>, produce a very loud sound which is transmitted at a low frequency. Researchers have worked out that sand grains fall down the dune and start vibrating against other grains, forming a sound wave.</p>
+      <p>Research proves that the individual grains have a similar <strong>38</strong> <input class="text-input" name="q38" type="text" placeholder="max 2 words" style="min-width:110px;"/> but the differences in dimensions alter the <strong>39</strong> <input class="text-input" name="q39" type="text" placeholder="max 2 words" style="min-width:100px;"/> of the 'song'. Each grain is covered with a mixture of different <strong>40</strong> <input class="text-input" name="q40" type="text" placeholder="max 2 words" style="min-width:120px;"/> and this is vital to the sound production.</p>
+    </div>
+    <div style="height:28px"></div>
+  </div>
+</main>
+<footer>
+  <div class="progress-container" id="progress-container"></div>
+  <div class="action-buttons">
+    <button class="btn-secondary" id="reset-btn">Reset Answers</button>
+    <button class="btn-primary" id="submit-btn">Submit Answers</button>
+  </div>
+</footer>
+<div class="feedback-overlay" id="feedback-overlay">
+  <div class="feedback-container">
+    <div class="feedback-header">
+      <div class="feedback-title"><i class="fas fa-chart-bar"></i> Results <span class="score-display" id="score-display">0/14</span></div>
+      <button id="close-feedback"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="feedback-body" id="feedback-body"></div>
+  </div>
+</div>
+<script>
+const CA={q27:'iv',q28:'viii',q29:'vi',q30:'vii',q31:'v',q32:'ix',q33:'ii',q34:'C',q35:'B',q36:'D',q37:'barchans',q38:'shape',q39:'tone',q40:'minerals'};
+const TOTAL=14;
+function norm(s){return(s||'').toString().trim().toLowerCase().replace(/\s+/g,' ');}
+function ok(qid,v){return norm(v)===norm(CA[qid]);}
+function getR(n){const ch=Array.from(document.getElementsByName(n)).find(e=>e.checked);return ch?ch.value:'';}
+function getSel(n){const e=document.querySelector(`select[name="${n}"]`);return e?e.value:'';}
+function getT(n){const e=document.querySelector(`input[name="${n}"]`);return e?e.value:'';}
+let submitted=false;
+function lockAll(){submitted=true;document.body.classList.add('test-locked');document.querySelectorAll('input,select').forEach(e=>e.disabled=true);document.getElementById('reset-btn').disabled=true;document.getElementById('reset-btn').style.opacity='.4';}
+function showInline(){
+  document.querySelectorAll('.inline-correct,.inline-wrong').forEach(e=>e.remove());
+  ['q27','q28','q29','q30','q31','q32','q33'].forEach(qid=>{
+    const el=document.querySelector(`select[name="${qid}"]`);if(!el)return;
+    const sp=document.createElement('span');const good=ok(qid,getSel(qid));
+    sp.className=good?'inline-correct':'inline-wrong';sp.textContent=good?'✓':'Correct: '+CA[qid];
+    el.parentNode.insertBefore(sp,el.nextSibling);
+  });
+  ['q34','q35','q36'].forEach(qid=>{
+    const qEl=document.getElementById(qid);if(!qEl)return;
+    const sp=document.createElement('span');const good=ok(qid,getR(qid));
+    sp.className=good?'inline-correct':'inline-wrong';sp.textContent=good?'✓':'Correct: '+CA[qid];
+    sp.style.display='block';sp.style.marginTop='6px';qEl.appendChild(sp);
+  });
+  ['q37','q38','q39','q40'].forEach(qid=>{
+    const inp=document.querySelector(`input[name="${qid}"]`);if(!inp)return;
+    const sp=document.createElement('span');const good=ok(qid,getT(qid));
+    sp.className=good?'inline-correct':'inline-wrong';sp.textContent=good?'✓':'Correct: '+CA[qid];
+    inp.parentNode.insertBefore(sp,inp.nextSibling);
+  });
+}
+document.getElementById('submit-btn').addEventListener('click',function(){
+  if(submitted){document.getElementById('feedback-overlay').style.display='flex';return;}
+  let score=0,html='';
+  const selQs=[{qid:'q27',label:'Q27 – Para A'},{qid:'q28',label:'Q28 – Para B'},{qid:'q29',label:'Q29 – Para C'},{qid:'q30',label:'Q30 – Para D'},{qid:'q31',label:'Q31 – Para E'},{qid:'q32',label:'Q32 – Para F'},{qid:'q33',label:'Q33 – Para G'}];
+  const radioQs=[{qid:'q34',label:'Q34'},{qid:'q35',label:'Q35'},{qid:'q36',label:'Q36'}];
+  const textQs=[{qid:'q37',label:'Q37'},{qid:'q38',label:'Q38'},{qid:'q39',label:'Q39'},{qid:'q40',label:'Q40'}];
+  selQs.forEach(({qid,label})=>{const user=getSel(qid);const good=ok(qid,user);if(good)score++;html+=`<div class="feedback-item"><div class="feedback-question">${label}</div><div class="feedback-answer ${good?'correct':'incorrect'}">Your answer: ${user||'(none)'}<br/>${good?'✔ Correct':'✘ Incorrect – Correct: <strong>'+CA[qid]+'</strong>'}</div></div>`;});
+  radioQs.forEach(({qid,label})=>{const user=getR(qid);const good=ok(qid,user);if(good)score++;html+=`<div class="feedback-item"><div class="feedback-question">${label}</div><div class="feedback-answer ${good?'correct':'incorrect'}">Your answer: ${user||'(none)'}<br/>${good?'✔ Correct':'✘ Incorrect – Correct: <strong>'+CA[qid]+'</strong>'}</div></div>`;});
+  textQs.forEach(({qid,label})=>{const user=getT(qid);const good=ok(qid,user);if(good)score++;html+=`<div class="feedback-item"><div class="feedback-question">${label}</div><div class="feedback-answer ${good?'correct':'incorrect'}">Your answer: ${user||'(none)'}<br/>${good?'✔ Correct':'✘ Incorrect – Correct: <strong>'+CA[qid]+'</strong>'}</div></div>`;});
+  document.getElementById('feedback-body').innerHTML=html;document.getElementById('score-display').textContent=score+'/'+TOTAL;document.getElementById('feedback-overlay').style.display='flex';lockAll();showInline();
+});
+document.getElementById('close-feedback').addEventListener('click',()=>document.getElementById('feedback-overlay').style.display='none');
+document.getElementById('reset-btn').addEventListener('click',()=>{if(submitted)return;document.querySelectorAll('select').forEach(e=>e.value='');document.querySelectorAll('input[type=text]').forEach(e=>e.value='');document.querySelectorAll('input[type=radio]').forEach(e=>e.checked=false);updateProg();});
+const qnums=[27,28,29,30,31,32,33,34,35,36,37,38,39,40];
+function initProg(){const pc=document.getElementById('progress-container');pc.innerHTML='';qnums.forEach(n=>{const d=document.createElement('div');d.className='progress-item';d.textContent=n;d.dataset.qid='q'+n;d.addEventListener('click',()=>{const el=document.getElementById('q'+n);if(el)el.scrollIntoView({behavior:'smooth'});});pc.appendChild(d);});}
+function updateProg(){document.querySelectorAll('.progress-item').forEach(item=>{const qid=item.dataset.qid;let ans=false;const radios=document.querySelectorAll(`input[name="${qid}"][type=radio]`);if(radios.length)ans=Array.from(radios).some(r=>r.checked);const sel=document.querySelector(`select[name="${qid}"]`);if(!ans&&sel&&sel.value)ans=true;const txt=document.querySelector(`input[name="${qid}"][type=text]`);if(!ans&&txt&&txt.value.trim())ans=true;const qEl=document.getElementById(qid);item.classList.toggle('completed',ans);if(qEl)qEl.classList.toggle('answered',ans);});}
+document.addEventListener('change',updateProg);document.addEventListener('input',updateProg);
+let ti=null,tr=1200;function updT(){const m=Math.floor(tr/60).toString().padStart(2,'0'),s=(tr%60).toString().padStart(2,'0');document.getElementById('timer').textContent=m+':'+s;}
+document.getElementById('start-timer').addEventListener('click',()=>{if(ti)return;ti=setInterval(()=>{if(tr>0){tr--;updT();}else{clearInterval(ti);ti=null;alert('Time is up!');}},1000);});
+document.getElementById('pause-timer').addEventListener('click',()=>{clearInterval(ti);ti=null;});
+document.getElementById('reset-timer').addEventListener('click',()=>{clearInterval(ti);ti=null;tr=1200;updT();});
+document.getElementById('night-mode-toggle').addEventListener('click',function(){document.body.classList.toggle('night-mode');const i=this.querySelector('i');i.classList.toggle('fa-moon');i.classList.toggle('fa-sun');});
+document.getElementById('fullscreen-toggle').addEventListener('click',()=>{if(!document.fullscreenElement)document.documentElement.requestFullscreen?.();else document.exitFullscreen?.();});
+document.addEventListener('fullscreenchange',()=>{document.getElementById('fullscreen-toggle').innerHTML=document.fullscreenElement?'<i class="fas fa-compress"></i>':'<i class="fas fa-expand"></i>';});
+const dpanel=document.getElementById('display-panel'),dmenu=document.getElementById('display-menu-toggle');
+dmenu.addEventListener('click',e=>{e.stopPropagation();dpanel.classList.toggle('open');});
+document.addEventListener('click',e=>{if(dpanel.classList.contains('open')&&!dpanel.contains(e.target)&&!dmenu.contains(e.target))dpanel.classList.remove('open');});
+const fsr=document.getElementById('font-size-range'),lhr=document.getElementById('line-height-range');
+function applyDisp(){document.documentElement.style.setProperty('--cdi-font-size',(fsr?fsr.value:16)+'px');document.documentElement.style.setProperty('--cdi-line-height',lhr?(Number(lhr.value)/100):1.5);}
+fsr.addEventListener('input',applyDisp);lhr.addEventListener('input',applyDisp);
+document.querySelectorAll('[data-theme-choice]').forEach(b=>b.addEventListener('click',()=>{b.dataset.themeChoice==='dark'?document.body.classList.add('night-mode'):document.body.classList.remove('night-mode');}));
+const pc2=document.getElementById('passage-container'),qc=document.getElementById('questions-container'),rs=document.getElementById('cdi-resizer');
+pc2.style.flex='0 0 50%';qc.style.flex='1 1 auto';let drag=false;
+rs.addEventListener('mousedown',e=>{if(window.innerWidth<=900)return;drag=true;rs.classList.add('dragging');document.body.style.cursor='col-resize';document.body.style.userSelect='none';e.preventDefault();});
+window.addEventListener('mousemove',e=>{if(!drag)return;const main=rs.parentElement,rect=main.getBoundingClientRect(),total=rect.width-rs.offsetWidth;let left=e.clientX-rect.left;left=Math.min(Math.max(left,total*.22),total*.78);pc2.style.flex='0 0 '+left+'px';qc.style.flex='1 1 auto';});
+window.addEventListener('mouseup',()=>{drag=false;rs.classList.remove('dragging');document.body.style.cursor='';document.body.style.userSelect='';});
+let hlTip=null,selR=null;
+function colorPicker(x,y){if(hlTip)hlTip.remove();const colors=["lightgreen","yellow","lightskyblue","#ffb3b3"];const p=document.createElement('div');p.className='highlight-tooltip';p.style.cssText=`top:${y}px;left:${x}px;position:fixed;z-index:9999;display:flex;gap:4px;`;colors.forEach(c=>{const b=document.createElement('button');b.style.cssText=`background:${c};border:none;width:20px;height:20px;border-radius:50%;cursor:pointer;`;b.onclick=()=>{applyHL(c);p.remove();hlTip=null;};p.appendChild(b);});document.body.appendChild(p);hlTip=p;}
+function applyHL(color){if(!selR)return;try{const sp=document.createElement('span');sp.className='highlight';sp.style.backgroundColor=color;sp.appendChild(selR.extractContents());selR.insertNode(sp);selR=null;window.getSelection().removeAllRanges();sp.addEventListener('click',e=>{e.stopPropagation();if(hlTip){hlTip.remove();hlTip=null;}const t=document.createElement('div');t.className='highlight-tooltip';t.style.cssText=`top:${e.clientY}px;left:${e.clientX}px;position:fixed;z-index:9999;`;t.innerHTML='<button style="color:#fff;background:red;border:none;padding:5px 10px;border-radius:4px;cursor:pointer;">Remove</button>';t.querySelector('button').onclick=()=>{const par=sp.parentNode;while(sp.firstChild)par.insertBefore(sp.firstChild,sp);par.removeChild(sp);par.normalize();t.remove();hlTip=null;};document.body.appendChild(t);hlTip=t;});}catch(e){selR=null;}}
+['passage-text','questions-container'].forEach(id=>{document.getElementById(id).addEventListener('mouseup',e=>{const sel=window.getSelection();if(!sel||!sel.toString().trim())return;if(!e.currentTarget.contains(sel.anchorNode))return;try{selR=sel.getRangeAt(0).cloneRange();const r=selR.getBoundingClientRect();colorPicker(r.left,r.top-44);}catch(err){selR=null;}});});
+document.addEventListener('mousedown',e=>{if(hlTip&&!hlTip.contains(e.target)){hlTip.remove();hlTip=null;window.getSelection().removeAllRanges();selR=null;}});
+document.addEventListener('DOMContentLoaded',()=>{updT();initProg();updateProg();});
+</script>
+<script src="/passages/test-progress-bridge.js"></script>
+</body>
+</html>

@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/><meta content="width=device-width,initial-scale=1.0" name="viewport"/>
+<title>Robert Louis Stevenson – IELTS</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<style>
+:root{--bg-color:#fff;--text-color:#000;--passage-bg:#fff;--questions-bg:#fff;--border-color:#d5d5d5;--highlight-color:#fef08a;--header-bg:#fff;--header-text:#000;--button-hover:#e4e4e4;--progress-complete:#21aa74;--timer-text:#000;--footer-bg:#fff;--cdi-font-size:16px;--cdi-line-height:1.5;}
+body.night-mode{--bg-color:#1a1a2e;--text-color:#e4e6eb;--passage-bg:#16213e;--questions-bg:#16213e;--border-color:#3a3f4b;--highlight-color:#6b5c10;--header-bg:#16213e;--header-text:#e4e6eb;--footer-bg:#16213e;--timer-text:#e4e6eb;--button-hover:#2a3550;--progress-complete:#81c995;}
+*{margin:0;padding:0;box-sizing:border-box;transition:background-color .3s,color .3s;}
+html,body{height:100%;font-family:Arial,sans-serif;background:var(--bg-color);color:var(--text-color);overflow:hidden;display:flex;flex-direction:column;font-size:16px;}
+header{height:56px;min-height:56px;padding:0 14px;background:var(--header-bg);border-bottom:1px solid var(--border-color);position:relative;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;z-index:50;}
+.cdi-left-brand{display:flex;align-items:center;gap:12px;min-width:220px;}
+.ielts-logo{font-size:40px;font-weight:900;letter-spacing:-2px;color:#e31837;line-height:1;font-family:Arial Black,Arial,sans-serif;}
+.ielts-logo::after{content:'™';font-size:9px;vertical-align:top;color:#e31837;}
+.test-taker{font-size:15px;font-weight:700;color:var(--header-text);}
+.cdi-center-brand{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);}
+.social-link.telegram{background:#0088cc;color:#fff;border-radius:22px;padding:6px 18px;font-size:15px;font-weight:500;text-decoration:none;display:flex;align-items:center;gap:8px;}
+.header-controls{margin-left:auto;display:flex;align-items:center;gap:14px;}
+.timer-container{color:var(--timer-text);font-size:16px;font-weight:700;display:flex;align-items:center;gap:6px;}
+.hbtn{background:transparent;border:0;color:var(--header-text);width:34px;height:34px;padding:0;font-size:20px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;border-radius:3px;}
+.hbtn:hover{background:var(--button-hover);}
+.display-panel{position:fixed;top:56px;right:0;width:min(300px,100vw);background:var(--questions-bg);border-left:1px solid var(--border-color);box-shadow:-4px 0 16px rgba(0,0,0,.15);padding:16px;z-index:2000;display:none;color:var(--text-color);}
+.display-panel.open{display:block;}
+.display-panel h3{font-size:13px;text-transform:uppercase;margin-bottom:14px;}
+.display-panel label{display:block;font-size:13px;font-weight:700;margin:10px 0 5px;}
+.display-panel input[type=range]{width:100%;accent-color:#2a6c96;}
+.theme-row{display:flex;gap:8px;margin-top:12px;}
+.theme-row button{border:1px solid var(--border-color);background:var(--questions-bg);color:var(--text-color);border-radius:6px;padding:6px 10px;cursor:pointer;}
+.cdi-part-header{margin:14px 14px 0;padding:10px 18px;background:rgb(241,242,236);border:1px solid var(--border-color);flex-shrink:0;}
+body.night-mode .cdi-part-header{background:#1f2b47;border-color:#3a3f4b;}
+.cdi-part-header p{margin:0;font-size:15px;line-height:1.4;color:var(--text-color);}
+main{display:flex;flex:1;min-height:0;margin-top:14px;overflow:hidden;}
+.passage-container,.questions-container{height:100%;overflow-y:auto;padding:22px 26px 70px;background:var(--passage-bg);color:var(--text-color);min-width:200px;font-size:var(--cdi-font-size);line-height:var(--cdi-line-height);}
+.questions-container{background:var(--questions-bg);}
+.passage-title{font-size:18px;font-weight:700;margin:0 0 6px;text-align:center;color:var(--text-color);}
+.passage-subtitle{font-style:italic;font-size:15px;text-align:center;margin:0 0 16px;color:var(--text-color);}
+.passage-text p{margin:0 0 14px;color:var(--text-color);font-size:var(--cdi-font-size);line-height:var(--cdi-line-height);}
+.sec-title{font-size:16px;font-weight:700;margin:0 0 10px;color:var(--text-color);}
+.instructions{font-size:15px;margin:0 0 14px;color:var(--text-color);}
+.question{margin:0 0 22px;}
+.q-title{display:flex;align-items:flex-start;gap:8px;margin-bottom:8px;}
+.q-num{display:inline-flex;align-items:center;justify-content:center;min-width:24px;height:24px;padding:0 5px;border:1.6px solid rgb(65,143,198);border-radius:3px;background:transparent;color:var(--text-color);font-size:15px;font-weight:700;flex-shrink:0;}
+.question.answered .q-num{background:rgba(33,170,116,0.12);}
+.q-text{font-size:var(--cdi-font-size);line-height:var(--cdi-line-height);color:var(--text-color);}
+.mcq-options{display:flex;flex-direction:column;gap:7px;margin-top:10px;}
+.mcq-option{display:flex;align-items:center;gap:10px;padding:9px 12px;border:1px solid var(--border-color);border-radius:7px;background:var(--questions-bg);cursor:pointer;font-size:var(--cdi-font-size);color:var(--text-color);}
+.mcq-option input{transform:scale(1.1);flex-shrink:0;}
+.select-input{border:1px solid var(--border-color);border-radius:3px;background:var(--questions-bg);color:var(--text-color);font-size:var(--cdi-font-size);min-height:32px;padding:3px 8px;font-family:Arial,sans-serif;min-width:220px;}
+.summary-box{border:1px solid var(--border-color);border-radius:6px;padding:14px 18px;margin-bottom:16px;background:var(--questions-bg);}
+.summary-box p{font-size:var(--cdi-font-size);line-height:var(--cdi-line-height);color:var(--text-color);margin-bottom:8px;}
+.cdi-resizer{width:16px;flex:0 0 16px;background:transparent;cursor:col-resize;position:relative;display:flex;align-items:center;justify-content:center;z-index:5;}
+.cdi-resizer::before{content:'';position:absolute;left:50%;top:0;bottom:0;width:1px;background:var(--border-color);transform:translateX(-50%);}
+.cdi-resizer-handle{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:34px;height:34px;border:1.6px solid #535353;background:#f9f9f9;color:#535353;display:flex;align-items:center;justify-content:center;font-size:15px;pointer-events:none;}
+body.night-mode .cdi-resizer-handle{background:#1f2b47;color:#b0b3b8;border-color:#3a3f4b;}
+.cdi-resizer:hover::before,.cdi-resizer.dragging::before{background:#2a6c96;}
+.cdi-resizer:hover .cdi-resizer-handle,.cdi-resizer.dragging .cdi-resizer-handle{color:#2a6c96;border-color:#2a6c96;}
+footer{height:60px;background:var(--footer-bg);border-top:1px solid var(--border-color);padding:0;display:flex;align-items:stretch;flex-shrink:0;}
+.progress-container{display:flex;align-items:stretch;overflow-x:auto;flex:1;padding:0 14px;}
+.progress-item{width:38px;height:100%;background:transparent;color:var(--text-color);border:1.6px solid transparent;display:inline-flex;align-items:center;justify-content:center;font-size:15px;position:relative;cursor:pointer;}
+.progress-item::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:#d7d7d7;}
+.progress-item.completed{color:#2a6c96;}.progress-item.completed::before{background:#21aa74;}
+.action-buttons{display:flex;align-items:stretch;}
+.btn-secondary,.btn-primary{height:100%;border-radius:0;padding:0 24px;background:#efefef;color:#535353;border:0;border-left:1px solid var(--border-color);font-size:15px;cursor:pointer;}
+.btn-secondary:hover,.btn-primary:hover{background:#e4e4e4;}
+.feedback-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.7);z-index:3000;display:none;justify-content:center;align-items:center;}
+.feedback-container{background:var(--passage-bg);width:90%;max-width:880px;height:88%;border-radius:10px;box-shadow:0 5px 15px rgba(0,0,0,.3);display:flex;flex-direction:column;}
+.feedback-header{padding:18px 20px;border-bottom:1px solid var(--border-color);display:flex;justify-content:space-between;align-items:center;}
+.feedback-title{font-size:20px;font-weight:700;color:var(--text-color);display:flex;align-items:center;gap:10px;}
+.score-display{font-size:22px;font-weight:700;margin-left:8px;}
+#close-feedback{font-size:22px;background:none;border:none;color:var(--text-color);cursor:pointer;}
+.feedback-body{padding:18px;overflow-y:auto;}
+.feedback-item{margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid var(--border-color);}
+.feedback-question{font-weight:700;margin-bottom:5px;font-size:15px;color:var(--text-color);}
+.feedback-answer{font-size:14px;padding:7px 11px;border-radius:4px;}
+.feedback-answer.correct{background:rgba(40,167,69,.1);color:#155724;}
+.feedback-answer.incorrect{background:rgba(220,53,69,.1);color:#721c24;}
+body.night-mode .feedback-answer.correct{color:#81c995;background:rgba(40,167,69,.15);}
+body.night-mode .feedback-answer.incorrect{color:#f5a0a8;background:rgba(220,53,69,.15);}
+.highlight{background-color:var(--highlight-color);cursor:pointer;}
+.highlight-tooltip{position:fixed;background:#333;color:#fff;padding:5px 10px;border-radius:4px;font-size:13px;z-index:9999;display:flex;align-items:center;gap:5px;}
+.inline-correct{color:#28a745;font-weight:700;margin-left:8px;font-size:14px;}
+.inline-wrong{color:#dc3545;font-weight:600;margin-left:8px;font-size:13px;}
+.test-locked input,.test-locked select{pointer-events:none;opacity:.85;}
+.test-locked .mcq-option{cursor:default;}
+@media(max-width:900px){.test-taker{display:none;}.cdi-center-brand{position:static;transform:none;margin-left:6px;}.cdi-resizer{display:none!important;}main{flex-direction:column;}.passage-container,.questions-container{width:100%!important;flex:none!important;height:50%!important;}}
+</style>
+</head>
+<body>
+<header>
+  <div class="cdi-left-brand"><span class="ielts-logo">IELTS</span><span class="test-taker">Test taker ID</span></div>
+  <div class="cdi-center-brand"><a class="social-link telegram" href="https://t.me/augustus_flores" target="_blank"><i class="fab fa-telegram-plane"></i><span>Abduraimov Erkinjon</span></a></div>
+  <div class="header-controls">
+    <div class="timer-container"><i class="fas fa-clock"></i><span id="timer">20:00</span></div>
+    <button class="hbtn" id="start-timer"><i class="fas fa-play"></i></button>
+    <button class="hbtn" id="pause-timer"><i class="fas fa-pause"></i></button>
+    <button class="hbtn" id="reset-timer"><i class="fas fa-redo"></i></button>
+    <button class="hbtn" id="fullscreen-toggle"><i class="fas fa-expand"></i></button>
+    <button class="hbtn" id="night-mode-toggle"><i class="fas fa-moon"></i></button>
+    <button class="hbtn" id="display-menu-toggle"><i class="fas fa-bars"></i></button>
+  </div>
+</header>
+<div class="display-panel" id="display-panel">
+  <h3>Display options</h3>
+  <label>Text size</label><input id="font-size-range" type="range" min="14" max="22" value="16"/>
+  <label>Line spacing</label><input id="line-height-range" type="range" min="140" max="190" value="150"/>
+  <div class="theme-row"><button data-theme-choice="light">Light</button><button data-theme-choice="dark">Dark</button></div>
+</div>
+<div class="cdi-part-header"><p><strong>Part 3</strong></p><p>Read the text and answer questions 27–40.</p></div>
+<main>
+  <div class="passage-container" id="passage-container">
+    <div class="passage-title">Robert Louis Stevenson</div>
+    <div class="passage-subtitle">The writer of some of the best-known stories in the English language, including Treasure Island and The Strange Case of Dr. Jekyll and Mr. Hyde</div>
+    <div class="passage-text" id="passage-text">
+      <p>It is more than 100 years since the death of the Scottish writer Robert Louis Stevenson on the South Pacific Island of Samoa, and it seems that time has not been kind to Stevenson's memory. Immediately after his death, his family and friends set to work to fashion the legend of Robert Louis Stevenson or RLS, as he became known – one of the few writers familiar from his initials alone. Subsequent works of biography then turned him into a writer of almost religious importance. One example was literary critic Balfour, who in 1901 portrayed Stevenson's family as ministering angels to the dying genius during his final illness. Similarly, the biographer Crouch absurdly overstated Stevenson's significance by placing him in the same company as those most revered names in English literature: Shakespeare and Keats. The reaction to this nonsense was a number of highly critical assessments of Stevenson's legacy in the 1920s.</p>
+      <p>Normally, the critical pendulum can be relied on to swing back again, but there are several aspects of Stevenson's work that have, until recently, acted against a more balanced appraisal. First is the allegation that Stevenson was a mere master of linguistic fireworks, who lacked moral depth. Some critics accused him of being a literary charlatan, of juggling words very prettily to strike effects which overawed an ignorant public, and served to distract from the inadequacy of his ideas.</p>
+      <p>Then there has long been a prejudice against the adventure story as the proper medium for deep moral seriousness, a prejudice which is still extremely influential today. It seems that we can accept that an adventure film can successfully express profound moral truths, but we reject the same idea for a book. The absurdity of this becomes apparent when we think of writers like Joseph Conrad and Graham Greene, but it is no use pretending that this bias against adventure stories is not part of our high culture. A further problem is that Stevenson has often not found favour in the land of his birth because his conservatism so often collides with the strong radical tradition in Scotland. His many escapist stories and preference for living abroad have led to accusations that he camouflaged Scotland's health problems. Lastly the high adventure of Stevenson's own lifestyle has sometimes obscured his output. His globe-trotting, and above all the final phase of his life in Samoa, tended to make his own life a greater story than any he could devise. This was precisely what his friends feared would happen towards the end of his short life: his art might be overwhelmed by the drama of life in Samoa.</p>
+      <p>One consequence of this has been that Stevenson's influence on other writers has too often been neglected. The writer and poet Oscar Wilde was deeply influenced by Stevenson, even though he declared that Stevenson would have produced better work if he had lived in London rather than Samoa. Stevenson tends to stick in the throat even of those writers who would like to spit him out, such as Shaw, who claimed to have learned from him that the romantic hero is always mocked by reality. Likewise, the writer Galsworthy, who began as a determined critic, later changed his mind and said that the superiority of Stevenson over the novelist Hardy was that Stevenson was all life and Hardy all death. The influence on the novelist Chesterton would also repay detailed study, for it was through him that Stevenson has managed to cross the ages, emerging as an influence on the modernist movement and our own contemporary Latin American school of 'magical realism'.</p>
+      <p>When making an assessment of his life and work one question must inevitably be asked: was Robert Louis Stevenson Scotland's greatest writer of English prose? For most commentators this honour falls to Sir Walter Scott, author of Ivanhoe among many other classic novels and it is true that in terms of craftsmanship, precision and the ability to minutely regulate language to create the desired effect, Scott takes the prize. However, this is not the something at all as inherent talent: by way of comparison, one may take the example of the two great Russian composers Shostakovich and Prokofiev, of whom the former had learned more precise skills of execution but the latter's intrinsic genius was greater, and so it seems to be with Scott and Stevenson. Admittedly, Scott's detailed style does permit his stories to explore levels of tragedy that are beyond Stevenson's reach, but in this regard, they have the musty smell of the museum, somehow artificial and removed from modern day reality. On the other hand, Stevenson's skill with plotting and narrative give his books a timeless quality, so that they still live today. And Stevenson was also the shrewder judge of behaviour and psychology. For example, his compelling descriptions of a man with a split personality in The Strange Case of Dr. Jekyll and Mr. Hyde have proved so accessible and accurate that the expression 'Jekyll and Hyde' has entered common English usage. Even if we do not see a revival of critical interest in this great Scottish writer, it is to be hoped that readers go back to Robert Louis Stevenson's magnificent stories and reassess this neglected genius.</p>
+    </div>
+  </div>
+  <div class="cdi-resizer" id="cdi-resizer"><div class="cdi-resizer-handle">↔</div></div>
+  <div class="questions-container" id="questions-container">
+    <div class="sec-title">Questions 27–31</div>
+    <div class="instructions">Choose the correct letter, A, B, C or D.</div>
+    <div class="question" id="q27">
+      <div class="q-title"><div class="q-num">27</div><div class="q-text">In the opinion of the writer, the biographers Balfour and Crouch</div></div>
+      <div class="mcq-options">
+        <label class="mcq-option"><input type="radio" name="q27" value="A"/> A &nbsp; understated the role played by Stevenson's family.</label>
+        <label class="mcq-option"><input type="radio" name="q27" value="B"/> B &nbsp; misunderstood Stevenson's religious beliefs.</label>
+        <label class="mcq-option"><input type="radio" name="q27" value="C"/> C &nbsp; overestimated other writers' influence on Stevenson.</label>
+        <label class="mcq-option"><input type="radio" name="q27" value="D"/> D &nbsp; elevated Stevenson above his true status as a writer.</label>
+      </div>
+    </div>
+    <div class="question" id="q28">
+      <div class="q-title"><div class="q-num">28</div><div class="q-text">What point does the writer make about Stevenson in the second paragraph?</div></div>
+      <div class="mcq-options">
+        <label class="mcq-option"><input type="radio" name="q28" value="A"/> A &nbsp; The public judged him more fairly than the critics.</label>
+        <label class="mcq-option"><input type="radio" name="q28" value="B"/> B &nbsp; Recent criticism of him has been justified.</label>
+        <label class="mcq-option"><input type="radio" name="q28" value="C"/> C &nbsp; Critics argued that his style covered up his faults.</label>
+        <label class="mcq-option"><input type="radio" name="q28" value="D"/> D &nbsp; The ethical nature of his stories was often criticised.</label>
+      </div>
+    </div>
+    <div class="question" id="q29">
+      <div class="q-title"><div class="q-num">29</div><div class="q-text">According to the writer, the adventure story</div></div>
+      <div class="mcq-options">
+        <label class="mcq-option"><input type="radio" name="q29" value="A"/> A &nbsp; is more appropriate for books than films.</label>
+        <label class="mcq-option"><input type="radio" name="q29" value="B"/> B &nbsp; can be used by writers to tell moral stories.</label>
+        <label class="mcq-option"><input type="radio" name="q29" value="C"/> C &nbsp; is more fashionable today than in the past.</label>
+        <label class="mcq-option"><input type="radio" name="q29" value="D"/> D &nbsp; has been used by other writers but not Stevenson.</label>
+      </div>
+    </div>
+    <div class="question" id="q30">
+      <div class="q-title"><div class="q-num">30</div><div class="q-text">What point does the writer make about Stevenson and Scotland?</div></div>
+      <div class="mcq-options">
+        <label class="mcq-option"><input type="radio" name="q30" value="A"/> A &nbsp; His ideas contrasted with those of many Scots.</label>
+        <label class="mcq-option"><input type="radio" name="q30" value="B"/> B &nbsp; He demonstrated great sympathy for Scotland's problems.</label>
+        <label class="mcq-option"><input type="radio" name="q30" value="C"/> C &nbsp; He was not considered a true Scot as he was not born there.</label>
+        <label class="mcq-option"><input type="radio" name="q30" value="D"/> D &nbsp; His unflattering stories about Scotland angered many Scots.</label>
+      </div>
+    </div>
+    <div class="question" id="q31">
+      <div class="q-title"><div class="q-num">31</div><div class="q-text">According to the writer, Stevenson's own lifestyle</div></div>
+      <div class="mcq-options">
+        <label class="mcq-option"><input type="radio" name="q31" value="A"/> A &nbsp; was envied by his friends.</label>
+        <label class="mcq-option"><input type="radio" name="q31" value="B"/> B &nbsp; was responsible for his early death.</label>
+        <label class="mcq-option"><input type="radio" name="q31" value="C"/> C &nbsp; attracted more attention than his books.</label>
+        <label class="mcq-option"><input type="radio" name="q31" value="D"/> D &nbsp; did not prepare him for living in Samoa.</label>
+      </div>
+    </div>
+
+    <div class="sec-title">Questions 32–35</div>
+    <div class="instructions">Do the following statements agree with the claim of the writer? Write <strong>YES</strong>, <strong>NO</strong>, or <strong>NOT GIVEN</strong>.</div>
+    <div class="question" id="q32">
+      <div class="q-title"><div class="q-num">32</div><div class="q-text">Although Oscar Wilde admired Stevenson's work, he believed Stevenson could have written something better.</div></div>
+      <div class="mcq-options"><label class="mcq-option"><input type="radio" name="q32" value="YES"/> YES</label><label class="mcq-option"><input type="radio" name="q32" value="NO"/> NO</label><label class="mcq-option"><input type="radio" name="q32" value="NOT GIVEN"/> NOT GIVEN</label></div>
+    </div>
+    <div class="question" id="q33">
+      <div class="q-title"><div class="q-num">33</div><div class="q-text">Stevenson encouraged Oscar Wilde to start writing.</div></div>
+      <div class="mcq-options"><label class="mcq-option"><input type="radio" name="q33" value="YES"/> YES</label><label class="mcq-option"><input type="radio" name="q33" value="NO"/> NO</label><label class="mcq-option"><input type="radio" name="q33" value="NOT GIVEN"/> NOT GIVEN</label></div>
+    </div>
+    <div class="question" id="q34">
+      <div class="q-title"><div class="q-num">34</div><div class="q-text">Galsworthy had greater respect for Hardy than Stevenson.</div></div>
+      <div class="mcq-options"><label class="mcq-option"><input type="radio" name="q34" value="YES"/> YES</label><label class="mcq-option"><input type="radio" name="q34" value="NO"/> NO</label><label class="mcq-option"><input type="radio" name="q34" value="NOT GIVEN"/> NOT GIVEN</label></div>
+    </div>
+    <div class="question" id="q35">
+      <div class="q-title"><div class="q-num">35</div><div class="q-text">More research is needed regarding Stevenson's influence on Chesterton.</div></div>
+      <div class="mcq-options"><label class="mcq-option"><input type="radio" name="q35" value="YES"/> YES</label><label class="mcq-option"><input type="radio" name="q35" value="NO"/> NO</label><label class="mcq-option"><input type="radio" name="q35" value="NOT GIVEN"/> NOT GIVEN</label></div>
+    </div>
+
+    <div class="sec-title">Questions 36–40</div>
+    <div class="instructions">Complete the summary using the list of words A–I below. Write the correct letter in the boxes.</div>
+    <div class="summary-box">
+      <p style="font-weight:700;margin-bottom:8px;">Word list</p>
+      <p>A – natural ability &nbsp; B – critical acclaim &nbsp; C – humour<br/>D – romance &nbsp; E – colourful language &nbsp; F – technical control<br/>G – story telling &nbsp; H – depth &nbsp; I – human nature</p>
+    </div>
+    <div class="summary-box">
+      <p style="font-weight:700;margin-bottom:8px;">Robert Louis Stevenson and Sir Walter Scott</p>
+      <p>Opinions differ as to whether Robert Louis Stevenson or Sir Walter Scott should be considered Scotland's best writer. Scott had greater <strong>36</strong> <select class="select-input" name="q36"><option value="">Select A–I</option><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option><option value="F">F</option><option value="G">G</option><option value="H">H</option><option value="I">I</option></select> but Stevenson had more <strong>37</strong> <select class="select-input" name="q37"><option value="">Select A–I</option><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option><option value="F">F</option><option value="G">G</option><option value="H">H</option><option value="I">I</option></select> and the same distinction can be made between the two composers Shostakovich and Prokofiev. It is true that Scott's books showed more <strong>38</strong> <select class="select-input" name="q38"><option value="">Select A–I</option><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option><option value="F">F</option><option value="G">G</option><option value="H">H</option><option value="I">I</option></select> when it came to tragedy though in an old-fashioned way while Stevenson's books are still popular because of his <strong>39</strong> <select class="select-input" name="q39"><option value="">Select A–I</option><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option><option value="F">F</option><option value="G">G</option><option value="H">H</option><option value="I">I</option></select>. And Stevenson's understanding of <strong>40</strong> <select class="select-input" name="q40"><option value="">Select A–I</option><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option><option value="F">F</option><option value="G">G</option><option value="H">H</option><option value="I">I</option></select> has resulted in the widespread use of an expression from one of his books.</p>
+    </div>
+    <div style="height:28px"></div>
+  </div>
+</main>
+<footer>
+  <div class="progress-container" id="progress-container"></div>
+  <div class="action-buttons">
+    <button class="btn-secondary" id="reset-btn">Reset Answers</button>
+    <button class="btn-primary" id="submit-btn">Submit Answers</button>
+  </div>
+</footer>
+<div class="feedback-overlay" id="feedback-overlay">
+  <div class="feedback-container">
+    <div class="feedback-header">
+      <div class="feedback-title"><i class="fas fa-chart-bar"></i> Results <span class="score-display" id="score-display">0/14</span></div>
+      <button id="close-feedback"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="feedback-body" id="feedback-body"></div>
+  </div>
+</div>
+<script>
+const CA={q27:'D',q28:'C',q29:'B',q30:'A',q31:'C',q32:'YES',q33:'NOT GIVEN',q34:'NO',q35:'YES',q36:'F',q37:'A',q38:'H',q39:'G',q40:'I'};
+const TOTAL=14;
+function norm(s){return(s||'').toString().trim().toLowerCase().replace(/\s+/g,' ');}
+function ok(qid,v){return norm(v)===norm(CA[qid]);}
+function getR(n){const ch=Array.from(document.getElementsByName(n)).find(e=>e.checked);return ch?ch.value:'';}
+function getSel(n){const e=document.querySelector(`select[name="${n}"]`);return e?e.value:'';}
+let submitted=false;
+function lockAll(){submitted=true;document.body.classList.add('test-locked');document.querySelectorAll('input,select').forEach(e=>e.disabled=true);document.getElementById('reset-btn').disabled=true;document.getElementById('reset-btn').style.opacity='.4';}
+function showInline(){
+  document.querySelectorAll('.inline-correct,.inline-wrong').forEach(e=>e.remove());
+  ['q27','q28','q29','q30','q31','q32','q33','q34','q35'].forEach(qid=>{
+    const qEl=document.getElementById(qid);if(!qEl)return;
+    const sp=document.createElement('span');const good=ok(qid,getR(qid));
+    sp.className=good?'inline-correct':'inline-wrong';sp.textContent=good?'✓':'Correct: '+CA[qid];
+    sp.style.display='block';sp.style.marginTop='6px';qEl.appendChild(sp);
+  });
+  ['q36','q37','q38','q39','q40'].forEach(qid=>{
+    const el=document.querySelector(`select[name="${qid}"]`);if(!el)return;
+    const sp=document.createElement('span');const good=ok(qid,getSel(qid));
+    sp.className=good?'inline-correct':'inline-wrong';sp.textContent=good?'✓':'Correct: '+CA[qid];
+    el.parentNode.insertBefore(sp,el.nextSibling);
+  });
+}
+document.getElementById('submit-btn').addEventListener('click',function(){
+  if(submitted){document.getElementById('feedback-overlay').style.display='flex';return;}
+  let score=0,html='';
+  const radioQs=[{qid:'q27',label:'Q27'},{qid:'q28',label:'Q28'},{qid:'q29',label:'Q29'},{qid:'q30',label:'Q30'},{qid:'q31',label:'Q31'},{qid:'q32',label:'Q32'},{qid:'q33',label:'Q33'},{qid:'q34',label:'Q34'},{qid:'q35',label:'Q35'}];
+  const selQs=[{qid:'q36',label:'Q36'},{qid:'q37',label:'Q37'},{qid:'q38',label:'Q38'},{qid:'q39',label:'Q39'},{qid:'q40',label:'Q40'}];
+  radioQs.forEach(({qid,label})=>{const user=getR(qid);const good=ok(qid,user);if(good)score++;html+=`<div class="feedback-item"><div class="feedback-question">${label}</div><div class="feedback-answer ${good?'correct':'incorrect'}">Your answer: ${user||'(none)'}<br/>${good?'✔ Correct':'✘ Incorrect – Correct: <strong>'+CA[qid]+'</strong>'}</div></div>`;});
+  selQs.forEach(({qid,label})=>{const user=getSel(qid);const good=ok(qid,user);if(good)score++;html+=`<div class="feedback-item"><div class="feedback-question">${label}</div><div class="feedback-answer ${good?'correct':'incorrect'}">Your answer: ${user||'(none)'}<br/>${good?'✔ Correct':'✘ Incorrect – Correct: <strong>'+CA[qid]+'</strong>'}</div></div>`;});
+  document.getElementById('feedback-body').innerHTML=html;document.getElementById('score-display').textContent=score+'/'+TOTAL;document.getElementById('feedback-overlay').style.display='flex';lockAll();showInline();
+});
+document.getElementById('close-feedback').addEventListener('click',()=>document.getElementById('feedback-overlay').style.display='none');
+document.getElementById('reset-btn').addEventListener('click',()=>{if(submitted)return;document.querySelectorAll('select').forEach(e=>e.value='');document.querySelectorAll('input[type=radio]').forEach(e=>e.checked=false);updateProg();});
+const qnums=[27,28,29,30,31,32,33,34,35,36,37,38,39,40];
+function initProg(){const pc=document.getElementById('progress-container');pc.innerHTML='';qnums.forEach(n=>{const d=document.createElement('div');d.className='progress-item';d.textContent=n;d.dataset.qid='q'+n;d.addEventListener('click',()=>{const el=document.getElementById('q'+n);if(el)el.scrollIntoView({behavior:'smooth'});});pc.appendChild(d);});}
+function updateProg(){document.querySelectorAll('.progress-item').forEach(item=>{const qid=item.dataset.qid;let ans=false;const radios=document.querySelectorAll(`input[name="${qid}"][type=radio]`);if(radios.length)ans=Array.from(radios).some(r=>r.checked);const sel=document.querySelector(`select[name="${qid}"]`);if(!ans&&sel&&sel.value)ans=true;const qEl=document.getElementById(qid);item.classList.toggle('completed',ans);if(qEl)qEl.classList.toggle('answered',ans);});}
+document.addEventListener('change',updateProg);
+let ti=null,tr=1200;function updT(){const m=Math.floor(tr/60).toString().padStart(2,'0'),s=(tr%60).toString().padStart(2,'0');document.getElementById('timer').textContent=m+':'+s;}
+document.getElementById('start-timer').addEventListener('click',()=>{if(ti)return;ti=setInterval(()=>{if(tr>0){tr--;updT();}else{clearInterval(ti);ti=null;alert('Time is up!');}},1000);});
+document.getElementById('pause-timer').addEventListener('click',()=>{clearInterval(ti);ti=null;});
+document.getElementById('reset-timer').addEventListener('click',()=>{clearInterval(ti);ti=null;tr=1200;updT();});
+document.getElementById('night-mode-toggle').addEventListener('click',function(){document.body.classList.toggle('night-mode');const i=this.querySelector('i');i.classList.toggle('fa-moon');i.classList.toggle('fa-sun');});
+document.getElementById('fullscreen-toggle').addEventListener('click',()=>{if(!document.fullscreenElement)document.documentElement.requestFullscreen?.();else document.exitFullscreen?.();});
+document.addEventListener('fullscreenchange',()=>{document.getElementById('fullscreen-toggle').innerHTML=document.fullscreenElement?'<i class="fas fa-compress"></i>':'<i class="fas fa-expand"></i>';});
+const dpanel=document.getElementById('display-panel'),dmenu=document.getElementById('display-menu-toggle');
+dmenu.addEventListener('click',e=>{e.stopPropagation();dpanel.classList.toggle('open');});
+document.addEventListener('click',e=>{if(dpanel.classList.contains('open')&&!dpanel.contains(e.target)&&!dmenu.contains(e.target))dpanel.classList.remove('open');});
+const fsr=document.getElementById('font-size-range'),lhr=document.getElementById('line-height-range');
+function applyDisp(){document.documentElement.style.setProperty('--cdi-font-size',(fsr?fsr.value:16)+'px');document.documentElement.style.setProperty('--cdi-line-height',lhr?(Number(lhr.value)/100):1.5);}
+fsr.addEventListener('input',applyDisp);lhr.addEventListener('input',applyDisp);
+document.querySelectorAll('[data-theme-choice]').forEach(b=>b.addEventListener('click',()=>{b.dataset.themeChoice==='dark'?document.body.classList.add('night-mode'):document.body.classList.remove('night-mode');}));
+const pc2=document.getElementById('passage-container'),qc=document.getElementById('questions-container'),rs=document.getElementById('cdi-resizer');
+pc2.style.flex='0 0 50%';qc.style.flex='1 1 auto';let drag=false;
+rs.addEventListener('mousedown',e=>{if(window.innerWidth<=900)return;drag=true;rs.classList.add('dragging');document.body.style.cursor='col-resize';document.body.style.userSelect='none';e.preventDefault();});
+window.addEventListener('mousemove',e=>{if(!drag)return;const main=rs.parentElement,rect=main.getBoundingClientRect(),total=rect.width-rs.offsetWidth;let left=e.clientX-rect.left;left=Math.min(Math.max(left,total*.22),total*.78);pc2.style.flex='0 0 '+left+'px';qc.style.flex='1 1 auto';});
+window.addEventListener('mouseup',()=>{drag=false;rs.classList.remove('dragging');document.body.style.cursor='';document.body.style.userSelect='';});
+let hlTip=null,selR=null;
+function colorPicker(x,y){if(hlTip)hlTip.remove();const colors=["lightgreen","yellow","lightskyblue","#ffb3b3"];const p=document.createElement('div');p.className='highlight-tooltip';p.style.cssText=`top:${y}px;left:${x}px;position:fixed;z-index:9999;display:flex;gap:4px;`;colors.forEach(c=>{const b=document.createElement('button');b.style.cssText=`background:${c};border:none;width:20px;height:20px;border-radius:50%;cursor:pointer;`;b.onclick=()=>{applyHL(c);p.remove();hlTip=null;};p.appendChild(b);});document.body.appendChild(p);hlTip=p;}
+function applyHL(color){if(!selR)return;try{const sp=document.createElement('span');sp.className='highlight';sp.style.backgroundColor=color;sp.appendChild(selR.extractContents());selR.insertNode(sp);selR=null;window.getSelection().removeAllRanges();sp.addEventListener('click',e=>{e.stopPropagation();if(hlTip){hlTip.remove();hlTip=null;}const t=document.createElement('div');t.className='highlight-tooltip';t.style.cssText=`top:${e.clientY}px;left:${e.clientX}px;position:fixed;z-index:9999;`;t.innerHTML='<button style="color:#fff;background:red;border:none;padding:5px 10px;border-radius:4px;cursor:pointer;">Remove</button>';t.querySelector('button').onclick=()=>{const par=sp.parentNode;while(sp.firstChild)par.insertBefore(sp.firstChild,sp);par.removeChild(sp);par.normalize();t.remove();hlTip=null;};document.body.appendChild(t);hlTip=t;});}catch(e){selR=null;}}
+['passage-text','questions-container'].forEach(id=>{document.getElementById(id).addEventListener('mouseup',e=>{const sel=window.getSelection();if(!sel||!sel.toString().trim())return;if(!e.currentTarget.contains(sel.anchorNode))return;try{selR=sel.getRangeAt(0).cloneRange();const r=selR.getBoundingClientRect();colorPicker(r.left,r.top-44);}catch(err){selR=null;}});});
+document.addEventListener('mousedown',e=>{if(hlTip&&!hlTip.contains(e.target)){hlTip.remove();hlTip=null;window.getSelection().removeAllRanges();selR=null;}});
+document.addEventListener('DOMContentLoaded',()=>{updT();initProg();updateProg();});
+</script>
+<script src="/passages/test-progress-bridge.js"></script>
+</body>
+</html>

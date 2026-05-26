@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1.0" name="viewport"/>
+<title>Mirrors – Computer-based IELTS</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<style>
+:root{--bg-color:#fff;--text-color:#000;--passage-bg:#fff;--questions-bg:#fff;--border-color:#d5d5d5;--highlight-color:#fef08a;--header-bg:#fff;--header-text:#000;--button-hover:#e4e4e4;--progress-complete:#21aa74;--timer-text:#000;--footer-bg:#fff;--cdi-font-size:16px;--cdi-line-height:1.5;}
+body.night-mode{--bg-color:#1a1a2e;--text-color:#e4e6eb;--passage-bg:#16213e;--questions-bg:#16213e;--border-color:#3a3f4b;--highlight-color:#6b5c10;--header-bg:#16213e;--header-text:#e4e6eb;--footer-bg:#16213e;--timer-text:#e4e6eb;--button-hover:#2a3550;--progress-complete:#81c995;}
+*{margin:0;padding:0;box-sizing:border-box;transition:background-color .3s,color .3s;}
+html,body{height:100%;font-family:Arial,sans-serif;background:var(--bg-color);color:var(--text-color);overflow:hidden;display:flex;flex-direction:column;font-size:16px;}
+header{height:56px;min-height:56px;padding:0 14px;background:var(--header-bg);border-bottom:1px solid var(--border-color);position:relative;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;z-index:50;}
+.cdi-left-brand{display:flex;align-items:center;gap:12px;min-width:220px;}
+.ielts-logo{font-size:40px;font-weight:900;letter-spacing:-2px;color:#e31837;line-height:1;font-family:Arial Black,Arial,sans-serif;}
+.ielts-logo::after{content:'™';font-size:9px;vertical-align:top;color:#e31837;}
+.test-taker{font-size:15px;font-weight:700;color:var(--header-text);}
+.cdi-center-brand{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);}
+.social-link.telegram{background:#0088cc;color:#fff;border-radius:22px;padding:6px 18px;font-size:15px;font-weight:500;text-decoration:none;display:flex;align-items:center;gap:8px;}
+.social-link.telegram:hover{background:#007bb5;}
+.header-controls{margin-left:auto;display:flex;align-items:center;gap:14px;}
+.timer-container{color:var(--timer-text);font-size:16px;font-weight:700;display:flex;align-items:center;gap:6px;}
+.hbtn{background:transparent;border:0;color:var(--header-text);width:34px;height:34px;padding:0;font-size:20px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;border-radius:3px;}
+.hbtn:hover{background:var(--button-hover);}
+.display-panel{position:fixed;top:56px;right:0;width:min(300px,100vw);background:var(--questions-bg);border-left:1px solid var(--border-color);box-shadow:-4px 0 16px rgba(0,0,0,.15);padding:16px;z-index:2000;display:none;color:var(--text-color);}
+.display-panel.open{display:block;}
+.display-panel h3{font-size:13px;text-transform:uppercase;letter-spacing:.04em;margin-bottom:14px;}
+.display-panel label{display:block;font-size:13px;font-weight:700;margin:10px 0 5px;}
+.display-panel input[type=range]{width:100%;accent-color:#2a6c96;}
+.theme-row{display:flex;gap:8px;margin-top:12px;}
+.theme-row button{border:1px solid var(--border-color);background:var(--questions-bg);color:var(--text-color);border-radius:6px;padding:6px 10px;cursor:pointer;}
+.cdi-part-header{margin:14px 14px 0;padding:10px 18px;background:rgb(241,242,236);border:1px solid var(--border-color);flex-shrink:0;}
+body.night-mode .cdi-part-header{background:#1f2b47;border-color:#3a3f4b;}
+.cdi-part-header p{margin:0;font-size:15px;line-height:1.4;color:var(--text-color);}
+main{display:flex;flex:1;min-height:0;margin-top:14px;overflow:hidden;}
+.passage-container,.questions-container{height:100%;overflow-y:auto;padding:22px 26px 70px;background:var(--passage-bg);color:var(--text-color);min-width:200px;font-size:var(--cdi-font-size);line-height:var(--cdi-line-height);}
+.questions-container{background:var(--questions-bg);}
+.passage-title{font-size:18px;font-weight:700;margin:0 0 14px;text-align:center;color:var(--text-color);}
+.passage-text p{margin:0 0 14px;color:var(--text-color);font-size:var(--cdi-font-size);line-height:var(--cdi-line-height);}
+.sec-title{font-size:16px;font-weight:700;margin:0 0 10px;color:var(--text-color);}
+.instructions{font-size:15px;margin:0 0 14px;color:var(--text-color);}
+.question{margin:0 0 22px;}
+.q-title{display:flex;align-items:flex-start;gap:8px;margin-bottom:8px;}
+.q-num{display:inline-flex;align-items:center;justify-content:center;min-width:24px;height:24px;padding:0 5px;border:1.6px solid rgb(65,143,198);border-radius:3px;background:transparent;color:var(--text-color);font-size:15px;font-weight:700;flex-shrink:0;}
+.question.answered .q-num{background:rgba(33,170,116,0.12);}
+.q-text{font-size:var(--cdi-font-size);line-height:var(--cdi-line-height);color:var(--text-color);}
+.mcq-options{display:flex;flex-direction:column;gap:7px;margin-top:10px;}
+.mcq-option{display:flex;align-items:center;gap:10px;padding:9px 12px;border:1px solid var(--border-color);border-radius:7px;background:var(--questions-bg);cursor:pointer;font-size:var(--cdi-font-size);color:var(--text-color);}
+.mcq-option input{transform:scale(1.1);flex-shrink:0;}
+.select-input{border:1px solid var(--border-color);border-radius:3px;background:var(--questions-bg);color:var(--text-color);font-size:var(--cdi-font-size);min-height:32px;padding:3px 8px;font-family:Arial,sans-serif;min-width:260px;}
+.endings-box{border:1px solid var(--border-color);border-radius:6px;padding:14px 18px;margin-bottom:16px;background:var(--questions-bg);}
+.endings-box p,.endings-box li{font-size:var(--cdi-font-size);line-height:var(--cdi-line-height);color:var(--text-color);}
+.endings-box ul{margin-left:18px;}
+.endings-box li{margin-bottom:4px;}
+.cdi-resizer{width:16px;flex:0 0 16px;background:transparent;cursor:col-resize;position:relative;display:flex;align-items:center;justify-content:center;z-index:5;}
+.cdi-resizer::before{content:'';position:absolute;left:50%;top:0;bottom:0;width:1px;background:var(--border-color);transform:translateX(-50%);}
+.cdi-resizer-handle{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:34px;height:34px;border:1.6px solid #535353;background:#f9f9f9;color:#535353;display:flex;align-items:center;justify-content:center;font-size:15px;pointer-events:none;}
+body.night-mode .cdi-resizer-handle{background:#1f2b47;color:#b0b3b8;border-color:#3a3f4b;}
+.cdi-resizer:hover::before,.cdi-resizer.dragging::before{background:#2a6c96;}
+.cdi-resizer:hover .cdi-resizer-handle,.cdi-resizer.dragging .cdi-resizer-handle{color:#2a6c96;border-color:#2a6c96;}
+footer{height:60px;background:var(--footer-bg);border-top:1px solid var(--border-color);padding:0;display:flex;align-items:stretch;flex-shrink:0;}
+.progress-container{display:flex;align-items:stretch;overflow-x:auto;flex:1;padding:0 14px;}
+.progress-item{width:38px;height:100%;background:transparent;color:var(--text-color);border:1.6px solid transparent;display:inline-flex;align-items:center;justify-content:center;font-size:15px;position:relative;cursor:pointer;}
+.progress-item::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:#d7d7d7;}
+.progress-item.completed{color:#2a6c96;}
+.progress-item.completed::before{background:#21aa74;}
+.action-buttons{display:flex;align-items:stretch;}
+.btn-secondary,.btn-primary{height:100%;border-radius:0;padding:0 24px;background:#efefef;color:#535353;border:0;border-left:1px solid var(--border-color);font-size:15px;cursor:pointer;}
+.btn-secondary:hover,.btn-primary:hover{background:#e4e4e4;}
+.feedback-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.7);z-index:3000;display:none;justify-content:center;align-items:center;}
+.feedback-container{background:var(--passage-bg);width:90%;max-width:880px;height:88%;border-radius:10px;box-shadow:0 5px 15px rgba(0,0,0,.3);display:flex;flex-direction:column;}
+.feedback-header{padding:18px 20px;border-bottom:1px solid var(--border-color);display:flex;justify-content:space-between;align-items:center;}
+.feedback-title{font-size:20px;font-weight:700;color:var(--text-color);display:flex;align-items:center;gap:10px;}
+.score-display{font-size:22px;font-weight:700;margin-left:8px;}
+#close-feedback{font-size:22px;background:none;border:none;color:var(--text-color);cursor:pointer;}
+.feedback-body{padding:18px;overflow-y:auto;}
+.feedback-item{margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid var(--border-color);}
+.feedback-question{font-weight:700;margin-bottom:5px;font-size:15px;color:var(--text-color);}
+.feedback-answer{font-size:14px;padding:7px 11px;border-radius:4px;}
+.feedback-answer.correct{background:rgba(40,167,69,.1);color:#155724;}
+.feedback-answer.incorrect{background:rgba(220,53,69,.1);color:#721c24;}
+body.night-mode .feedback-answer.correct{color:#81c995;background:rgba(40,167,69,.15);}
+body.night-mode .feedback-answer.incorrect{color:#f5a0a8;background:rgba(220,53,69,.15);}
+.highlight{background-color:var(--highlight-color);cursor:pointer;}
+.highlight-tooltip{position:fixed;background:#333;color:#fff;padding:5px 10px;border-radius:4px;font-size:13px;z-index:9999;display:flex;align-items:center;gap:5px;}
+.inline-correct{color:#28a745;font-weight:700;margin-left:8px;font-size:14px;}
+.inline-wrong{color:#dc3545;font-weight:600;margin-left:8px;font-size:13px;}
+.test-locked input,.test-locked select{pointer-events:none;opacity:.85;}
+.test-locked .mcq-option{cursor:default;}
+@media(max-width:900px){.test-taker{display:none;}.cdi-center-brand{position:static;transform:none;margin-left:6px;}.cdi-resizer{display:none!important;}main{flex-direction:column;}.passage-container,.questions-container{width:100%!important;flex:none!important;height:50%!important;}}
+</style>
+</head>
+<body>
+<header>
+  <div class="cdi-left-brand"><span class="ielts-logo">IELTS</span><span class="test-taker">Test taker ID</span></div>
+  <div class="cdi-center-brand"><a class="social-link telegram" href="https://t.me/augustus_flores" target="_blank"><i class="fab fa-telegram-plane"></i><span>Abduraimov Erkinjon</span></a></div>
+  <div class="header-controls">
+    <div class="timer-container"><i class="fas fa-clock"></i><span id="timer">20:00</span></div>
+    <button class="hbtn" id="start-timer" title="Start"><i class="fas fa-play"></i></button>
+    <button class="hbtn" id="pause-timer" title="Pause"><i class="fas fa-pause"></i></button>
+    <button class="hbtn" id="reset-timer" title="Reset"><i class="fas fa-redo"></i></button>
+    <button class="hbtn" id="fullscreen-toggle" title="Fullscreen"><i class="fas fa-expand"></i></button>
+    <button class="hbtn" id="night-mode-toggle" title="Night mode"><i class="fas fa-moon"></i></button>
+    <button class="hbtn" id="display-menu-toggle" title="Display"><i class="fas fa-bars"></i></button>
+  </div>
+</header>
+<div class="display-panel" id="display-panel">
+  <h3>Display options</h3>
+  <label>Text size</label><input id="font-size-range" type="range" min="14" max="22" value="16"/>
+  <label>Line spacing</label><input id="line-height-range" type="range" min="140" max="190" value="150"/>
+  <div class="theme-row"><button data-theme-choice="light">Light</button><button data-theme-choice="dark">Dark</button></div>
+</div>
+<div class="cdi-part-header"><p><strong>Part 3</strong></p><p>Read the text and answer questions 27–40.</p></div>
+<main>
+  <div class="passage-container" id="passage-container">
+    <div class="passage-title">Mirrors</div>
+    <div class="passage-text" id="passage-text">
+      <p>Whether made of highly polished metal or of glass with a coating of metal on the back, mirrors have fascinated people for thousands of years. Ancient Egyptians were often depicted holding hand mirrors. For centuries, the people of Rajasthan in India have sewn bits of reflective glass into their clothing and the resulting sparkle emphasises the magic and mystery of that desert land.</p>
+      <p>To scientists, the simultaneous simplicity and complexity of mirrors make them effective and accessible tools for exploring questions about perception and cognition in humans and other 'intelligent' species, and about how the brain interprets and acts upon the great mass of sensory information from the external world. Mirrors are used to study how the brain decides what is self and what is other, how it judges distance, and how it reconstructs the richly three-dimensional quality of the outside world from what is essentially a two-dimensional snapshot taken by the retina of the eye. Mirrors are applied in medicine to create reflected images of patients' limbs or other body parts and thus trick the brain into healing itself. Mirror therapy has been successful in treating chronic pain and paralysis. In a sense, mirrors are the best 'virtual reality' system that can be built. The object 'inside' the mirror is virtual, but as far as our eyes are concerned, it exists as much as any other object.</p>
+      <p>Research has shown that mirrors can subtly affect human behaviour, often in surprisingly positive ways. Subjects tested in a room with a mirror have been found to work harder and to be less inclined to cheat, compared with control groups performing the same exercises in non-mirrored settings. In addition, the researchers found that people in a room with a mirror were comparatively less likely to make judgements about others based on negative social stereotypes concerning, for example, sex, race or religion. The researchers said that this indicates that when people are made to be self-aware, they are likelier to stop and think about what they are doing. A by-product of that awareness may be a shift away from acting on autopilot toward more desirable ways of behaving. Physical self-reflection, in other words, encourages philosophical self-reflection, a lesson in the ancient Greek notion that you cannot know or appreciate others until you know yourself.</p>
+      <p>The link between self-awareness and elaborate sociality may help explain why the few nonhuman species that have been found to recognise themselves in a mirror are those with sophisticated social lives. Animals that live in communal units, such as the great apes – chimpanzees, bonobos, orang-utans and gorillas – along with dolphins and Asian elephants, have passed the famed mirror self-recognition test, which means they will, when given a mirror, scrutinise marks that have been applied to their faces or bodies. The animals will also check up on personal cleanliness, inspecting their mouths, nostrils and bodies. Yet not all members of self-reflective species will pass the mirror test. Studies of individual elephants and dolphins raised in isolation suggest that these particular individuals do not exhibit mirror self-recognition.</p>
+      <p>For that matter, humans do not necessarily see the face in the mirror as it actually is either. What the human eye sees objectively and how the brain interprets that image are not necessarily the same. Dr Nicholas Epley, Professor of Behavioral Science at the University of Chicago, USA, described experiments in which people were asked to pick out pictures of themselves from among pictures of other human faces. Participants identified their personal photographs significantly quicker when their faces had been computer-enhanced to be more appealing and they were likely to call this retouched image their genuine face. This self-delusion is not simply the result of a widespread preference for prettiness: when asked to match photographs of strangers, participants were, in fact, best at spotting unenhanced faces, that is, those not made to look prettier.</p>
+      <p>How can we be so self-delusional when the truth stares back at us? Dr Epley explains that, although we do indeed see ourselves in the mirror every day, we don't look exactly the same every time. There is the just-out-of-bed morning you, the ready-for-work you, the dressed-for-an-elegant-dinner you. Which image is you? People on average resolve the question of these multiple images of themselves in their favour. That is, they piece together a mental representation formed from different aspects of themselves when they are looking their best.</p>
+      <p>In a series of other studies, psychologists interviewed people about what they think a mirror shows them. They asked questions like, 'Imagine you are standing in front of a bathroom mirror; how big do you think the image of your face is on the surface? And what would happen to the size of that image if you step steadily backward, away from the glass?' To the first question, people overwhelmingly say 'The outline of my face on the mirror would be pretty much the size of my face.' As for the second question, that's obvious: if I move away from the mirror, the size of my image will shrink with each step. Both answers, it turns out, are wrong. Outline your face on a mirror, and you will find it to be exactly half the size of your real face. Step back as much as you please, and the size of that outlined oval will not change: it remains half the size of your face, even as the background scene reflected in the mirror steadily changes.</p>
+    </div>
+  </div>
+  <div class="cdi-resizer" id="cdi-resizer"><div class="cdi-resizer-handle">↔</div></div>
+  <div class="questions-container" id="questions-container">
+
+    <div class="sec-title">Questions 27–30</div>
+    <div class="instructions">Do the following statements agree with the <strong>claims</strong> of the writer? Write <strong>YES</strong>, <strong>NO</strong>, or <strong>NOT GIVEN</strong>.</div>
+    <div class="question" id="q27">
+      <div class="q-title"><div class="q-num">27</div><div class="q-text">The conflicting nature of mirrors makes them inappropriate aids for investigating human thought.</div></div>
+      <div class="mcq-options">
+        <label class="mcq-option"><input type="radio" name="q27" value="YES"/> YES</label>
+        <label class="mcq-option"><input type="radio" name="q27" value="NO"/> NO</label>
+        <label class="mcq-option"><input type="radio" name="q27" value="NOT GIVEN"/> NOT GIVEN</label>
+      </div>
+    </div>
+    <div class="question" id="q28">
+      <div class="q-title"><div class="q-num">28</div><div class="q-text">Humans find it difficult to distinguish between reflections of two- and three-dimensional objects.</div></div>
+      <div class="mcq-options">
+        <label class="mcq-option"><input type="radio" name="q28" value="YES"/> YES</label>
+        <label class="mcq-option"><input type="radio" name="q28" value="NO"/> NO</label>
+        <label class="mcq-option"><input type="radio" name="q28" value="NOT GIVEN"/> NOT GIVEN</label>
+      </div>
+    </div>
+    <div class="question" id="q29">
+      <div class="q-title"><div class="q-num">29</div><div class="q-text">Illusions using mirrors can help in the treatment of medical problems.</div></div>
+      <div class="mcq-options">
+        <label class="mcq-option"><input type="radio" name="q29" value="YES"/> YES</label>
+        <label class="mcq-option"><input type="radio" name="q29" value="NO"/> NO</label>
+        <label class="mcq-option"><input type="radio" name="q29" value="NOT GIVEN"/> NOT GIVEN</label>
+      </div>
+    </div>
+    <div class="question" id="q30">
+      <div class="q-title"><div class="q-num">30</div><div class="q-text">Mirrors for use in scientific experiments have to be constructed to precise specifications.</div></div>
+      <div class="mcq-options">
+        <label class="mcq-option"><input type="radio" name="q30" value="YES"/> YES</label>
+        <label class="mcq-option"><input type="radio" name="q30" value="NO"/> NO</label>
+        <label class="mcq-option"><input type="radio" name="q30" value="NOT GIVEN"/> NOT GIVEN</label>
+      </div>
+    </div>
+
+    <div class="sec-title">Questions 31–34</div>
+    <div class="instructions">Choose the correct letter, A, B, C or D.</div>
+    <div class="question" id="q31">
+      <div class="q-title"><div class="q-num">31</div><div class="q-text">If a mirror is present during certain experiments, the subjects tend to</div></div>
+      <div class="mcq-options">
+        <label class="mcq-option"><input type="radio" name="q31" value="A"/> A &nbsp; monitor the behaviour of other subjects.</label>
+        <label class="mcq-option"><input type="radio" name="q31" value="B"/> B &nbsp; act more industriously and independently.</label>
+        <label class="mcq-option"><input type="radio" name="q31" value="C"/> C &nbsp; become less confident of themselves.</label>
+        <label class="mcq-option"><input type="radio" name="q31" value="D"/> D &nbsp; focus overwhelmingly on their own reflection.</label>
+      </div>
+    </div>
+    <div class="question" id="q32">
+      <div class="q-title"><div class="q-num">32</div><div class="q-text">Research results imply that physical self-reflection leads people to be</div></div>
+      <div class="mcq-options">
+        <label class="mcq-option"><input type="radio" name="q32" value="A"/> A &nbsp; more tolerant of others.</label>
+        <label class="mcq-option"><input type="radio" name="q32" value="B"/> B &nbsp; more satisfied with their own lives.</label>
+        <label class="mcq-option"><input type="radio" name="q32" value="C"/> C &nbsp; more open to learning from others.</label>
+        <label class="mcq-option"><input type="radio" name="q32" value="D"/> D &nbsp; more likely to accept unpopular ideas.</label>
+      </div>
+    </div>
+    <div class="question" id="q33">
+      <div class="q-title"><div class="q-num">33</div><div class="q-text">The successful completion of a well-known mirror test suggests that the animal subjects</div></div>
+      <div class="mcq-options">
+        <label class="mcq-option"><input type="radio" name="q33" value="A"/> A &nbsp; find the image in the mirror uninteresting.</label>
+        <label class="mcq-option"><input type="radio" name="q33" value="B"/> B &nbsp; recognise the basic need for personal cleanliness.</label>
+        <label class="mcq-option"><input type="radio" name="q33" value="C"/> C &nbsp; realise that the marks they see are on their own body.</label>
+        <label class="mcq-option"><input type="radio" name="q33" value="D"/> D &nbsp; understand that marks on their face have been made deliberately.</label>
+      </div>
+    </div>
+    <div class="question" id="q34">
+      <div class="q-title"><div class="q-num">34</div><div class="q-text">Which of the following is the most suitable title for Reading Passage 3?</div></div>
+      <div class="mcq-options">
+        <label class="mcq-option"><input type="radio" name="q34" value="A"/> A &nbsp; Conflicting interpretations of mirror research</label>
+        <label class="mcq-option"><input type="radio" name="q34" value="B"/> B &nbsp; Psychological responses to mirror images</label>
+        <label class="mcq-option"><input type="radio" name="q34" value="C"/> C &nbsp; The physical properties of mirrors</label>
+        <label class="mcq-option"><input type="radio" name="q34" value="D"/> D &nbsp; The use of mirrors through history</label>
+      </div>
+    </div>
+
+    <div class="sec-title">Questions 35–40</div>
+    <div class="instructions">Complete each sentence with the correct ending, A–I, below.</div>
+    <div class="endings-box">
+      <p style="font-weight:700;margin-bottom:8px;">Sentence endings</p>
+      <ul>
+        <li>A &nbsp; believe they can improve their looks by being friendly.</li>
+        <li>B &nbsp; are confronted daily with their images in a variety of situations.</li>
+        <li>C &nbsp; assume their image will get progressively smaller.</li>
+        <li>D &nbsp; recognise familiar faces much more readily.</li>
+        <li>E &nbsp; estimate the image to be larger than it actually is.</li>
+        <li>F &nbsp; select those photographs which have not been altered.</li>
+        <li>G &nbsp; find there is little change in the image they face.</li>
+        <li>H &nbsp; locate the photographs faster if they are made to look attractive.</li>
+        <li>I &nbsp;&nbsp; create a positive generalised self image.</li>
+      </ul>
+    </div>
+    <div class="question" id="q35">
+      <div class="q-title"><div class="q-num">35</div><div class="q-text">Dr Epley found that when identifying images of themselves, people
+        <div style="margin-top:8px;"><select class="select-input" name="q35"><option value="">Select A–I</option><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option><option value="F">F</option><option value="G">G</option><option value="H">H</option><option value="I">I</option></select></div>
+      </div></div>
+    </div>
+    <div class="question" id="q36">
+      <div class="q-title"><div class="q-num">36</div><div class="q-text">When trying to identify images of unfamiliar individuals, Dr Epley found that people most frequently
+        <div style="margin-top:8px;"><select class="select-input" name="q36"><option value="">Select A–I</option><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option><option value="F">F</option><option value="G">G</option><option value="H">H</option><option value="I">I</option></select></div>
+      </div></div>
+    </div>
+    <div class="question" id="q37">
+      <div class="q-title"><div class="q-num">37</div><div class="q-text">Dr Epley says that a single objective reflection is impossible because people
+        <div style="margin-top:8px;"><select class="select-input" name="q37"><option value="">Select A–I</option><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option><option value="F">F</option><option value="G">G</option><option value="H">H</option><option value="I">I</option></select></div>
+      </div></div>
+    </div>
+    <div class="question" id="q38">
+      <div class="q-title"><div class="q-num">38</div><div class="q-text">Dr Epley says that when forming an opinion of how they think they look, people
+        <div style="margin-top:8px;"><select class="select-input" name="q38"><option value="">Select A–I</option><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option><option value="F">F</option><option value="G">G</option><option value="H">H</option><option value="I">I</option></select></div>
+      </div></div>
+    </div>
+    <div class="question" id="q39">
+      <div class="q-title"><div class="q-num">39</div><div class="q-text">When guessing the size of their mirrored face from close up, people
+        <div style="margin-top:8px;"><select class="select-input" name="q39"><option value="">Select A–I</option><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option><option value="F">F</option><option value="G">G</option><option value="H">H</option><option value="I">I</option></select></div>
+      </div></div>
+    </div>
+    <div class="question" id="q40">
+      <div class="q-title"><div class="q-num">40</div><div class="q-text">As they imagine stepping backwards from a mirror, people
+        <div style="margin-top:8px;"><select class="select-input" name="q40"><option value="">Select A–I</option><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option><option value="F">F</option><option value="G">G</option><option value="H">H</option><option value="I">I</option></select></div>
+      </div></div>
+    </div>
+    <div style="height:28px"></div>
+  </div>
+</main>
+<footer>
+  <div class="progress-container" id="progress-container"></div>
+  <div class="action-buttons">
+    <button class="btn-secondary" id="reset-btn">Reset Answers</button>
+    <button class="btn-primary" id="submit-btn">Submit Answers</button>
+  </div>
+</footer>
+<div class="feedback-overlay" id="feedback-overlay">
+  <div class="feedback-container">
+    <div class="feedback-header">
+      <div class="feedback-title"><i class="fas fa-chart-bar"></i> Results <span class="score-display" id="score-display">0/14</span></div>
+      <button id="close-feedback"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="feedback-body" id="feedback-body"></div>
+  </div>
+</div>
+<script>
+const CA={q27:'NO',q28:'NOT GIVEN',q29:'YES',q30:'NOT GIVEN',q31:'B',q32:'A',q33:'C',q34:'B',q35:'H',q36:'F',q37:'B',q38:'I',q39:'G',q40:'C'};
+const TOTAL=14;
+function norm(s){return(s||'').toString().trim().toLowerCase().replace(/\s+/g,' ');}
+function ok(qid,v){return norm(v)===norm(CA[qid]);}
+function getR(n){const ch=Array.from(document.getElementsByName(n)).find(e=>e.checked);return ch?ch.value:'';}
+function getSel(n){const e=document.querySelector(`select[name="${n}"]`);return e?e.value:'';}
+let submitted=false;
+function lockAll(){submitted=true;document.body.classList.add('test-locked');document.querySelectorAll('input,select').forEach(e=>e.disabled=true);document.getElementById('reset-btn').disabled=true;document.getElementById('reset-btn').style.opacity='.4';}
+function showInline(){
+  document.querySelectorAll('.inline-correct,.inline-wrong').forEach(e=>e.remove());
+  ['q35','q36','q37','q38','q39','q40'].forEach(qid=>{
+    const el=document.querySelector(`select[name="${qid}"]`);if(!el)return;
+    const sp=document.createElement('span');const good=ok(qid,getSel(qid));
+    sp.className=good?'inline-correct':'inline-wrong';sp.textContent=good?'✓':'Correct: '+CA[qid];
+    el.parentNode.insertBefore(sp,el.nextSibling);
+  });
+  ['q27','q28','q29','q30','q31','q32','q33','q34'].forEach(qid=>{
+    const qEl=document.getElementById(qid);if(!qEl)return;
+    const sp=document.createElement('span');const good=ok(qid,getR(qid));
+    sp.className=good?'inline-correct':'inline-wrong';sp.textContent=good?'✓':'Correct: '+CA[qid];
+    sp.style.display='block';sp.style.marginTop='6px';qEl.appendChild(sp);
+  });
+}
+document.getElementById('submit-btn').addEventListener('click',function(){
+  if(submitted){document.getElementById('feedback-overlay').style.display='flex';return;}
+  let score=0,html='';
+  const radioQs=[{qid:'q27',label:'Q27'},{qid:'q28',label:'Q28'},{qid:'q29',label:'Q29'},{qid:'q30',label:'Q30'},{qid:'q31',label:'Q31'},{qid:'q32',label:'Q32'},{qid:'q33',label:'Q33'},{qid:'q34',label:'Q34'}];
+  const selQs=[{qid:'q35',label:'Q35'},{qid:'q36',label:'Q36'},{qid:'q37',label:'Q37'},{qid:'q38',label:'Q38'},{qid:'q39',label:'Q39'},{qid:'q40',label:'Q40'}];
+  radioQs.forEach(({qid,label})=>{const user=getR(qid);const good=ok(qid,user);if(good)score++;html+=`<div class="feedback-item"><div class="feedback-question">${label}</div><div class="feedback-answer ${good?'correct':'incorrect'}">Your answer: ${user||'(none)'}<br/>${good?'✔ Correct':'✘ Incorrect – Correct: <strong>'+CA[qid]+'</strong>'}</div></div>`;});
+  selQs.forEach(({qid,label})=>{const user=getSel(qid);const good=ok(qid,user);if(good)score++;html+=`<div class="feedback-item"><div class="feedback-question">${label}</div><div class="feedback-answer ${good?'correct':'incorrect'}">Your answer: ${user||'(none)'}<br/>${good?'✔ Correct':'✘ Incorrect – Correct: <strong>'+CA[qid]+'</strong>'}</div></div>`;});
+  document.getElementById('feedback-body').innerHTML=html;document.getElementById('score-display').textContent=score+'/'+TOTAL;document.getElementById('feedback-overlay').style.display='flex';lockAll();showInline();
+});
+document.getElementById('close-feedback').addEventListener('click',()=>document.getElementById('feedback-overlay').style.display='none');
+document.getElementById('reset-btn').addEventListener('click',()=>{if(submitted)return;document.querySelectorAll('select').forEach(e=>e.value='');document.querySelectorAll('input[type=radio]').forEach(e=>e.checked=false);updateProg();});
+const qnums=[27,28,29,30,31,32,33,34,35,36,37,38,39,40];
+function initProg(){const pc=document.getElementById('progress-container');pc.innerHTML='';qnums.forEach(n=>{const d=document.createElement('div');d.className='progress-item';d.textContent=n;d.dataset.qid='q'+n;d.addEventListener('click',()=>{const el=document.getElementById('q'+n);if(el)el.scrollIntoView({behavior:'smooth'});});pc.appendChild(d);});}
+function updateProg(){document.querySelectorAll('.progress-item').forEach(item=>{const qid=item.dataset.qid;let ans=false;const radios=document.querySelectorAll(`input[name="${qid}"][type=radio]`);if(radios.length)ans=Array.from(radios).some(r=>r.checked);const sel=document.querySelector(`select[name="${qid}"]`);if(!ans&&sel&&sel.value)ans=true;const qEl=document.getElementById(qid);item.classList.toggle('completed',ans);if(qEl)qEl.classList.toggle('answered',ans);});}
+document.addEventListener('change',updateProg);
+let ti=null,tr=1200;function updT(){const m=Math.floor(tr/60).toString().padStart(2,'0'),s=(tr%60).toString().padStart(2,'0');document.getElementById('timer').textContent=m+':'+s;}
+document.getElementById('start-timer').addEventListener('click',()=>{if(ti)return;ti=setInterval(()=>{if(tr>0){tr--;updT();}else{clearInterval(ti);ti=null;alert('Time is up!');}},1000);});
+document.getElementById('pause-timer').addEventListener('click',()=>{clearInterval(ti);ti=null;});
+document.getElementById('reset-timer').addEventListener('click',()=>{clearInterval(ti);ti=null;tr=1200;updT();});
+document.getElementById('night-mode-toggle').addEventListener('click',function(){document.body.classList.toggle('night-mode');const i=this.querySelector('i');i.classList.toggle('fa-moon');i.classList.toggle('fa-sun');});
+document.getElementById('fullscreen-toggle').addEventListener('click',()=>{if(!document.fullscreenElement)document.documentElement.requestFullscreen?.();else document.exitFullscreen?.();});
+document.addEventListener('fullscreenchange',()=>{document.getElementById('fullscreen-toggle').innerHTML=document.fullscreenElement?'<i class="fas fa-compress"></i>':'<i class="fas fa-expand"></i>';});
+const dpanel=document.getElementById('display-panel'),dmenu=document.getElementById('display-menu-toggle');
+dmenu.addEventListener('click',e=>{e.stopPropagation();dpanel.classList.toggle('open');});
+document.addEventListener('click',e=>{if(dpanel.classList.contains('open')&&!dpanel.contains(e.target)&&!dmenu.contains(e.target))dpanel.classList.remove('open');});
+const fsr=document.getElementById('font-size-range'),lhr=document.getElementById('line-height-range');
+function applyDisp(){document.documentElement.style.setProperty('--cdi-font-size',(fsr?fsr.value:16)+'px');document.documentElement.style.setProperty('--cdi-line-height',lhr?(Number(lhr.value)/100):1.5);}
+fsr.addEventListener('input',applyDisp);lhr.addEventListener('input',applyDisp);
+document.querySelectorAll('[data-theme-choice]').forEach(b=>b.addEventListener('click',()=>{b.dataset.themeChoice==='dark'?document.body.classList.add('night-mode'):document.body.classList.remove('night-mode');}));
+const pc2=document.getElementById('passage-container'),qc=document.getElementById('questions-container'),rs=document.getElementById('cdi-resizer');
+pc2.style.flex='0 0 50%';qc.style.flex='1 1 auto';let drag=false;
+rs.addEventListener('mousedown',e=>{if(window.innerWidth<=900)return;drag=true;rs.classList.add('dragging');document.body.style.cursor='col-resize';document.body.style.userSelect='none';e.preventDefault();});
+window.addEventListener('mousemove',e=>{if(!drag)return;const main=rs.parentElement,rect=main.getBoundingClientRect(),total=rect.width-rs.offsetWidth;let left=e.clientX-rect.left;left=Math.min(Math.max(left,total*.22),total*.78);pc2.style.flex='0 0 '+left+'px';qc.style.flex='1 1 auto';});
+window.addEventListener('mouseup',()=>{drag=false;rs.classList.remove('dragging');document.body.style.cursor='';document.body.style.userSelect='';});
+let hlTip=null,selR=null;
+function colorPicker(x,y){if(hlTip)hlTip.remove();const colors=["lightgreen","yellow","lightskyblue","#ffb3b3"];const p=document.createElement('div');p.className='highlight-tooltip';p.style.cssText=`top:${y}px;left:${x}px;position:fixed;z-index:9999;display:flex;gap:4px;`;colors.forEach(c=>{const b=document.createElement('button');b.style.cssText=`background:${c};border:none;width:20px;height:20px;border-radius:50%;cursor:pointer;`;b.onclick=()=>{applyHL(c);p.remove();hlTip=null;};p.appendChild(b);});document.body.appendChild(p);hlTip=p;}
+function applyHL(color){if(!selR)return;try{const sp=document.createElement('span');sp.className='highlight';sp.style.backgroundColor=color;sp.appendChild(selR.extractContents());selR.insertNode(sp);selR=null;window.getSelection().removeAllRanges();sp.addEventListener('click',e=>{e.stopPropagation();if(hlTip){hlTip.remove();hlTip=null;}const t=document.createElement('div');t.className='highlight-tooltip';t.style.cssText=`top:${e.clientY}px;left:${e.clientX}px;position:fixed;z-index:9999;`;t.innerHTML='<button style="color:#fff;background:red;border:none;padding:5px 10px;border-radius:4px;cursor:pointer;">Remove</button>';t.querySelector('button').onclick=()=>{const par=sp.parentNode;while(sp.firstChild)par.insertBefore(sp.firstChild,sp);par.removeChild(sp);par.normalize();t.remove();hlTip=null;};document.body.appendChild(t);hlTip=t;});}catch(e){selR=null;}}
+['passage-text','questions-container'].forEach(id=>{document.getElementById(id).addEventListener('mouseup',e=>{const sel=window.getSelection();if(!sel||!sel.toString().trim())return;if(!e.currentTarget.contains(sel.anchorNode))return;try{selR=sel.getRangeAt(0).cloneRange();const r=selR.getBoundingClientRect();colorPicker(r.left,r.top-44);}catch(err){selR=null;}});});
+document.addEventListener('mousedown',e=>{if(hlTip&&!hlTip.contains(e.target)){hlTip.remove();hlTip=null;window.getSelection().removeAllRanges();selR=null;}});
+document.addEventListener('DOMContentLoaded',()=>{updT();initProg();updateProg();});
+</script>
+<script src="/passages/test-progress-bridge.js"></script>
+</body>
+</html>

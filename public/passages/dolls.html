@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/><meta content="width=device-width,initial-scale=1.0" name="viewport"/>
+<title>Dolls Through the Ages – IELTS</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<style>
+:root{--bg-color:#fff;--text-color:#000;--passage-bg:#fff;--questions-bg:#fff;--border-color:#d5d5d5;--highlight-color:#fef08a;--header-bg:#fff;--header-text:#000;--button-hover:#e4e4e4;--progress-complete:#21aa74;--timer-text:#000;--footer-bg:#fff;--cdi-font-size:16px;--cdi-line-height:1.5;}
+body.night-mode{--bg-color:#1a1a2e;--text-color:#e4e6eb;--passage-bg:#16213e;--questions-bg:#16213e;--border-color:#3a3f4b;--highlight-color:#6b5c10;--header-bg:#16213e;--header-text:#e4e6eb;--footer-bg:#16213e;--timer-text:#e4e6eb;--button-hover:#2a3550;--progress-complete:#81c995;}
+*{margin:0;padding:0;box-sizing:border-box;transition:background-color .3s,color .3s;}
+html,body{height:100%;font-family:Arial,sans-serif;background:var(--bg-color);color:var(--text-color);overflow:hidden;display:flex;flex-direction:column;font-size:16px;}
+header{height:56px;min-height:56px;padding:0 14px;background:var(--header-bg);border-bottom:1px solid var(--border-color);position:relative;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;z-index:50;}
+.cdi-left-brand{display:flex;align-items:center;gap:12px;min-width:220px;}
+.ielts-logo{font-size:40px;font-weight:900;letter-spacing:-2px;color:#e31837;line-height:1;font-family:Arial Black,Arial,sans-serif;}
+.ielts-logo::after{content:'™';font-size:9px;vertical-align:top;color:#e31837;}
+.test-taker{font-size:15px;font-weight:700;color:var(--header-text);}
+.cdi-center-brand{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);}
+.social-link.telegram{background:#0088cc;color:#fff;border-radius:22px;padding:6px 18px;font-size:15px;font-weight:500;text-decoration:none;display:flex;align-items:center;gap:8px;}
+.social-link.telegram:hover{background:#007bb5;}
+.header-controls{margin-left:auto;display:flex;align-items:center;gap:14px;}
+.timer-container{color:var(--timer-text);font-size:16px;font-weight:700;display:flex;align-items:center;gap:6px;}
+.hbtn{background:transparent;border:0;color:var(--header-text);width:34px;height:34px;padding:0;font-size:20px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;border-radius:3px;}
+.hbtn:hover{background:var(--button-hover);}
+.display-panel{position:fixed;top:56px;right:0;width:min(300px,100vw);background:var(--questions-bg);border-left:1px solid var(--border-color);box-shadow:-4px 0 16px rgba(0,0,0,.15);padding:16px;z-index:2000;display:none;color:var(--text-color);}
+.display-panel.open{display:block;}
+.display-panel h3{font-size:13px;text-transform:uppercase;letter-spacing:.04em;margin-bottom:14px;}
+.display-panel label{display:block;font-size:13px;font-weight:700;margin:10px 0 5px;}
+.display-panel input[type=range]{width:100%;accent-color:#2a6c96;}
+.theme-row{display:flex;gap:8px;margin-top:12px;}
+.theme-row button{border:1px solid var(--border-color);background:var(--questions-bg);color:var(--text-color);border-radius:6px;padding:6px 10px;cursor:pointer;}
+.cdi-part-header{margin:14px 14px 0;padding:10px 18px;background:rgb(241,242,236);border:1px solid var(--border-color);flex-shrink:0;}
+body.night-mode .cdi-part-header{background:#1f2b47;border-color:#3a3f4b;}
+.cdi-part-header p{margin:0;font-size:15px;line-height:1.4;color:var(--text-color);}
+main{display:flex;flex:1;min-height:0;margin-top:14px;overflow:hidden;}
+.passage-container,.questions-container{height:100%;overflow-y:auto;padding:22px 26px 70px;background:var(--passage-bg);color:var(--text-color);min-width:200px;font-size:var(--cdi-font-size);line-height:var(--cdi-line-height);}
+.questions-container{background:var(--questions-bg);}
+.passage-title{font-size:18px;font-weight:700;margin:0 0 6px;text-align:center;color:var(--text-color);}
+.passage-subtitle{font-style:italic;font-size:15px;text-align:center;margin:0 0 16px;color:var(--text-color);}
+.passage-text p{margin:0 0 14px;color:var(--text-color);font-size:var(--cdi-font-size);line-height:var(--cdi-line-height);}
+.sec-title{font-size:16px;font-weight:700;margin:0 0 10px;color:var(--text-color);}
+.instructions{font-size:15px;margin:0 0 14px;color:var(--text-color);}
+.question{margin:0 0 22px;}
+.q-title{display:flex;align-items:flex-start;gap:8px;margin-bottom:8px;}
+.q-num{display:inline-flex;align-items:center;justify-content:center;min-width:24px;height:24px;padding:0 5px;border:1.6px solid rgb(65,143,198);border-radius:3px;background:transparent;color:var(--text-color);font-size:15px;font-weight:700;flex-shrink:0;}
+.question.answered .q-num{background:rgba(33,170,116,0.12);}
+.q-text{font-size:var(--cdi-font-size);line-height:var(--cdi-line-height);color:var(--text-color);}
+.mcq-options{display:flex;flex-direction:column;gap:7px;margin-top:10px;}
+.mcq-option{display:flex;align-items:center;gap:10px;padding:9px 12px;border:1px solid var(--border-color);border-radius:7px;background:var(--questions-bg);cursor:pointer;font-size:var(--cdi-font-size);color:var(--text-color);}
+.mcq-option input{transform:scale(1.1);flex-shrink:0;}
+.text-input{border:1px solid var(--border-color);border-radius:3px;background:var(--questions-bg);color:var(--text-color);font-size:var(--cdi-font-size);min-height:28px;padding:3px 8px;font-family:Arial,sans-serif;}
+.notes-box{border:1px solid var(--border-color);border-radius:6px;padding:14px 18px;margin-bottom:16px;background:var(--questions-bg);}
+.notes-box p,.notes-box li{font-size:var(--cdi-font-size);line-height:var(--cdi-line-height);color:var(--text-color);}
+.notes-box ul{margin-left:18px;}.notes-box li{margin-bottom:7px;}
+.cdi-resizer{width:16px;flex:0 0 16px;background:transparent;cursor:col-resize;position:relative;display:flex;align-items:center;justify-content:center;z-index:5;}
+.cdi-resizer::before{content:'';position:absolute;left:50%;top:0;bottom:0;width:1px;background:var(--border-color);transform:translateX(-50%);}
+.cdi-resizer-handle{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:34px;height:34px;border:1.6px solid #535353;background:#f9f9f9;color:#535353;display:flex;align-items:center;justify-content:center;font-size:15px;pointer-events:none;}
+body.night-mode .cdi-resizer-handle{background:#1f2b47;color:#b0b3b8;border-color:#3a3f4b;}
+.cdi-resizer:hover::before,.cdi-resizer.dragging::before{background:#2a6c96;}
+.cdi-resizer:hover .cdi-resizer-handle,.cdi-resizer.dragging .cdi-resizer-handle{color:#2a6c96;border-color:#2a6c96;}
+footer{height:60px;background:var(--footer-bg);border-top:1px solid var(--border-color);padding:0;display:flex;align-items:stretch;flex-shrink:0;}
+.progress-container{display:flex;align-items:stretch;overflow-x:auto;flex:1;padding:0 14px;}
+.progress-item{width:38px;height:100%;background:transparent;color:var(--text-color);border:1.6px solid transparent;display:inline-flex;align-items:center;justify-content:center;font-size:15px;position:relative;cursor:pointer;}
+.progress-item::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:#d7d7d7;}
+.progress-item.completed{color:#2a6c96;}.progress-item.completed::before{background:#21aa74;}
+.action-buttons{display:flex;align-items:stretch;}
+.btn-secondary,.btn-primary{height:100%;border-radius:0;padding:0 24px;background:#efefef;color:#535353;border:0;border-left:1px solid var(--border-color);font-size:15px;cursor:pointer;}
+.btn-secondary:hover,.btn-primary:hover{background:#e4e4e4;}
+.feedback-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.7);z-index:3000;display:none;justify-content:center;align-items:center;}
+.feedback-container{background:var(--passage-bg);width:90%;max-width:880px;height:88%;border-radius:10px;box-shadow:0 5px 15px rgba(0,0,0,.3);display:flex;flex-direction:column;}
+.feedback-header{padding:18px 20px;border-bottom:1px solid var(--border-color);display:flex;justify-content:space-between;align-items:center;}
+.feedback-title{font-size:20px;font-weight:700;color:var(--text-color);display:flex;align-items:center;gap:10px;}
+.score-display{font-size:22px;font-weight:700;margin-left:8px;}
+#close-feedback{font-size:22px;background:none;border:none;color:var(--text-color);cursor:pointer;}
+.feedback-body{padding:18px;overflow-y:auto;}
+.feedback-item{margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid var(--border-color);}
+.feedback-question{font-weight:700;margin-bottom:5px;font-size:15px;color:var(--text-color);}
+.feedback-answer{font-size:14px;padding:7px 11px;border-radius:4px;}
+.feedback-answer.correct{background:rgba(40,167,69,.1);color:#155724;}
+.feedback-answer.incorrect{background:rgba(220,53,69,.1);color:#721c24;}
+body.night-mode .feedback-answer.correct{color:#81c995;background:rgba(40,167,69,.15);}
+body.night-mode .feedback-answer.incorrect{color:#f5a0a8;background:rgba(220,53,69,.15);}
+.highlight{background-color:var(--highlight-color);cursor:pointer;}
+.highlight-tooltip{position:fixed;background:#333;color:#fff;padding:5px 10px;border-radius:4px;font-size:13px;z-index:9999;display:flex;align-items:center;gap:5px;}
+.inline-correct{color:#28a745;font-weight:700;margin-left:8px;font-size:14px;}
+.inline-wrong{color:#dc3545;font-weight:600;margin-left:8px;font-size:13px;}
+.test-locked input,.test-locked select{pointer-events:none;opacity:.85;}
+.test-locked .mcq-option{cursor:default;}
+@media(max-width:900px){.test-taker{display:none;}.cdi-center-brand{position:static;transform:none;margin-left:6px;}.cdi-resizer{display:none!important;}main{flex-direction:column;}.passage-container,.questions-container{width:100%!important;flex:none!important;height:50%!important;}}
+</style>
+</head>
+<body>
+<header>
+  <div class="cdi-left-brand"><span class="ielts-logo">IELTS</span><span class="test-taker">Test taker ID</span></div>
+  <div class="cdi-center-brand"><a class="social-link telegram" href="https://t.me/augustus_flores" target="_blank"><i class="fab fa-telegram-plane"></i><span>Abduraimov Erkinjon</span></a></div>
+  <div class="header-controls">
+    <div class="timer-container"><i class="fas fa-clock"></i><span id="timer">20:00</span></div>
+    <button class="hbtn" id="start-timer"><i class="fas fa-play"></i></button>
+    <button class="hbtn" id="pause-timer"><i class="fas fa-pause"></i></button>
+    <button class="hbtn" id="reset-timer"><i class="fas fa-redo"></i></button>
+    <button class="hbtn" id="fullscreen-toggle"><i class="fas fa-expand"></i></button>
+    <button class="hbtn" id="night-mode-toggle"><i class="fas fa-moon"></i></button>
+    <button class="hbtn" id="display-menu-toggle"><i class="fas fa-bars"></i></button>
+  </div>
+</header>
+<div class="display-panel" id="display-panel">
+  <h3>Display options</h3>
+  <label>Text size</label><input id="font-size-range" type="range" min="14" max="22" value="16"/>
+  <label>Line spacing</label><input id="line-height-range" type="range" min="140" max="190" value="150"/>
+  <div class="theme-row"><button data-theme-choice="light">Light</button><button data-theme-choice="dark">Dark</button></div>
+</div>
+<div class="cdi-part-header"><p><strong>Part 1</strong></p><p>Read the text and answer questions 1–13.</p></div>
+<main>
+  <div class="passage-container" id="passage-container">
+    <div class="passage-title">Dolls Through the Ages</div>
+    <div class="passage-subtitle">What is today a simple children's toy has a surprisingly rich history</div>
+    <div class="passage-text" id="passage-text">
+      <p>Dolls have been a part of humankind for thousands of years. Often depicting religious figures, or used as playthings, early dolls were probably made from primitive materials such as clay, fur, or wood.</p>
+      <p>Dolls constructed of flat pieces of wood, painted with various designs, and with 'hair' made of clay, have often been found in Egyptian graves dating back to 2000 BC. Egyptian tombs of wealthy families have included pottery dolls. Dolls being placed in these graves leads some to believe that they were cherished possessions.</p>
+      <p>Girls from ancient Greece and Rome offered their wooden dolls to goddesses after they were too 'grown-up' to play with dolls. Most ancient dolls that were found in tombs were very simple creations, often made from such materials as clay, rags, wood, or bone. Some of the more unique dolls were made with ivory or wax. The main goal was to make the doll as lifelike as possible. That ideal led to the creation of dolls with movable limbs and removable garments, dating back to 600 BC.</p>
+      <p>Following the era of the ancient dolls, Europe became a major hub for doll production. These dolls were primarily made of wood. Fewer than 30 examples of primitive wooden stump dolls from England survive today. The Grodnertal area of Germany produced many peg wooden dolls, a type of doll that has very simple peg joints and resembles a clothespin (a device for hanging washing on a clothesline). An alternative to wood was developed in the 1800s.</p>
+      <p>'Composition' is a collective term for mixtures of pulped wood or paper that were used to make doll heads and bodies. These mixtures were moulded under pressure, creating a durable doll that could be mass produced. Manufacturers closely guarded the recipes for their mixtures, sometimes using strange ingredients like ash or eggshells. Papier-mâché, a type of composition, was one of the most popular mixtures.</p>
+      <p>In addition to wooden dolls, wax dolls grew in popularity in the 17th and 18th centuries. Munich in Germany was a major manufacturing centre for wax dolls. Wax modellers would model a doll's head in wax or clay, and then cover it with plaster to create a mould. Then they would pour melted wax into the cast. The wax for the head would be very thin, no more than 3 mm. Some of the most distinctive wax dolls were created in England between 1850 and 1930. One of the first dolls that portrayed a baby was made in England from wax at the beginning of the 19th century.</p>
+      <p>Around the same time porcelain became popular. It is made by firing special clays in a kiln at more than 2372 degrees Fahrenheit (1300°C), and only a few clays can withstand firing at such high temperatures. Porcelain is used generically to refer to both china and bisque dolls; china is glazed, whereas bisque is unglazed. Germany, France, and Denmark started creating china heads for dolls in the 1840s. These china heads were replaced in the 1860s by ones made of bisque. Bisque, which is porcelain fired twice with colour added to it after the first firing, looked more like skin than china did.</p>
+      <p>In France, the bébé was popular in the 1880s, and it has become a highly sought after doll today. The bébé, first made in the 1850s, was different from its predecessors because it depicted a younger girl. Until then, most French dolls were representations of adults. Although the French dolls were unrivalled in their artistry, German bisque dolls became quite popular because they were not as expensive. Kammer &amp; Reinhardt introduced a bisque character doll in the 1900s, starting a trend of creating realistic dolls.</p>
+      <p>For many centuries, rag dolls were made by mothers for their children. The term 'rag doll' refers generically to dolls made of any fabric. 'Cloth doll' refers to a subset of rag dolls made of linen or cotton. Commercially produced rag dolls were first introduced in the 1850s by English and American manufacturers. Although not as sophisticated as dolls made from other materials, rag dolls were well loved, often as a child's first toy.</p>
+      <p>Dollmaking did not become an industry in the United States until after the Civil War in the 1860s. Doll production was concentrated in the New England region of the United States, with dolls made from a variety of materials such as leather, rubber, papier-mâché, and cloth. Celluloid was developed in the state of New Jersey in the late 1860s and was used to manufacture dolls until the mid-1950s. German, French, American, and Japanese factories churned out cheaply produced celluloid dolls in mass quantities. However, celluloid fell out of favour because of its extreme flammability and propensity to fade in bright light.</p>
+      <p>After World War I, doll makers experimented with plastics. Hard plastic dolls were manufactured in the 1940s. They resembled composition dolls, but they were much more durable. Other materials used in doll manufacturing included rubber, foam rubber, and vinyl in the 1950s and 1960s. Vinyl changed doll making, allowing doll makers to root hair into the head, rather than using wigs or painting the hair. Although most dolls are now mass-manufactured using these modern materials, many modern doll makers are still using the traditional materials of the past to make collectible dolls.</p>
+    </div>
+  </div>
+  <div class="cdi-resizer" id="cdi-resizer"><div class="cdi-resizer-handle">↔</div></div>
+  <div class="questions-container" id="questions-container">
+    <div class="sec-title">Questions 1–6</div>
+    <div class="instructions">Complete the notes below. Choose <strong>ONE WORD ONLY</strong> from the passage for each answer.</div>
+    <div class="notes-box">
+      <p style="font-weight:700;margin-bottom:10px;">Dolls</p>
+      <p style="font-weight:700;margin-bottom:6px;">Earliest known dolls</p>
+      <ul><li>represented religious figures</li><li>used as toys</li></ul>
+      <p style="font-weight:700;margin:10px 0 6px;">Egypt 2000 BC</p>
+      <ul>
+        <li>bodies were made of wood</li>
+        <li><strong>1</strong> <input class="text-input" name="q1" type="text" placeholder="one word" style="min-width:120px;"/> was used for the hair</li>
+      </ul>
+      <p style="font-weight:700;margin:10px 0 6px;">Ancient Greece and Rome</p>
+      <ul><li>dolls were given to <strong>2</strong> <input class="text-input" name="q2" type="text" placeholder="one word" style="min-width:130px;"/> by older girls</li></ul>
+      <p style="font-weight:700;margin:10px 0 6px;">600 BC</p>
+      <ul><li>realistic dolls had separate clothes and <strong>3</strong> <input class="text-input" name="q3" type="text" placeholder="one word" style="min-width:120px;"/> that could be put in different positions</li></ul>
+      <p style="font-weight:700;margin:10px 0 6px;">17th and 18th centuries</p>
+      <ul>
+        <li>dolls made of <strong>4</strong> <input class="text-input" name="q4" type="text" placeholder="one word" style="min-width:100px;"/> became more common</li>
+        <li>moulds made of <strong>5</strong> <input class="text-input" name="q5" type="text" placeholder="one word" style="min-width:100px;"/></li>
+      </ul>
+      <p style="font-weight:700;margin:10px 0 6px;">1800s</p>
+      <ul>
+        <li>new manufacturing process developed</li>
+        <li>new group of mixtures known as <strong>6</strong> <input class="text-input" name="q6" type="text" placeholder="one word" style="min-width:140px;"/></li>
+        <li>recipes for these mixtures kept secret</li>
+      </ul>
+    </div>
+
+    <div class="sec-title">Questions 7–13</div>
+    <div class="instructions">Do the following statements agree with the information? Write <strong>TRUE</strong>, <strong>FALSE</strong>, or <strong>NOT GIVEN</strong>.</div>
+    <div class="question" id="q7">
+      <div class="q-title"><div class="q-num">7</div><div class="q-text">Bisque dolls appear less realistic than dolls made of China.</div></div>
+      <div class="mcq-options"><label class="mcq-option"><input type="radio" name="q7" value="TRUE"/> TRUE</label><label class="mcq-option"><input type="radio" name="q7" value="FALSE"/> FALSE</label><label class="mcq-option"><input type="radio" name="q7" value="NOT GIVEN"/> NOT GIVEN</label></div>
+    </div>
+    <div class="question" id="q8">
+      <div class="q-title"><div class="q-num">8</div><div class="q-text">French dolls tended to cost more than German bisque dolls.</div></div>
+      <div class="mcq-options"><label class="mcq-option"><input type="radio" name="q8" value="TRUE"/> TRUE</label><label class="mcq-option"><input type="radio" name="q8" value="FALSE"/> FALSE</label><label class="mcq-option"><input type="radio" name="q8" value="NOT GIVEN"/> NOT GIVEN</label></div>
+    </div>
+    <div class="question" id="q9">
+      <div class="q-title"><div class="q-num">9</div><div class="q-text">The first rag dolls were made in the 1850s.</div></div>
+      <div class="mcq-options"><label class="mcq-option"><input type="radio" name="q9" value="TRUE"/> TRUE</label><label class="mcq-option"><input type="radio" name="q9" value="FALSE"/> FALSE</label><label class="mcq-option"><input type="radio" name="q9" value="NOT GIVEN"/> NOT GIVEN</label></div>
+    </div>
+    <div class="question" id="q10">
+      <div class="q-title"><div class="q-num">10</div><div class="q-text">Only dolls made of cotton or linen are classified as cloth dolls.</div></div>
+      <div class="mcq-options"><label class="mcq-option"><input type="radio" name="q10" value="TRUE"/> TRUE</label><label class="mcq-option"><input type="radio" name="q10" value="FALSE"/> FALSE</label><label class="mcq-option"><input type="radio" name="q10" value="NOT GIVEN"/> NOT GIVEN</label></div>
+    </div>
+    <div class="question" id="q11">
+      <div class="q-title"><div class="q-num">11</div><div class="q-text">Dolls made of celluloid tended to lose their colour.</div></div>
+      <div class="mcq-options"><label class="mcq-option"><input type="radio" name="q11" value="TRUE"/> TRUE</label><label class="mcq-option"><input type="radio" name="q11" value="FALSE"/> FALSE</label><label class="mcq-option"><input type="radio" name="q11" value="NOT GIVEN"/> NOT GIVEN</label></div>
+    </div>
+    <div class="question" id="q12">
+      <div class="q-title"><div class="q-num">12</div><div class="q-text">Composition dolls lasted longer than the plastic dolls that were made in the 1940s.</div></div>
+      <div class="mcq-options"><label class="mcq-option"><input type="radio" name="q12" value="TRUE"/> TRUE</label><label class="mcq-option"><input type="radio" name="q12" value="FALSE"/> FALSE</label><label class="mcq-option"><input type="radio" name="q12" value="NOT GIVEN"/> NOT GIVEN</label></div>
+    </div>
+    <div class="question" id="q13">
+      <div class="q-title"><div class="q-num">13</div><div class="q-text">Doll collectors prefer a doll to be dressed in its original clothing.</div></div>
+      <div class="mcq-options"><label class="mcq-option"><input type="radio" name="q13" value="TRUE"/> TRUE</label><label class="mcq-option"><input type="radio" name="q13" value="FALSE"/> FALSE</label><label class="mcq-option"><input type="radio" name="q13" value="NOT GIVEN"/> NOT GIVEN</label></div>
+    </div>
+    <div style="height:28px"></div>
+  </div>
+</main>
+<footer>
+  <div class="progress-container" id="progress-container"></div>
+  <div class="action-buttons">
+    <button class="btn-secondary" id="reset-btn">Reset Answers</button>
+    <button class="btn-primary" id="submit-btn">Submit Answers</button>
+  </div>
+</footer>
+<div class="feedback-overlay" id="feedback-overlay">
+  <div class="feedback-container">
+    <div class="feedback-header">
+      <div class="feedback-title"><i class="fas fa-chart-bar"></i> Results <span class="score-display" id="score-display">0/13</span></div>
+      <button id="close-feedback"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="feedback-body" id="feedback-body"></div>
+  </div>
+</div>
+<script>
+const CA={q1:'clay',q2:'goddesses',q3:'limbs',q4:'wax',q5:'plaster',q6:'composition',q7:'FALSE',q8:'TRUE',q9:'FALSE',q10:'TRUE',q11:'TRUE',q12:'FALSE',q13:'NOT GIVEN'};
+function norm(s){return(s||'').toString().trim().toLowerCase().replace(/\s+/g,' ');}
+function ok(qid,v){return norm(v)===norm(CA[qid]);}
+function getR(n){const ch=Array.from(document.getElementsByName(n)).find(e=>e.checked);return ch?ch.value:'';}
+function getT(n){const e=document.querySelector(`input[name="${n}"]`);return e?e.value:'';}
+let submitted=false;
+function lockAll(){submitted=true;document.body.classList.add('test-locked');document.querySelectorAll('input,select').forEach(e=>e.disabled=true);document.getElementById('reset-btn').disabled=true;document.getElementById('reset-btn').style.opacity='.4';}
+function showInline(){
+  document.querySelectorAll('.inline-correct,.inline-wrong').forEach(e=>e.remove());
+  ['q1','q2','q3','q4','q5','q6'].forEach(qid=>{
+    const inp=document.querySelector(`input[name="${qid}"]`);if(!inp)return;
+    const sp=document.createElement('span');const good=ok(qid,getT(qid));
+    sp.className=good?'inline-correct':'inline-wrong';sp.textContent=good?'✓':'Correct: '+CA[qid];
+    inp.parentNode.insertBefore(sp,inp.nextSibling);
+  });
+  ['q7','q8','q9','q10','q11','q12','q13'].forEach(qid=>{
+    const qEl=document.getElementById(qid);if(!qEl)return;
+    const sp=document.createElement('span');const good=ok(qid,getR(qid));
+    sp.className=good?'inline-correct':'inline-wrong';sp.textContent=good?'✓':'Correct: '+CA[qid];
+    sp.style.display='block';sp.style.marginTop='6px';qEl.appendChild(sp);
+  });
+}
+document.getElementById('submit-btn').addEventListener('click',function(){
+  if(submitted){document.getElementById('feedback-overlay').style.display='flex';return;}
+  let score=0,html='';
+  const textQs=[{qid:'q1',label:'Q1'},{qid:'q2',label:'Q2'},{qid:'q3',label:'Q3'},{qid:'q4',label:'Q4'},{qid:'q5',label:'Q5'},{qid:'q6',label:'Q6'}];
+  const radioQs=[{qid:'q7',label:'Q7'},{qid:'q8',label:'Q8'},{qid:'q9',label:'Q9'},{qid:'q10',label:'Q10'},{qid:'q11',label:'Q11'},{qid:'q12',label:'Q12'},{qid:'q13',label:'Q13'}];
+  textQs.forEach(({qid,label})=>{const user=getT(qid);const good=ok(qid,user);if(good)score++;html+=`<div class="feedback-item"><div class="feedback-question">${label}</div><div class="feedback-answer ${good?'correct':'incorrect'}">Your answer: ${user||'(none)'}<br/>${good?'✔ Correct':'✘ Incorrect – Correct: <strong>'+CA[qid]+'</strong>'}</div></div>`;});
+  radioQs.forEach(({qid,label})=>{const user=getR(qid);const good=ok(qid,user);if(good)score++;html+=`<div class="feedback-item"><div class="feedback-question">${label}</div><div class="feedback-answer ${good?'correct':'incorrect'}">Your answer: ${user||'(none)'}<br/>${good?'✔ Correct':'✘ Incorrect – Correct: <strong>'+CA[qid]+'</strong>'}</div></div>`;});
+  document.getElementById('feedback-body').innerHTML=html;document.getElementById('score-display').textContent=score+'/13';document.getElementById('feedback-overlay').style.display='flex';lockAll();showInline();
+});
+document.getElementById('close-feedback').addEventListener('click',()=>document.getElementById('feedback-overlay').style.display='none');
+document.getElementById('reset-btn').addEventListener('click',()=>{if(submitted)return;document.querySelectorAll('input[type=text]').forEach(e=>e.value='');document.querySelectorAll('input[type=radio]').forEach(e=>e.checked=false);updateProg();});
+function initProg(){const pc=document.getElementById('progress-container');pc.innerHTML='';for(let n=1;n<=13;n++){const d=document.createElement('div');d.className='progress-item';d.textContent=n;d.dataset.qid='q'+n;d.addEventListener('click',()=>{const el=document.getElementById('q'+n);if(el)el.scrollIntoView({behavior:'smooth'});});pc.appendChild(d);}}
+function updateProg(){document.querySelectorAll('.progress-item').forEach(item=>{const qid=item.dataset.qid;let ans=false;const radios=document.querySelectorAll(`input[name="${qid}"][type=radio]`);if(radios.length)ans=Array.from(radios).some(r=>r.checked);const txt=document.querySelector(`input[name="${qid}"][type=text]`);if(!ans&&txt&&txt.value.trim())ans=true;const qEl=document.getElementById(qid);item.classList.toggle('completed',ans);if(qEl)qEl.classList.toggle('answered',ans);});}
+document.addEventListener('change',updateProg);document.addEventListener('input',updateProg);
+let ti=null,tr=1200;function updT(){const m=Math.floor(tr/60).toString().padStart(2,'0'),s=(tr%60).toString().padStart(2,'0');document.getElementById('timer').textContent=m+':'+s;}
+document.getElementById('start-timer').addEventListener('click',()=>{if(ti)return;ti=setInterval(()=>{if(tr>0){tr--;updT();}else{clearInterval(ti);ti=null;alert('Time is up!');}},1000);});
+document.getElementById('pause-timer').addEventListener('click',()=>{clearInterval(ti);ti=null;});
+document.getElementById('reset-timer').addEventListener('click',()=>{clearInterval(ti);ti=null;tr=1200;updT();});
+document.getElementById('night-mode-toggle').addEventListener('click',function(){document.body.classList.toggle('night-mode');const i=this.querySelector('i');i.classList.toggle('fa-moon');i.classList.toggle('fa-sun');});
+document.getElementById('fullscreen-toggle').addEventListener('click',()=>{if(!document.fullscreenElement)document.documentElement.requestFullscreen?.();else document.exitFullscreen?.();});
+document.addEventListener('fullscreenchange',()=>{document.getElementById('fullscreen-toggle').innerHTML=document.fullscreenElement?'<i class="fas fa-compress"></i>':'<i class="fas fa-expand"></i>';});
+const dpanel=document.getElementById('display-panel'),dmenu=document.getElementById('display-menu-toggle');
+dmenu.addEventListener('click',e=>{e.stopPropagation();dpanel.classList.toggle('open');});
+document.addEventListener('click',e=>{if(dpanel.classList.contains('open')&&!dpanel.contains(e.target)&&!dmenu.contains(e.target))dpanel.classList.remove('open');});
+const fsr=document.getElementById('font-size-range'),lhr=document.getElementById('line-height-range');
+function applyDisp(){document.documentElement.style.setProperty('--cdi-font-size',(fsr?fsr.value:16)+'px');document.documentElement.style.setProperty('--cdi-line-height',lhr?(Number(lhr.value)/100):1.5);}
+fsr.addEventListener('input',applyDisp);lhr.addEventListener('input',applyDisp);
+document.querySelectorAll('[data-theme-choice]').forEach(b=>b.addEventListener('click',()=>{b.dataset.themeChoice==='dark'?document.body.classList.add('night-mode'):document.body.classList.remove('night-mode');}));
+const pc2=document.getElementById('passage-container'),qc=document.getElementById('questions-container'),rs=document.getElementById('cdi-resizer');
+pc2.style.flex='0 0 50%';qc.style.flex='1 1 auto';let drag=false;
+rs.addEventListener('mousedown',e=>{if(window.innerWidth<=900)return;drag=true;rs.classList.add('dragging');document.body.style.cursor='col-resize';document.body.style.userSelect='none';e.preventDefault();});
+window.addEventListener('mousemove',e=>{if(!drag)return;const main=rs.parentElement,rect=main.getBoundingClientRect(),total=rect.width-rs.offsetWidth;let left=e.clientX-rect.left;left=Math.min(Math.max(left,total*.22),total*.78);pc2.style.flex='0 0 '+left+'px';qc.style.flex='1 1 auto';});
+window.addEventListener('mouseup',()=>{drag=false;rs.classList.remove('dragging');document.body.style.cursor='';document.body.style.userSelect='';});
+let hlTip=null,selR=null;
+function colorPicker(x,y){if(hlTip)hlTip.remove();const colors=["lightgreen","yellow","lightskyblue","#ffb3b3"];const p=document.createElement('div');p.className='highlight-tooltip';p.style.cssText=`top:${y}px;left:${x}px;position:fixed;z-index:9999;display:flex;gap:4px;`;colors.forEach(c=>{const b=document.createElement('button');b.style.cssText=`background:${c};border:none;width:20px;height:20px;border-radius:50%;cursor:pointer;`;b.onclick=()=>{applyHL(c);p.remove();hlTip=null;};p.appendChild(b);});document.body.appendChild(p);hlTip=p;}
+function applyHL(color){if(!selR)return;try{const sp=document.createElement('span');sp.className='highlight';sp.style.backgroundColor=color;sp.appendChild(selR.extractContents());selR.insertNode(sp);selR=null;window.getSelection().removeAllRanges();sp.addEventListener('click',e=>{e.stopPropagation();if(hlTip){hlTip.remove();hlTip=null;}const t=document.createElement('div');t.className='highlight-tooltip';t.style.cssText=`top:${e.clientY}px;left:${e.clientX}px;position:fixed;z-index:9999;`;t.innerHTML='<button style="color:#fff;background:red;border:none;padding:5px 10px;border-radius:4px;cursor:pointer;">Remove</button>';t.querySelector('button').onclick=()=>{const par=sp.parentNode;while(sp.firstChild)par.insertBefore(sp.firstChild,sp);par.removeChild(sp);par.normalize();t.remove();hlTip=null;};document.body.appendChild(t);hlTip=t;});}catch(e){selR=null;}}
+['passage-text','questions-container'].forEach(id=>{document.getElementById(id).addEventListener('mouseup',e=>{const sel=window.getSelection();if(!sel||!sel.toString().trim())return;if(!e.currentTarget.contains(sel.anchorNode))return;try{selR=sel.getRangeAt(0).cloneRange();const r=selR.getBoundingClientRect();colorPicker(r.left,r.top-44);}catch(err){selR=null;}});});
+document.addEventListener('mousedown',e=>{if(hlTip&&!hlTip.contains(e.target)){hlTip.remove();hlTip=null;window.getSelection().removeAllRanges();selR=null;}});
+document.addEventListener('DOMContentLoaded',()=>{updT();initProg();updateProg();});
+</script>
+<script src="/passages/test-progress-bridge.js"></script>
+</body>
+</html>
