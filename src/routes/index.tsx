@@ -24,41 +24,55 @@ const FEATURES = [
 function Index() {
   return (
     <SiteLayout>
-      {/* Hero */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-warm" />
-        <div className="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-gold/20 blur-3xl" />
-        <div className="absolute -bottom-32 -left-16 w-80 h-80 rounded-full bg-sage/20 blur-3xl" />
-        <div className="relative container mx-auto px-4 py-20 md:py-32 max-w-5xl text-center">
-          <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-card border border-border text-xs font-medium text-muted-foreground mb-6 shadow-soft">
-            <Star className="w-3.5 h-3.5 text-gold fill-current" /> Taught by an IELTS Band 8.0 teacher from Uzbekistan
+        <div className="absolute -top-20 -right-20 w-80 h-80 rounded-full opacity-30 blur-3xl" style={{ background: "radial-gradient(circle, #F5D5CB 0%, #EAC4D5 60%, transparent 100%)" }} />
+        <div className="absolute -bottom-28 -left-12 w-72 h-72 rounded-full opacity-20 blur-3xl" style={{ background: "radial-gradient(circle, #4A9B7A 0%, transparent 70%)" }} />
+
+        <div className="relative container mx-auto px-4 py-24 md:py-36 max-w-4xl text-center">
+          <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-card border border-border text-xs font-medium text-muted-foreground mb-7 shadow-soft">
+            <Star className="w-3.5 h-3.5 text-[#C07850] fill-current" />
+            Taught by an IELTS Band 8.0 teacher from Uzbekistan
           </span>
-          <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6 leading-[1.1]">
-            Master IELTS with <span className="text-transparent bg-clip-text bg-gradient-gold">guided practice</span>
+          <h1 className="text-4xl md:text-[3.5rem] font-bold tracking-tight mb-5 leading-[1.12]">
+            Master IELTS with{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-primary">guided practice</span>
           </h1>
-          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10">
+          <p className="text-lg md:text-xl text-muted-foreground max-w-xl mx-auto mb-10 leading-relaxed">
             Friendly lessons, real exam strategies, and structured practice — built for Uzbek learners who want a real score jump.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <Link to="/reading"><Button size="lg" className="bg-gradient-gold text-primary-foreground shadow-warm hover:opacity-90 h-12 px-7">Start Practicing Free <ArrowRight className="ml-1 w-4 h-4" /></Button></Link>
-            <Link to="/premium"><Button size="lg" variant="outline" className="h-12 px-7 border-border">Get Premium Access</Button></Link>
+            <Link to="/reading">
+              <Button size="lg" className="bg-gradient-primary text-white shadow-warm hover:opacity-90 h-12 px-8 rounded-xl">
+                Start Practicing Free <ArrowRight className="ml-1.5 w-4 h-4" />
+              </Button>
+            </Link>
+            <Link to="/premium">
+              <Button size="lg" variant="outline" className="h-12 px-8 rounded-xl border-border hover:bg-muted/60">
+                Get Premium Access
+              </Button>
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* Features */}
-      <section className="container mx-auto px-4 py-16">
-        <div className="text-center max-w-2xl mx-auto mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold mb-3">Everything you need to reach Band 7+</h2>
-          <p className="text-muted-foreground">From free strategy guides to premium model answers, every resource is built for the real test.</p>
+      <div className="w-full h-px" style={{ background: "linear-gradient(90deg, transparent 0%, #F5D5CB 30%, #4A9B7A 70%, transparent 100%)" }} />
+
+      <section className="container mx-auto px-4 py-20">
+        <div className="text-center max-w-xl mx-auto mb-14">
+          <h2 className="text-2xl md:text-3xl font-bold mb-3">Everything you need to reach Band 7+</h2>
+          <p className="text-muted-foreground text-sm md:text-base">From free strategy guides to premium model answers, every resource is built for the real test.</p>
         </div>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-5 max-w-6xl mx-auto">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-4 max-w-6xl mx-auto">
           {FEATURES.map((f) => (
-            <div key={f.title} className="bg-card rounded-2xl p-6 border border-border hover:shadow-warm hover:-translate-y-1 transition-all">
-              <span className="w-11 h-11 rounded-xl bg-accent flex items-center justify-center mb-4">
-                <f.icon className="w-5 h-5 text-secondary" />
+            <div
+              key={f.title}
+              className="bg-card rounded-xl p-5 border border-border shadow-card hover:shadow-warm hover:-translate-y-0.5 transition-all duration-200 group"
+            >
+              <span className="w-10 h-10 rounded-lg flex items-center justify-center mb-4" style={{ background: "linear-gradient(135deg, #F5D5CB 0%, #EDE9E2 100%)" }}>
+                <f.icon className="w-4.5 h-4.5 text-primary" style={{ width: "1.1rem", height: "1.1rem" }} />
               </span>
-              <h3 className="font-semibold text-lg mb-1.5">{f.title}</h3>
+              <h3 className="font-semibold text-base mb-1.5">{f.title}</h3>
               <p className="text-sm text-muted-foreground leading-relaxed">{f.desc}</p>
             </div>
           ))}
