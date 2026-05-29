@@ -7,6 +7,7 @@ import {
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
+import { Analytics } from "@vercel/analytics/react";
 
 import appCss from "../styles.css?url";
 import { AuthProvider } from "@/hooks/use-auth";
@@ -75,17 +76,37 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "Abduraimov Erkinjon - IELTS practise materials." },
-      { name: "description", content: "Free IELTS materials, online practice, and premium lessons from an experienced teacher in Uzbekistan." },
+      {
+        name: "description",
+        content:
+          "Free IELTS materials, online practice, and premium lessons from an experienced teacher in Uzbekistan.",
+      },
       { name: "author", content: "Abduraimov Erkinjon" },
       { property: "og:title", content: "Abduraimov Erkinjon - IELTS practise materials." },
-      { property: "og:description", content: "Free IELTS materials, online practice, and premium lessons from an experienced teacher in Uzbekistan." },
+      {
+        property: "og:description",
+        content:
+          "Free IELTS materials, online practice, and premium lessons from an experienced teacher in Uzbekistan.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
       { name: "twitter:title", content: "Abduraimov Erkinjon - IELTS practise materials." },
-      { name: "twitter:description", content: "Free IELTS materials, online practice, and premium lessons from an experienced teacher in Uzbekistan." },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/80f3eab0-376e-4f79-8566-c15d6ecdcccf/id-preview-b800bf81--c2a913cd-4177-4c3b-9192-9a979cbb46e1.lovable.app-1778940988818.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/80f3eab0-376e-4f79-8566-c15d6ecdcccf/id-preview-b800bf81--c2a913cd-4177-4c3b-9192-9a979cbb46e1.lovable.app-1778940988818.png" },
+      {
+        name: "twitter:description",
+        content:
+          "Free IELTS materials, online practice, and premium lessons from an experienced teacher in Uzbekistan.",
+      },
+      {
+        property: "og:image",
+        content:
+          "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/80f3eab0-376e-4f79-8566-c15d6ecdcccf/id-preview-b800bf81--c2a913cd-4177-4c3b-9192-9a979cbb46e1.lovable.app-1778940988818.png",
+      },
+      {
+        name: "twitter:image",
+        content:
+          "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/80f3eab0-376e-4f79-8566-c15d6ecdcccf/id-preview-b800bf81--c2a913cd-4177-4c3b-9192-9a979cbb46e1.lovable.app-1778940988818.png",
+      },
     ],
     links: [
       {
@@ -94,7 +115,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap",
+      },
     ],
   }),
   shellComponent: RootShell,
@@ -112,6 +136,7 @@ function RootShell({ children }: { children: React.ReactNode }) {
       <body>
         {children}
         <Scripts />
+        <Analytics />
       </body>
     </html>
   );
