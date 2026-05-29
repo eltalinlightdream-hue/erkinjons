@@ -4,20 +4,6 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/*
- * Design system definition.
- *
- * The @theme inline block maps CSS custom properties to Tailwind utility
- * classes (e.g. --color-primary -> bg-primary, text-primary).
- *
- * The :root and .dark blocks define the actual color values using oklch.
- * All colors MUST use oklch format.
- *
- * To add a new semantic color:
- * 1. Add the variable to :root (light value) and .dark (dark value)
- * 2. Register it in @theme inline as --color-<name>: var(--<name>)
- */
-
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -62,50 +48,63 @@
 }
 
 :root {
-  --radius: 0.75rem;
-  /* Cream background, deep ink foreground */
-  --background: #F0F4E8;
-  --foreground: #1a1a2e;
-  --card: #ffffff;
-  --card-foreground: #1a1a2e;
-  --popover: #ffffff;
-  --popover-foreground: #1a1a2e;
-  /* Deep purple primary */
-  --primary: #3D3561;
-  --primary-foreground: #ffffff;
-  /* Steel blue secondary */
-  --secondary: #4A90A4;
-  --secondary-foreground: #ffffff;
-  --muted: #dde8d8;
-  --muted-foreground: #4a5568;
-  /* Sage accent */
-  --accent: #7FB5A0;
-  --accent-foreground: #1a1a2e;
+  --radius: 0.625rem;
+
+  --background: #F8F6F2;
+  --foreground: #1C1B2E;
+
+  --card: #FFFFFF;
+  --card-foreground: #1C1B2E;
+  --popover: #FFFFFF;
+  --popover-foreground: #1C1B2E;
+
+  --primary: #2B4080;
+  --primary-foreground: #FFFFFF;
+
+  --secondary: #4A9B7A;
+  --secondary-foreground: #FFFFFF;
+
+  --muted: #EDE9E2;
+  --muted-foreground: #6B6880;
+
+  --accent: #F5D5CB;
+  --accent-foreground: #1C1B2E;
+
   --destructive: oklch(0.6 0.2 25);
-  --destructive-foreground: #ffffff;
-  --border: rgba(61, 53, 97, 0.15);
-  --input: rgba(61, 53, 97, 0.15);
-  --ring: #3D3561;
-  --gold: #3D3561;
-  --sage: #7FB5A0;
-  --cream: #F0F4E8;
-  --gradient-warm: linear-gradient(135deg, #F0F4E8, #dde8d8);
-  --gradient-gold: linear-gradient(135deg, #3D3561, #4A90A4);
-  --shadow-soft: 0 8px 24px -12px rgba(61, 53, 97, 0.18);
-  --shadow-warm: 0 12px 32px -16px rgba(61, 53, 97, 0.28);
+  --destructive-foreground: #FFFFFF;
+
+  --border: rgba(44, 42, 70, 0.12);
+  --input: rgba(44, 42, 70, 0.12);
+  --ring: #2B4080;
+
+  --gold: #C07850;
+  --sakura: #F5D5CB;
+  --matcha: #4A9B7A;
+  --washi: #F8F6F2;
+  --ink: #1C1B2E;
+
+  --gradient-primary: linear-gradient(135deg, #2B4080 0%, #4A6FA5 100%);
+  --gradient-sakura: linear-gradient(135deg, #F5D5CB 0%, #EAC4D5 100%);
+  --gradient-warm: linear-gradient(160deg, #F8F6F2 0%, #EDE9E2 100%);
+
+  --shadow-soft: 0 2px 12px -4px rgba(44, 42, 70, 0.12);
+  --shadow-warm: 0 8px 28px -8px rgba(44, 42, 70, 0.18);
+  --shadow-card: 0 1px 4px 0 rgba(44, 42, 70, 0.08);
+
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
   --chart-4: oklch(0.828 0.189 84.429);
   --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.984 0.003 247.858);
-  --sidebar-foreground: oklch(0.129 0.042 264.695);
-  --sidebar-primary: oklch(0.208 0.042 265.755);
-  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-accent: oklch(0.968 0.007 247.896);
-  --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
-  --sidebar-border: oklch(0.929 0.013 255.508);
-  --sidebar-ring: oklch(0.704 0.04 256.788);
+
+  --sidebar: #FFFFFF;
+  --sidebar-foreground: #1C1B2E;
+  --sidebar-primary: #2B4080;
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent: #F5D5CB;
+  --sidebar-accent-foreground: #1C1B2E;
+  --sidebar-border: rgba(44, 42, 70, 0.1);
+  --sidebar-ring: #2B4080;
 }
 
 .dark {
@@ -151,22 +150,38 @@
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-family: 'Inter', 'Hiragino Sans', system-ui, -apple-system, sans-serif;
     -webkit-font-smoothing: antialiased;
+    font-feature-settings: "kern" 1;
   }
 
   h1, h2, h3, h4 {
     font-family: 'Fraunces', Georgia, serif;
     letter-spacing: -0.02em;
   }
+
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
 }
 
 @layer utilities {
-  .bg-gradient-warm { background-image: var(--gradient-warm); }
-  .bg-gradient-gold { background-image: var(--gradient-gold); }
-  .shadow-soft { box-shadow: var(--shadow-soft); }
-  .shadow-warm { box-shadow: var(--shadow-warm); }
-  .text-gold { color: var(--gold); }
-  .bg-sage { background-color: var(--sage); }
-  .text-sage { color: var(--sage); }
+  .bg-gradient-warm     { background-image: var(--gradient-warm); }
+  .bg-gradient-gold     { background-image: var(--gradient-primary); }
+  .bg-gradient-primary  { background-image: var(--gradient-primary); }
+  .bg-gradient-sakura   { background-image: var(--gradient-sakura); }
+  .shadow-soft          { box-shadow: var(--shadow-soft); }
+  .shadow-warm          { box-shadow: var(--shadow-warm); }
+  .shadow-card          { box-shadow: var(--shadow-card); }
+  .text-gold            { color: var(--gold); }
+  .bg-sage              { background-color: var(--matcha); }
+  .text-sage            { color: var(--matcha); }
+  .text-sakura          { color: var(--sakura); }
+
+  .sakura-top-border {
+    border-top: 3px solid;
+    border-image: linear-gradient(90deg, #F5D5CB 0%, #EAC4D5 40%, #4A9B7A 100%) 1;
+  }
 }
