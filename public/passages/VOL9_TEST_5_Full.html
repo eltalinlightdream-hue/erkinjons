@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>IELTS Listening — Volume 9 — Test 5</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:var(--text);font-size:var(--fs,16px);line-height:1.6;padding:0}
+:root{--bg:#fff;--text:#222;--line:#ddd;--panel:#f8f9fa;--primary:#1e6de6;--good:#28a745;--bad:#dc3545;--input:#fff;--bar:#f1f3f4;--topbar-h:56px;--audiobar-h:90px;--navh:56px}
+[data-theme=dark]{--bg:#1a1a1a;--text:#f0f0f0;--line:#3a3a3a;--panel:#252525;--input:#2d2d2d;--bar:#252525}
+.font-small{--fs:14px}.font-medium{--fs:16px}.font-large{--fs:18px}.font-xlarge{--fs:20px}
+body::after{content:"Augustus IELTS";position:fixed;left:50%;top:50%;transform:translate(-50%,-50%) rotate(-20deg);font-size:64px;font-weight:800;opacity:.03;pointer-events:none;z-index:0}
+.topbar{position:fixed;top:0;left:0;right:0;height:var(--topbar-h);background:var(--bg);border-bottom:1px solid var(--line);display:flex;align-items:center;padding:0 16px;gap:12px;z-index:60}
+.topbar-title{font-weight:700;font-size:16px;flex:1}
+.icon-btn{width:34px;height:34px;border:1px solid var(--line);background:var(--bg);color:var(--text);border-radius:6px;cursor:pointer;display:grid;place-items:center;font-size:14px;font-weight:700;position:relative}
+.font-size-options{display:none;position:absolute;top:110%;right:0;background:var(--bg);border:1px solid var(--line);border-radius:8px;min-width:140px;box-shadow:0 4px 16px #0002;z-index:100}
+.font-size-options.show{display:block}
+.font-size-options div{padding:9px 16px;cursor:pointer;font-weight:400}
+.font-size-options div:hover{background:var(--panel)}
+.sun-icon,.moon-icon{position:absolute}
+.moon-icon{opacity:0}
+[data-theme=dark] .sun-icon{opacity:0}
+[data-theme=dark] .moon-icon{opacity:1}
+.audiobar{position:fixed;top:var(--topbar-h);left:0;right:0;background:var(--bar);border-bottom:1px solid var(--line);z-index:50;padding:8px 16px 10px}
+.audiobar-part{display:none}
+.audiobar-part.active{display:block}
+.url-hint{font-size:12px;color:#888;margin-bottom:5px}
+.url-row{display:flex;gap:8px;margin-bottom:7px;align-items:center}
+.url-input{flex:1;height:32px;border:1px solid var(--line);border-radius:6px;background:var(--input);color:var(--text);padding:0 10px;font-size:13px}
+.url-input::placeholder{color:#aaa}
+.url-load-btn{height:32px;padding:0 14px;border:none;background:var(--primary);color:#fff;border-radius:6px;cursor:pointer;font-size:13px;font-weight:600;white-space:nowrap}
+.player-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.player-btn{height:30px;min-width:36px;padding:0 8px;border:1px solid var(--line);background:var(--panel);color:var(--text);border-radius:5px;cursor:pointer;font-size:13px;font-weight:700}
+.player-btn:hover{background:var(--primary);color:#fff;border-color:var(--primary)}
+.seek-wrap{flex:1;min-width:120px;display:flex;align-items:center;gap:6px}
+input[type=range]{cursor:pointer;accent-color:var(--primary)}
+.seek-bar{flex:1;height:4px}
+.vol-bar{width:70px;height:4px}
+.time-lbl{font-size:12px;white-space:nowrap;min-width:90px}
+.main-wrap{padding-top:calc(var(--topbar-h) + var(--audiobar-h));padding-bottom:calc(var(--navh) + 16px)}
+.main-inner{max-width:820px;margin:0 auto;padding:20px 16px 0}
+.test-title{font-size:20px;font-weight:700;margin:0 0 18px}
+.part-section{display:none}
+.part-section.active{display:block}
+.part-header{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:12px 16px;margin-bottom:16px;font-size:15px}
+.qblock{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:16px;margin-bottom:16px;white-space:pre-wrap;line-height:2.2}
+.answer-input{width:180px;height:28px;border:1px solid #9aa3ad;border-radius:4px;background:var(--input);color:var(--text);padding:2px 8px;font-size:14px;vertical-align:middle}
+.answer-input.correct{border-color:var(--good);background:#28a74520}
+.answer-input.incorrect{border-color:var(--bad);background:#dc354520}
+.correct-ans{color:var(--good);font-weight:700;font-size:12px;margin-left:4px;vertical-align:middle}
+.inline-q{display:inline-flex;align-items:center;gap:3px;vertical-align:middle;margin:0 2px}
+.navbar{position:fixed;bottom:0;left:0;right:0;height:var(--navh);background:var(--bg);border-top:1px solid var(--line);display:flex;align-items:center;padding:0 12px;gap:6px;z-index:60}
+.pnav{padding:6px 14px;border:1px solid var(--line);background:var(--panel);color:var(--text);border-radius:6px;cursor:pointer;font-weight:600;font-size:14px}
+.pnav.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+.answered-lbl{font-size:13px;opacity:.7;margin-left:auto}
+.check-btn{padding:8px 20px;border:1px solid var(--line);background:var(--panel);color:var(--text);border-radius:6px;cursor:pointer;font-weight:700;font-size:14px}
+.check-btn.done{background:var(--good);color:#fff;border-color:var(--good)}
+.modal-ov{display:none;position:fixed;inset:0;background:#0008;z-index:200;align-items:center;justify-content:center;backdrop-filter:blur(3px)}
+.modal-ov.open{display:flex}
+.modal-box{background:var(--bg);max-width:760px;width:93%;max-height:88vh;border-radius:12px;overflow:hidden;display:flex;flex-direction:column}
+.modal-head{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid var(--line)}
+.modal-head h2{margin:0;font-size:18px}
+.modal-close{border:0;background:transparent;color:var(--text);font-size:26px;cursor:pointer;line-height:1}
+.modal-body{padding:18px 20px;overflow:auto}
+#result-tbl{width:100%;border-collapse:collapse;font-size:14px}
+#result-tbl th,#result-tbl td{border:1px solid var(--line);padding:7px 10px;text-align:left}
+#result-tbl th{background:var(--panel)}
+</style>
+</head>
+<body>
+<header class="topbar"><span class="topbar-title">Augustus IELTS</span><div style="position:relative"><button class="icon-btn" id="fs-btn">A</button><div class="font-size-options" id="fsopts"><div data-size="small">Small</div><div data-size="medium">Medium</div><div data-size="large">Large</div><div data-size="xlarge">Extra Large</div></div></div><button class="icon-btn" id="dark-btn"><svg class="sun-icon" width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="5" stroke="currentColor" stroke-width="2"/><path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><svg class="moon-icon" width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="2"/></svg></button></header>
+<div class="audiobar">
+<div class="audiobar-part active" id="ab1"><div class="url-hint">🎧 Part 1 audio — paste a YouTube link or direct audio URL, then click Load</div><div class="url-row"><input class="url-input" id="url-1" type="text" placeholder="https://youtube.com/watch?v=..."><button class="url-load-btn" onclick="loadAudio(1)">▶ Load</button></div><div class="player-row"><button class="player-btn" id="pp-1">▶</button><button class="player-btn" id="sb-1">−10</button><button class="player-btn" id="sf-1">+10</button><div class="seek-wrap"><input type="range" class="seek-bar" id="seek-1" min="0" max="100" step="0.1" value="0"><span class="time-lbl" id="tlbl-1">0:00 / 0:00</span></div><span>🔊</span><input type="range" class="vol-bar" id="vol-1" min="0" max="1" step="0.05" value="1"></div><div id="yt-player-1" style="position:absolute;left:-9999px;width:1px;height:1px"></div></div>
+<div class="audiobar-part" id="ab2"><div class="url-hint">🎧 Part 2 audio — paste a YouTube link or direct audio URL, then click Load</div><div class="url-row"><input class="url-input" id="url-2" type="text" placeholder="https://youtube.com/watch?v=..."><button class="url-load-btn" onclick="loadAudio(2)">▶ Load</button></div><div class="player-row"><button class="player-btn" id="pp-2">▶</button><button class="player-btn" id="sb-2">−10</button><button class="player-btn" id="sf-2">+10</button><div class="seek-wrap"><input type="range" class="seek-bar" id="seek-2" min="0" max="100" step="0.1" value="0"><span class="time-lbl" id="tlbl-2">0:00 / 0:00</span></div><span>🔊</span><input type="range" class="vol-bar" id="vol-2" min="0" max="1" step="0.05" value="1"></div><div id="yt-player-2" style="position:absolute;left:-9999px;width:1px;height:1px"></div></div>
+<div class="audiobar-part" id="ab3"><div class="url-hint">🎧 Part 3 audio — paste a YouTube link or direct audio URL, then click Load</div><div class="url-row"><input class="url-input" id="url-3" type="text" placeholder="https://youtube.com/watch?v=..."><button class="url-load-btn" onclick="loadAudio(3)">▶ Load</button></div><div class="player-row"><button class="player-btn" id="pp-3">▶</button><button class="player-btn" id="sb-3">−10</button><button class="player-btn" id="sf-3">+10</button><div class="seek-wrap"><input type="range" class="seek-bar" id="seek-3" min="0" max="100" step="0.1" value="0"><span class="time-lbl" id="tlbl-3">0:00 / 0:00</span></div><span>🔊</span><input type="range" class="vol-bar" id="vol-3" min="0" max="1" step="0.05" value="1"></div><div id="yt-player-3" style="position:absolute;left:-9999px;width:1px;height:1px"></div></div>
+<div class="audiobar-part" id="ab4"><div class="url-hint">🎧 Part 4 audio — paste a YouTube link or direct audio URL, then click Load</div><div class="url-row"><input class="url-input" id="url-4" type="text" placeholder="https://youtube.com/watch?v=..."><button class="url-load-btn" onclick="loadAudio(4)">▶ Load</button></div><div class="player-row"><button class="player-btn" id="pp-4">▶</button><button class="player-btn" id="sb-4">−10</button><button class="player-btn" id="sf-4">+10</button><div class="seek-wrap"><input type="range" class="seek-bar" id="seek-4" min="0" max="100" step="0.1" value="0"><span class="time-lbl" id="tlbl-4">0:00 / 0:00</span></div><span>🔊</span><input type="range" class="vol-bar" id="vol-4" min="0" max="1" step="0.05" value="1"></div><div id="yt-player-4" style="position:absolute;left:-9999px;width:1px;height:1px"></div></div>
+</div>
+<div class="main-wrap"><div class="main-inner">
+<p class="test-title">Volume 9 — Test 5 | Full Listening Test (40 Questions)</p>
+<div class="part-section active" id="part1"><div class="part-header"><strong>Part 1 — Questions 1–10</strong><br>Tea Taster Career. Write NO MORE THAN TWO WORDS AND/OR A NUMBER.</div>
+<div class="qblock">Complete the notes. Write NO MORE THAN TWO WORDS AND/OR A NUMBER.
+
+Tea Taster Career Notes:
+1. Testing takes place in a <span class="inline-q"><input id="q1" class="answer-input" autocomplete="off" placeholder="1" style="width:100px"></span>
+2. Uses a special <span class="inline-q"><input id="q2" class="answer-input" autocomplete="off" placeholder="2" style="width:100px"></span> to taste
+3. Rates each tea on a <span class="inline-q"><input id="q3" class="answer-input" autocomplete="off" placeholder="3" style="width:100px"></span> system
+4. Must memorise hundreds of tea <span class="inline-q"><input id="q4" class="answer-input" autocomplete="off" placeholder="4" style="width:100px"></span>
+5. Training takes about <span class="inline-q"><input id="q5" class="answer-input" autocomplete="off" placeholder="5" style="width:100px"></span>
+6. Degree preferred: <span class="inline-q"><input id="q6" class="answer-input" autocomplete="off" placeholder="6" style="width:100px"></span> or related field
+7. Also useful: <span class="inline-q"><input id="q7" class="answer-input" autocomplete="off" placeholder="7" style="width:100px"></span> and chemistry
+8. Needs excellent sense of <span class="inline-q"><input id="q8" class="answer-input" autocomplete="off" placeholder="8" style="width:100px"></span>
+9. Key personal skill: <span class="inline-q"><input id="q9" class="answer-input" autocomplete="off" placeholder="9" style="width:160px"></span>
+10. Main disadvantage: amount of <span class="inline-q"><input id="q10" class="answer-input" autocomplete="off" placeholder="10" style="width:100px"></span> required</div>
+</div>
+<div class="part-section" id="part2"><div class="part-header"><strong>Part 2 — Questions 11–20</strong><br>Pioneer Historical Village</div>
+<div class="qblock">Questions 11–14: Choose the correct letter A, B, or C.
+
+11. What happened when the Pioneer Historical Village opened?
+   A It attracted fewer visitors than expected.  B It received media coverage.  C It was opposed by local residents.
+   Answer: <span class="inline-q"><input id="q11" class="answer-input" autocomplete="off" placeholder="11" style="width:55px"></span>
+
+12. The main challenge in establishing the village was
+   A finding enough funding.  B recruiting volunteers.  C sourcing authentic materials.
+   Answer: <span class="inline-q"><input id="q12" class="answer-input" autocomplete="off" placeholder="12" style="width:55px"></span>
+
+13. The village aims to show visitors
+   A how difficult life was in the past.  B what skills were needed to survive.  C how communities worked together.
+   Answer: <span class="inline-q"><input id="q13" class="answer-input" autocomplete="off" placeholder="13" style="width:55px"></span>
+
+14. What does the guide say about the school building?
+   A It is the most popular attraction.  B It was recently restored.  C It is a replica.
+   Answer: <span class="inline-q"><input id="q14" class="answer-input" autocomplete="off" placeholder="14" style="width:55px"></span>
+
+Questions 15–20: Label the map. Choose the correct letter A–K.
+A Windmill  B Bakery  C Schoolhouse  D Blacksmith  E Farmhouse  F Watermill  G Chapel  H General Store  I Dairy  J Doctor's House  K Orchard
+
+15. Position on map 15: <span class="inline-q"><input id="q15" class="answer-input" autocomplete="off" placeholder="15" style="width:55px"></span>
+16. Position on map 16: <span class="inline-q"><input id="q16" class="answer-input" autocomplete="off" placeholder="16" style="width:55px"></span>
+17. Position on map 17: <span class="inline-q"><input id="q17" class="answer-input" autocomplete="off" placeholder="17" style="width:55px"></span>
+18. Position on map 18: <span class="inline-q"><input id="q18" class="answer-input" autocomplete="off" placeholder="18" style="width:55px"></span>
+19. Position on map 19: <span class="inline-q"><input id="q19" class="answer-input" autocomplete="off" placeholder="19" style="width:55px"></span>
+20. Position on map 20: <span class="inline-q"><input id="q20" class="answer-input" autocomplete="off" placeholder="20" style="width:55px"></span></div>
+</div>
+<div class="part-section" id="part3"><div class="part-header"><strong>Part 3 — Questions 21–30</strong><br>Waste Disposal</div>
+<div class="qblock">Questions 21–22: Choose TWO correct letters A–E.
+Which TWO problems with current waste disposal are mentioned?
+A insufficient landfill sites  B high cost of recycling  C public lack of awareness  D poor quality of recycled goods  E lack of government support
+21. <span class="inline-q"><input id="q21" class="answer-input" autocomplete="off" placeholder="21" style="width:55px"></span>   22. <span class="inline-q"><input id="q22" class="answer-input" autocomplete="off" placeholder="22" style="width:55px"></span>
+
+Questions 23–24: Choose TWO correct letters A–E.
+Which TWO solutions do both speakers think are most effective?
+A education in schools  B better labelling of products  C financial incentives for recycling  D stricter penalties for companies  E improved collection systems
+23. <span class="inline-q"><input id="q23" class="answer-input" autocomplete="off" placeholder="23" style="width:55px"></span>   24. <span class="inline-q"><input id="q24" class="answer-input" autocomplete="off" placeholder="24" style="width:55px"></span>
+
+Questions 25–30: Match each piece of advice (A–H) with the correct speaker.
+A use a compost bin  B reduce packaging  C buy second-hand  D avoid plastic bags  E support local producers  F repair rather than replace  G campaign for change  H donate to charity
+
+25. Speaker 1 advises: <span class="inline-q"><input id="q25" class="answer-input" autocomplete="off" placeholder="25" style="width:55px"></span>
+26. Speaker 2 advises: <span class="inline-q"><input id="q26" class="answer-input" autocomplete="off" placeholder="26" style="width:55px"></span>
+27. Speaker 1 (second advice): <span class="inline-q"><input id="q27" class="answer-input" autocomplete="off" placeholder="27" style="width:55px"></span>
+28. Speaker 2 (second advice): <span class="inline-q"><input id="q28" class="answer-input" autocomplete="off" placeholder="28" style="width:55px"></span>
+29. Speaker 1 (third advice): <span class="inline-q"><input id="q29" class="answer-input" autocomplete="off" placeholder="29" style="width:55px"></span>
+30. Speaker 2 (third advice): <span class="inline-q"><input id="q30" class="answer-input" autocomplete="off" placeholder="30" style="width:55px"></span></div>
+</div>
+<div class="part-section" id="part4"><div class="part-header"><strong>Part 4 — Questions 31–40</strong><br>Whale Shark Conservation — Write ONE WORD ONLY.</div>
+<div class="qblock">Write ONE WORD ONLY for each answer.
+
+Whale Shark Conservation Notes:
+31. Whale sharks feed near the <span class="inline-q"><input id="q31" class="answer-input" autocomplete="off" placeholder="31" style="width:180px"></span> of the ocean.
+32. Unlike most fish, they have cartilage instead of <span class="inline-q"><input id="q32" class="answer-input" autocomplete="off" placeholder="32" style="width:180px"></span>.
+33. They are most commonly found near the <span class="inline-q"><input id="q33" class="answer-input" autocomplete="off" placeholder="33" style="width:180px"></span>.
+34. Researchers identify individuals by their <span class="inline-q"><input id="q34" class="answer-input" autocomplete="off" placeholder="34" style="width:180px"></span> pattern.
+35. Scientists use a <span class="inline-q"><input id="q35" class="answer-input" autocomplete="off" placeholder="35" style="width:180px"></span> to monitor shark movement.
+36. Each shark is tagged with a <span class="inline-q"><input id="q36" class="answer-input" autocomplete="off" placeholder="36" style="width:180px"></span> tracker.
+37. Volunteers <span class="inline-q"><input id="q37" class="answer-input" autocomplete="off" placeholder="37" style="width:180px"></span> alongside the sharks to collect data.
+38. Data is shared across a global research <span class="inline-q"><input id="q38" class="answer-input" autocomplete="off" placeholder="38" style="width:180px"></span>.
+39. Boat collisions are a cause of serious <span class="inline-q"><input id="q39" class="answer-input" autocomplete="off" placeholder="39" style="width:180px"></span>.
+40. Divers are warned not to create <span class="inline-q"><input id="q40" class="answer-input" autocomplete="off" placeholder="40" style="width:180px"></span> near the sharks.</div>
+</div>
+</div></div>
+<nav class="navbar"><button class="pnav  active" id="pnav1" onclick="showPart(1)">Part 1</button><button class="pnav" id="pnav2" onclick="showPart(2)">Part 2</button><button class="pnav" id="pnav3" onclick="showPart(3)">Part 3</button><button class="pnav" id="pnav4" onclick="showPart(4)">Part 4</button><span class="answered-lbl" id="answered-lbl">0 of 40 answered</span><button class="check-btn" id="check-btn">Check Answers</button></nav>
+<div class="modal-ov" id="result-modal"><div class="modal-box"><div class="modal-head"><h2>Results — Vol 9 Test 5</h2><button class="modal-close" id="modal-close">&times;</button></div><div class="modal-body"><p id="score-summary" style="margin-bottom:14px"></p><table id="result-tbl"><thead><tr><th>Q</th><th>Your Answer</th><th>Correct Answer</th><th>Result</th></tr></thead><tbody id="result-tbl-body"></tbody></table></div></div></div>
+<script>
+const TEST_ID="v9-test-5";
+const AUDIO_SRC='/passages/audio/fulltest5.mp3';
+const ANS={"q1": "lab", "q2": "spoon", "q3": "grade", "q4": "names", "q5": "5 years", "q6": "science", "q7": "maths", "q8": "colour", "q9": "communication", "q10": "travel", "q11": "C", "q12": "A", "q13": "C", "q14": "A", "q15": "D", "q16": "B", "q17": "H", "q18": "E", "q19": "F", "q20": "J", "q21": "B", "q22": "E", "q23": "B", "q24": "C", "q25": "E", "q26": "D", "q27": "C", "q28": "B", "q29": "H", "q30": "G", "q31": "surface", "q32": "bones", "q33": "shore", "q34": "fin", "q35": "drone", "q36": "carbon", "q37": "dive", "q38": "school", "q39": "injuries", "q40": "bubbles"};
+const ALT={"q5": ["five years"], "q7": ["mathematics"], "q9": ["communications"], "q21": ["e", "b"], "q22": ["b", "e"], "q23": ["c", "b"], "q24": ["b", "c"]};
+(function(){var b=document.body;b.setAttribute('data-theme',localStorage.getItem('theme')||'light');b.classList.add('font-'+(localStorage.getItem('fontSize')||'medium'));document.getElementById('dark-btn').onclick=function(){var d=b.getAttribute('data-theme')==='dark';b.setAttribute('data-theme',d?'light':'dark');localStorage.setItem('theme',d?'light':'dark');};var fo=document.getElementById('fsopts');document.getElementById('fs-btn').onclick=function(){fo.classList.toggle('show')};fo.querySelectorAll('div').forEach(function(x){x.onclick=function(){b.classList.remove('font-small','font-medium','font-large','font-xlarge');b.classList.add('font-'+x.dataset.size);localStorage.setItem('fontSize',x.dataset.size);fo.classList.remove('show');}});})();
+var players={};
+function fmtTime(s){if(!isFinite(s)||isNaN(s))return'0:00';var m=Math.floor(s/60),sec=Math.floor(s%60);return m+':'+(sec<10?'0':'')+sec;}
+function extractYTId(url){var m=url.match(/(?:youtu\.be\/|[?&]v=|\/embed\/)([A-Za-z0-9_-]{11})/);return m?m[1]:null;}
+function updateBar(n){var p=players[n];if(!p)return;var cur=0,dur=0;try{if(p.type==='yt'){cur=p.player.getCurrentTime()||0;dur=p.player.getDuration()||0;}else{cur=p.el.currentTime||0;dur=p.el.duration||0;}}catch(e){}var seek=document.getElementById('seek-'+n);if(seek&&dur>0)seek.value=(cur/dur)*100;var tlbl=document.getElementById('tlbl-'+n);if(tlbl)tlbl.textContent=fmtTime(cur)+' / '+fmtTime(dur);}
+function setupControls(n){var pp=document.getElementById('pp-'+n),sb=document.getElementById('sb-'+n),sf=document.getElementById('sf-'+n),seek=document.getElementById('seek-'+n),vol=document.getElementById('vol-'+n);if(pp)pp.onclick=function(){var p=players[n];if(!p)return;try{if(p.type==='yt'){var s=p.player.getPlayerState();if(s===1)p.player.pauseVideo();else p.player.playVideo();}else{if(p.el.paused)p.el.play();else p.el.pause();}}catch(e){}};if(sb)sb.onclick=function(){var p=players[n];if(!p)return;try{if(p.type==='yt')p.player.seekTo(Math.max(0,p.player.getCurrentTime()-10),true);else p.el.currentTime=Math.max(0,p.el.currentTime-10);}catch(e){}};if(sf)sf.onclick=function(){var p=players[n];if(!p)return;try{if(p.type==='yt')p.player.seekTo(p.player.getCurrentTime()+10,true);else p.el.currentTime=p.el.currentTime+10;}catch(e){}};if(seek)seek.oninput=function(){var p=players[n];if(!p)return;var pct=parseFloat(seek.value)/100;try{if(p.type==='yt')p.player.seekTo(p.player.getDuration()*pct,true);else p.el.currentTime=p.el.duration*pct;}catch(e){}};if(vol)vol.oninput=function(){var p=players[n];if(!p)return;var v=parseFloat(vol.value);try{if(p.type==='yt')p.player.setVolume(v*100);else p.el.volume=v;}catch(e){}};if(players[n]){if(players[n].timer)clearInterval(players[n].timer);players[n].timer=setInterval(function(){updateBar(n)},400);}}
+function makeYTPlayer(n,ytid){var container=document.getElementById('yt-player-'+n);if(!container)return;container.innerHTML='<div id="ytif-'+n+'"></div>';var player=new YT.Player('ytif-'+n,{videoId:ytid,height:'1',width:'1',playerVars:{autoplay:0,controls:0,rel:0,modestbranding:1},events:{onReady:function(){players[n]={type:'yt',player:player,timer:null};setupControls(n);},onStateChange:function(e){var pp2=document.getElementById('pp-'+n);if(pp2)pp2.textContent=(e.data===1)?'⏸':'▶';}}});}
+window.loadAudio=function(n){var urlEl=document.getElementById('url-'+n);var url=(urlEl?urlEl.value.trim():'');if(!url)return;if(players[n]){if(players[n].timer)clearInterval(players[n].timer);if(players[n].type==='audio'&&players[n].el){try{players[n].el.pause();}catch(e){}players[n].el.remove();}players[n]=null;}var ytid=extractYTId(url);if(ytid){if(window.YT&&window.YT.Player){makeYTPlayer(n,ytid);}else{window._ytQ=window._ytQ||[];window._ytQ.push({n:n,ytid:ytid});}}else{var audio=document.createElement('audio');audio.src=url;audio.preload='auto';audio.style.display='none';document.body.appendChild(audio);players[n]={type:'audio',el:audio,timer:null};audio.addEventListener('play',function(){var p=document.getElementById('pp-'+n);if(p)p.textContent='⏸';});audio.addEventListener('pause',function(){var p=document.getElementById('pp-'+n);if(p)p.textContent='▶';});setupControls(n);}};
+window.onYouTubeIframeAPIReady=function(){if(window._ytQ){window._ytQ.forEach(function(x){makeYTPlayer(x.n,x.ytid)});window._ytQ=[];}};
+(function(){var s=document.createElement('script');s.src='https://www.youtube.com/iframe_api';document.head.appendChild(s);})();
+function showPart(n){document.querySelectorAll('.part-section').forEach(function(s){s.classList.remove('active')});document.querySelectorAll('.pnav').forEach(function(b){b.classList.remove('active')});document.querySelectorAll('.audiobar-part').forEach(function(a){a.classList.remove('active')});document.getElementById('part'+n).classList.add('active');document.getElementById('pnav'+n).classList.add('active');var ab=document.getElementById('ab'+n);if(ab){ab.classList.add('active');setTimeout(function(){var bar=document.querySelector('.audiobar');if(bar)document.documentElement.style.setProperty('--audiobar-h',bar.offsetHeight+'px');},50);}updateCount();}
+window.showPart=showPart;
+document.querySelectorAll('.answer-input').forEach(function(i){i.oninput=updateCount});
+function updateCount(){var total=Object.keys(ANS).length,answered=0;for(var k in ANS){var el=document.getElementById(k);if(el&&el.value.trim())answered++;}document.getElementById('answered-lbl').textContent=answered+' of '+total+' answered';}
+function norm(s){return String(s||'').trim().toLowerCase().replace(/\s+/g,' ')}
+function ok(q,a){var key='q'+q;return [ANS[key]].concat(ALT[key]||[]).some(function(x){return norm(x)===norm(a)})}
+function band(s){var p=s/40;return p>=.97?9:p>=.93?8.5:p>=.87?8:p>=.80?7.5:p>=.73?7:p>=.63?6.5:p>=.53?6:p>=.43?5.5:p>=.33?5:p>=.23?4.5:4}
+function esc(v){return String(v).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function checkAnswers(){var score=0,rows='';for(var k in ANS){var q=k.replace('q',''),el=document.getElementById(k);if(!el)continue;var a=el.value.trim(),good=ok(q,a);el.disabled=true;el.classList.add(good?'correct':'incorrect');if(good)score++;else el.insertAdjacentHTML('afterend','<span class="correct-ans">✓ '+esc(ANS[k])+'</span>');rows+='<tr><td>'+q+'</td><td>'+esc(a||'—')+'</td><td>'+esc(ANS[k])+'</td><td>'+(good?'✓':'✗')+'</td></tr>';}localStorage.setItem('ielts_test_completions',JSON.stringify(Object.assign(JSON.parse(localStorage.getItem('ielts_test_completions')||'{}'),{[TEST_ID]:{completed:true,score:score,total:40,completedAt:new Date().toISOString()}})));document.getElementById('score-summary').innerHTML='<strong>Score: '+score+' / 40</strong> — Estimated Band: <strong>'+band(score)+'</strong>';document.getElementById('result-tbl-body').innerHTML=rows;document.getElementById('result-modal').classList.add('open');var cb=document.getElementById('check-btn');cb.textContent='My Results';cb.classList.add('done');cb.onclick=function(){document.getElementById('result-modal').classList.add('open')};}
+document.getElementById('check-btn').onclick=checkAnswers;
+document.getElementById('modal-close').onclick=function(){document.getElementById('result-modal').classList.remove('open')};
+window.addEventListener('load',function(){var bar=document.querySelector('.audiobar');if(bar)document.documentElement.style.setProperty('--audiobar-h',bar.offsetHeight+'px');if(typeof AUDIO_SRC!=='undefined'&&AUDIO_SRC){var audio=document.createElement('audio');audio.src=AUDIO_SRC;audio.preload='auto';audio.style.display='none';document.body.appendChild(audio);players[1]={type:'audio',el:audio,timer:null};audio.addEventListener('play',function(){var p=document.getElementById('pp-1');if(p)p.textContent='⏸';});audio.addEventListener('pause',function(){var p=document.getElementById('pp-1');if(p)p.textContent='▶';});setupControls(1);}updateCount();});
+</script>
+</body>
+</html>
